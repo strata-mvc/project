@@ -14,7 +14,7 @@
  * remove or comment out: add_theme_support('jquery-cdn');
  * ======================================================================== */
 
-(function($) {
+(function($, TweenMax) {
 
 // Use this variable to set up the common and page specific functions. If you 
 // rename this variable, you will also need to rename the namespace below.
@@ -42,6 +42,9 @@ var Roots = {
   home: {
     init: function() {
       // JavaScript to be fired on the home page
+      
+      var tween = TweenMax.to($(".fa-heart"), 0.3, {scale: 1.5, ease: Bounce.easeOut});
+      setInterval(function(){tween.restart();}, 1000);
     }
   },
   // About us page, note the change from about-us to about_us.
@@ -73,4 +76,4 @@ var UTIL = {
 
 $(document).ready(UTIL.loadEvents);
 
-})(jQuery); // Fully reference jQuery after this point.
+})(jQuery, TweenMax); // Fully reference jQuery after this point.

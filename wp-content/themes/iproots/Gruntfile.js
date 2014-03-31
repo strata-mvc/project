@@ -44,7 +44,8 @@ module.exports = function(grunt) {
             // 'assets/js/plugins/bootstrap/popover.js',
             // 'assets/js/plugins/bootstrap/scrollspy.js',
             // 'assets/js/plugins/bootstrap/tab.js',
-            // 'assets/js/plugins/bootstrap/affix.js',
+            // 'assets/js/plugins/bootstrap/affix.js', 
+            'assets/js/plugins/gsap/TweenMax.min.js',
             'assets/js/plugins/*.js',
             'assets/js/_*.js'
           ]
