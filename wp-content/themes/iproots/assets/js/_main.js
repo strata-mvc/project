@@ -14,7 +14,7 @@
  * remove or comment out: add_theme_support('jquery-cdn');
  * ======================================================================== */
 
-(function($, TweenMax) {
+(function($, TweenMax, enquire) {
 
 // Use this variable to set up the common and page specific functions. If you 
 // rename this variable, you will also need to rename the namespace below.
@@ -23,6 +23,12 @@ var Roots = {
   common: {
     init: function() {
       // JavaScript to be fired on all pages
+      
+      /**
+       * Makes console.log cross-browser compatible
+       */
+      (function(a){function b(){}for(var c="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),d;!!(d=c.pop());){a[d]=a[d]||b;}})
+      (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 
       var snapper = new Snap({
         element: $('.snap-content').get(0)
@@ -34,6 +40,18 @@ var Roots = {
         } else {
             snapper.open('left');
         }
+      });
+
+      enquire.register("screen and (max-width: 992px)", {
+          setup: function(){
+            console.log("Enquire: setup for max-width 992px");
+          },
+          match: function(){
+            console.log("Enquire: Viewport 992px and smaller");
+          },
+          unmatch: function(){
+            console.log("Enquire: Viewport larger than 992px");
+          }
       });
 
     }
@@ -76,4 +94,4 @@ var UTIL = {
 
 $(document).ready(UTIL.loadEvents);
 
-})(jQuery, TweenMax); // Fully reference jQuery after this point.
+})(jQuery, TweenMax, enquire); // Fully reference jQuery after this point.

@@ -9,7 +9,8 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         'assets/js/*.js',
-        '!assets/js/scripts.min.js'
+        '!assets/js/scripts.min.js',
+        '!assets/js/plugins/enquire.min.js' // too many minification errors for some reason
       ]
     },
     less: {
@@ -84,7 +85,7 @@ module.exports = function(grunt) {
         // Browser live reloading
         // https://github.com/gruntjs/grunt-contrib-watch#live-reloading
         options: {
-          livereload: false
+          livereload: true
         },
         files: [
           'assets/css/main.min.css',
