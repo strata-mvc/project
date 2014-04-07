@@ -8,16 +8,27 @@ Projet wordpress vanille basé sur [Wordpress Boilerstrap](http://getboilerstrap
 - 100% Responsive 
 - Suivant la checklist QA
 
-## Features
+## Included Librairies 
 - Font-Awesome
-- Bootstrap 
+- Twitter Bootstrap 3
 - Snap.js
+- GASP TweenMax
+- jQuery
+- Modernizr
+
+## Bundled Plugins
+- AddThis
+- Advanced Custom Fields
+- Disable Comments
+- Simple Page Ordering
+- WordPress SEO
+- WPML
+
+## Node
+- NPM
+- Grunt
 
 ## Todo 
-
-- Inclure GSAP TweenMax
-- Organiser les fichiers CSS et coordonner avec LESS
 - Installer WPML
 - Royal slider en plugin versus hardcodé?
 - Script pour le transfert de Base de donnée
-- Concatener les fichiers CSS et Javascript
