@@ -24,11 +24,12 @@ var Roots = {
     init: function() {
       // JavaScript to be fired on all pages
 
+      // initialize Snap.js
       var snapper = new Snap({
         element: document.getElementById("snap-content")
       });
 
-      $(".snap-toggle").click(function(e){
+       $(".snap-toggle").click(function(e){
         if( snapper.state().state === "left" ){
             snapper.close();
         } else {
@@ -38,15 +39,19 @@ var Roots = {
 
       enquire.register("screen and (max-width: 992px)", {
           setup: function(){
-            console.log("Enquire: setup for max-width 992px");
+            console.log("Enquire max-992 setup is complete");
+            snapper.disable();
           },
           match: function(){
             console.log("Enquire: Viewport 992px and smaller");
+            snapper.enable();
           },
           unmatch: function(){
             console.log("Enquire: Viewport larger than 992px");
+            snapper.disable();
           }
       });
+
     }
   },
   // Home page

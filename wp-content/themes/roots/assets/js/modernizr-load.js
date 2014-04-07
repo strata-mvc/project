@@ -3,8 +3,7 @@ Modernizr.load([
     {
         test: window.matchMedia,
         nope: [
-            WpConfig.plugins + "polyfills/matchMedia.js",
-            WpConfig.plugins + "polyfills/matchMedia.addListener.js"
+            WpConfig.plugins + "polyfills/media.match.min.js",
         ]
     },
     //and then load enquire

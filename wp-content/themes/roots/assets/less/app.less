@@ -12,8 +12,6 @@
 
 body { }
 
-
-
 /* ==========================================================================
    Header
    ========================================================================== */
@@ -30,6 +28,12 @@ body { }
 
 .snap-drawer {
    background-color: #d6d6d6;
+}
+
+.admin-bar {
+  #snap-content {
+    > header { margin-top: 32px;}
+  }
 }
 
 /* ==========================================================================
@@ -51,7 +55,6 @@ body { }
 
 /* Gallery Shortcode */
 .gallery-row { padding: 15px 0; }
-
 
 
 /* ==========================================================================
@@ -98,8 +101,7 @@ figure.alignnone { margin-left: 0; margin-right: 0; }
    Media Queries
    ========================================================================== */
 
-@media (min-width: @screen-sm-min) { }
+@import "responsive-320.less";
+@import "responsive-768.less";
+@import "responsive-1280.less";
 
-@media (min-width: @screen-md-min) { }
-
-@media (min-width: @screen-lg-min) { }
