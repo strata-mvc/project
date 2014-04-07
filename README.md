@@ -9,6 +9,7 @@ Projet wordpress vanille basé sur [Wordpress Boilerstrap](http://getboilerstrap
 - Test ACF on homepage
 - Script pour le transfert de Base de donnée (might not be needed)
 - Can we do child themes ? 
+- Add How-To to README (Comment ajouter un librairie javascript avec Grunt, comment choisir un autre theme pour RoyalSlider, etc.)
 
 ## Prérequis
 - Solution vanille réutilisable
