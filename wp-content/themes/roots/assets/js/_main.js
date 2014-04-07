@@ -61,6 +61,12 @@ var Roots = {
       
       var tween = TweenMax.to($(".fa-heart"), 0.3, {scale: 1.5, ease: Bounce.easeOut});
       setInterval(function(){tween.restart();}, 1000);
+
+      $(".royalSlider").royalSlider({
+          // options go here
+          // as an example, enable keyboard arrows nav
+          keyboardNavEnabled: true
+      });
     }
   },
   // About us page, note the change from about-us to about_us.

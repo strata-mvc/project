@@ -16,7 +16,9 @@ module.exports = function(grunt) {
       dist: {
         files: {
           'assets/css/main.min.css': [
-            'assets/less/app.less'
+            'assets/less/app.less',
+            'assets/css/royal-slider/royalslider.css',
+            'assets/css/royal-slider/skins/minimal-white/rs-minimal-white.css'
           ]
         },
         options: {
@@ -47,6 +49,8 @@ module.exports = function(grunt) {
             // 'assets/js/plugins/bootstrap/affix.js',
             // 'assets/js/plugins/polyfills/matchMedia.js',
             'assets/js/plugins/gsap/TweenMax.min.js',
+            'assets/js/plugins/royal-slider/js/jquery.easing-1.3.js',
+            'assets/js/plugins/royal-slider/js/jquery.royalslider.min.js',
             'assets/js/plugins/*.js',
             'assets/js/_*.js'
           ]

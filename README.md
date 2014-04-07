@@ -3,6 +3,13 @@ iProspect Boilerstrap
 
 Projet wordpress vanille basé sur [Wordpress Boilerstrap](http://getboilerstrap.com/)
 
+## Todo 
+- Add RoyalSlider support
+- Remove Bootstrap Navigation
+- Test ACF on homepage
+- Script pour le transfert de Base de donnée (might not be needed)
+- Can we do child themes ? 
+
 ## Prérequis
 - Solution vanille réutilisable
 - 100% Responsive 
@@ -15,6 +22,7 @@ Projet wordpress vanille basé sur [Wordpress Boilerstrap](http://getboilerstrap
 - GASP TweenMax
 - jQuery
 - Modernizr
+- Royal Slider
 
 ## Bundled Plugins
 - AddThis
@@ -23,12 +31,8 @@ Projet wordpress vanille basé sur [Wordpress Boilerstrap](http://getboilerstrap
 - Simple Page Ordering
 - WordPress SEO
 - WPML
+- Gravity Forms
 
 ## Node
 - NPM
 - Grunt
-
-## Todo 
-- Installer WPML
-- Royal slider en plugin versus hardcodé?
-- Script pour le transfert de Base de donnée

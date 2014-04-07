@@ -1,3 +1,12 @@
+<div class="royalSlider rsDefault">
+    <!-- simple image slide -->
+    <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />
+    <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />
+    <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />
+    <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />
+    <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />
+</div>
+
 <?php while (have_posts()) : the_post(); ?>
   <?php the_content(); ?>
   <?php wp_link_pages(array('before' => '<nav class="pagination">', 'after' => '</nav>')); ?>
