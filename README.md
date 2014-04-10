@@ -8,13 +8,13 @@ Projet wordpress vanille basé sur [Roots](http://roots.io/)
 - Facebook Fields
 - Espace pour Googe Tag Manager Container
 - Change Modernizr.load for yepnope (Modernizr.load will be deprecated in the near future)
-⋅⋅* Est-ce qu'on utilise yepnope au lieu de concatener?
+	* Est-ce qu'on utilise yepnope au lieu de concatener?
 - Faire un Grunt dans le child theme pour concatener les scripts du child et du parent (?)
 - Write procedure to create child theme and accomplish common actions
-⋅⋅* adding a template
-⋅⋅* adding a stylesheet
-⋅⋅* adding a script
-⋅⋅* choosing a royal slider theme
+	- adding a template
+	- adding a stylesheet
+	- adding a script
+	- choosing a royal slider theme
 - Script pour le transfert de Base de donnée (might not be needed)
 - Intégrer GSCE (Google Search) (À voir avec Dave, ce n'est pas GSCE qui est sur mdanderson en ce moment)
 
