@@ -1,4 +1,4 @@
-iProspect Roots Wordpress Template
+iProspect Roots Wordpress Template!
 ==================================================
 
 Projet wordpress vanille basé sur [Roots](http://roots.io/)
