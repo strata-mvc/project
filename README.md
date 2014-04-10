@@ -1,7 +1,7 @@
-iProspect Boilerstrap
+iProspect Roots Wordpress Template
 ==================================================
 
-Projet wordpress vanille basé sur [Wordpress Boilerstrap](http://getboilerstrap.com/)
+Projet wordpress vanille basé sur [Roots](http://roots.io/)
 
 ## Todo 
 - Test ACF on homepage
@@ -50,6 +50,12 @@ Projet wordpress vanille basé sur [Wordpress Boilerstrap](http://getboilerstrap
 - Avoir un squelette Wordpress que les développeur peuvent utiliser pour commencer le développement d'un blog rapidement, sans avoir à faire trop de setup, comme downloader des plugins ou configurer le thème. 
 
 ## Workflow
-- Le développeur checkout la dernière version de iProspect - Roots Wordpress Template sur son environnement local
-- Le développeur créer un nouveau repo Bitbucket pour son projet et commit son projet dans le nouveau repo
-- 
+- Go to the iProspect Roots Template [Bitbucket project page](https://bitbucket.org/iprospect_ca/iprospect-roots-wordpress-template)
+- *Fork* the project into a new bitbucket repository, which will become your projects repository. If your are unfamiliar with Git forks, please read this short [article](https://help.github.com/articles/fork-a-repo).
+- *Clone* your new project into your local environment
+- In MAMP, *create a new virtual host* pointing to your project. Make sure to include your username somewhere in the domain name.
+- *Create a new database* for your project and import the lastest SQL Dump (DUMP folder)
+-- In the *wp_options* table, change the *siteurl* and *home* values to your local URL 
+- *Modify wp-config.php* to include your DB information under the proper switch space. If your username is not in the switch, add it. 
+- You should now be able to see your local site
+- In your local repository, run `git add remote upstream https://bitbucket.org/iprospect_ca/iprospect-roots-wordpress-template.git`
