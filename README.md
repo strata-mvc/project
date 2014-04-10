@@ -4,16 +4,22 @@ iProspect Boilerstrap
 Projet wordpress vanille basé sur [Wordpress Boilerstrap](http://getboilerstrap.com/)
 
 ## Todo 
-- Add RoyalSlider support
-- Remove Bootstrap Navigation
 - Test ACF on homepage
+- Facebook Fields
+- Espace pour Googe Tag Manager Container
+- Change Modernizr.load for yepnope (Modernizr.load will be deprecated in the near future)
+- Faire un Grunt dans le child theme pour concatener les scripts du child et du parent (?)
+- Write procedure to create child theme and accomplish common actions
+-- adding a template
+-- adding a stylesheet
+-- adding a script
+-- choosing a royal slider theme
 - Script pour le transfert de Base de donnée (might not be needed)
-- Can we do child themes ? 
-- Add How-To to README (Comment ajouter un librairie javascript avec Grunt, comment choisir un autre theme pour RoyalSlider, etc.)
+- Intégrer GSCE (Google Search) (À voir avec Dave, ce n'est pas GSCE qui est sur mdanderson en ce moment)
 
 ## Prérequis
 - Solution vanille réutilisable
-- 100% Responsive 
+- 100% Responsive
 - Suivant la checklist QA
 
 ## Included Librairies 
@@ -33,6 +39,8 @@ Projet wordpress vanille basé sur [Wordpress Boilerstrap](http://getboilerstrap
 - WordPress SEO
 - WPML
 - Gravity Forms
+- Honeypot
+
 
 ## Node
 - NPM

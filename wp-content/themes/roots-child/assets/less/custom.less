@@ -1,10 +1,6 @@
 /*!
- * Roots 6.5.2
+ * Roots Child-Theme
  */
-
-@import "bootstrap/bootstrap.less";
-@import "font-awesome/font-awesome.less";
-@import "snap.less";
 
 /* ==========================================================================
    Colors
@@ -25,9 +21,25 @@ body { }
    Header
    ========================================================================== */
 
-.banner {}
+.banner {
+   background-color: @lightGrey;
+   padding: 1em 0;
 
-.snap-toggle {}
+   .row:first-child {
+      border-bottom: 1px solid @darkGrey;
+      padding-bottom: 1em;
+      margin-bottom: 1em;
+   }
+}
+
+.snap-toggle {
+   float:left;
+   margin-right: 15px;
+   margin-top: 8px;
+   background: none;
+   border: none;
+   display: none;
+}
 
 .snap-drawer {
    background-color: @darkGrey;
@@ -49,6 +61,53 @@ body { }
    background-color: @white;
 }
 
+.royalSlider {
+   height: 400px;
+   width: 100%;
+   overflow: hidden;
+}
+
+.home-articles {
+
+	.post-item.first {
+		width: 100%;
+		margin: 0;
+		
+		.img-container, .post-content {
+		}
+
+		.img-container {
+
+		}
+
+		img {
+			height: 400px;
+		}
+	}
+
+	.post-item {
+		float: left;
+		width: percentage( (1140-40)/1140/3 );
+		margin-right: percentage(40/1140/2);
+		
+		.img-container {
+			position:relative;
+			.date-container {
+				position: absolute;
+				right: 20px;
+				top: 20px;
+				background-color: @white;
+				padding: 1em;
+			}
+		}
+
+		img {max-width: 100%; height: 300px;}
+		&:nth-child(3n+2) {
+			margin-right: 0;
+		}
+	}
+}
+
 /* ==========================================================================
    Primary Content
    ========================================================================== */
@@ -64,6 +123,7 @@ body { }
    ========================================================================== */
 
 .sidebar { }
+
 
 
 /* ==========================================================================
@@ -82,7 +142,12 @@ body { }
    Footer
    ========================================================================== */
 
-.content-info { }
+.content-info { 
+   background-color: @lightGrey;
+   margin-top: 1em;
+   padding-bottom: 1em;
+}
+
 
 
 /* ==========================================================================
@@ -94,14 +159,4 @@ body { }
 .alignleft { float: left; }
 .alignright { float: right; }
 figure.alignnone { margin-left: 0; margin-right: 0; }
-
-
-
-/* ==========================================================================
-   Media Queries
-   ========================================================================== */
-
-@import "responsive-320.less";
-@import "responsive-768.less";
-@import "responsive-1280.less";
 

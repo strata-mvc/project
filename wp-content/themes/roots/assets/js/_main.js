@@ -65,7 +65,10 @@ var Roots = {
       $(".royalSlider").royalSlider({
           // options go here
           // as an example, enable keyboard arrows nav
-          keyboardNavEnabled: true
+          keyboardNavEnabled: true,
+          arrowsNav: true,
+          arrowsNavAutoHide: false,
+          controlNavigation: 'bullets'
       });
     }
   },
