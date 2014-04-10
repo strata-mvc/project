@@ -36,7 +36,7 @@
 				<div class="img-container">
 					<?php 
 						if(has_post_thumbnail()) {
-						    the_post_thumbnail();
+						    the_post_thumbnail("1140", "400", true);
 						} else {
 						    echo '<img src="'.get_bloginfo("template_url").'/assets/img/placeholder-1140.gif" />';
 						}
@@ -53,7 +53,7 @@
 					<span class="date-container"><?php the_time('d');?><span class="month"><?php the_time('M');?></span></span>
 					<?php 
 						if(has_post_thumbnail()) {
-						    the_post_thumbnail();
+						    the_post_thumbnail("600", "400", true);
 						} else {
 						    echo '<img src="'.get_bloginfo("template_url").'/assets/img/placeholder-600.gif" />';
 						}
