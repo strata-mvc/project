@@ -19,6 +19,7 @@
 // Use this variable to set up the common and page specific functions. If you 
 // rename this variable, you will also need to rename the namespace below.
 var Roots = {
+
   // All pages
   common: {
     init: function() {
@@ -29,13 +30,23 @@ var Roots = {
         element: document.getElementById("snap-content")
       });
 
-       $(".snap-toggle").click(function(e){
+      $(".snap-toggle").click(function(e){
         if( snapper.state().state === "left" ){
             snapper.close();
         } else {
             snapper.open('left');
         }
-        $(this).toggleClass("active");
+      });
+
+      snapper.on("animated", function(){
+        var $h = $(".hamburger");
+        if($h.length){
+          if (snapper.state().state === "left" ){
+            if (!$h.hasClass("active")){$h.addClass("active");}
+          } else {
+            $h.removeClass("active");
+          }
+        } 
       });
 
       enquire.register("screen and (max-width: 992px)", {
@@ -74,6 +85,7 @@ var Roots = {
           imageScalePadding: 0,
           controlsInside: true,
       });
+
     }
   },
   // About us page, note the change from about-us to about_us.

@@ -111,7 +111,7 @@ module.exports = function(grunt) {
     },
     clean: {
       dist: [
-        'assets/css/main.min.css',
+        'assets/css/custom.min.css',
         'assets/js/scripts.min.js'
       ]
     }
