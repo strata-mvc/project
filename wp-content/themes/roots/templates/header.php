@@ -4,7 +4,13 @@
     <div class="row nav-main-container">
       
       <div class="col-md-6">
-        <button type="button" class="snap-toggle"><i class="fa fa-bars fa-2x"></i></button>
+        <!-- <button type="button" class="snap-toggle"><i class="fa fa-bars fa-2x"></i></button> -->
+        <button type="button" class="hamburger snap-toggle">
+          <div class="top"></div>
+          <div class="middle"></div>
+          <div class="bottom"></div>
+        </button>
+
         <a class="brand" title="<?php bloginfo('name'); ?>" href="<?php echo home_url('/') ?>"><img alt="<?php bloginfo('name'); ?>" src="http://placehold.it/220x80" /></a>
         <div class="clearfix"></div>
       </div>

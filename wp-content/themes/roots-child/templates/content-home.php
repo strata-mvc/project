@@ -1,5 +1,5 @@
 <h3>Royal Slider</h3>
-<div class="royalSlider rsDefault">
+<div class="royalSlider rsMinW">
     <!-- simple image slide -->
     <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />
     <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />

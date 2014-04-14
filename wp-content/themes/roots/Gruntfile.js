@@ -9,7 +9,8 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         'assets/js/*.js',
-        '!assets/js/scripts.min.js'
+        '!assets/js/scripts.min.js',
+        '!assets/js/deps.min.js'
       ]
     },
     less: {
@@ -18,7 +19,6 @@ module.exports = function(grunt) {
           'assets/css/main.min.css': [
             'assets/less/app.less',
             'assets/css/royal-slider/royalslider.css',
-            'assets/css/royal-slider/skins/minimal-white/rs-minimal-white.css'
           ]
         },
         options: {
@@ -34,7 +34,8 @@ module.exports = function(grunt) {
     uglify: {
       dist: {
         files: {
-          'assets/js/scripts.min.js': [
+          'assets/js/deps.min.js': [
+            'assets/js/plugins/compat-console.min.js',
             // 'assets/js/plugins/bootstrap/transition.js',
             // 'assets/js/plugins/bootstrap/alert.js',
             // 'assets/js/plugins/bootstrap/button.js',
@@ -47,10 +48,17 @@ module.exports = function(grunt) {
             // 'assets/js/plugins/bootstrap/scrollspy.js',
             // 'assets/js/plugins/bootstrap/tab.js',
             // 'assets/js/plugins/bootstrap/affix.js',
-            // 'assets/js/plugins/polyfills/matchMedia.js',
             'assets/js/plugins/gsap/TweenMax.min.js',
             'assets/js/plugins/royal-slider/js/jquery.easing-1.3.js',
             'assets/js/plugins/royal-slider/js/jquery.royalslider.min.js',
+            'assets/js/plugins/masonry/imagesloaded.pkgd.min.js',
+            'assets/js/plugins/masonry/masonry.min.js',
+            'assets/js/plugins/snap.min.js',
+            'assets/js/plugins/spin.min.js',
+            // 'assets/js/plugins/*.js'
+          ],
+          'assets/js/scripts.min.js': [
+            'assets/js/deps.min.js',
             'assets/js/plugins/*.js',
             'assets/js/_*.js'
           ]
