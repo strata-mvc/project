@@ -2,6 +2,10 @@
 
 Projet wordpress vanille basé sur [Roots](http://roots.io/)
 
+## Bugs
+
+- Snap.js slides layout when RoyalSlider with touched
+
 ## Todo 
 - Test ACF on homepage
 - Facebook Fields
@@ -44,7 +48,9 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 ```
 - In your local repository, run `git add remote upstream https://bitbucket.org/iprospect_ca/iprospect-roots-wordpress-template.git`
 
-## Roots 
+## Getting started
+
+If you are unfamiliar with the [Roots starter theme](http://roots.io/starter-theme/)
 
 
 
