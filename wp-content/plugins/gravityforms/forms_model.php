@@ -1,5 +1,9 @@
 <?php
 
+if(!class_exists('GFForms')){
+    die();
+}
+
 require_once(ABSPATH . WPINC . "/post.php");
 
 define("GFORMS_MAX_FIELD_LENGTH", 200);
@@ -1124,9 +1128,11 @@ class GFFormsModel {
             die(__("You don't have adequate permission to edit entries.", "gravityforms"));
 
         $lead_detail_table = self::get_lead_details_table_name();
+        $is_new_lead = $lead == null;
 
         //Inserting lead if null
-        if($lead == null){
+        if( $is_new_lead ) {
+
             global $current_user;
             $user_id = $current_user && $current_user->ID ? $current_user->ID : 'NULL';
 
@@ -1140,7 +1146,7 @@ class GFFormsModel {
 
             //reading newly created lead id
             $lead_id = $wpdb->insert_id;
-            $lead = array("id" => $lead_id);
+            $lead = array( 'id' => $lead_id );
 
             GFCommon::log_debug("Entry record created in the database. ID: {$lead_id}");
         }
@@ -1174,7 +1180,7 @@ class GFFormsModel {
             }
 
             //only save fields that are not hidden (except on entry screen)
-            if(RG_CURRENT_VIEW == "entry" || !RGFormsModel::is_field_hidden($form, $field, array()) ){
+            if( RG_CURRENT_VIEW == 'entry' || ! GFFormsModel::is_field_hidden( $form, $field, array(), $is_new_lead ? null : $lead ) ) {
 
                 // process calculation fields after all fields have been saved (moved after the is hidden check)
                 if( GFCommon::has_field_calculation($field) ) {
@@ -1663,6 +1669,9 @@ class GFFormsModel {
                 }
                 else if($field["numberFormat"] == "decimal_comma"){
                     $value = GFCommon::clean_number($value, "decimal_comma");
+                }
+                else if($field["numberFormat"] == "decimal_dot"){
+                    $value = GFCommon::clean_number($value, "decimal_dot");
                 }
             break;
 

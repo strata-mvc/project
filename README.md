@@ -17,10 +17,36 @@ Projet wordpress vanille basé sur [Roots](http://roots.io/)
 - Script pour le transfert de Base de donnée (might not be needed)
 - Intégrer GSCE (Google Search) (À voir avec Dave, ce n'est pas GSCE qui est sur mdanderson en ce moment)
 
-## Prérequis
-- Solution vanille réutilisable
+## Prerequisites
+- A clean Wordpress install packed with useful plugins and librairies
 - 100% Responsive
-- Suivant la checklist QA
+- Meets the requirements of the Frontend and QA checklists
+- Excellent score on PageSpeed 
+
+## Install 
+
+- **Fork the project** into a new Bitbucket repository. If your are unfamiliar with Git forks, please read this short [article](https://help.github.com/articles/fork-a-repo).
+- **Clone your new project** and setup your local environment
+- **Import the latest SQL Dump** from the DUMP folder.
+- In the **wp_options** table, change the `siteurl` and `home` values to your local URL 
+- **Modify wp-config.php** to include your DB information under the proper switch space. If your username is not in the switch, add it. e.g.:
+
+```php
+if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
+ 	# LOCAL (Dave Lamarre) 
+	define('DB_NAME','');
+	define('DB_USER','');
+	define('DB_PASSWORD','');
+} else if ( stristr( $_SERVER['SERVER_NAME'], "yourlocalswitch" ) ) {
+ 	// Insert your config here
+} 
+
+```
+- In your local repository, run `git add remote upstream https://bitbucket.org/iprospect_ca/iprospect-roots-wordpress-template.git`
+
+## Roots 
+
+
 
 ## Included Librairies 
 - Font-Awesome
@@ -30,6 +56,8 @@ Projet wordpress vanille basé sur [Roots](http://roots.io/)
 - jQuery
 - Modernizr
 - Royal Slider
+- Spin.js
+- Masonry + ImagesLoaded
 
 ## Bundled Plugins
 - AddThis
@@ -44,29 +72,3 @@ Projet wordpress vanille basé sur [Roots](http://roots.io/)
 ## Node
 - NPM
 - Grunt
-
-## Motivation
-- Avoir un squelette Wordpress que les développeur peuvent utiliser pour commencer le développement d'un blog rapidement, sans avoir à faire trop de setup, comme downloader des plugins ou configurer le thème. 
-
-# Install 
-
-1. **Fork** the project into a new Bitbucket repository, which will become your projects repository. If your are unfamiliar with Git forks, please read this short [article](https://help.github.com/articles/fork-a-repo).
-2. **Clone** your new project into your local environment
-3. In MAMP, **create a new virtual host** pointing to your project. Make sure to include your username somewhere in the domain name.
-4. **Create a new database** for your project and import the lastest SQL Dump (DUMP folder)
-5. In the **wp_options** table, change the `siteurl` and `home` values to your local URL 
-6. **Modify wp-config.php** to include your DB information under the proper switch space. If your username is not in the switch, add it. 
-
-```php
-if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
- 	# LOCAL (Dave Lamarre) 
-	define('DB_NAME','');
-	define('DB_USER','');
-	define('DB_PASSWORD','');
-} else if ( stristr( $_SERVER['SERVER_NAME'], "yourlocalswitch" ) ) {
- 	// Insert your config here
-} 
-
-```
-
-7. In your local repository, run `git add remote upstream https://bitbucket.org/iprospect_ca/iprospect-roots-wordpress-template.git`

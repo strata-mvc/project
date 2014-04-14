@@ -1,5 +1,9 @@
 <?php
 
+if(!class_exists('GFForms')){
+    die();
+}
+
 class GFFormDisplay{
 
     public static $submission = array();
@@ -10,7 +14,7 @@ class GFFormDisplay{
 
     public static function process_form($form_id){
 
-        GFCommon::log_debug("Starting to process form submission.");
+        GFCommon::log_debug( "Starting to process form (#{$form_id}) submission." );
 
         //reading form metadata
         $form = RGFormsModel::get_form_meta($form_id);
@@ -919,15 +923,20 @@ class GFFormDisplay{
     }
 
 
-
+    /**
+     * Validates the range of the number according to the field settings.
+     *
+     * @param array $field
+     * @param array $value A decimal_dot formatted string
+     * @return true|false True on valid or false on invalid
+     */
     private static function validate_range($field, $value){
 
-        if( !GFCommon::is_numeric($value, rgar($field, "numberFormat")) )
+        if( !GFCommon::is_numeric($value, "decimal_dot") )
             return false;
 
-        $number = GFCommon::clean_number($value, rgar($field, "numberFormat"));
-        if( (is_numeric($field["rangeMin"]) && $number < $field["rangeMin"]) ||
-            (is_numeric($field["rangeMax"]) && $number > $field["rangeMax"])
+        if( (is_numeric($field["rangeMin"]) && $value < $field["rangeMin"]) ||
+            (is_numeric($field["rangeMax"]) && $value > $field["rangeMax"])
         )
             return false;
         else
@@ -1269,9 +1278,7 @@ class GFFormDisplay{
 
                         case "number" :
 
-                            if($field["numberFormat"] == "decimal_comma"){
-                                $value = GFCommon::format_number($value, $field["numberFormat"]);
-                            }
+                            // the POST value has already been converted from currency or decimal_comma to decimal_dot and then cleaned in get_field_value()
 
                             $value = GFCommon::maybe_add_leading_zero($value);
 
@@ -1777,7 +1784,7 @@ class GFFormDisplay{
 
     }
 
-    private static function has_conditional_logic( $form ) {
+    public static function has_conditional_logic( $form ) {
         $has_conditional_logic = self::has_conditional_logic_legwork( $form );
         return apply_filters( 'gform_has_conditional_logic', $has_conditional_logic, $form );
     }

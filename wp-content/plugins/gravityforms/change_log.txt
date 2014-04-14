@@ -1,4 +1,35 @@
 -------------------------------------------------------------------------------------------------------------------
+Version 1.8.7
+
+    - Added Text Domain and Domain Path to plugin header so the description may be translated
+
+    - Updated product calculation to improve performance
+    - Updated width of form title column so form actions do not wrap.
+    - Updated two notice statements to alleviate confusion
+    - Updated German translation file with user-provided update
+	- Updated a few strings so they can be translated
+	- Updated POT file
+    - Updated GFFormsModel::save_lead() method to support saving leads on non-admin views
+    - Updated GFFormDisplay::has_conditional_logic from private to public
+
+    - Fixed an issue with the validation of the number field when set to currency format and the Gravity Forms currency setting is set to a decimal comma formatted currency
+    - Fixed incorrect domain for translations in a few instances
+    - Fixed security vulnerabilities
+    - Fixed issue with nested conditional logic on checkboxes.
+    - Fixed issue where conditional logic setting was showing up for Hidden products
+    - Fixed issue where GF Results was being initialized on all admin pages
+    - Fixed issue with the {pricing_fields} merge tag markup.
+
+    - API: Updated the Web API authentication to accept both url-encoded and unencoded signatures to handle different client behavior
+    - API: Updated some mysql_*() calls to support WordPress 3.9 under PHP 5.5 or higher
+
+    - AF: Added support for top level "app" menus
+    - AF: Added support for top level "app settings"
+    - AF: Added support for app tab UIs
+    - AF: Fixed an issue with the form settings menu where the menu item for the add-on was appearing in the menu even when the current user did not have adequate permissions
+    - AF: Fixed filter for app settings menu
+
+-------------------------------------------------------------------------------------------------------------------
 Version 1.8.6
 
     - Added logging to help troubleshooting form submissions.

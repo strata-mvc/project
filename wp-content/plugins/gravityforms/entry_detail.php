@@ -1,4 +1,9 @@
 <?php
+
+if(!class_exists('GFForms')){
+    die();
+}
+
 class GFEntryDetail{
 
     public static function lead_detail_page(){

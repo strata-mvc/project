@@ -1,4 +1,9 @@
 <?php
+
+if(!class_exists('GFForms')){
+    die();
+}
+
 /**
  * Specialist Add-On class designed for use by Add-Ons that collect payment
  *
@@ -572,7 +577,7 @@ abstract class GFPaymentAddOn extends GFFeedAddOn {
                 }
             }
         }
-        
+
         if ($trial_field == "enter_amount"){
 			$trial_amount = rgar($feed["meta"], "trial_amount") ? rgar($feed["meta"], "trial_amount") : 0;
         }
@@ -659,7 +664,7 @@ abstract class GFPaymentAddOn extends GFFeedAddOn {
         $result = false;
 
         if(rgar($action, "id") && $this->is_duplicate_callback($action["id"])){
-            return new WP_Error("duplicate", sprintf(__("This webhook has already been processed (Event Id: %s)", "gravityformsstripe"), $action["id"]));
+            return new WP_Error("duplicate", sprintf(__("This webhook has already been processed (Event Id: %s)", "gravityforms"), $action["id"]));
         }
 
         $entry = GFAPI::get_entry( $action['entry_id'] );
@@ -940,14 +945,13 @@ abstract class GFPaymentAddOn extends GFFeedAddOn {
         return array(
 
             array(
-                //"title" => __("General Settings", "gravityformsstripe"),
+                //"title" => __("General Settings", "gravityforms"),
                 "description" => '',
                 "fields" => array(
                     array(
                         "name" => "feedName",
                         "label" => __("Name", "gravityforms"),
                         "type" => "text",
-                        "class" => "medium",
                         "required" => true
                     ),
                     array(
@@ -1104,7 +1108,7 @@ abstract class GFPaymentAddOn extends GFFeedAddOn {
     public function settings_setup_fee( $field, $echo = true ) {
 
         $enabled_field = array(
-        	"name" => $field["name"] . "_checkbox",
+        	"name" => $field["name"],
             "type" => "checkbox",
             "horizontal" => true,
             "choices" => array(
@@ -1137,16 +1141,16 @@ abstract class GFPaymentAddOn extends GFFeedAddOn {
     }
 
     public function set_trial_onchange($field){
-    	
+
     	return "alert('firing onchange');if(jQuery(this).prop('checked')){jQuery('#{$field["name"]}_product').show('slow');if (jQuery('#{$field["name"]}_product').val() == 'enter_amount'){jQuery('#{$field["name"]}_amount').show('slow');}} else {jQuery('#{$field["name"]}_product').hide('slow');jQuery('#{$field["name"]}_amount').hide('slow');}";
-		
+
     }
-    
+
     public function settings_trial( $field, $echo = true ) {
 
         //--- Enabled field ---
         $enabled_field = array(
-        	"name" => $field["name"] . "_checkbox",
+        	"name" => $field["name"],
             "type" => "checkbox",
             "horizontal" => true,
             "choices" => array(
@@ -1896,7 +1900,7 @@ class GFPaymentStatsTable extends WP_List_Table {
 
         extract( $this->_pagination_args, EXTR_SKIP );
 
-        $output = '<span class="displaying-num">' . sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
+        $output = '<span class="displaying-num">' . sprintf( _n( '1 item', '%s items', $total_items, 'gravityforms' ), number_format_i18n( $total_items ) ) . '</span>';
 
         $current = $this->get_pagenum();
 
@@ -1925,7 +1929,7 @@ class GFPaymentStatsTable extends WP_List_Table {
         $html_current_page = $current;
 
         $html_total_pages = sprintf( "<span class='total-pages'>%s</span>", number_format_i18n( $total_pages ) );
-        $page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>';
+        $page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging', 'gravityforms' ), $html_current_page, $html_total_pages ) . '</span>';
 
         $page_links[] = sprintf( "<a class='%s' title='%s' style='cursor:pointer;' onclick='gresults.setCustomFilter(\"paged\", \"%s\"); gresults.getResults(); gresults.setCustomFilter(\"paged\", \"1\");'>%s</a>",
             'next-page' . $disable_last,

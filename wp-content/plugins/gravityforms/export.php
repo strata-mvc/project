@@ -1,5 +1,9 @@
 <?php
 
+if(!class_exists('GFForms')){
+    die();
+}
+
 class GFExport{
 
     private static $min_import_version = "1.3.12.3";
