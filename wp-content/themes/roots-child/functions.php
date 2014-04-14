@@ -10,28 +10,29 @@ function child_theme_css(){
 add_action('wp_enqueue_scripts', 'child_theme_css', 101);
 
 /**
- * Replace the parent's modernizr-load by the child's version
- * NOTE: Not even sure the parent needs a modernizr-load. The parent should probably just be a sort of
+ * Replace the parent's script-loader by the child's version
+ * NOTE: Not even sure the parent needs a script-loader. The parent should probably just be a sort of
  * repository of things to compile from the child. The philosophy will ne to be formalized later on. 
  */
 function child_theme_js(){
 
 	// Dequeue the parent theme script loader
-	wp_dequeue_script("modernizr-load"); 
+	wp_dequeue_script("script-loader"); 
 
 	// Register the modernizr load script 
-	wp_register_script('child-modernizr-load', get_stylesheet_directory_uri() . '/assets/js/modernizr-load.js', array('modernizr'), null, false);
+	wp_register_script('child-script-loader', get_stylesheet_directory_uri() . '/assets/js/script-loader.js', array('yepnope'), null, false);
 
 	// Add javascript config variables to modernizr load script
 	$config = array(
+		'bower' => get_template_directory_uri() . '/assets/js/bower_components/',
 		'childPlugins' => get_stylesheet_directory_uri() . '/assets/js/plugins/',
 		'childJs' => get_stylesheet_directory_uri() . '/assets/js/',
 		'parentPlugins' => get_template_directory_uri() . '/assets/js/plugins/',
 		'parentJs' => get_template_directory_uri() . '/assets/js/',
 	);
-	wp_localize_script('child-modernizr-load', 'WpConfig', $config);
+	wp_localize_script('child-script-loader', 'WpConfig', $config);
 	
-	wp_enqueue_script('child-modernizr-load');
+	wp_enqueue_script('child-script-loader');
 }
 add_action('wp_enqueue_scripts', 'child_theme_js', 102);
 

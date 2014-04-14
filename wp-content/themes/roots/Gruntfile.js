@@ -34,8 +34,11 @@ module.exports = function(grunt) {
     uglify: {
       dist: {
         files: {
+          'assets/js/vendor/modernizr.min.js': [
+            'assets/js/bower_components/modernizr/modernizr.js'
+          ],
           'assets/js/deps.min.js': [
-            'assets/js/plugins/compat-console.min.js',
+            'assets/js/plugins/compat-console.js',
             // 'assets/js/plugins/bootstrap/transition.js',
             // 'assets/js/plugins/bootstrap/alert.js',
             // 'assets/js/plugins/bootstrap/button.js',
@@ -48,13 +51,13 @@ module.exports = function(grunt) {
             // 'assets/js/plugins/bootstrap/scrollspy.js',
             // 'assets/js/plugins/bootstrap/tab.js',
             // 'assets/js/plugins/bootstrap/affix.js',
-            'assets/js/plugins/gsap/TweenMax.min.js',
+            'assets/js/bower_components/gsap/src/minified/TweenMax.min.js',
             'assets/js/plugins/royal-slider/js/jquery.easing-1.3.js',
             'assets/js/plugins/royal-slider/js/jquery.royalslider.min.js',
-            'assets/js/plugins/masonry/imagesloaded.pkgd.min.js',
-            'assets/js/plugins/masonry/masonry.min.js',
-            'assets/js/plugins/snap.min.js',
-            'assets/js/plugins/spin.min.js',
+            'assets/js/plugins/imagesloaded/imagesloaded.pkgd.min.js', //problem with the bower component
+            'assets/js/bower_components/masonry/dist/masonry.pkgd.min.js',
+            'assets/js/bower_components/snapjs/snap.min.js',
+            'assets/js/bower_components/spinjs/spin.js',
             // 'assets/js/plugins/*.js'
           ],
           'assets/js/scripts.min.js': [
@@ -68,7 +71,8 @@ module.exports = function(grunt) {
           // sourceMap: 'assets/js/scripts.min.js.map',
           // sourceMappingURL: '/app/themes/roots/assets/js/scripts.min.js.map'
           compress: false,
-          beautify: true
+          beautify: false,
+          mangle: false
         }
       }
     },

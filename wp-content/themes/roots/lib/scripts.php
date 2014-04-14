@@ -26,22 +26,25 @@ function roots_scripts() {
     wp_enqueue_script('comment-reply');
   }
 
-  wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr-2.7.0.min.js', array(), null, false);
+  wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr.min.js', array(), null, false);
 
   // Register the modernizr load script 
-  wp_register_script('modernizr-load', get_template_directory_uri() . '/assets/js/modernizr-load.js', array('modernizr'), null, false);
+  wp_register_script('yepnope', get_template_directory_uri() . '/assets/js/bower_components/yepnope/yepnope.1.5.4-min.js', array(), null, false);
+  wp_register_script('script-loader', get_template_directory_uri() . '/assets/js/script-loader.js', array('yepnope'), null, false);
 
   // Add javascript config variables to modernizr load script
   $config = array(
+    'bower' => get_template_directory_uri() . '/assets/js/bower_components/',
     'plugins' => get_template_directory_uri() . '/assets/js/plugins/',
     'js' => get_template_directory_uri() . '/assets/js/'
   );
-  wp_localize_script('modernizr-load', 'WpConfig', $config);
+  wp_localize_script('script-loader', 'WpConfig', $config);
 
   // Enqueue all scripts
   wp_enqueue_script('modernizr');
   wp_enqueue_script('jquery');
-  wp_enqueue_script('modernizr-load');
+  wp_enqueue_script('yepnope');
+  wp_enqueue_script('script-loader');
 }
 add_action('wp_enqueue_scripts', 'roots_scripts', 100);
 
@@ -50,7 +53,7 @@ function roots_jquery_local_fallback($src, $handle = null) {
   static $add_jquery_fallback = false;
 
   if ($add_jquery_fallback) {
-    echo '<script>window.jQuery || document.write(\'<script src="' . get_template_directory_uri() . '/assets/js/vendor/jquery-1.11.0.min.js"><\/script>\')</script>' . "\n";
+    echo '<script>window.jQuery || document.write(\'<script src="' . get_template_directory_uri() . '/assets/js/bower_components/jquery/dist/jquery.min.js"><\/script>\')</script>' . "\n";
     $add_jquery_fallback = false;
   }
 

@@ -60,7 +60,8 @@ module.exports = function(grunt) {
       },
       js: {
         files: [
-          '<%= jshint.all %>'
+          '<%= jshint.all %>',
+          '../roots/assets/js/deps.min.js',
         ],
         tasks: ['jshint', 'uglify', 'version']
       },

@@ -46,7 +46,7 @@ var Roots = {
           } else {
             $h.removeClass("active");
           }
-        } 
+        }
       });
 
       enquire.register("screen and (max-width: 992px)", {
