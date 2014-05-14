@@ -15,16 +15,6 @@
         <div class="clearfix"></div>
       </div>
 
-      <div class="col-md-6 hidden-xs hidden-sm">
-        <nav class="nav-main" role="navigation">
-          <?php
-            if (has_nav_menu('primary_navigation')) :
-              wp_nav_menu(array('theme_location' => 'primary_navigation', 'menu_class' => ''));
-            endif;
-          ?>
-        </nav>
-      </div>
-
     </div>
 
     <div class="row">
@@ -34,6 +24,16 @@
           <?php
             if (has_nav_menu('secondary_navigation')) :
               wp_nav_menu(array('theme_location' => 'secondary_navigation', 'menu_class' => ''));
+            endif;
+          ?>
+        </nav>
+      </div>
+
+      <div class="col-md-8 hidden-xs hidden-sm">
+        <nav class="nav-main" role="navigation">
+          <?php
+            if (has_nav_menu('primary_navigation')) :
+              wp_nav_menu(array('theme_location' => 'primary_navigation', 'menu_class' => ''));
             endif;
           ?>
         </nav>

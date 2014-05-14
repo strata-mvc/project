@@ -9,7 +9,6 @@
 
   <div class="snap-drawers">
     <div class="snap-drawer snap-drawer-left">
-      <h3>Mobile Menu with Snap.js</h3>
       <?php
         if (has_nav_menu('primary_navigation')) :
           wp_nav_menu(array('theme_location' => 'primary_navigation', 'menu_class' => ''));

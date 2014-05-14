@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.5
-Tested up to: 3.8.1
-Stable tag: 1.5.2.6
+Tested up to: 3.9
+Stable tag: 1.5.2.8
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -109,6 +109,30 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 1.5.2.8 =
+
+* Bugfixes
+	* Added some missing textdomains.
+	* Fixed a license manager request bug.
+	* Work-around for fatal error caused by other plugins doing front-end post updates without loading all the required WP files, such as the WP Google Forms plugin - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed incorrect link to Issues in CONTRIBUTING.md - props [GaryJones](https://github.com/GaryJones).
+	* Fixed a fatal error caused by not checking if Google Suggest request reponse is valid - props [jeremyfelt](https://github.com/jeremyfelt).
+	* Fixed a screen option bug in bulk edit options - props [designerken](https://github.com/designerken).
+	* Fixed warnings on edit files section - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed a warning when post_type is an array - props [unr](https://github.com/unr).
+
+* i18n
+	* Updated el_GR, hu_HU, nl_NL and pl_PL
+
+= 1.5.2.7 =
+
+* Bugfixes
+	* Fixed a WordPress Network license bug.
+
+* i18n
+	* Updated el_GR, fa_IR, hu, it_IT, pt_PT, ru_RU, tr_TK and zh_CN
+	* Added Malay
+
 = 1.5.2.6 =
 
 * Bugfixes
@@ -206,7 +230,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* $post_content is now unset after loading in DOM object. - props [mgmartel](https://github.com/mgmartel).
 	* Fix Alexa ID string validation, as reported by [kyasajin](https://github.com/kyasajin) and [Bubichka](https://github.com/Bubichka) in [issue 736](https://github.com/Yoast/wordpress-seo/issues/736) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fix issue with Soliloquy image query, as reported by [osalcedo](https://github.com/osalcedo) and [mattisherwood](https://github.com/mattisherwood) in [issue #733](https://github.com/Yoast/wordpress-seo/issues/733) - props [Jrf](http://profiles.wordpress.org/jrf).
-	
+
 * Enhancements
 	* Twitter metatag key is now filterable by 'wpseo_twitter_metatag_key'.
 	* Added a filter called "wpseo_replacements" in wpseo_replace_vars to allow customization of the replacements before they are applied - props [martinernst](https://github.com/martinernst).

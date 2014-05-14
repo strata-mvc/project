@@ -11,7 +11,7 @@
  * 3. /theme/assets/js/main.min.js (in footer)
  */
 function roots_scripts() {
-  wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, 'd75e2d67ea74b3c27a8a1161a5b35ffa');
+  wp_enqueue_style('roots_main', get_template_directory_uri() . '/assets/css/main.min.css', false, 'e57b991ec1c1aebd52425b0fdeb5ba10');
 
   // jQuery is loaded using the same method from HTML5 Boilerplate:
   // Grab Google CDN's latest jQuery with a protocol relative URL; fallback to local if offline
@@ -64,6 +64,34 @@ function roots_jquery_local_fallback($src, $handle = null) {
   return $src;
 }
 add_action('wp_head', 'roots_jquery_local_fallback');
+
+/**
+ * Adds a Royal Slider theme stylesheet.
+ * Don't forget to add the proper class to the slider in your HTML :
+ * 
+ * default      : rsDefault
+ * default-inverted : rsDefaultInv
+ * Minimal white  : rsMinW
+ * Universal    : rsUni
+ * 
+ */
+function royal_slider_theme(){
+
+  $themes = array(
+    "default" => "default/rs-default.css",
+    "default-inverted" => "default-inverted/rs-default-inverted.css",
+    "minimal-white" => "minimal-white/rs-minimal-white.css",
+    "universal" => "universal/rs-universal.css"
+  );
+
+  wp_register_style(
+    "royal_slider_theme", 
+    get_template_directory_uri() . '/assets/css/royal-slider/skins/' . $themes['minimal-white'], 
+    "child_main"
+  );
+  wp_enqueue_style("royal_slider_theme");
+}
+add_action('wp_enqueue_scripts', 'royal_slider_theme', 102);
 
 function roots_google_analytics() { ?>
 <script>
