@@ -49,6 +49,9 @@ var Roots = {
         }
       });
 
+      $(".google-maps-builder-wrap").data("snap-ignore", true);
+      console.log($(".google-maps-builder-wrap").data("snap-ignore"));
+
       enquire.register("screen and (max-width: 992px)", {
           setup: function(){
             console.log("Enquire max-992 setup is complete");
@@ -78,12 +81,18 @@ var Roots = {
           // options go here
           // as an example, enable keyboard arrows nav
           keyboardNavEnabled: true,
-          imageScaleMode: 'fill',
+          imageScaleMode: 'fit-if-smaller',
           arrowsNav: true,
           arrowsNavAutoHide: false,
           controlNavigation: 'bullets',
           imageScalePadding: 0,
           controlsInside: true,
+          autoScaleSlider: true,
+          autoScaleSliderWidth: 1140,
+          autoScaleSliderHeight: 400,
+          slidesSpacing: 0,
+          addActiveClass: true,
+          loop: true
       });
 
     }

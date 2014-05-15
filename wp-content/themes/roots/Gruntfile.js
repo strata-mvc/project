@@ -86,13 +86,13 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      less: {
-        files: [
-          'assets/less/*.less',
-          'assets/less/bootstrap/*.less'
-        ],
-        tasks: ['less', 'version']
-      },
+      // less: {
+      //   files: [
+      //     'assets/less/*.less',
+      //     'assets/less/bootstrap/*.less'
+      //   ],
+      //   tasks: ['less', 'version']
+      // },
       js: {
         files: [
           '<%= jshint.all %>'

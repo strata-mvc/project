@@ -1,10 +1,10 @@
 <h3>Royal Slider</h3>
 <div class="royalSlider rsMinW" data-snap-ignore="true">
-    <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />
-    <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />
-    <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />
-    <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />
-    <img class="rsImg" src="http://placehold.it/1200x400.jpg" alt="image desc" />
+    <img class="rsImg" src="http://placehold.it/1140x400.jpg" alt="image desc" />
+    <img class="rsImg" src="http://placehold.it/1140x400.jpg" alt="image desc" />
+    <img class="rsImg" src="http://placehold.it/1140x400.jpg" alt="image desc" />
+    <img class="rsImg" src="http://placehold.it/1140x400.jpg" alt="image desc" />
+    <img class="rsImg" src="http://placehold.it/1140x400.jpg" alt="image desc" />
 </div>
 
 <section class="home-cms-content">
@@ -37,7 +37,7 @@
 						if(has_post_thumbnail()) {
 						    the_post_thumbnail("1140", "400", true);
 						} else {
-						    echo '<img src="'.get_bloginfo("template_url").'/assets/img/placeholder-1140.gif" />';
+						    echo '<img src="'.get_bloginfo("template_url").'/assets/img/placeholder-medium.gif" />';
 						}
 					 ?>
 					<span class="date-container"><?php the_time('d');?><span class="month"><?php the_time('M');?></span></span>
@@ -52,16 +52,16 @@
 					<span class="date-container"><?php the_time('d');?><span class="month"><?php the_time('M');?></span></span>
 					<?php 
 						if(has_post_thumbnail()) {
-						    the_post_thumbnail("600", "400", true);
+						    the_post_thumbnail();
 						} else {
-						    echo '<img src="'.get_bloginfo("template_url").'/assets/img/placeholder-600.gif" />';
+						    echo '<img src="'.get_bloginfo("template_url").'/assets/img/placeholder-medium.gif" />';
 						}
 					 ?>
 				</div>
-				<a class="read-more" href="<?php the_permalink(); ?>">Lire l'article</a>
+				<a class="read-more btn btn-primary" href="<?php the_permalink(); ?>">Lire l'article</a>
 			<?php }else{ ?>
 				<?php the_excerpt(); ?>
-				<a class="read-more" href="<?php the_permalink(); ?>">Lire l'article</a>
+				<a class="read-more btn btn-primary" href="<?php the_permalink(); ?>">Lire l'article</a>
 			<?php } ?>
 			</div>
 		</div>

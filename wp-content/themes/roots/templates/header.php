@@ -3,7 +3,7 @@
       
     <div class="row nav-main-container">
       
-      <div class="col-md-6">
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <!-- <button type="button" class="snap-toggle"><i class="fa fa-bars fa-2x"></i></button> -->
         <button type="button" class="hamburger snap-toggle">
           <div class="top"></div>
