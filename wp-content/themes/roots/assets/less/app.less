@@ -80,13 +80,25 @@ body { }
 .content { }
 
 #snap-content {
-   background-color: @white;
+  background-color: @white;
 }
 
 .royalSlider {
-   width: 100%;
-   overflow: hidden;
+  width: 100%;
+  overflow: hidden;
 }
+
+.royalSlider .rsSlide, 
+.royalSlider .rsContainer, 
+.rsMinW, 
+.rsMinW .rsOverflow, 
+.rsMinW .rsSlide, 
+.rsMinW .rsVideoFrameHolder, 
+.rsMinW .rsThumbs {
+  background: none !important;
+}
+
+
 
 .home-articles {
 
@@ -253,6 +265,7 @@ figure.alignnone { margin-left: 0; margin-right: 0; }
 
 @import "forms.less";
 @import "contact.less";
+@import "../css/royal-slider/royalslider.css";
 @import "responsive-320.less"; 
 @import "responsive-768.less";
 @import "responsive-992.less";

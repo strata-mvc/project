@@ -49,9 +49,6 @@ var Roots = {
         }
       });
 
-      $(".google-maps-builder-wrap").data("snap-ignore", true);
-      console.log($(".google-maps-builder-wrap").data("snap-ignore"));
-
       enquire.register("screen and (max-width: 992px)", {
           setup: function(){
             console.log("Enquire max-992 setup is complete");
