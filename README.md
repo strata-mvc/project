@@ -3,14 +3,10 @@
 Projet wordpress vanille basé sur [Roots](http://roots.io/)
 
 ## Todo 
-- Test ACF on homepage
-- Facebook Fields
 - Carousel Page d'Accueil en ACF (prendre code dans work hard play heart)
 - Php Mobile Detect avec classe sur le body
 - Fixer le css du split-view en francais
 - Espace pour Google Tag Manager Container (remplace le GA dans le bas de scripts.php?)
-- Change Modernizr.load for yepnope (Modernizr.load will be deprecated in the near future)
-	* Est-ce qu'on utilise yepnope au lieu de concatener?
 - Faire un Grunt dans le child theme pour concatener les scripts du child et du parent (?)
 - Write procedure to create child theme and accomplish common actions
 	- adding a template
@@ -46,6 +42,8 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 } 
 
 ```
+- In the roots theme folder, run `npm install`
+- In the roots theme folder, run `grunt`
 - In your local repository, run `git add remote upstream https://bitbucket.org/iprospect_ca/iprospect-roots-wordpress-template.git`
 
 ## Getting started
@@ -64,6 +62,7 @@ If you are unfamiliar with the [Roots starter theme](http://roots.io/starter-the
 - Royal Slider
 - Spin.js
 - Masonry + ImagesLoaded
+- YepNope
 
 ## Bundled Plugins
 - AddThis
