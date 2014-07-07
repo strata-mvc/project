@@ -626,7 +626,7 @@ function gformAddListItem(element, max){
     if(jQuery(element).hasClass("gfield_icon_disabled"))
         return;
 
-    var tr = jQuery(element).parent().parent();
+    var tr = jQuery(element).closest('tr');
     var clone = tr.clone();
     clone.find("input, select").val("").attr("tabindex", clone.find('input:last').attr("tabindex"));
     tr.after(clone);
@@ -1168,7 +1168,9 @@ var gform = {
         });
 
         gfMultiFileUploader.toggleDisabled = function (settings, disabled){
-            $("#" + settings.browse_button).prop("disabled", disabled);
+
+            var button = typeof settings.browse_button == "string" ? $("#" + settings.browse_button) : $(settings.browse_button);
+            button.prop("disabled", disabled);
         }
 
         function addMessage(messagesID, message){
@@ -1252,7 +1254,8 @@ var gform = {
 
         uploader.bind('Error', function(up, err) {
             if(err.code === plupload.FILE_EXTENSION_ERROR){
-                addMessage(up.settings.gf_vars.message_id, err.file.name + " - " + strings.invalid_file_extension + " " + up.settings.filters[0].extensions);
+                var extensions = typeof up.settings.filters.mime_types != 'undefined' ? up.settings.filters.mime_types[0].extensions /* plupoad 2 */ : up.settings.filters[0].extensions;
+                addMessage(up.settings.gf_vars.message_id, err.file.name + " - " + strings.invalid_file_extension + " " + extensions);
             } else if (err.code === plupload.FILE_SIZE_ERROR) {
                 addMessage(up.settings.gf_vars.message_id, err.file.name + " - " + strings.file_exceeds_limit);
             } else {
@@ -1292,13 +1295,11 @@ var gform = {
             var fieldID = up.settings.multipart_params["field_id"];
 
             if(file.percent == 100){
-                var inputName = getInputName(fieldID),
-                    tempFileName = uniqueID + "_" + inputName + "_" + file.target_name;
-                if(response.data.uploaded_filename === file.name)
+                if(response.status && response.status == 'ok'){
                     addFile(fieldID, response.data);
-                else
-                    addMessage(up.settings.gf_vars.message_id, strings.unknown_error)
-
+                }  else {
+                    addMessage(up.settings.gf_vars.message_id, strings.unknown_error);
+                }
             }
 
         });

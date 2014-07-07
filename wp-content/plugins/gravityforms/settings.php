@@ -163,7 +163,7 @@ class GFSettings{
                         $key_field = '<input type="password" name="gforms_key" id="gforms_key" style="width:350px;" value="' . $key . '" />';
                         if(!rgempty("is_error", $version_info))
                             $key_field .= "&nbsp;<img src='" . GFCommon::get_base_url() ."/images/exclamation.png' class='gf_keystatus_error gf_tooltip' alt='There was an error validating your key' title='<h6>" . __("Validation Error", "gravityforms") . "</h6>" . __("There was an error while validating your license key. Gravity Forms will continue to work, but automatic upgrades will not be available. Please contact support to resolve this issue.", "gravityforms") . "'/>";
-                        else if($version_info["is_valid_key"])
+                        else if(rgar($version_info, "is_valid_key"))
                             $key_field .= "&nbsp;<i class='fa fa-check gf_keystatus_valid'></i> <span class='gf_keystatus_valid_text'>" . __("Valid Key : Your license key has been successfully validated.", "gravityforms") . "</span>";
                         else if (!empty($key))
                             $key_field .= "&nbsp;<i class='fa fa-times gf_keystatus_invalid'></i> <span class='gf_keystatus_invalid_text'>" . __("Invalid or Expired Key : Please make sure you have entered the correct value and that your key is not expired.", "gravityforms") . "</span>";
@@ -253,14 +253,14 @@ class GFSettings{
                    <th scope="row"><label for="gforms_captcha_public_key"><?php _e("reCAPTCHA Public Key", "gravityforms"); ?></label>  <?php gform_tooltip("settings_recaptcha_public") ?></th>
                     <td>
                         <input type="text" name="gforms_captcha_public_key" style="width:350px;" value="<?php echo get_option("rg_gforms_captcha_public_key") ?>" /><br />
-                        <span class="gf_settings_description"><?php _e("Required only if you decide to use the reCAPTCHA field.", "gravityforms"); ?> <?php printf(__("%sSign up%s for a free account to get the key.", "gravityforms"), '<a target="_blank" href="http://www.google.com/recaptcha/whyrecaptcha">', '</a>'); ?></span>
+                        <span class="gf_settings_description"><?php _e("Required only if you decide to use the reCAPTCHA field.", "gravityforms"); ?> <?php printf(__("%sSign up%s for a free account to get the key.", "gravityforms"), '<a target="_blank" href="http://www.google.com/recaptcha">', '</a>'); ?></span>
                     </td>
                 </tr>
                 <tr valign="top">
                    <th scope="row"><label for="gforms_captcha_private_key"><?php _e("reCAPTCHA Private Key", "gravityforms"); ?></label>  <?php gform_tooltip("settings_recaptcha_private") ?></th>
                     <td>
                         <input type="text" name="gforms_captcha_private_key" style="width:350px;" value="<?php echo esc_attr(get_option("rg_gforms_captcha_private_key")) ?>" /><br />
-                        <span class="gf_settings_description"><?php _e("Required only if you decide to use the reCAPTCHA field.", "gravityforms"); ?> <?php printf(__("%sSign up%s for a free account to get the key.", "gravityforms"), '<a target="_blank" href="http://www.google.com/recaptcha/whyrecaptcha">', '</a>'); ?></span>
+                        <span class="gf_settings_description"><?php _e("Required only if you decide to use the reCAPTCHA field.", "gravityforms"); ?> <?php printf(__("%sSign up%s for a free account to get the key.", "gravityforms"), '<a target="_blank" href="http://www.google.com/recaptcha">', '</a>'); ?></span>
                     </td>
                 </tr>
 
@@ -395,8 +395,7 @@ class GFSettings{
             'Referer' => get_bloginfo("url")
         );
 
-        $request_url = GRAVITY_MANAGER_URL . "/api.php?op=upgrade_message&key=" . GFCommon::get_key();
-        $raw_response = wp_remote_request($request_url, $options);
+        $raw_response = GFCommon::post_to_manager("api.php", "op=upgrade_message&key=" . GFCommon::get_key(), $options);
 
         if ( is_wp_error( $raw_response ) || 200 != $raw_response['response']['code'] )
             $message = "";
