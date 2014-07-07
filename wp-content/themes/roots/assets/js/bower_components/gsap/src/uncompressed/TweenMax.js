@@ -1,6 +1,6 @@
 /*!
- * VERSION: 1.11.6
- * DATE: 2014-03-26
+ * VERSION: 1.11.8
+ * DATE: 2014-05-13
  * UPDATES AND DOCS AT: http://www.greensock.com
  * 
  * Includes all of the following: TweenLite, TweenMax, TimelineLite, TimelineMax, EasePack, CSSPlugin, RoundPropsPlugin, BezierPlugin, AttrPlugin, DirectionalRotationPlugin
@@ -34,7 +34,7 @@
 			p = TweenMax.prototype = TweenLite.to({}, 0.1, {}),
 			_blankArray = [];
 
-		TweenMax.version = "1.11.6";
+		TweenMax.version = "1.11.8";
 		p.constructor = TweenMax;
 		p.kill()._gc = false;
 		TweenMax.killTweensOf = TweenMax.killDelayedCallsTo = TweenLite.killTweensOf;
@@ -594,6 +594,7 @@
 			_isSelector = TweenLite._internals.isSelector,
 			_isArray = TweenLite._internals.isArray,
 			_blankArray = [],
+			_globals = window._gsDefine.globals,
 			_copy = function(vars) {
 				var copy = {}, p;
 				for (p in vars) {
@@ -610,20 +611,22 @@
 			_slice = _blankArray.slice,
 			p = TimelineLite.prototype = new SimpleTimeline();
 
-		TimelineLite.version = "1.11.6";
+		TimelineLite.version = "1.11.8";
 		p.constructor = TimelineLite;
 		p.kill()._gc = false;
 
 		p.to = function(target, duration, vars, position) {
-			return duration ? this.add( new TweenLite(target, duration, vars), position) : this.set(target, vars, position);
+			var Engine = (vars.repeat && _globals.TweenMax) || TweenLite;
+			return duration ? this.add( new Engine(target, duration, vars), position) : this.set(target, vars, position);
 		};
 
 		p.from = function(target, duration, vars, position) {
-			return this.add( TweenLite.from(target, duration, vars), position);
+			return this.add( ((vars.repeat && _globals.TweenMax) || TweenLite).from(target, duration, vars), position);
 		};
 
 		p.fromTo = function(target, duration, fromVars, toVars, position) {
-			return duration ? this.add( TweenLite.fromTo(target, duration, fromVars, toVars), position) : this.set(target, toVars, position);
+			var Engine = (toVars.repeat && _globals.TweenMax) || TweenLite;
+			return duration ? this.add( Engine.fromTo(target, duration, fromVars, toVars), position) : this.set(target, toVars, position);
 		};
 
 		p.staggerTo = function(targets, duration, vars, stagger, position, onCompleteAll, onCompleteAllParams, onCompleteAllScope) {
@@ -1207,7 +1210,7 @@
 
 		p.constructor = TimelineMax;
 		p.kill()._gc = false;
-		TimelineMax.version = "1.11.6";
+		TimelineMax.version = "1.11.8";
 
 		p.invalidate = function() {
 			this._yoyo = (this.vars.yoyo === true);
@@ -1241,7 +1244,7 @@
 
 		p.tweenTo = function(position, vars) {
 			vars = vars || {};
-			var copy = {ease:_easeNone, overwrite:2, useFrames:this.usesFrames(), immediateRender:false},
+			var copy = {ease:_easeNone, overwrite:(vars.delay ? 2 : 1), useFrames:this.usesFrames(), immediateRender:false},//note: set overwrite to 1 (true/all) by default unless there's a delay so that we avoid a racing situation that could happen if, for example, an onmousemove creates the same tweenTo() over and over again.
 				duration, p, t;
 			for (p in vars) {
 				copy[p] = vars[p];
@@ -1928,7 +1931,7 @@
 			BezierPlugin = window._gsDefine.plugin({
 					propName: "bezier",
 					priority: -1,
-					version: "1.3.1",
+					version: "1.3.2",
 					API: 2,
 					global:true,
 
@@ -2063,7 +2066,7 @@
 							b = this._beziers[p][curIndex];
 							val = (t * t * b.da + 3 * inv * (t * b.ca + inv * b.ba)) * t + b.a;
 							if (this._round[p]) {
-								val = (val + ((val > 0) ? 0.5 : -0.5)) >> 0;
+								val = Math.round(val);
 							}
 							if (func[p]) {
 								target[p](val);
@@ -2235,7 +2238,7 @@
 			p = CSSPlugin.prototype = new TweenPlugin("css");
 
 		p.constructor = CSSPlugin;
-		CSSPlugin.version = "1.11.6";
+		CSSPlugin.version = "1.11.8";
 		CSSPlugin.API = 2;
 		CSSPlugin.defaultTransformPerspective = 0;
 		CSSPlugin.defaultSkewType = "compensated";
@@ -2343,8 +2346,7 @@
 				if (!calc && t.style[p]) {
 					rv = t.style[p];
 				} else if ((cs = cs || _getComputedStyle(t, null))) {
-					t = cs.getPropertyValue(p.replace(_capsExp, "-$1").toLowerCase());
-					rv = (t || cs.length) ? t : cs[p]; //Opera behaves VERY strangely - length is usually 0 and cs[p] is the only way to get accurate results EXCEPT when checking for -o-transform which only works with cs.getPropertyValue()!
+					rv = cs[p] || cs.getPropertyValue(p) || cs.getPropertyValue(p.replace(_capsExp, "-$1").toLowerCase());
 				} else if (t.currentStyle) {
 					rv = t.currentStyle[p];
 				}
@@ -2367,7 +2369,7 @@
 					node = t,
 					style = _tempDiv.style,
 					neg = (v < 0),
-					pix;
+					pix, cache, time;
 				if (neg) {
 					v = -v;
 				}
@@ -2377,6 +2379,11 @@
 					style.cssText = "border:0 solid red;position:" + _getStyle(t, "position") + ";line-height:0;";
 					if (sfx === "%" || !node.appendChild) {
 						node = t.parentNode || _doc.body;
+						cache = node._gsCache;
+						time = TweenLite.ticker.frame;
+						if (cache && horiz && cache.time === time) { //performance optimization: we record the width of elements along with the ticker frame so that we can quickly get it again on the same tick (seems relatively safe to assume it wouldn't change on the same tick)
+							return cache.width * v / 100;
+						}
 						style[(horiz ? "width" : "height")] = v + sfx;
 					} else {
 						style[(horiz ? "borderLeftWidth" : "borderTopWidth")] = v + sfx;
@@ -2384,6 +2391,11 @@
 					node.appendChild(_tempDiv);
 					pix = parseFloat(_tempDiv[(horiz ? "offsetWidth" : "offsetHeight")]);
 					node.removeChild(_tempDiv);
+					if (horiz && sfx === "%" && CSSPlugin.cacheWidths !== false) {
+						cache = node._gsCache = node._gsCache || {};
+						cache.time = time;
+						cache.width = pix / v * 100;
+					}
 					if (pix === 0 && !recurse) {
 						pix = _convertToPixels(t, p, v, sfx, true);
 					}
@@ -2759,7 +2771,7 @@
 				while (mpt) {
 					val = proxy[mpt.v];
 					if (mpt.r) {
-						val = (val > 0) ? (val + 0.5) | 0 : (val - 0.5) | 0;
+						val = Math.round(val);
 					} else if (val < min && val > -min) {
 						val = 0;
 					}
@@ -3244,7 +3256,7 @@
 
 
 		//transform-related methods and properties
-		var _transformProps = ("scaleX,scaleY,scaleZ,x,y,z,skewX,rotation,rotationX,rotationY,perspective").split(","),
+		var _transformProps = ("scaleX,scaleY,scaleZ,x,y,z,skewX,skewY,rotation,rotationX,rotationY,perspective").split(","),
 			_transformProp = _checkPropPrefix("transform"), //the Javascript (camelCase) transform property, like msTransform, WebkitTransform, MozTransform, or OTransform.
 			_transformPropCSS = _prefixCSS + "transform",
 			_transformOriginProp = _checkPropPrefix("transformOrigin"),
@@ -3653,7 +3665,6 @@
 				v = vars,
 				endRotations = {},
 				m2, skewY, copy, orig, has3D, hasChange, dr;
-
 			if (typeof(v.transform) === "string" && _transformProp) { //for values like transform:"rotate(60deg) scale(0.5, 0.8)"
 				copy = style.cssText;
 				style[_transformProp] = v.transform;
@@ -3938,6 +3949,9 @@
 		var _removeProp = function(s, p) {
 				if (p) {
 					if (s.removeProperty) {
+						if (p.substr(0,2) === "ms") { //Microsoft browsers don't conform to the standard of capping the first prefix character, so we adjust so that when we prefix the caps with a dash, it's correct (otherwise it'd be "ms-transform" instead of "-ms-transform" for IE9, for example)
+							p = "M" + p.substr(1);
+						}
 						s.removeProperty(p.replace(_capsExp, "-$1").toLowerCase());
 					} else { //note: old versions of IE use "removeAttribute()" instead of "removeProperty()"
 						s.removeAttribute(p);
@@ -4210,7 +4224,7 @@
 						es = (en || en === 0) ? (rel ? en + bn : en) + esfx : vars[p]; //ensures that any += or -= prefixes are taken care of. Record the end value before normalizing the suffix because we always want to end the tween on exactly what they intended even if it doesn't match the beginning value's suffix.
 
 						//if the beginning/ending suffixes don't match, normalize them...
-						if (bsfx !== esfx) if (esfx !== "") if (en || en === 0) if (bn || bn === 0) {
+						if (bsfx !== esfx) if (esfx !== "") if (en || en === 0) if (bn) { //note: if the beginning value (bn) is 0, we don't need to convert units!
 							bn = _convertToPixels(target, p, bn, bsfx);
 							if (esfx === "%") {
 								bn /= _convertToPixels(target, p, 100, "%") / 100;
@@ -4222,7 +4236,7 @@
 								bn /= _convertToPixels(target, p, 1, "em");
 
 							//otherwise convert to pixels.
-							} else {
+							} else if (esfx !== "px") {
 								en = _convertToPixels(target, p, en, esfx);
 								esfx = "px"; //we don't use bsfx after this, so we don't need to set it to px too.
 							}
@@ -4277,7 +4291,7 @@
 				while (pt) {
 					val = pt.c * v + pt.s;
 					if (pt.r) {
-						val = (val > 0) ? (val + 0.5) | 0 : (val - 0.5) | 0;
+						val = Math.round(val);
 					} else if (val < min) if (val > -min) {
 						val = 0;
 					}
@@ -4569,20 +4583,24 @@
 	window._gsDefine.plugin({
 		propName: "attr",
 		API: 2,
-		version: "0.2.0",
+		version: "0.3.0",
 
 		//called when the tween renders for the first time. This is where initial values should be recorded and any setup routines should run.
 		init: function(target, value, tween) {
-			var p;
+			var p, start, end;
 			if (typeof(target.setAttribute) !== "function") {
 				return false;
 			}
 			this._target = target;
 			this._proxy = {};
+			this._start = {}; // we record start and end values exactly as they are in case they're strings (not numbers) - we need to be able to revert to them cleanly.
+			this._end = {};
+			this._endRatio = tween.vars.runBackwards ? 0 : 1;
 			for (p in value) {
-				if ( this._addTween(this._proxy, p, parseFloat(target.getAttribute(p)), value[p], p) ) {
-					this._overwriteProps.push(p);
-				}
+				this._start[p] = this._proxy[p] = start = target.getAttribute(p);
+				this._end[p] = end = value[p];
+				this._addTween(this._proxy, p, parseFloat(start), end, p);
+				this._overwriteProps.push(p);
 			}
 			return true;
 		},
@@ -4592,14 +4610,15 @@
 			this._super.setRatio.call(this, ratio);
 			var props = this._overwriteProps,
 				i = props.length,
+				lookup = (ratio !== 0 && ratio !== 1) ? this._proxy : (ratio === this._endRatio) ? this._end : this._start,
 				p;
 			while (--i > -1) {
 				p = props[i];
-				this._target.setAttribute(p, this._proxy[p] + "");
+				this._target.setAttribute(p, lookup[p] + "");
 			}
 		}
 
-	});
+	})
 
 
 
@@ -5902,7 +5921,7 @@
 		p._firstPT = p._targets = p._overwrittenProps = p._startAt = null;
 		p._notifyPluginsOfEnabled = false;
 
-		TweenLite.version = "1.11.6";
+		TweenLite.version = "1.11.8";
 		TweenLite.defaultEase = p._ease = new Ease(null, null, 1, 1);
 		TweenLite.defaultOverwrite = "auto";
 		TweenLite.ticker = _ticker;
@@ -6126,7 +6145,7 @@
 		};
 
 		p._initProps = function(target, propLookup, siblings, overwrittenProps) {
-			var p, i, initPlugins, plugin, a, pt, v;
+			var p, i, initPlugins, plugin, pt, v;
 			if (target == null) {
 				return false;
 			}
@@ -6544,7 +6563,7 @@
 			while (pt) {
 				val = pt.c * v + pt.s;
 				if (pt.r) {
-					val = (val + ((val > 0) ? 0.5 : -0.5)) | 0; //about 4x faster than Math.round()
+					val = Math.round(val);
 				} else if (val < min) if (val > -min) { //prevents issues with converting very small numbers to strings in the browser
 					val = 0;
 				}
