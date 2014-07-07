@@ -36,7 +36,8 @@ function roots_scripts() {
   $config = array(
     'bower' => get_template_directory_uri() . '/assets/js/bower_components/',
     'plugins' => get_template_directory_uri() . '/assets/js/plugins/',
-    'js' => get_template_directory_uri() . '/assets/js/'
+    'js' => get_template_directory_uri() . '/assets/js/',
+    'lang' => ICL_LANGUAGE_CODE
   );
   wp_localize_script('script-loader', 'WpConfig', $config);
 
