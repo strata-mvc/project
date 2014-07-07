@@ -53,7 +53,7 @@ module.exports = function(grunt) {
             // 'assets/js/plugins/bootstrap/affix.js',
             'assets/js/bower_components/gsap/src/minified/TweenMax.min.js',
             'assets/js/plugins/royal-slider/js/jquery.easing-1.3.js',
-            'assets/js/plugins/royal-slider/js/jquery.royalslider.min.js',
+            'assets/js/plugins/royal-slider/js/jquery.royalslider.custom.min.js',
             'assets/js/plugins/imagesloaded/imagesloaded.pkgd.min.js', //problem with the bower component
             'assets/js/bower_components/masonry/dist/masonry.pkgd.min.js',
             'assets/js/bower_components/snapjs/snap.min.js',
