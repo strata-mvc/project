@@ -3,9 +3,9 @@
 
 if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
  	# LOCAL (Dave Lamarre) 
-	define('DB_NAME','');
-	define('DB_USER','');
-	define('DB_PASSWORD','');
+	define('DB_NAME','wordpress_root');
+	define('DB_USER','root');
+	define('DB_PASSWORD','root');
 } else if ( stristr( $_SERVER['SERVER_NAME'], "privard" ) ) {
  	# LOCAL (Philippe V Rivard) 
 	define('DB_NAME','iprospect-roots');

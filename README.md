@@ -2,13 +2,12 @@
 
 Projet wordpress vanille basé sur [Roots](http://roots.io/)
 
-## Bugs
-
-- Snap.js slides layout when RoyalSlider with touched
-
 ## Todo 
 - Test ACF on homepage
 - Facebook Fields
+- Carousel Page d'Accueil en ACF (prendre code dans work hard play heart)
+- Php Mobile Detect avec classe sur le body
+- Fixer le css du split-view en francais
 - Espace pour Google Tag Manager Container (remplace le GA dans le bas de scripts.php?)
 - Change Modernizr.load for yepnope (Modernizr.load will be deprecated in the near future)
 	* Est-ce qu'on utilise yepnope au lieu de concatener?
@@ -20,6 +19,7 @@ Projet wordpress vanille basé sur [Roots](http://roots.io/)
 	- choosing a royal slider theme
 - Script pour le transfert de Base de donnée (might not be needed)
 - Intégrer GSCE (Google Search) (À voir avec Dave, ce n'est pas GSCE qui est sur mdanderson en ce moment)
+- Mettre wocoommerce et tester les différents templates de page.
 
 ## Prerequisites
 - A clean Wordpress install packed with useful plugins and librairies
