@@ -50,8 +50,6 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 
 If you are unfamiliar with the [Roots starter theme](http://roots.io/starter-theme/)
 
-
-
 ## Included Librairies 
 - Font-Awesome
 - Twitter Bootstrap 3
@@ -59,7 +57,7 @@ If you are unfamiliar with the [Roots starter theme](http://roots.io/starter-the
 - GASP TweenMax
 - jQuery
 - Modernizr
-- Royal Slider
+- RoyalSlider
 - Spin.js
 - Masonry + ImagesLoaded
 - YepNope
