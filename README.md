@@ -2,15 +2,11 @@
 
 Projet wordpress vanille basé sur [Roots](http://roots.io/)
 
-## Bugs
-
-- Snap.js slides layout when RoyalSlider with touched
-
 ## Todo 
 - Test ACF on homepage
 - Facebook Fields
 - Carousel Page d'Accueil en ACF (prendre code dans work hard play heart)
-- Php Mobile Detect avec classque sur le body
+- Php Mobile Detect avec classe sur le body
 - Fixer le css du split-view en francais
 - Espace pour Google Tag Manager Container (remplace le GA dans le bas de scripts.php?)
 - Change Modernizr.load for yepnope (Modernizr.load will be deprecated in the near future)
