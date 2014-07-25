@@ -1,10 +1,12 @@
 <h3>Royal Slider</h3>
 <div class="royalSlider rsMinW" data-snap-ignore="true">
-    <img class="rsImg" src="http://placehold.it/1140x400.jpg" alt="image desc" />
-    <img class="rsImg" src="http://placehold.it/1140x400.jpg" alt="image desc" />
-    <img class="rsImg" src="http://placehold.it/1140x400.jpg" alt="image desc" />
-    <img class="rsImg" src="http://placehold.it/1140x400.jpg" alt="image desc" />
-    <img class="rsImg" src="http://placehold.it/1140x400.jpg" alt="image desc" />
+	<?php if (have_rows('slides')): ?>
+	<?php while (have_rows('slides')): the_row(); ?>
+		<div class="rsContent">
+			<img class="" src="<?php echo get_sub_field('slide-image'); ?>">
+		</div>
+	<?php endwhile; ?>
+	<?php endif; ?>
 </div>
 
 <section class="home-cms-content">

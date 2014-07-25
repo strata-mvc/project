@@ -1,8 +1,8 @@
 === Contact Form 7 Honeypot ===
 Tags: honeypot, antispam, captcha, spam, form, forms, contact form 7, contactform7, contact form, cf7, cforms, Contact Forms 7, Contact Forms, contacts
-Requires at least: 2.8
-Tested up to: 3.8.1
-Stable tag: 1.6
+Requires at least: 3.5
+Tested up to: 3.9.1
+Stable tag: 1.6.1
 Contributors: DaoByDesign
 Donate link: http://www.daobydesign.com/buy-us-a-coffee/
 License: GPLv2 or later
@@ -18,9 +18,12 @@ The principle of a honeypot is simple -- <em>bots are stupid</em>. While some sp
 
 Follow us on [Twitter](http://www.twitter.com/daobydesign) and on [Facebook](http://www.facebook.com/daobydesign) for updates and news.
 
-Visit the [Contact Form 7 Honeypot plugin page](http://www.daobydesign.com/free-plugins/honeypot-module-for-contact-form-7-wordpress-plugin) for support & additional information.
+= IMPORTANT NOTE: =
+If you are using CF7 3.6+, use the latest version of this plugin. If you are using an older version of CF7, you will need to use [CF7 Honeypot v1.3](http://downloads.wordpress.org/plugin/contact-form-7-honeypot.1.3.zip).
 
-<strong>NOTE:</strong> If your contact form honeypot shortcode is visible on your form after updating to CF7 3.6, please make sure you update to version 1.4 of this plugin or higher.
+<strong>Support can be found [here](http://wordpress.org/support/plugin/contact-form-7-honeypot).</strong>
+
+Visit the [Contact Form 7 Honeypot plugin page](http://www.daobydesign.com/free-plugins/honeypot-module-for-contact-form-7-wordpress-plugin) for installation & additional information.
 
 == Installation ==
 
@@ -29,6 +32,10 @@ Visit the [Contact Form 7 Honeypot plugin page](http://www.daobydesign.com/free-
 1. Edit a form in Contact Form 7
 1. Choose "Honeypot" from the Generate Tag dropdown. <em>Recommended: change the honeypot element's ID.</em>
 1. Insert the generated tag anywhere in your form. The added field uses inline CSS styles to hide the field from your visitors.
+
+= Installation & Usage Video =
+[youtube https://www.youtube.com/watch?v=yD2lBrU0gA0]
+For the more visually-minded, here is a [short video showing how to install and use CF7 Honeypot](https://www.youtube.com/watch?v=yD2lBrU0gA0) from the fine folks at RoseApple Media.
 
 = Altering the Honeypot Output HTML [ADVANCED] =
 Should you wish to, you can change the outputted Honeypot HTML by using the **wpcf7_honeypot_html_output** filter.
@@ -55,6 +62,9 @@ add_filter('wpcf7_honeypot_html_output', 'my_honeypot_override', 10, 2 ); ?>`
 * Yep! New in version 1.5 of the plugin you're able to adjust the HTML by hooking the output filter for the plugin. See the **Installation** section for more details.
 
 == Changelog ==
+= 1.6.1 =
+Small change to accommodate changes made in CF7 3.9.
+
 = 1.6 =
 Quite a lot of code clean-up. This shouldn't result in any changes to the regular output, but it's worth checking your forms after updating. Also, you'll note that you now have the ability to add a custom CLASS and ID attributes when generating the Honeypot shortcode (in the CF7 form editor).
 
@@ -77,8 +87,11 @@ Small update for W3C compliance. Thanks <a href="http://wordpress.org/support/to
 * Initial release.
 
 == Upgrade Notice ==
+= 1.6.1 =
+Must update if running CF7 3.9 or above. Update also compatible with CF7 3.6 and above. If using less than CF7 3.6, use the v1.3 of this plugin.
+
 = 1.6 =
-New custom "class" and "id" attributes. Upgrade recommended.
+New custom "class" and "id" attributes. Upgrade recommended if you are using CF7 3.6+, otherwise use v1.3 of this plugin.
 
 = 1.5 =
 Includes "showing shortcode" fix from version 1.4 and also includes new filter hook. Upgrade recommended.

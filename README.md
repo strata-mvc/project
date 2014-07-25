@@ -3,7 +3,6 @@
 Projet wordpress vanille basé sur [Roots](http://roots.io/)
 
 ## Todo 
-- Carousel Page d'Accueil en ACF (prendre code dans work hard play heart)
 - Php Mobile Detect avec classe sur le body
 - Fixer le css du split-view en francais
 - Espace pour Google Tag Manager Container (remplace le GA dans le bas de scripts.php?)
