@@ -5,7 +5,6 @@ Projet wordpress vanille basé sur [Roots](http://roots.io/)
 ## Todo 
 - Php Mobile Detect avec classe sur le body
 - Fixer le css du split-view en francais
-- Espace pour Google Tag Manager Container (remplace le GA dans le bas de scripts.php?)
 - Faire un Grunt dans le child theme pour concatener les scripts du child et du parent (?)
 - Write procedure to create child theme and accomplish common actions
 	- adding a template
@@ -70,6 +69,7 @@ If you are unfamiliar with the [Roots starter theme](http://roots.io/starter-the
 - WPML
 - Gravity Forms
 - Honeypot
+- Google Tag Manager
 
 ## Node
 - NPM
