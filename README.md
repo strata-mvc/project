@@ -42,7 +42,7 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 ```
 - In the roots theme folder, run `npm install`
 - In the roots theme folder, run `grunt`
-- In your local repository, run `git add remote upstream https://bitbucket.org/iprospect_ca/iprospect-roots-wordpress-template.git`
+- In your local repository, run `git remote add upstream https://bitbucket.org/iprospect_ca/iprospect-roots-wordpress-template.git`
 
 ## Getting started
 
