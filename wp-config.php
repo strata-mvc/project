@@ -2,38 +2,37 @@
 # Database Configuration
 
 if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
- 	# LOCAL (Dave Lamarre) 
+ 	# LOCAL (Dave Lamarre)
 	define('DB_NAME','wordpress_root');
 	define('DB_USER','root');
 	define('DB_PASSWORD','root');
 } else if ( stristr( $_SERVER['SERVER_NAME'], "privard" ) ) {
- 	# LOCAL (Philippe V Rivard) 
+ 	# LOCAL (Philippe V Rivard)
 	define('DB_NAME','iprospect-roots');
 	define('DB_USER','root');
 	define('DB_PASSWORD','root');
 	define('WP_LOCAL', true);
 } else if( stristr( $_SERVER['SERVER_NAME'], "ajourquin" ) ) {
- 	# LOCAL (Dave Lamarre) 
+ 	# LOCAL (Dave Lamarre)
 	define('DB_NAME','');
 	define('DB_USER','');
 	define('DB_PASSWORD','');
 }else if( stristr( $_SERVER['SERVER_NAME'], "thibault" ) ) {
- 	# LOCAL (Dave Lamarre) 
+ 	# LOCAL (Dave Lamarre)
 	define('DB_NAME','');
 	define('DB_USER','');
 	define('DB_PASSWORD','');
 } else if( stristr( $_SERVER['SERVER_NAME'], "ffaubert" ) ) {
- 	# LOCAL (Dave Lamarre) 
-	define('DB_NAME','');
-	define('DB_USER','');
-	define('DB_PASSWORD','');
+	define('DB_NAME','roots');
+	define('DB_USER','root');
+	define('DB_PASSWORD','nvi');
 } else if( stristr( $_SERVER['SERVER_NAME'], "brancourt" ) ) {
- 	# LOCAL (Dave Lamarre) 
+ 	# LOCAL (Dave Lamarre)
 	define('DB_NAME','');
 	define('DB_USER','');
 	define('DB_PASSWORD','');
 } else if( stristr( $_SERVER['SERVER_NAME'], "ssamson" ) ) {
- 	# LOCAL (Dave Lamarre) 
+ 	# LOCAL (Dave Lamarre)
 	define('DB_NAME','');
 	define('DB_USER','');
 	define('DB_PASSWORD','');
