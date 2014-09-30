@@ -16,6 +16,7 @@ Projet wordpress vanille basé sur [Roots](http://roots.io/)
 - Mettre wocoommerce et tester les différents templates de page.
 - Installer TotalCache
 - Installer le plugin GtMetrix.
+- À la demande générale, remplacer snap.js par un équivalent suppérieur.
 
 
 ## Prerequisites
