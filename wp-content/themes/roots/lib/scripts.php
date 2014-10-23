@@ -41,6 +41,12 @@ function roots_scripts() {
   );
   wp_localize_script('script-loader', 'WpConfig', $config);
 
+  // Weinre switch for mobile development
+  if(defined('WP_DEV') && WP_DEV && defined('WEINRE_ADDRESS')){
+    wp_register_script('weinre', 'http://' . WEINRE_ADDRESS .'/target/target-script-min.js#' . get_bloginfo('wpurl'), array(),null, false);
+    wp_enqueue_script('weinre');
+  } 
+  
   // Enqueue all scripts
   wp_enqueue_script('modernizr');
   wp_enqueue_script('jquery');

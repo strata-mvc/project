@@ -1,6 +1,8 @@
 <?php
 # Database Configuration
 
+define('WEINRE_ADDRESS', '184.107.217.250:8080');
+
 if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
  	# LOCAL (Dave Lamarre)
 	define('DB_NAME','wordpress_root');
@@ -52,7 +54,11 @@ else {
 	define('DB_NAME','');
 	define('DB_USER','');
 	define('DB_PASSWORD','');
+	define('WP_DEV', false);
 }
+
+if(!defined('WP_DEV')) define('WP_DEV', true);
+
 define('DB_HOST','localhost');
 define('DB_HOST_SLAVE','localhost');
 define('DB_CHARSET', 'utf8');
