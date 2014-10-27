@@ -3,7 +3,7 @@
 Projet wordpress vanille basé sur [Roots](http://roots.io/)
 
 ## Todo 
-- Créer une branche sans Snap.js (because snap is cac)
+- Créer une switch de config pour enlever snap.js facilement
 - Php Mobile Detect avec classe sur le body
 - Fixer le css du split-view en francais
 - Faire un Grunt dans le child theme pour concatener les scripts du child et du parent (?)
