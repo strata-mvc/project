@@ -14,11 +14,6 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 	define('DB_USER','root');
 	define('DB_PASSWORD','root');
 	define('WP_LOCAL', true);
-} else if( stristr( $_SERVER['SERVER_NAME'], "ajourquin" ) ) {
- 	# LOCAL (Dave Lamarre)
-	define('DB_NAME','');
-	define('DB_USER','');
-	define('DB_PASSWORD','');
 }else if( stristr( $_SERVER['SERVER_NAME'], "thibault" ) ) {
  	# LOCAL (Dave Lamarre)
 	define('DB_NAME','');
@@ -33,7 +28,7 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 	define('DB_NAME','');
 	define('DB_USER','');
 	define('DB_PASSWORD','');
-} else if( stristr( $_SERVER['SERVER_NAME'], "ssamson" ) ) {
+} else if( stristr( $_SERVER['SERVER_NAME'], "screpin" ) ) {
  	# LOCAL (Dave Lamarre)
 	define('DB_NAME','');
 	define('DB_USER','');
