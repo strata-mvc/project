@@ -40,15 +40,12 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 	define('DB_PASSWORD','');
 }elseif( stristr( $_SERVER['SERVER_NAME'], "staging" ) ) {
 	# STAGING :
-	define('DB_NAME','');
-	define('DB_USER','');
-	define('DB_PASSWORD','');
+	define('DB_NAME','rootsnvi_bdstg');
+	define('DB_USER','rootsnvi_usrstg');
+	define('DB_PASSWORD','@}X{u=,tQXzi');
 }
 else {
 	# PROD :
-	define('DB_NAME','');
-	define('DB_USER','');
-	define('DB_PASSWORD','');
 	define('WP_DEV', false);
 }
 
