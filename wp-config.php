@@ -8,36 +8,43 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 	define('DB_NAME','wordpress_root');
 	define('DB_USER','root');
 	define('DB_PASSWORD','root');
+	define('WP_HOME','');
+	define('WP_SITEURL','');
 } else if ( stristr( $_SERVER['SERVER_NAME'], "privard" ) ) {
  	# LOCAL (Philippe V Rivard)
 	define('DB_NAME','iprospect-roots');
 	define('DB_USER','root');
 	define('DB_PASSWORD','root');
 	define('WP_LOCAL', true);
-} else if( stristr( $_SERVER['SERVER_NAME'], "ajourquin" ) ) {
- 	# LOCAL (Dave Lamarre)
-	define('DB_NAME','');
-	define('DB_USER','');
-	define('DB_PASSWORD','');
+	define('WP_HOME','');
+	define('WP_SITEURL','');
 }else if( stristr( $_SERVER['SERVER_NAME'], "thibault" ) ) {
  	# LOCAL (Dave Lamarre)
 	define('DB_NAME','');
 	define('DB_USER','');
 	define('DB_PASSWORD','');
+	define('WP_HOME','');
+	define('WP_SITEURL','');
 } else if( stristr( $_SERVER['SERVER_NAME'], "ffaubert" ) ) {
 	define('DB_NAME','roots');
 	define('DB_USER','root');
 	define('DB_PASSWORD','nvi');
+	define('WP_HOME','');
+	define('WP_SITEURL','');
 } else if( stristr( $_SERVER['SERVER_NAME'], "brancourt" ) ) {
  	# LOCAL (Dave Lamarre)
 	define('DB_NAME','');
 	define('DB_USER','');
 	define('DB_PASSWORD','');
-} else if( stristr( $_SERVER['SERVER_NAME'], "ssamson" ) ) {
+	define('WP_HOME','');
+	define('WP_SITEURL','');
+} else if( stristr( $_SERVER['SERVER_NAME'], "screpin" ) ) {
  	# LOCAL (Dave Lamarre)
 	define('DB_NAME','');
 	define('DB_USER','');
 	define('DB_PASSWORD','');
+	define('WP_HOME','');
+	define('WP_SITEURL','');
 }  elseif( stristr( $_SERVER['SERVER_NAME'], "test" ) ) {
 	# TEST :
 	define('DB_NAME','');
@@ -45,15 +52,16 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 	define('DB_PASSWORD','');
 }elseif( stristr( $_SERVER['SERVER_NAME'], "staging" ) ) {
 	# STAGING :
-	define('DB_NAME','');
-	define('DB_USER','');
-	define('DB_PASSWORD','');
+	define('DB_NAME','rootsnvi_bdstg');
+	define('DB_USER','rootsnvi_usrstg');
+	define('DB_PASSWORD','@}X{u=,tQXzi');
+	define('WP_HOME','');
+	define('WP_SITEURL','');
 }
 else {
 	# PROD :
-	define('DB_NAME','');
-	define('DB_USER','');
-	define('DB_PASSWORD','');
+	define('WP_HOME','');
+	define('WP_SITEURL','');
 	define('WP_DEV', false);
 }
 
