@@ -1,4 +1,6 @@
 <?php
+global $wpdb, $post, $sitepress, $iclTranslationManagement, $current_user, $wp_version;
+
 $job = $iclTranslationManagement->get_translation_job((int)$_GET['job_id'], false, true, 1); // don't include not-translatable and auto-assign
 
 if(empty($job)){
@@ -23,6 +25,8 @@ require_once(ABSPATH . 'wp-admin/includes/media.php');
     <?php do_action('icl_tm_messages'); ?>
     <?php 
     $opost = get_post($job->original_doc_id);
+
+    $string_package = apply_filters('WPML_get_string_package', null, $job->original_doc_id);
     
     if(!empty($opost) && ($opost->post_status == 'draft' || $opost->post_status == 'private') && $opost->post_author != $current_user->data->ID){
         $elink1 = '<i>';
@@ -56,6 +60,9 @@ require_once(ABSPATH . 'wp-admin/includes/media.php');
             if(!$element->field_finished){
                 $icl_tm_all_finished = false;
             }
+
+            $is_custom_field = 0 === strpos($element->field_type, 'field-');
+
         ?>        
         <div class="metabox-holder" id="icl-tranlstion-job-elements-<?php echo $_iter ?>">
             <div class="postbox-container icl-tj-postbox-container-<?php echo $element->field_type ?>">
@@ -65,21 +72,26 @@ require_once(ABSPATH . 'wp-admin/includes/media.php');
                             <br />
                         </div>
                         <?php 
-                            // allow custom field names to be filtered
-                            if(0 === strpos($element->field_type, 'field-')){                                
-                                $element_field_type  = apply_filters('icl_editor_cf_name', $element->field_type);                                
-                                $element_field_style = 1;
-                                $element_field_style = apply_filters('icl_editor_cf_style', $element_field_style, $element->field_type);                                
-                            }else{
-                                $element_field_type = $element->field_type;
-                                $element_field_style = false;
-                            }                            
+						// allow custom field names to be filtered
+						if($is_custom_field){
+							$element_field_type  = apply_filters('icl_editor_cf_name', $element->field_type);                                
+							$element_field_style = 1;
+							$element_field_style = apply_filters('icl_editor_cf_style', $element_field_style, $element->field_type);
+						} else if ( $string_package ) {
+							// Get human readable string Title and editor style from the WPML string package.
+							$element_field_type  = apply_filters('WPML_editor_string_name', $element->field_type, $string_package );
+							$element_field_style = 0;
+							$element_field_style = apply_filters('WPML_editor_string_style', $element_field_style, $element->field_type, $string_package);
+						} else {
+							$element_field_type = $element->field_type;
+							$element_field_style = false;
+						}                            
                         ?>
                         <h3 class="hndle"><?php echo $element_field_type  ?></h3>
                         <div class="inside">
                             <?php 
                                 // allow custom field descriptions to be set/filtered
-                                if(0 === strpos($element->field_type, 'field-')){
+                                if($is_custom_field){
                                     $icl_editor_cf_description = apply_filters('icl_editor_cf_description', '', $element->field_type);    
                                     if($icl_editor_cf_description !== null){
                                         echo '<p class="icl_tm_field_description">' . $icl_editor_cf_description . '</p>';
@@ -106,16 +118,15 @@ require_once(ABSPATH . 'wp-admin/includes/media.php');
                             <p>
                                 <?php _e('Translated content', 'wpml-translation-management'); echo ' - ' . $job->to_language; ?>
                                 <?php if(empty($icl_tm_translated_content)):?>
-                                <span>| &nbsp;<a class="icl_tm_copy_link" id="icl_tm_copy_link_<?php echo $element->field_type 
+                                <span>| &nbsp;<a class="icl_tm_copy_link" id="icl_tm_copy_link_<?php echo sanitize_title($element->field_type)
                                     ?>" href="#"><?php printf(__('Copy from %s', 'wpml-translation-management'), $job->from_language)?></a></span>
                                 <?php endif; ?>
                             </p>
-                            
+
                             <?php // CASE 1 - body *********************** ?>
                             <?php if($element->field_type=='body'): ?>
                             <div id="poststuff">
-                            <?php 
-                                global $post;
+                            <?php
                                 if(is_null($post) && !is_null($opost)) $post = clone $opost;
                                 if(version_compare($wp_version, '3.3', '>=')){
                                     $settings = array(
@@ -124,9 +135,9 @@ require_once(ABSPATH . 'wp-admin/includes/media.php');
                                         'textarea_rows'     => 20,
                                         'editor_css'        => $rtl_translation ? ' <style type="text/css">.wp-editor-container textarea.wp-editor-area{direction:rtl;}</style>' : ''
                                     );
-                                    wp_editor($icl_tm_translated_content, 'fields['.$element->field_type.'][data]', $settings);                               
+									wp_editor($icl_tm_translated_content, $element->field_type, $settings);
                                 }else{
-                                    the_editor($icl_tm_translated_content, 'fields['.$element->field_type.'][data]', false, false); 
+									the_editor($icl_tm_translated_content, 'fields['.$element->field_type.'][data]', false, false);
                                 }
                             ?>
                             </div>    
@@ -144,7 +155,7 @@ require_once(ABSPATH . 'wp-admin/includes/media.php');
                                     $icl_tm_f_translated = false;
                                 }
                             ?>
-                            <label><input class="icl_multiple" type="text" name="fields[<?php echo htmlspecialchars($element->field_type) 
+                            <label><input id="<?php echo sanitize_title($element->field_type)?>" class="icl_multiple" type="text" name="fields[<?php echo esc_attr($element->field_type)
                                 ?>][data][<?php echo $k ?>]" value="<?php if(isset($icl_tm_translated_content[$k])) 
                                     echo esc_attr($icl_tm_translated_content[$k]); ?>"<?php echo $rtl_translation_attribute; ?> /></label>
                             <?php if($icl_tm_f_translated): ?>
@@ -153,34 +164,34 @@ require_once(ABSPATH . 'wp-admin/includes/media.php');
                             <?php endforeach;?>
                             
                             <?php // CASE 3 - multiple lines *********************** ?>         
-                            <?php elseif(0 === strpos($element->field_type, 'field-') && $element_field_style == 1): ?>
-                                <textarea style="width:100%;" name="fields[<?php echo htmlspecialchars($element->field_type) ?>][data]"<?php 
+                            <?php elseif(($is_custom_field || $string_package) && $element_field_style == 1): ?>
+                                <textarea id="<?php echo sanitize_title($element->field_type) ?>" style="width:100%;" name="fields[<?php echo esc_attr($element->field_type) ?>][data]"<?php
                                     echo $rtl_translation_attribute; ?>><?php echo esc_html($icl_tm_translated_content); ?></textarea>
 
                             <?php // CASE 4 - wysiwyg *********************** ?>         
-                            <?php elseif(0 === strpos($element->field_type, 'field-') && $element_field_style == 2): 
+                            <?php elseif(($is_custom_field || $string_package) && $element_field_style == 2): 
                                     if(version_compare($wp_version, '3.3', '>=')){
                                         $settings = array(
                                             'media_buttons'     => false,
                                             'textarea_name'     => 'fields['.$element->field_type.'][data]',
                                             'textarea_rows'     => 4
                                         );
-                                        wp_editor($icl_tm_translated_content, 'fields['.$element->field_type.'][data]', $settings);
+										wp_editor($icl_tm_translated_content, $element->field_type, $settings);
                                     }else{                                        
                                         ?>
-                                        <textarea style="width:100%;" name="fields[<?php echo htmlspecialchars($element->field_type) ?>][data]"<?php 
+                                        <textarea style="width:100%;" name="fields[<?php echo esc_attr($element->field_type) ?>][data]"<?php
                                     echo $rtl_translation_attribute; ?>><?php echo esc_html($icl_tm_translated_content); ?></textarea>
                                         <?php 
                                     }
                             ?>
                             <?php // CASE 5 - one-liner *********************** ?>         
                             <?php else: ?>
-                            <label><input type="text" name="fields[<?php echo htmlspecialchars($element->field_type) ?>][data]" value="<?php 
+                            <label><input id="<?php echo sanitize_title($element->field_type) ?>" type="text" name="fields[<?php echo esc_attr($element->field_type) ?>][data]" value="<?php
                                 echo esc_attr($icl_tm_translated_content); ?>"<?php echo $rtl_translation_attribute; ?> /></label>
                             <?php endif; ?> 
                             
                             <p><label><input class="icl_tm_finished<?php if($element->field_format == 'csv_base64'): ?> icl_tmf_multiple<?php endif;
-                                ?>" type="checkbox" name="fields[<?php echo htmlspecialchars($element->field_type) ?>][finished]" value="1" <?php 
+                                ?>" type="checkbox" name="fields[<?php echo esc_attr($element->field_type) ?>][finished]" value="1" <?php
                                 if($element->field_finished): ?>checked="checked"<?php endif;?> />&nbsp;<?php 
                                 _e('This translation is finished.', 'wpml-translation-management')?></label>                                
                                 <span class="icl_tm_error" style="display: none;"><?php _e('This field cannot be empty', 'wpml-translation-management') ?></span>
@@ -231,33 +242,35 @@ require_once(ABSPATH . 'wp-admin/includes/media.php');
                                     <?php
                                 }
                             ?>
-                            <div class="icl-tj-original<?php if(0 === strpos($element->field_type, 'field-')) :?> icl-tj-original-cf<?php endif; ?>" >                                
+                            <div class="icl-tj-original<?php if($is_custom_field) :?> icl-tj-original-cf<?php endif; ?>" >                                                                
                                 <?php if($element->field_type=='body' || $element_field_style == 2): ?>
                                 <div class="icl_single visual"<?php echo $rtl_original_attribute; ?>>
-
-                                <iframe src="<?php echo admin_url('admin-ajax.php?action=show_post_content&field_type='.
-                                    $element->field_type.'&post_id='.$job->original_doc_id) . '&rtl=' . intval($rtl_original); 
-                                    ?>" width="100%" height="<?php echo $icl_wysiwyg_height ?>" frameborder="0"></iframe>
-                                
+    
+                                        <iframe src="<?php echo admin_url('admin-ajax.php?action=show_post_content&field_type='.
+                                            $element->field_type.'&post_id='.$job->original_doc_id) . '&rtl=' . intval($rtl_original); 
+                                            ?>" width="100%" height="<?php echo $icl_wysiwyg_height ?>" frameborder="0"></iframe>
+                                        
                                 <br clear="all"/></div>
-                                <div class="html"><textarea id="icl_tm_original_<?php echo $element->field_type ?>" readonly="readonly"><?php 
-                                    echo $icl_tm_original_content_html ?></textarea></div>
+                                <div class="html">
+                                    <textarea id="icl_tm_original_<?php echo $element->field_type ?>" readonly="readonly"><?php
+                                    echo $icl_tm_original_content_html ?></textarea>
+                                </div>
                                 <?php elseif($element->field_format == 'csv_base64'): ?>
                                 <?php foreach($icl_tm_original_content as $c): ?>
-                                <div class="icl_multiple"<?php echo $rtl_original_attribute; ?>>
-                                    <div style="float: left;margin-right:4px;"><?php echo $c ?></div>
-                                    <?php if(isset($term_descriptions[$c])) icl_pop_info($term_descriptions[$c], 'info', array('icon_size'=>10)); ?>
-                                    <br clear="all"/>
-                                </div>
-                                <?php endforeach;?>
+                                        <div class="icl_multiple"<?php echo $rtl_original_attribute; ?>>
+                                            <div style="float: left;margin-right:4px;"><?php echo $c ?></div>
+                                            <?php if(isset($term_descriptions[$c])) icl_pop_info($term_descriptions[$c], 'info', array('icon_size'=>10)); ?>
+                                            <br clear="all"/>
+                                        </div>
+                                    <?php endforeach;?>
                                 <?php else: ?>
-                                <div class="icl_single"<?php if ($rtl_original) echo ' dir="rtl" style="text-align:right;"'; else echo ' dir="ltr" style="text-align:left;"'; ?>><span style="white-space:pre-wrap;" id="icl_tm_original_<?php echo str_replace(' ', '__20__', $element->field_type) ?>"><?php echo esc_html($icl_tm_original_content) ?></span><br clear="all"/></div>
+                                <div class="icl_single"<?php if ($rtl_original) echo ' dir="rtl" style="text-align:right;"'; else echo ' dir="ltr" style="text-align:left;"'; ?>><span style="white-space:pre-wrap;" id="icl_tm_original_<?php echo sanitize_title($element->field_type) ?>"><?php echo esc_html($icl_tm_original_content) ?></span><br clear="all"/></div>
                                 <?php endif; ?>
                             </div>
                             <?php /* ORIGINAL CONTENT */ ?>
                             
-                            <input type="hidden" name="fields[<?php echo htmlspecialchars($element->field_type) ?>][format]" value="<?php echo $element->field_format ?>" />
-                            <input type="hidden" name="fields[<?php echo htmlspecialchars($element->field_type) ?>][tid]" value="<?php echo $element->tid ?>" />
+                            <input type="hidden" name="fields[<?php echo esc_attr($element->field_type) ?>][format]" value="<?php echo $element->field_format ?>" />
+                            <input type="hidden" name="fields[<?php echo esc_attr($element->field_type) ?>][tid]" value="<?php echo $element->tid ?>" />
                             
                             <?php if(!$element->field_finished && !empty($job->prev_version)): ?>                            
                                 <?php 

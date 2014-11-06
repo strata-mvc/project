@@ -1,18 +1,49 @@
 <?php
 /*
 Plugin Name: WPML Multilingual CMS
-Plugin URI: http://wpml.org/
-Description: WPML Multilingual CMS. <a href="http://wpml.org">Documentation</a>.
-Author: ICanLocalize
-Author URI: http://wpml.org
-Version: 2.9.3
+Plugin URI: https://wpml.org/
+Description: WPML Multilingual CMS. <a href="https://wpml.org">Documentation</a>.
+Author: OnTheGoSystems
+Author URI: http://www.onthegosystems.com/
+Version: 3.1.8.2
 */
 
+if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
+
 if(defined('ICL_SITEPRESS_VERSION')) return;
-define('ICL_SITEPRESS_VERSION', '2.9.3');
+define('ICL_SITEPRESS_VERSION', '3.1.8.2');
+//define('ICL_SITEPRESS_DEV_VERSION', '3.1.8.2');
 define('ICL_PLUGIN_PATH', dirname(__FILE__));
 define('ICL_PLUGIN_FOLDER', basename(ICL_PLUGIN_PATH));
-define('ICL_PLUGIN_URL', plugins_url() . '/' . ICL_PLUGIN_FOLDER );
+
+define( 'ICL_PLUGIN_URL', filter_include_url( rtrim( plugin_dir_url( __FILE__ ), DIRECTORY_SEPARATOR ) ) );
+
+require ICL_PLUGIN_PATH . '/inc/functions.php';
+require ICL_PLUGIN_PATH . '/inc/template-functions.php';
+
+add_action( 'plugins_loaded', 'apply_include_filters' );
+
+function apply_include_filters() {
+	if ( icl_get_setting( 'language_domains' ) ) {
+		add_filter( 'plugins_url', 'filter_include_url' ); //so plugin includes get the correct path
+		add_filter( 'template_directory_uri', 'filter_include_url' ); //js includes get correct path
+		add_filter( 'stylesheet_directory_uri', 'filter_include_url' ); //style.css gets included right
+	}
+}
+
+function filter_include_url( $result ) {
+	$http_host_parts = explode( ':', $_SERVER[ 'HTTP_HOST' ] );
+	unset( $http_host_parts[ 1 ] );
+	$http_host_without_port = implode( $http_host_parts );
+	$path                   = str_replace( parse_url( $result, PHP_URL_HOST ), $http_host_without_port, $result );
+	return $path;
+}
+
+require ICL_PLUGIN_PATH . '/inc/lang-data.php';
+require ICL_PLUGIN_PATH . '/inc/sitepress-setup.class.php';
+
+define('ICL_ICON', ICL_PLUGIN_URL . '/res/img/icon.png');
+define('ICL_ICON16', ICL_PLUGIN_URL . '/res/img/icon16.png');
 
 if(defined('WP_ADMIN')){
     require ICL_PLUGIN_PATH . '/inc/php-version-check.php';
@@ -24,11 +55,10 @@ if(!empty($icl_ncp_plugins)){
     return;
 }
 
-
 if ( function_exists('is_multisite') && is_multisite() ) {    
     $wpmu_sitewide_plugins = (array) maybe_unserialize( get_site_option( 'active_sitewide_plugins' ) );
     if(false === get_option('icl_sitepress_version', false) && isset($wpmu_sitewide_plugins[ICL_PLUGIN_FOLDER.'/'.basename(__FILE__)])){
-        require_once ICL_PLUGIN_PATH . '/inc/sitepress-schema.php';        
+        require_once ICL_PLUGIN_PATH . '/inc/sitepress-schema.php';
         icl_sitepress_activate();
     }
     include_once ICL_PLUGIN_PATH . '/inc/functions-network.php';
@@ -39,11 +69,14 @@ if ( function_exists('is_multisite') && is_multisite() ) {
 }
 
 require ICL_PLUGIN_PATH . '/inc/constants.php';
-
+require ICL_PLUGIN_PATH . '/inc/icl-admin-notifier.php';
+require_once ICL_PLUGIN_PATH . '/inc/wpml-translation-tree.class.php';
+require_once ICL_PLUGIN_PATH . '/inc/wpml-term-translations.class.php';
+require_once ICL_PLUGIN_PATH . '/inc/wpml-post-edit-ajax.class.php';
+require_once(ICL_PLUGIN_PATH . '/inc/functions-troubleshooting.php');
+require_once ( ICL_PLUGIN_PATH . '/menu/wpml-troubleshooting-terms-menu.class.php' );
 require_once ICL_PLUGIN_PATH . '/inc/sitepress-schema.php';
-require ICL_PLUGIN_PATH . '/inc/template-functions.php';
 require ICL_PLUGIN_PATH . '/sitepress.class.php';
-require ICL_PLUGIN_PATH . '/inc/functions.php';
 require ICL_PLUGIN_PATH . '/inc/hacks.php';
 require ICL_PLUGIN_PATH . '/inc/upgrade.php';
 require ICL_PLUGIN_PATH . '/inc/affiliate-info.php';
@@ -89,6 +122,23 @@ if(
     
     require_once ICL_PLUGIN_PATH . '/inc/plugins-integration.php';
     
+    // installer hook - start    
+    include_once ICL_PLUGIN_PATH . '/inc/installer/loader.php'; //produces global variable $wp_installer_instance
+    WP_Installer_Setup($wp_installer_instance, 
+        array(
+            'plugins_install_tab' => 1,
+            'site_key_nags' => array(
+                array(
+                    'repository_id' => 'wpml', 
+                    'product_name'  => 'WPML', 
+                    'condition_cb'  => array($sitepress, 'setup')
+                )
+            )
+        )
+    );
+    // installer hook - end
+    
+
 }
 
 if(!empty($sitepress_settings['automatic_redirect'])){

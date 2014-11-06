@@ -11,7 +11,9 @@ class WPML_Translation_Management{
     }
     
     function init(){
-        
+
+	      global $sitepress;
+
         $this->plugin_localization();
         
         // Check if WPML is active. If not display warning message and not load Sticky links
@@ -19,14 +21,17 @@ class WPML_Translation_Management{
             if ( !function_exists('is_multisite') || !is_multisite() ) {
                 add_action('admin_notices', array($this, '_no_wpml_warning'));
             }
-            return false;            
+            return false;
+        } elseif (!$sitepress->get_setting( 'setup_complete' )){
+	        add_action('admin_notices', array($this, '_wpml_not_installed_warning'));
+	        return false;
         }elseif(version_compare(ICL_SITEPRESS_VERSION, '2.0.5', '<')){
             add_action('admin_notices', array($this, '_old_wpml_warning'));
             return false;            
         }        
         
         if(is_admin()){        
-            add_filter('icl_menu_main_page', array($this, '_icl_menu_main_page'));
+           // add_filter('icl_menu_main_page', array($this, '_icl_menu_main_page'));
             add_action('icl_wpml_top_menu_added', array($this, '_icl_hook_top_menu'));        
             add_action('admin_menu', array($this,'menu'));               
             add_action('admin_menu', array($this,'menu_fix_order'), 999); // force 'Translations' at the end
@@ -47,7 +52,7 @@ class WPML_Translation_Management{
             add_action('icl_post_languages_options_before', array($this, 'icl_post_languages_options_before'));
             
             // Add a nice warning message if the user tries to edit a post manually and it's actually in the process of being translated
-            global $pagenow, $sitepress;
+            global $pagenow;
             if(($pagenow == 'post-new.php' || $pagenow == 'post.php') && (isset($_GET['trid']) || isset($_GET['post']) ) && isset($_GET['lang'])){
                 add_action('admin_notices', array($this, '_warn_editing_icl_translation'));    
             }
@@ -55,23 +60,30 @@ class WPML_Translation_Management{
             add_action('wp_ajax_dismiss_icl_side_by_site', array($this, 'dismiss_icl_side_by_site'));
             add_action('wp_ajax_icl_tm_parent_filter', array($this, '_icl_tm_parent_filter'));
             add_action('wp_ajax_icl_tm_toggle_promo', array($this, '_icl_tm_toggle_promo'));
+            add_action('wp_ajax_icl_get_job_original_field_content', 'icl_get_job_original_field_content');
             
             add_action('admin_footer', array($this, '_icl_nonce_for_ajx'));
         }        
-        
+
+		return true;
     }
     
     function _no_wpml_warning(){
         ?>
         <div class="message error"><p><?php printf(__('WPML Translation Management is enabled but not effective. It requires <a href="%s">WPML</a> in order to work.', 'wpml-translation-management'), 
-            'http://wpml.org/'); ?></p></div>
+            'https://wpml.org/'); ?></p></div>
         <?php
     }
+		function _wpml_not_installed_warning(){
+			?>
+			<div class="message error"><p><?php printf(__('WPML Translation Management is enabled but not effective. Please finish the installation of WPML first.', 'wpml-translation-management') ); ?></p></div>
+		<?php
+		}
     
     function _old_wpml_warning(){
         ?>
         <div class="message error"><p><?php printf(__('WPML Translation Management is enabled but not effective. It is not compatible with  <a href="%s">WPML</a> versions prior 2.0.5.', 'wpml-translation-management'), 
-            'http://wpml.org/'); ?></p></div>
+            'https://wpml.org/'); ?></p></div>
         <?php
     }    
     
@@ -80,24 +92,27 @@ class WPML_Translation_Management{
     }
     
     function _icl_hook_top_menu(){
-        add_submenu_page(basename(WPML_TM_PATH) . '/menu/main.php', 
+	    if(!defined('ICL_PLUGIN_PATH')) return;
+    	$top_page = apply_filters('icl_menu_main_page', basename(ICL_PLUGIN_PATH).'/menu/languages.php');
+        add_submenu_page($top_page, 
             __('Translation Management','wpml-translation-management'), 
             __('Translation Management','wpml-translation-management'),
-            'manage_options', basename(WPML_TM_PATH) . '/menu/main.php');
+            'wpml_manage_translation_management', basename(WPML_TM_PATH) . '/menu/main.php');
     }
     
     function menu(){
+	    if(!defined('ICL_PLUGIN_PATH')) return;
         global $sitepress, $iclTranslationManagement;
         
-        if (method_exists($sitepress, 'setup') && $sitepress->setup() && 1 < count($sitepress->get_active_languages())) {
+        if ($iclTranslationManagement && method_exists($sitepress, 'setup') && $sitepress->setup() && 1 < count($sitepress->get_active_languages())) {
             
             $current_translator = $iclTranslationManagement->get_current_translator();
-            if(!empty($current_translator->language_pairs) || current_user_can('manage_options')){
-                if(current_user_can('manage_options')){
+            if(!empty($current_translator->language_pairs) || current_user_can('wpml_manage_translation_management')){
+                if(current_user_can('wpml_manage_translation_management')){
                     $top_page = apply_filters('icl_menu_main_page', basename(ICL_PLUGIN_PATH).'/menu/languages.php');
-                    add_submenu_page(basename(WPML_TM_PATH) . '/menu/main.php', 
+                    add_submenu_page($top_page, 
                     __('Translations','wpml-translation-management'), __('Translations','wpml-translation-management'),
-                    'manage_options', WPML_TM_FOLDER.'/menu/translations-queue.php');
+                    'wpml_manage_translation_management', WPML_TM_FOLDER.'/menu/translations-queue.php');
                 } else {
                     add_menu_page(__('Translation interface','wpml-translation-management'), 
                         __('Translation interface','wpml-translation-management'), 'translate', 
@@ -128,8 +143,9 @@ class WPML_Translation_Management{
     }
   
     function _warn_editing_icl_translation(){
-        global $wpdb, $iclTranslationManagement;
-        
+        global $wpdb, $sitepress, $iclTranslationManagement;
+
+		$post_type = false;
         if(isset($_GET['trid'])){
             $translation_id = $wpdb->get_var($wpdb->prepare("
                     SELECT t.translation_id 
@@ -140,7 +156,7 @@ class WPML_Translation_Management{
         }else{
             $post_type = $wpdb->get_var($wpdb->prepare("SELECT post_type FROM {$wpdb->posts} WHERE ID=%d", $_GET['post']));
             $translation_id = $wpdb->get_var($wpdb->prepare("
-                    SELECT translation_id FROM {$wpdb->prefix}icl_translations WHERE element_id=%d AND element_type=%s AND language_code='%s'"
+                    SELECT translation_id FROM {$wpdb->prefix}icl_translations WHERE element_id=%d AND element_type=%s AND language_code=%s"
                 , $_GET['post'], 'post_' . $post_type, $_GET['lang']));            
         }
         
@@ -154,7 +170,12 @@ class WPML_Translation_Management{
                     sprintf(__('Please refer to the <a href="%s">Translation management dashboard</a> for the exact status of this translation.' , 'wpml-translation-management'),
                     admin_url('admin.php?page='.WPML_TM_FOLDER.'/menu/main.php&')) . '</p></div>';    
             }else{
-                if($iclTranslationManagement->settings['doc_translation_method'] == ICL_TM_TMETHOD_EDITOR){
+				$is_original = false;
+				if($post_type) {
+					$element_language_details = $sitepress->get_element_language_details($_GET['post'], 'post_' . $post_type);
+					$is_original = !$element_language_details->source_language_code;
+				}
+                if(!$is_original && $iclTranslationManagement->settings['doc_translation_method'] == ICL_TM_TMETHOD_EDITOR){
                 ?>
                 <div class="error">
                     <p><?php _e('<strong>Warning:</strong> You are trying to edit a translation using the standard WordPress editor but your site is configured to use the WPML Translation Editor.' , 'wpml-translation-management')?></p>
@@ -162,8 +183,7 @@ class WPML_Translation_Management{
                 <?php
                 }
             }
-        }else{
-            if($iclTranslationManagement->settings['doc_translation_method'] == ICL_TM_TMETHOD_EDITOR){
+        }elseif(($post_type && $sitepress->is_translated_post_type($post_type)) && $iclTranslationManagement->settings['doc_translation_method'] == ICL_TM_TMETHOD_EDITOR){
             ?>
             <div class="error">
                 <p><?php _e('<strong>Warning:</strong> You are trying to add a translation using the standard WordPress editor but your site is configured to use the WPML Translation Editor.' , 'wpml-translation-management')?></p>
@@ -171,7 +191,6 @@ class WPML_Translation_Management{
                 </p>
             </div>
             <?php
-            }
         }
         
     }
@@ -207,10 +226,15 @@ class WPML_Translation_Management{
         
         // Get them from Sitepress::meta_box
         extract($icl_meta_box_globals);
-        
-        $translations_count = count($translations) - 1;
-        $language_count = count($active_languages) - 1;        
-        
+
+		/** @var $translations array        coming from $icl_meta_box_globals */
+		/** @var $active_languages array    coming from $icl_meta_box_globals */
+		/** @var $selected_language string  coming from $icl_meta_box_globals */
+
+		$translations_count = count($translations) - 1;
+
+		$language_count = count($active_languages) - 1;
+
         // get languages with translators
         $languages_translated = $languages_not_translated = array();
         
@@ -222,7 +246,7 @@ class WPML_Translation_Management{
                 $lang_rates[$language_pair['to']] = $language_pair['max_rate'];
             }
         }
-        $languages_not_translated = array_diff(array_keys($active_languages), array_merge(array($selected_language), $languages_translated));
+		$languages_not_translated = array_diff(array_keys($active_languages), array_merge(array($selected_language), $languages_translated));
         
         // get pro translations        
         $pro_translations = $iclTranslationManagement->get_element_translations($post->ID, 'post_'.$post->post_type);            
@@ -258,7 +282,8 @@ class WPML_Translation_Management{
     //
     function _icl_tm_parent_filter(){
         global $sitepress;
-        $sitepress->switch_lang($_POST['lang']);
+		$current_language = $sitepress->get_current_language();
+		$sitepress->switch_lang($_POST['lang']);
         if($_POST['type'] == 'page'){                        
             $html = wp_dropdown_pages(array('echo'=>0, 'name'=>'filter[parent_id]', 'selected'=>$_POST['parent_id']));            
         }elseif($_POST['type'] == 'category'){
@@ -266,7 +291,7 @@ class WPML_Translation_Management{
         }else{
             $html = '';
         }
-        $sitepress->switch_lang();
+        $sitepress->switch_lang($current_language);
         
         $html .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         if(is_null($_POST['parent_all']) || $_POST['parent_all']) $checked = ' checked="checked"'; else $checked="";
@@ -288,6 +313,18 @@ class WPML_Translation_Management{
     }
     
     function _icl_nonce_for_ajx(){
+		global $pagenow;
+
+		//@since 3.1	Calls made only when in Translation Management pages
+		$allowed_pages = array();
+		if(defined('WPML_TM_FOLDER')) {
+			$allowed_pages[] = WPML_TM_FOLDER . '/menu/main.php';
+		}
+
+		if(!isset($_REQUEST['page']) || !in_array($_REQUEST['page'], $allowed_pages)) {
+			return;
+		}
+
         wp_nonce_field('get_translator_status_nonce', '_icl_nonce_gts');
     }
    

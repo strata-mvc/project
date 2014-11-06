@@ -34,7 +34,7 @@ class WPML_Media_Dependencies
 	{
 		?>
 		<div class="message error"><p><?php printf( __( 'WPML Media is enabled but not effective. It requires <a href="%s">WPML</a> in order to work.', 'wpml-translation-management' ),
-													'http://wpml.org/' ); ?></p></div>
+													'https://wpml.org/' ); ?></p></div>
 	<?php
 	}
 
@@ -44,7 +44,7 @@ class WPML_Media_Dependencies
 	{
 		?>
 		<div class="message error"><p><?php printf( __( 'WPML Media is enabled but not effective. It is not compatible with  <a href="%s">WPML</a> versions prior 2.0.5.', 'wpml-translation-management' ),
-													'http://wpml.org/' ); ?></p></div>
+													'https://wpml.org/' ); ?></p></div>
 	<?php
 	}
 

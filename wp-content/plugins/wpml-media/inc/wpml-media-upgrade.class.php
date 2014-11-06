@@ -16,7 +16,8 @@ class WPML_Media_Upgrade
 		global $wpdb;
 
 		//Workaround, as for some reasons, get_option() doesn't work only in this case
-		$wpml_media_settings = $wpdb->get_col("select option_value from {$wpdb->prefix}options where option_name = '_wpml_media'");
+		$wpml_media_settings_prepared = $wpdb->prepare("select option_value from {$wpdb->prefix}options where option_name = %s", '_wpml_media');
+		$wpml_media_settings = $wpdb->get_col( $wpml_media_settings_prepared );
 
 		//Do not run upgrades if this is a new install (i.e.: plugin has no settings)
 		if ( $wpml_media_settings || get_option( '_wpml_media_starting_help' ) ) {
@@ -70,7 +71,8 @@ class WPML_Media_Upgrade
 		//Create translated media
 
 		$target_language = $sitepress->get_default_language();
-		$attachment_ids  = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment'" );
+		$attachment_ids_prepared = $wpdb->prepare("SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", 'attachment');
+		$attachment_ids  = $wpdb->get_col( $attachment_ids_prepared );
 
 		//Let's first set the language of all images in default languages
 		foreach ( $attachment_ids as $attachment_id ) {
@@ -129,7 +131,7 @@ class WPML_Media_Upgrade
 
 		//Remove old media translation meta
 		//Remove both meta just in case
-		$attachment_ids = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment'" );
+		$attachment_ids = $wpdb->get_col( $attachment_ids_prepared );
 		foreach ( $attachment_ids as $attachment_id ) {
 			delete_post_meta( $attachment_id, 'wpml_media_duplicate_of' );
 			delete_post_meta( $attachment_id, 'wpml_media_lang' );
@@ -150,11 +152,12 @@ class WPML_Media_Upgrade
 				SELECT t.element_id, t.trid, t.language_code
 				FROM {$wpdb->prefix}icl_translations t
 				  LEFT JOIN {$wpdb->postmeta} pm
-				  ON t.element_id = pm.post_id AND pm.meta_key='_wp_attachment_metadata'
-				WHERE t.element_type = 'post_attachment' AND pm.meta_id IS NULL AND element_id IS NOT NULL
+				  ON t.element_id = pm.post_id AND pm.meta_key=%s
+				WHERE t.element_type = %s AND pm.meta_id IS NULL AND element_id IS NOT NULL
 				";
-		//$original_attachments = $wpdb->get_results( "SELECT element_id, trid, language_code FROM {$wpdb->prefix}icl_translations WHERE element_type = 'post_attachment'" );
-		$original_attachments = $wpdb->get_results( $sql );
+		$sql_prepared = $wpdb->prepare($sql, array('_wp_attachment_metadata', 'post_attachment'));
+
+		$original_attachments = $wpdb->get_results( $sql_prepared );
 
 		foreach ( $original_attachments as $original_attachment ) {
 			$attachment_metadata = get_post_meta( $original_attachment->element_id, '_wp_attachment_metadata', true );

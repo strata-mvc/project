@@ -1,0 +1,7 @@
+= 1.2 =
+
+* Added pagination for site keys list of Account -> My Sites
+* Reversed the order in which the site keys are displayed.
+* Fixed problem with WPML registration information (site key) not being saved when the option_value field in the wp_options table used a different charset than the default WordPress charset defined in wp-config.php
+* Allow registering new sites by clicking a link in the WordPress admin instead of copying and pasting the site url in the Account -> My Sites section
+* Display more detailed debug information related to connectivity issues with the WPML repository

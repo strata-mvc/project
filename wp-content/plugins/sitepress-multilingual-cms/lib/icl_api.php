@@ -177,7 +177,7 @@ class ICanLocalizeQuery{
                 $quote='"';
             }
             
-            $xml .= $tab.$tab.'<content type="' . htmlspecialchars(htmlspecialchars($key, ENT_QUOTES)) . '" translate="'.$val['translate'].'" data='.$quote.$val['data'].$quote;
+            $xml .= $tab.$tab.'<content type="' . esc_attr($key, ENT_QUOTES) . '" translate="'.$val['translate'].'" data='.$quote.$val['data'].$quote;
             if(isset($val['format'])) $xml .= ' format="'.$val['format'].'"';
             $xml .=  ' />'.$nl;    
         }        
@@ -475,7 +475,7 @@ class ICanLocalizeQuery{
                 
             if($res['info']['status']['attr']['err_code']=='0'){
                 
-                @mysql_query("TRUNCATE {$wpdb->prefix}icl_reminders");
+                $wpdb->query("TRUNCATE {$wpdb->prefix}icl_reminders"); 
                 
                 // First add any low funding warning.
                 $website_data = $this->get_website_details();
@@ -551,38 +551,38 @@ class ICanLocalizeQuery{
         
     }
     
-    function delete_message($message_id) {
-        global $wpdb;
+function delete_message($message_id) {
+    global $wpdb;
 
-        if ((int)$message_id >= 0) {
-            $session_id = $this->get_current_session();
-    
-            $request_url = ICL_API_ENDPOINT . '/reminders/' . $message_id . '.xml?wid='.$this->site_id.'&accesskey=' . $this->access_key;
-            
-            $data = array('session' => $session_id, 'accesskey' => $this->access_key, 
-                          '_method' => 'DELETE');
-    
+    if ((int)$message_id >= 0) {
+        $session_id = $this->get_current_session();
+
+        $request_url = ICL_API_ENDPOINT . '/reminders/' . $message_id . '.xml?wid='.$this->site_id.'&accesskey=' . $this->access_key;
+
+        $data = array('session' => $session_id, 'accesskey' => $this->access_key,
+                      '_method' => 'DELETE');
+
+        $res = $this->_request($request_url, 'POST', $data);
+        if($res['info']['status']['attr']['err_code']=='3'){
+            // not logged in get a new session_id
+            $session_id = $this->get_session_id(FALSE);
+
             $res = $this->_request($request_url, 'POST', $data);
-            if($res['info']['status']['attr']['err_code']=='3'){
-                // not logged in get a new session_id
-                $session_id = $this->get_session_id(FALSE);
-
-                $res = $this->_request($request_url, 'POST', $data);
-            }
-
-            if($res['info']['result']['value']=='Reminder deleted' ||
-                    $res['info']['result']['value']=='Reminder not found'){
-                // successfully deleted on the server.
-                $wpdb->query("DELETE FROM {$wpdb->prefix}icl_reminders WHERE id={$message_id}");
-            }
-        
-            
-        } else {
-            // this is the low funding reminder.
-            $wpdb->query("DELETE FROM {$wpdb->prefix}icl_reminders WHERE id={$message_id}");
         }
-            
+
+        if($res['info']['result']['value']=='Reminder deleted' ||
+                $res['info']['result']['value']=='Reminder not found'){
+            // successfully deleted on the server.
+            $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}icl_reminders WHERE id=%d", $message_id));
+        }
+
+
+    } else {
+        // this is the low funding reminder.
+        $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}icl_reminders WHERE id=%d", $message_id));
     }
+
+}
     
     function report_back_permalink($request_id, $language, $translation) {
         global $wpdb;
@@ -590,10 +590,11 @@ class ICanLocalizeQuery{
         
         $parameters['accesskey'] = $this->access_key;
         $parameters['language'] = $language;
-        if($wpdb->get_var("SELECT post_type FROM $wpdb->posts WHERE ID={$translation->element_id}")=='page'){
-            $parameters['permlink'] = get_option('home') . '?page_id=' . $translation->element_id;
+		$home_url = get_home_url();
+		if($wpdb->get_var("SELECT post_type FROM $wpdb->posts WHERE ID={$translation->element_id}")=='page'){
+            $parameters['permlink'] = $home_url . '?page_id=' . $translation->element_id;
         }else{
-            $parameters['permlink'] = get_option('home') . '?p=' . $translation->element_id;
+            $parameters['permlink'] = $home_url . '?p=' . $translation->element_id;
         }
         
         $res = $this->_request($request_url, 'POST', $parameters);
@@ -601,7 +602,7 @@ class ICanLocalizeQuery{
     }
     
     function get_help_links() {
-        $request_url = 'http://wpml.org/wpml-resource-maps/pro-translation.xml';
+        $request_url = 'https://wpml.org/wpml-resource-maps/pro-translation.xml';
 
         $res = $this->_request($request_url, 'GET');
         

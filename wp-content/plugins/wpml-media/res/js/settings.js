@@ -75,9 +75,9 @@ addLoadEvent(function () {
                         wpml_media_translate_media();
                     }
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    wpml_update_status('Media options prepare: please try again (' + textStatus + ')');
-                }
+				error: function (jqXHR, textStatus, errorThrown) {
+					jQuery('#icl-migrate-progress .message').html(textStatus);
+				}
 
             });
 

@@ -114,7 +114,7 @@ define('POTX_CONTEXT_ERROR', FALSE);
  * Process a file and put extracted information to the given parameters.
  *
  * @param $file_path
- *   Comlete path to file to process.
+ *   Complete path to file to process.
  * @param $strip_prefix
  *   An integer denoting the number of chars to strip from filepath for output.
  * @param $save_callback
@@ -727,7 +727,13 @@ function _potx_find_t_calls_with_context($file, $save_callback, $function_name =
                 $context_offset = 4;
                 $text = $mid[1];
             }elseif($function_name == '_n'){
-                $domain_offset = 10;
+	            $domain_offset = 8;
+	            //in case of a function as the number argument, we need to set a different offset
+	            while ( ! ( isset( $_potx_tokens[ $ti + $domain_offset ][ 1 ] )
+	                        && $_potx_tokens[ $ti + $domain_offset + 1 ] == ')'
+	                        && ( $_potx_tokens[ $ti + $domain_offset + 2 ] == ';' || ( $_potx_tokens[ $ti - 2 ] [ 1 ] == 'sprintf' && $_potx_tokens[ $ti + $domain_offset + 2 ] == ',' ) ) ) ) {
+		            $domain_offset ++;
+	            };
                 $context_offset = false;
                 $text_plural = $_potx_tokens[$ti+4][1];
             }elseif($function_name == '_nx'){
