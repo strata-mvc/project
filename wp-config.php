@@ -16,8 +16,8 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 	define('DB_USER','root');
 	define('DB_PASSWORD','root');
 	define('WP_LOCAL', true);
-	define('WP_HOME','');
-	define('WP_SITEURL','');
+	define('WP_HOME','http://www.iprospect-roots.privard.local');
+	define('WP_SITEURL','http://www.iprospect-roots.privard.local');
 }else if( stristr( $_SERVER['SERVER_NAME'], "thibault" ) ) {
  	# LOCAL (Dave Lamarre)
 	define('DB_NAME','');
