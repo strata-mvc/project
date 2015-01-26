@@ -19,6 +19,7 @@ Projet wordpress vanille basé sur [Roots](http://roots.io/)
 - Installer le plugin GtMetrix.
 - À la demande générale, remplacer snap.js par un équivalent suppérieur.
 - Faire un bundle avec le nécessaire app-presser pour convertir tout site web en application en quelques clicks.
+- Ajuster la date pour qu'elle soit confirme avec le tracking GTM. 
 
 ## Prerequisites
 - A clean Wordpress install packed with useful plugins and librairies
