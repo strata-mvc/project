@@ -78,7 +78,12 @@ class RGCurrency{
         }
 
         $money = number_format($number, $this->currency["decimals"], $this->currency["decimal_separator"], $this->currency["thousand_separator"]);
-        $symbol_left = !empty($this->currency["symbol_left"]) ? $this->currency["symbol_left"] . $this->currency["symbol_padding"] : "";
+
+		if ( $money == '0.00' ){
+			$negative = '';
+		}
+
+		$symbol_left = !empty($this->currency["symbol_left"]) ? $this->currency["symbol_left"] . $this->currency["symbol_padding"] : "";
         $symbol_right = !empty($this->currency["symbol_right"]) ? $this->currency["symbol_padding"] . $this->currency["symbol_right"] : "";
 
         if($do_encode){
@@ -114,12 +119,14 @@ class RGCurrency{
         "PLN" => array("name" => __("Polish Zloty", "gravityforms"), "symbol_left" => '&#122;&#322;', "symbol_right" => "", "symbol_padding" => " ", "thousand_separator" => '.', "decimal_separator" => ',', "decimals" => 2),
         "GBP" => array("name" => __("Pound Sterling", "gravityforms"), "symbol_left" => '&#163;', "symbol_right" => "", "symbol_padding" => " ", "thousand_separator" => ',', "decimal_separator" => '.', "decimals" => 2),
         "SGD" => array("name" => __("Singapore Dollar", "gravityforms"), "symbol_left" => '$', "symbol_right" => "", "symbol_padding" => " ", "thousand_separator" => ',', "decimal_separator" => '.', "decimals" => 2),
-        "SEK" => array("name" => __("Swedish Krona", "gravityforms"), "symbol_left" => '', "symbol_right" => "Kr", "symbol_padding" => " ", "thousand_separator" => ' ', "decimal_separator" => ',', "decimals" => 2),
+		"ZAR" => array("name" => __("South African Rand", "gravityforms"), "symbol_left" => 'R', "symbol_right" => "", "symbol_padding" => "", "thousand_separator" => ',', "decimal_separator" => '.', "decimals" => 2),
+		"SEK" => array("name" => __("Swedish Krona", "gravityforms"), "symbol_left" => '', "symbol_right" => "Kr", "symbol_padding" => " ", "thousand_separator" => ' ', "decimal_separator" => ',', "decimals" => 2),
         "CHF" => array("name" => __("Swiss Franc", "gravityforms"), "symbol_left" => 'Fr.', "symbol_right" => "", "symbol_padding" => " ", "thousand_separator" => "'", "decimal_separator" => '.', "decimals" => 2),
         "TWD" => array("name" => __("Taiwan New Dollar", "gravityforms"), "symbol_left" => '$', "symbol_right" => "", "symbol_padding" => " ", "thousand_separator" => ',', "decimal_separator" => '.', "decimals" => 2),
         "THB" => array("name" => __("Thai Baht", "gravityforms"), "symbol_left" => '&#3647;', "symbol_right" => "", "symbol_padding" => " ", "thousand_separator" => ',', "decimal_separator" => '.', "decimals" => 2),
         "USD" => array("name" => __("U.S. Dollar", "gravityforms"), "symbol_left" => '$', "symbol_right" => "", "symbol_padding" =>  "", "thousand_separator" => ',', "decimal_separator" => '.', "decimals" => 2)
-        );
+
+		);
 
         return apply_filters("gform_currencies", $currencies);
     }

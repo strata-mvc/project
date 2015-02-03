@@ -5,11 +5,11 @@ define('WEINRE_ADDRESS', '184.107.217.250:8080');
 
 if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
  	# LOCAL (Dave Lamarre)
-	define('DB_NAME','wordpress_root');
+	define('DB_NAME','iprospect-roots');
 	define('DB_USER','root');
 	define('DB_PASSWORD','root');
-	define('WP_HOME','');
-	define('WP_SITEURL','');
+	define('WP_HOME','http://www.roots.dlamarre.com');
+	define('WP_SITEURL','http://www.roots.dlamarre.com');
 } else if ( stristr( $_SERVER['SERVER_NAME'], "privard" ) ) {
  	# LOCAL (Philippe V Rivard)
 	define('DB_NAME','iprospect-roots');

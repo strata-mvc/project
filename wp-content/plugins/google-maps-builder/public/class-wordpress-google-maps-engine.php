@@ -110,6 +110,7 @@ class Google_Maps_Builder_Engine {
 		//gather data for this shortcode
 		$post        = get_post( $id );
 		$all_meta    = get_post_custom( $id );
+
 		$visual_info = maybe_unserialize( $all_meta['gmb_width_height'][0] );
 		$lat_lng = maybe_unserialize( $all_meta['gmb_lat_lng'][0] );
 
@@ -155,6 +156,7 @@ class Google_Maps_Builder_Engine {
 					'search_radius' => ! empty( $all_meta['gmb_search_radius'][0] ) ? $all_meta['gmb_search_radius'][0] : '3000',
 					'search_places' => ! empty( $all_meta['gmb_places_search_multicheckbox'][0] ) ? maybe_unserialize( $all_meta['gmb_places_search_multicheckbox'][0] ) : '',
 				),
+			    'map_markers_icon' => ! empty( $all_meta['gmb_map_marker'] ) ? $all_meta['gmb_map_marker'][0] : 'none',
 			)
 		);
 

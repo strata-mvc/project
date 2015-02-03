@@ -26,7 +26,7 @@ if (!class_exists("GFResults")) {
         public function init() {
 
             if( ! GFCommon::current_user_can_any( $this->_capabilities ) )
-                return;
+                {return;}
 
             // is any GF page
             if( GFForms::is_gravity_page() ) {
@@ -104,9 +104,9 @@ if (!class_exists("GFResults")) {
                 $form_id    = $form_meta["id"];
                 $link_class = "";
                 if (rgget("page") == "gf_new_form")
-                    $link_class = "gf_toolbar_disabled";
+                    {$link_class = "gf_toolbar_disabled";}
                 else if (rgget("page") == "gf_entries" && rgget("view") == "gf_results_" . $this->_slug)
-                    $link_class = "gf_toolbar_active";
+                    {$link_class = "gf_toolbar_active";}
 
                 $id = rgget("id");
                 if (empty($id)){
@@ -174,7 +174,7 @@ if (!class_exists("GFResults")) {
 
         public function add_view($view, $form_id) {
             if ($view == "gf_results_" . $this->_slug)
-                GFResults::results_page($form_id, $this->_title, "gf_entries", $view);
+                {GFResults::results_page($form_id, $this->_title, "gf_entries", $view);}
 
         }
 
@@ -323,7 +323,7 @@ if (!class_exists("GFResults")) {
                         <img style="vertical-align:middle;"
                              src="<?php echo GFCommon::get_base_url() ?>/images/spinner.gif"
                              alt="loading..."/>&nbsp;
-                        <a href="javascript:void(0);" onclick="javascript:gresultsAjaxRequest.abort()">Cancel</a>
+                        <a href="javascript:void(0);" onclick="javascript:gresultsAjaxRequest.abort()"><?php _e( 'Cancel', 'gravityforms' ); ?></a>
                     </div>
 
                     <div id="gresults-results-wrapper">
@@ -364,14 +364,14 @@ if (!class_exists("GFResults")) {
                 $html = __("No results.", "gravityforms");
             } else {
                 $search_criteria                  = array();
-                $search_criteria["field_filters"] = GFCommon::get_field_filters_from_post();
+                $search_criteria["field_filters"] = GFCommon::get_field_filters_from_post($form);
 
                 $start_date = rgpost("start");
                 $end_date   = rgpost("end");
                 if ($start_date)
-                    $search_criteria["start_date"] = $start_date;
+                    {$search_criteria["start_date"] = $start_date;}
                 if ($end_date)
-                    $search_criteria["end_date"] = $end_date;
+                    {$search_criteria["end_date"] = $end_date;}
 
                 $search_criteria["status"] = "active";
                 $output["s"]               = http_build_query($search_criteria);
@@ -434,18 +434,20 @@ if (!class_exists("GFResults")) {
             $search_criteria = rgpost("search_criteria");
 
             if (empty($search_criteria))
-                $search_criteria = array();
+                {$search_criteria = array();}
             $page_size = 10;
 
             $form           = RGFormsModel::get_form_meta($form_id);
             $form_id        = $form["id"];
             $field          = RGFormsModel::get_field($form, $field_id);
+
             $more_remaining = false;
             $html           = self::get_default_field_results($form_id, $field, $search_criteria, $offset, $page_size, $more_remaining);
 
             $response                   = array();
             $response["more_remaining"] = $more_remaining;
             $response['html']           = $html;
+	        $response['offset']         = $offset;
 
             echo json_encode($response);
             die();
@@ -549,7 +551,7 @@ if (!class_exists("GFResults")) {
                     $field_results .= "<table class='gsurvey-likert'>";
                     $field_results .= "<tr>";
                     if ($multiple_rows)
-                        $field_results .= "<td></td>";
+                        {$field_results .= "<td></td>";}
 
                     foreach ($field["choices"] as $choice) {
                         $field_results .= "<td class='gsurvey-likert-choice-label'>" . $choice['text'] . "</td>";
@@ -575,7 +577,7 @@ if (!class_exists("GFResults")) {
                         $field_results .= "<tr>";
 
                         if ($multiple_rows)
-                            $field_results .= "<td class='gsurvey-likert-row-label'>" . $row_text . "</td>";
+                            {$field_results .= "<td class='gsurvey-likert-row-label'>" . $row_text . "</td>";}
 
                         foreach ($field["choices"] as $choice) {
                             $val     = $multiple_rows ? $results[$row_value][$choice['value']] : $results[$choice['value']];
@@ -589,7 +591,7 @@ if (!class_exists("GFResults")) {
                         $field_results .= "</tr>";
 
                         if (false === $multiple_rows)
-                            break;
+                            {break;}
 
                     }
                     $field_results .= "</table>";
@@ -642,16 +644,18 @@ if (!class_exists("GFResults")) {
                     $page_size = 5;
                     $offset    = 0;
                     $field_id  = $field["id"];
+                    $more_remaining = false;
+                    $default_field_results = self::get_default_field_results( $form_id, $field, $search_criteria, $offset, $page_size, $more_remaining );
 
                     $field_results .= "<div class='gresults-results-field-sub-label'>" . __("Latest values:", "gravityforms") . "</div>";
 
-                    $field_results .= "<ul id='gresults-results-field-content-{$field_id}' class='gresults-results-field-content' data-offset='{$page_size}'>";
-                    $more_remaining = false;
-                    $field_results .= self::get_default_field_results($form_id, $field, $search_criteria, $offset, $page_size, $more_remaining);
+                    $field_results .= "<ul id='gresults-results-field-content-{$field_id}' class='gresults-results-field-content' data-offset='{$offset}'>";
+
+                    $field_results .= $default_field_results;
                     $field_results .= "</ul>";
 
                     if ($more_remaining) {
-                        $field_results .= "<a id='gresults-results-field-more-link-{$field_id}' class='gresults-results-field-more-link' href='javascript:void(0)' onclick='gresults.getMoreResults({$form_id},{$field_id})'>Show more</a>";
+	                    $field_results .= "<a id='gresults-results-field-more-link-{$field_id}' class='gresults-results-field-more-link' href='javascript:void(0)' onclick='gresults.getMoreResults({$form_id},{$field_id})'>" . __('Show more', 'gravityforms') . "</a>";
                     }
                     break;
             }
@@ -699,8 +703,12 @@ if (!class_exists("GFResults")) {
                             }
                         }
                     } else {
-                        foreach ($choices as $choice) {
-                            $field_data[$field["id"]][$choice['value']] = 0;
+                        if(!empty($choices) && is_array($choices)){
+                            foreach ( $choices as $choice ) {
+                                $field_data[$field["id"]][$choice['value']] = 0;
+                            }
+                        } else {
+                            $field_data[$field["id"]] = 0;
                         }
                     }
                     if ($field_type == "likert" && rgar($field, "gsurveyLikertEnableScoring")) {
@@ -715,7 +723,7 @@ if (!class_exists("GFResults")) {
 
             $entries_left = $count_search_leads - $offset;
 
-            while ($entries_left >= 0) {
+            while ($entries_left > 0) {
 
                 $paging = array(
                     'offset'    => $offset,
@@ -730,8 +738,9 @@ if (!class_exists("GFResults")) {
                 $leads_in_search = count($leads);
 
                 $entry_count += $leads_in_search;
-
+                $leads_processed = 0;
                 foreach ($leads as $lead) {
+                    $lead_time_start = microtime(true);
                     foreach ($fields as $field) {
                         $field_type = GFFormsModel::get_input_type($field);
                         $field_id   = $field["id"];
@@ -740,10 +749,10 @@ if (!class_exists("GFResults")) {
                         if ($field_type == "likert" && rgar($field, "gsurveyLikertEnableMultipleRows")) {
 
                             if (empty($value))
-                                continue;
+                                {continue;}
                             foreach ($value as $value_vector) {
                                 if (empty($value_vector))
-                                    continue;
+                                    {continue;}
                                 list($row_val, $col_val) = explode(":", $value_vector, 2);
                                 if (isset($field_data[$field["id"]][$row_val]) && isset($field_data[$field["id"]][$row_val][$col_val])) {
                                     $field_data[$field["id"]][$row_val][$col_val]++;
@@ -760,7 +769,7 @@ if (!class_exists("GFResults")) {
 
                             if (false === isset($field["choices"])) {
                                 if (false === empty($value))
-                                    $field_data[$field_id]++;
+                                    {$field_data[$field_id]++;}
                                 continue;
                             }
                             $choices = $field["choices"];
@@ -769,24 +778,27 @@ if (!class_exists("GFResults")) {
                                 if (is_array($value)) {
                                     $choice_value = rgar($choice, "value");
                                     if (in_array($choice_value, $value))
-                                        $choice_is_selected = true;
+                                        {$choice_is_selected = true;}
                                 } else {
                                     if (RGFormsModel::choice_value_match($field, $choice, $value))
-                                        $choice_is_selected = true;
+                                        {$choice_is_selected = true;}
                                 }
                                 if ($choice_is_selected) {
                                     $field_data[$field_id][$choice['value']]++;
                                 }
                             }
-
                         }
                         if ($field_type == "likert" && rgar($field, "gsurveyLikertEnableScoring")) {
                             $field_data[$field["id"]]["sum_of_scores"] += $this->get_likert_score($field, $lead);
                         }
-
-
                     }
-
+                    $leads_processed ++;
+                    $lead_time_end = microtime(true);
+                    $total_execution_time = $lead_time_end - $search_leads_time_start;
+                    $lead_execution_time = $lead_time_end - $lead_time_start;
+                    if($total_execution_time + $lead_execution_time > $max_execution_time) {
+                        break;
+                    }
                 }
                 $data["field_data"] = $field_data;
                 if (isset($this->_callbacks["calculation"])){
@@ -795,8 +807,8 @@ if (!class_exists("GFResults")) {
                 }
 
 
-                $offset += $page_size;
-                $entries_left -= $page_size;
+                $offset += $leads_processed;
+                $entries_left -= $leads_processed;
 
                 $time_end       = microtime(true);
                 $execution_time = ($time_end - $time_start);
@@ -824,9 +836,8 @@ if (!class_exists("GFResults")) {
         }
 
 
-        public static function get_default_field_results($form_id, $field, $search_criteria, $offset, $page_size, &$more_remaining = false) {
+        public static function get_default_field_results($form_id, $field, $search_criteria, &$offset, $page_size, &$more_remaining = false) {
             $field_results = "";
-
 
             $sorting = array('key' => "date_created", 'direction' => "DESC");
 
@@ -857,7 +868,7 @@ if (!class_exists("GFResults")) {
             } while ($c < $page_size && !empty($leads));
 
             if (!empty($leads))
-                $more_remaining = true;
+                {$more_remaining = true;}
 
             return $field_results;
 

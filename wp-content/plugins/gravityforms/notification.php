@@ -49,7 +49,7 @@ Class GFNotification {
             check_admin_referer('gforms_save_notification', 'gforms_save_notification');
             
             //clear out notification because it could have legacy data populated
-            $notification = array();
+            $notification = array( 'isActive' => isset( $notification['isActive'] ) ? rgar( $notification, 'isActive') : true );
 
             $is_update = true;
 
@@ -585,10 +585,10 @@ Class GFNotification {
                 <?php
                 $to_email = rgget("toType", $notification) == "email" ? rgget("to", $notification) : "";
                 ?>
-                <input type="text" name="gform_notification_to_email" id="gform_notification_to_email" value="<?php echo esc_attr($to_email) ?>" class="fieldwidth-1" />
+                <input type="text" name="gform_notification_to_email" id="gform_notification_to_email" value="<?php echo esc_attr($to_email) ?>" class="fieldwidth-2" />
 
                 <?php if(rgpost("gform_notification_to_type") == "email" && $is_invalid_email_to){ ?>
-                    <span class="validation_message"><?php _e("Please enter a valid email address", "gravityforms") ?></span>
+                    <span class="validation_message"><?php _e("Please enter a valid email address", "gravityforms") ?>.</span>
                 <?php } ?>
             </td>
             <?php echo $subsetting_close; ?>
@@ -861,8 +861,8 @@ Class GFNotification {
         $emails = explode(",", $text);
         foreach($emails as $email){
             $email = trim($email);
-            $invalid_email = GFCommon::is_invalid_or_empty_email($email);
-            $invalid_variable = !preg_match('/^({[^{]*?:(\d+(\.\d+)?)(:(.*?))?},? *)+$/', $email);
+            $invalid_email = GFCommon::is_invalid_or_empty_email( $email );
+            $invalid_variable = ! preg_match('/^({[^{]*?:(\d+(\.\d+)?)(:(.*?))?},? *)+$/', $email) && $email != '{admin_email}';
 
             if($invalid_email && $invalid_variable)
                 return false;
@@ -874,7 +874,7 @@ Class GFNotification {
     private static function is_valid_notification_to(){
         $is_valid =  (rgpost('gform_notification_to_type') == "routing" && self::is_valid_routing())
                             ||
-                            (rgpost('gform_notification_to_type') == "email" && (self::is_valid_notification_email($_POST["gform_notification_to_email"])) || $_POST["gform_notification_to_email"] == "{admin_email}")
+                            (rgpost('gform_notification_to_type') == "email" && (self::is_valid_notification_email($_POST["gform_notification_to_email"])))
                             ||
                             (rgpost('gform_notification_to_type') == "field" && (!rgempty("gform_notification_to_field")));
 
@@ -1045,7 +1045,12 @@ class GFNotificationTable extends WP_List_Table {
     }
 
     function display() {
-        extract( $this->_args );
+
+        // ...causing issue: Notice: Indirect modification of overloaded property GFNotificationTable::$_args has no effect
+        //extract( $this->_args ); // gives us $plural, $singular, $ajax, $screen
+
+        $singular = $this->_args['singular'];
+
         ?>
 
         <table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">

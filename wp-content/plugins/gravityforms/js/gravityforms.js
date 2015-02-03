@@ -48,6 +48,10 @@ function Currency(currency){
         }
         money = this.numberFormat(number, this.currency["decimals"], this.currency["decimal_separator"], this.currency["thousand_separator"]);
 
+		if ( money == '0.00' ){
+			negative = '';
+		}
+
         var symbol_left = this.currency["symbol_left"] ? this.currency["symbol_left"] + this.currency["symbol_padding"] : "";
         var symbol_right = this.currency["symbol_right"] ? this.currency["symbol_padding"] + this.currency["symbol_right"] : "";
         money =  negative + this.htmlDecode(symbol_left) + money + this.htmlDecode(symbol_right);
@@ -331,9 +335,10 @@ function gformCalculateProductPrice(form_id, productFieldId){
     jQuery(".gfield_option" + suffix).find(".gfield_checkbox").find("input").each(function(){
         var checkbox_item = jQuery(this);
         var id = checkbox_item.attr("id");
-        var field_id = id.split("_")[2];
+        var field_id = id.split("_")[3];
         var label_id = id.replace("choice_", "#label_");
-        var label_element = jQuery(label_id);
+		var label_element = jQuery(label_id);
+
         var label = gformGetOptionLabel(label_element, checkbox_item.val(), 0, form_id, field_id);
         label_element.html(label);
     });
@@ -344,7 +349,7 @@ function gformCalculateProductPrice(form_id, productFieldId){
         var selected_price = 0;
         var radio_field = jQuery(this);
         var id = radio_field.attr("id");
-        var fieldId = id.split("_")[2];
+        var fieldId = id.split("_")[3];
         var selected_value = radio_field.find("input:checked").val();
 
         if(selected_value)
@@ -740,7 +745,7 @@ function gformInitChosenFields(fieldList, noResultsText){
         var element = jQuery(this);
 
         //only initialize once
-        if( element.is(":visible") && element.siblings(".chzn-container").length == 0 ){
+        if( element.is(":visible") && element.siblings(".chosen-container").length == 0 ){
             var options = gform.applyFilters( 'gform_chosen_options', { no_results_text: noResultsText }, element );
             element.chosen( options );
         }
@@ -797,7 +802,8 @@ var GFCalc = function(formId, formulaFields){
             field        = jQuery('#field_' + formId + '_' + formulaField.field_id),
             formulaInput = jQuery('#input_' + formId + '_' + formulaField.field_id),
             previous_val = formulaInput.val(),
-            expr         = calcObj.replaceFieldTags( formId, formulaField.formula, formulaField ).replace(/(\r\n|\n|\r)/gm,""),
+            formula      = gform.applyFilters( 'gform_calculation_formula', formulaField.formula, formulaField, formId, calcObj ),
+            expr         = calcObj.replaceFieldTags( formId, formula, formulaField ).replace(/(\r\n|\n|\r)/gm,""),
             result       = '';
 
         if(calcObj.exprPatt.test(expr)) {
@@ -1130,6 +1136,7 @@ var gform = {
                     if(pendingUploads){
                         alert(strings.currently_uploading);
                         window["gf_submitting_" + formID] = false;
+                        $('#gform_ajax_spinner_' + formID).remove();
                         return false;
                     }
                     });
@@ -1198,7 +1205,7 @@ var gform = {
                 extension = file.name.split('.').pop();
 
                 if($.inArray(extension, disallowed) > -1){
-                    addMessage(up.settings.gf_vars.message_id, file.name + " - " + strings.illegal_extension)
+                    addMessage(up.settings.gf_vars.message_id, file.name + " - " + strings.illegal_extension);
                     up.removeFile(file);
                     return;
                 }
@@ -1264,9 +1271,9 @@ var gform = {
                     (err.file ? ", File: " + err.file.name : "") +
                     "</li>";
 
-                $("#" + up.settings.gf_vars.message_id).prepend(m);
+				addMessage(up.settings.gf_vars.message_id, m);
             }
-            up.removeFile(err.file);
+			$('#' + err.file.id ).html('');
 
             up.refresh(); // Reposition Flash
         });
@@ -1274,8 +1281,9 @@ var gform = {
         uploader.bind('FileUploaded', function(up, file, result) {
             var response = $.secureEvalJSON(result.response);
             if(response.status == "error"){
-                $('#' + up.settings.filelist).prepend(response.error.message);
-                return;
+				addMessage(up.settings.gf_vars.message_id, file.name + " - " + response.error.message);
+				$('#' + file.id ).html('');
+				return;
             }
 
             var html = '<strong>' + file.name + '</strong>';
@@ -1381,11 +1389,11 @@ function gformInitSpinner( formId, spinnerUrl ) {
     if( typeof spinnerUrl == 'undefined' || ! spinnerUrl )
         spinnerUrl = gform.applyFilters( "gform_spinner_url", gf_global.spinnerUrl, formId );
 
-    jQuery( '#gform_' + formId ).submit( function(){
-        if( jQuery( '#gform_ajax_spinner_' . formId ).length == 0 ) {
-            jQuery( '#gform_submit_button_' + formId + ', #gform_wrapper_' + formId + ' .gform_next_button, #gform_wrapper_' + formId + ' .gform_image_button')
-                .after( '<img id="gform_ajax_spinner_' + formId + '"  class="gform_ajax_spinner" src="' + spinnerUrl + '" alt="" />' );
-        }
-    } );
+	jQuery('#gform_' + formId).submit(function () {
+		if (jQuery('#gform_ajax_spinner_' + formId).length == 0) {
+			jQuery('#gform_submit_button_' + formId + ', #gform_wrapper_' + formId + ' .gform_next_button')
+				.after('<img id="gform_ajax_spinner_' + formId + '"  class="gform_ajax_spinner" src="' + spinnerUrl + '" alt="" />');
+		}
+	});
 
 }

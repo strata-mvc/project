@@ -9,7 +9,7 @@ div[id^='google-maps-builder'] div#infobubble-content > div {
 	white-space: normal;
 }
 
-div[id^='google-maps-builder'] .gm-style-iw, div[id^='google-maps-builder'] .gm-style-iw > div {
+div[id^='google-maps-builder'] .gm-style-iw, div[id^='google-maps-builder'] .gm-style-iw > div, div[id^='google-maps-builder'] .gm-style-iw > div > div {
 	overflow: visible !important;
 }
 
@@ -20,7 +20,6 @@ div[id^='google-maps-builder'] img {
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 }
-
 
 /*--------------------------------------------
  Info Bubble (window)
@@ -100,7 +99,6 @@ div[id^='google-maps-builder'] img {
 	background: url('../../../includes/assets/img/review_stars.png') no-repeat 0 -13px transparent;
 	height: 13px;
 }
-
 
 /* Maps Icons */
 div[id^='google-maps-builder'] .marker-label {

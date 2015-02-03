@@ -23,7 +23,7 @@ class GFExport{
             $charset = get_option('blog_charset');
             header('Content-Description: File Transfer');
             header("Content-Disposition: attachment; filename=$filename");
-            header('Content-Type: text/plain; charset=' . $charset, true);
+            header('Content-Type: text/csv; charset=' . $charset, true);
             $buffer_length = ob_get_length(); //length or false if no buffer
             if ($buffer_length > 1){
             	ob_clean();
@@ -45,7 +45,17 @@ class GFExport{
             //removing the inputs for checkboxes (choices will be used during the import)
             foreach($forms as &$form){
 
-                foreach($form["fields"] as &$field){
+				if ( rgar( $form, 'useCurrentUserAsAuthor' ) === false){
+					$form['useCurrentUserAsAuthor'] = 0;
+				}
+				if ( rgar( $form, 'postContentTemplateEnabled' ) === false){
+					$form['postContentTemplateEnabled'] = 0;
+				}
+				if ( rgar( $form, 'postTitleTemplateEnabled' ) === false){
+					$form['postTitleTemplateEnabled'] = 0;
+				}
+
+				foreach($form["fields"] as &$field){
                     $inputType = RGFormsModel::get_input_type($field);
 
                     if(isset($field["pageNumber"]))
@@ -72,15 +82,19 @@ class GFExport{
                         foreach($field["choices"] as &$choice)
                             unset($choice["value"]);
                     }
-
-                    // convert associative array to indexed
-                    if(isset($form['confirmations']))
-                        $form['confirmations'] = array_values($form['confirmations']);
-
-                    if(isset($form['notifications']))
-                        $form['notifications'] = array_values($form['notifications']);
-
                 }
+
+				// convert associative array to indexed
+				if(isset($form['confirmations']))
+					$form['confirmations'] = array_values($form['confirmations']);
+
+				if(isset($form['notifications'])){
+					$form['notifications'] = array_values($form['notifications']);
+
+					foreach( $form["notifications"] as &$notification ){
+						$notification["isActive"] = rgar( $notification, "isActive" ) ? "1" : "0";
+					}
+				}
 
                 $form = apply_filters( 'gform_export_form', $form );
                 $form = apply_filters( "gform_export_form_{$form['id']}", $form );
@@ -96,9 +110,8 @@ class GFExport{
                 "forms/form/notification/routing" => array("array_tag" => "routing_item"),
                 "forms/form/useCurrentUserAsAuthor" => array("is_attribute" => true),
                 "forms/form/postAuthor" => array("is_attribute" => true),
-                "forms/form/postCategory" => array("is_attribute" => true),
-                "forms/form/postStatus" => array("is_attribute" => true),
-                "forms/form/postAuthor" => array("is_attribute" => true),
+				"forms/form/postCategory" => array("is_attribute" => true),
+				"forms/form/postStatus" => array("is_attribute" => true),
                 "forms/form/postFormat" => array("is_attribute" => true),
                 "forms/form/labelPlacement" => array("is_attribute" => true),
                 "forms/form/confirmation/type" => array("is_attribute" => true),
@@ -612,7 +625,7 @@ class GFExport{
         $end_date = empty($_POST["export_date_end"]) ? "" : self::get_gmt_date($_POST["export_date_end"] . " 23:59:59");
 
         $search_criteria["status"] = "active";
-        $search_criteria["field_filters"] = GFCommon::get_field_filters_from_post();
+        $search_criteria["field_filters"] = GFCommon::get_field_filters_from_post($form);
         if(!empty($start_date))
             $search_criteria["start_date"] = $start_date;
 
@@ -694,9 +707,12 @@ class GFExport{
                             $input_type = RGFormsModel::get_input_type($field);
 
                             if($input_type == "checkbox"){
-                                $value = GFFormsModel::is_checkbox_checked($field_id, $headers[$field_id], $lead, $form);
-                                if($value === false)
+								//pass in label value that has not had quotes escaped so the is_checkbox_checked function compares the unchanged label value with the lead value
+								$header_label_not_escaped = GFCommon::get_label($field, $field_id);
+                                $value = GFFormsModel::is_checkbox_checked($field_id, $header_label_not_escaped, $lead, $form);
+                                if($value === false) {
                                     $value = "";
+								}
                             }
                             else if($input_type == "fileupload" && rgar($field,"multipleFiles") ){
                                 $value = !empty($value) ? implode(" , ", json_decode($value, true)) : "";
