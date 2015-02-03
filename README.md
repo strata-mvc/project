@@ -34,6 +34,7 @@ Projet wordpress vanille basé sur [Roots](http://roots.io/)
 - **Import the latest SQL Dump** from the DUMP folder.
 - In the **wp_options** table, change the `siteurl` and `home` values to your local URL 
 - **Modify wp-config.php** to include your DB information under the proper switch space. If your username is not in the switch, add it. e.g.:
+- Mettre le SALT dans le WP-Config : https://api.wordpress.org/secret-key/1.1/salt/
 
 ```php
 if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
