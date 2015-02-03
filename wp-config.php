@@ -56,7 +56,7 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 	define('DB_USER','rootsnvi_usrstg');
 	define('DB_PASSWORD','@}X{u=,tQXzi');
 	define('WP_HOME','');
-	define('WP_SITEURL','');
+	define('WP_SITEURL','http://roots.nvistaging.com');
 }
 else {
 	# PROD :
