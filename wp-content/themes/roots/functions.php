@@ -17,3 +17,8 @@ require_once locate_template('/lib/relative-urls.php');   // Root relative URLs
 require_once locate_template('/lib/widgets.php');         // Sidebars and widgets
 require_once locate_template('/lib/scripts.php');         // Scripts and stylesheets
 require_once locate_template('/lib/custom.php');          // Custom functions
+require_once locate_template('/lib/ajax.php');          // Custom functions
+
+foreach (glob(get_template_directory() . "/lib/IP/*.php") as $filename) {
+    include_once $filename;
+}

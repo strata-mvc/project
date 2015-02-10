@@ -1,3 +1,23 @@
+**3.1.8.4**
+
+* **Fixes**
+    * Fixed an issue causing sites using WooCommerce to become inaccessible
+    * Fixed a notice occurring on duplicating WooCommerce products
+    * Fixed an issue with Menu Synchronisation and custom links that were not recognised as translated
+    * Fixed an issue with the taxonomy label translation. Label translation still necessitates the use of English as String Language as well as, as Admin Language.
+
+**3.1.8.3**
+
+* **Fixes**
+	* Replaced flag for Traditional Chinese with the correct one
+	* Fixed an issue with using paginated front pages.
+	* Fixed an issue with using a root page while using static front pages.
+	* Fixed an issue with additional slashes in urls
+	* Fixed an issue with same terms names in more than one language
+	* Fixed support for post slug translation
+	* Fixed an issue with term_ids being filtered despite the feature having been disabled.
+	* Fixed issues with duplicate terms and erroneous language assignments to terms, resulting from setting a taxonomy from untranslated to translated.
+
 **3.1.8.2**
 
 * **Fixes**
@@ -47,7 +67,7 @@
 	* Fixed root page preview
 	* Fixed minor issues in wp-admin with RTL languages 
 	* Fix for conflicting values of context when registering strings for translation
-	* Fixed: Archive of untranslated custom post type should not display <link rel="alternate" hreflang="" href=""/> in header
+	* Fixed: Archive of untranslated custom post type should not display 'rel="alternate" hreflang="" href=""' in header
 	* Fixed language filters for get_terms() function
 	* Fixed problem with taxonomy (e.g. category) parents synchronization
 	* Fixed problem with editing post slug
@@ -243,6 +263,7 @@
 	* Fixed a potential issue when element source language is set to an empty string rather than null: when reading element translations, either NULL or '' will be handled as NULL.
 
 **3.1.1**
+
 * **Fixes** 
 	* Fixed an issue that occurs with some configurations, when reading WPML settings
 

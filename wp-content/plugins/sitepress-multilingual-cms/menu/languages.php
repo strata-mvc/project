@@ -281,6 +281,21 @@ global $language_switcher_defaults, $language_switcher_defaults_alt;
                 <h3><?php _e('Registration', 'sitepress'); ?></h3>
             </div>
             <div class="wpml-section-content">
+                
+                <?php if(is_multisite() && !empty($site_key)): ?>
+                
+                <p><?php _e('WPML is already registered netwrork-wide.', 'sitepress') ?></p>
+                <div style="text-align:right">
+                    <form id="installer_registration_form">
+                        <input type="hidden" name="action" value="installer_save_key" />
+                        <input type="hidden" name="button_action" value="installer_save_key" />
+                        <input <?php if(empty($site_key)): ?>style="display: none;"<?php endif; ?> class="button-primary" name="finish" value="<?php echo __('Finish', 'sitepress') ?>" type="submit" />
+                        <?php wp_nonce_field('registration_form_submit_nonce', '_icl_nonce'); ?>
+                    </form>
+                </div>
+                
+                <?php else: ?>        
+                
                 <p><?php _e('Enter the site key, from your wpml.org account, to receive automatic updates for WPML on this site.', 'sitepress'); ?></p>
                 <form id="installer_registration_form">
                     <input type="hidden" name="action" value="installer_save_key" />
@@ -307,8 +322,12 @@ global $language_switcher_defaults, $language_switcher_defaults_alt;
                     
                 </form>
                 
+                <?php endif; ?>
+                
+                <?php if(empty($site_key)): ?>
                 <p><?php printf(__("Don't have a key for this site? %sGenerate a key for this site%s", 'sitepress'), '<a class="button-primary" href="https://wpml.org/my-account/sites/?add='.urlencode(get_site_url()).'" target="_blank">', '</a>') ?></p>
                 <p><?php printf(__("If you don't have a WPML.org account or a valid subscription, you can %spurchase%s one and get later upgrades, full support and 30 days money-back guarantee." , 'sitepress'), '<a href="http://wpml.org/purchase/" target="_blank">', '</a>') ?></p>
+                <?php endif; ?>
             </div>
         </div>
             

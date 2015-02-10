@@ -539,7 +539,7 @@ if(!empty($translations))
 ?>
 <?php if($original_language && $tr_original_id != $post->ID && $show_dup_button): ?>
     <?php wp_nonce_field('set_duplication_nonce', '_icl_nonce_sd') ?>
-    <input id="icl_set_duplicate" type="button" class="button-secondary" value="<?php printf(__('Overwrite with %s content.', 'sitepress'), $original_language) ?>" style="float: left;" />
+    <input id="icl_set_duplicate" type="button" class="button-secondary" value="<?php printf(__('Overwrite with %s content.', 'sitepress'), $original_language) ?>" style="white-space:normal;height:auto;line-height:normal;" />
     <span style="display: none;"><?php echo esc_js(sprintf(__('The current content of this %s will be permanently lost. WPML will copy the %s content and replace the current content.', 'sitepress'), $post->post_type, $original_language)); ?></span>
     <?php icl_pop_info(__("This operation will synchronize this translation with the original language. When you edit the original, this translation will update immediately. It's meant when you want the content in this language to always be the same as the content in the original language.", 'sitepress'), 'question'); ?>
     <br clear="all" />

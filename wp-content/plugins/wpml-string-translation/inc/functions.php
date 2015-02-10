@@ -612,8 +612,8 @@ function __icl_unregister_string_multi($arr){
  *
  * @return bool|string
  */
-function translate_string_filter( $original_value, $context, $name, $has_translation = null, $disable_auto_register = false ) {
-	return icl_t( $context, $name, $original_value, $has_translation, $disable_auto_register );
+function translate_string_filter( $original_value, $context, $name, $has_translation = null, $disable_auto_register = false, $language_code = null ) {
+	return icl_t( $context, $name, $original_value, $has_translation, $disable_auto_register, $language_code );
 }
 
 /**
@@ -625,7 +625,7 @@ function translate_string_filter( $original_value, $context, $name, $has_transla
  *
  * @return bool|string
  */
-function icl_t( $context, $name, $original_value = false, &$has_translation = null, $disable_auto_register = false ) {
+function icl_t( $context, $name, $original_value = false, &$has_translation = null, $disable_auto_register = false, $language_code = null ) {
 	global $sitepress, $sitepress_settings;
 
 	// we need this to divide static $results cache by blogs in multiblog
@@ -643,7 +643,7 @@ function icl_t( $context, $name, $original_value = false, &$has_translation = nu
 		return $original_value !== false ? $original_value : $name;
 	}
 
-	$current_language = get_current_string_language( $name );
+	$current_language = ( $language_code == null ) ? get_current_string_language( $name ) : $language_code;
 	$default_language = ! empty( $sitepress_settings[ 'st' ][ 'strings_language' ] ) ? $sitepress_settings[ 'st' ][ 'strings_language' ] : $sitepress->get_default_language();
 
 	$cache_key_args = array( $blog_id, $current_language, $default_language, $context, $name, $original_value );
@@ -670,7 +670,7 @@ function icl_t( $context, $name, $original_value = false, &$has_translation = nu
 			$has_translation = false;
 		}
 	} else {
-		$result = icl_t_cache_lookup( $context, $name );
+		$result = icl_t_cache_lookup( $context, $name, $language_code );
 
 		$is_string_change = _icl_is_string_change( $result, $original_value );
 
@@ -763,7 +763,7 @@ function get_current_string_language( $name ) {
 		}
 	}
 
-	return $current_language;
+	return apply_filters( 'icl_current_string_language', $current_language, $name );
 }
 
 /**
@@ -1666,7 +1666,7 @@ function icl_st_update_text_widgets_actions($old_options, $new_options){
     
 }
 
-function icl_t_cache_lookup($context, $name){
+function icl_t_cache_lookup($context, $name, $language_code = null){
     global $sitepress, $wpdb;
 //	static $front_end_language = false;
     
@@ -1678,7 +1678,7 @@ function icl_t_cache_lookup($context, $name){
 			$blog_id = $GLOBALS['blog_id'];
 		}
 
-    $current_language = get_current_string_language( $name );
+	$current_language = ( $language_code == null ) ? get_current_string_language( $name ) : $language_code;
 
 	if(!isset($icl_st_cache[$blog_id][$current_language][$context])){  //CACHE MISS (context)
         
@@ -1706,20 +1706,22 @@ function icl_t_cache_lookup($context, $name){
 
         // SAVE QUERY RESULTS
         if($res){
-            foreach($res as $row){                
+            foreach($res as $row){
+	            $row_name = substr( $row['name'], 0, 160 );
                 if($row['status'] != ICL_STRING_TRANSLATION_COMPLETE || empty($row['translation_value'])){
-                    $icl_st_cache[$blog_id][$current_language][$context][$row['name']]['translated'] = false;
-                    $icl_st_cache[$current_language][$context][$row['name']]['value'] = $row['value'];
+                    $icl_st_cache[$blog_id][$current_language][$context][$row_name]['translated'] = false;
+                    $icl_st_cache[$blog_id][$current_language][$context][$row_name]['value'] = $row['value'];
                 }else{
-                    $icl_st_cache[$blog_id][$current_language][$context][$row['name']]['translated'] = true;
-                    $icl_st_cache[$blog_id][$current_language][$context][$row['name']]['value'] = $row['translation_value'];
-                    $icl_st_cache[$blog_id][$current_language][$context][$row['name']]['original'] = $row['value'];
+                    $icl_st_cache[$blog_id][$current_language][$context][$row_name]['translated'] = true;
+                    $icl_st_cache[$blog_id][$current_language][$context][$row_name]['value'] = $row['translation_value'];
+                    $icl_st_cache[$blog_id][$current_language][$context][$row_name]['original'] = $row['value'];
                 }
             }
         }
         
     }
-        
+
+	$name = substr( $name, 0, 160 );
     if(isset($icl_st_cache[$blog_id][$current_language][$context][$name])){           
         $ret_value = $icl_st_cache[$blog_id][$current_language][$context][$name];                             
     }    
@@ -1805,8 +1807,8 @@ function icl_st_scan_theme_files($dir = false, $recursion = 0){
         $scan_stats = sprintf(__('Scanning theme folder: %s', 'wpml-string-translation'),$dir) . PHP_EOL;
     }    
                             
-    $dh = opendir($dir);    
-    while(false !== ($file = readdir($dh))){
+    $dh = opendir($dir);
+    while ( $dh && false !== ( $file = readdir( $dh ) ) ) {
 		if(0 === strpos($file, '.')) continue;
         
         if(is_dir($dir . "/" . $file)){
@@ -1905,8 +1907,8 @@ function icl_st_scan_plugin_files($plugin, $recursion = 0){
         _potx_process_file($plugin, 0, '__icl_st_scan_plugin_files_store_results','_potx_save_version', POTX_API_7);                    
         $scanned_files[] = $plugin;
     }else{
-        $dh = opendir($plugin);    
-        while(false !== ($file = readdir($dh))){
+        $dh = opendir($plugin);
+        while ( $dh && false !== ( $file = readdir( $dh ) ) ) {
             if(0 === strpos($file, '.')) continue;
             if(is_dir($plugin . "/" . $file)){
                 $recursion++;

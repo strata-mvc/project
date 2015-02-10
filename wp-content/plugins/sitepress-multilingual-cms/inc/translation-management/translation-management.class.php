@@ -3238,40 +3238,42 @@ class TranslationManagement{
 				do_action('icl_pro_translation_saved', $new_post_id, $data['fields']);
 
 
-				// Allow identical slugs
-				$post_name = sanitize_title($postarr['post_title']);
-				
-				// for Translated documents options:Page URL = Translate
-                if(isset($data['fields']['URL']['data']) && $data['fields']['URL']['data']){
-                    $post_name = $data['fields']['URL']['data'];
-                }
+				if (!isset($postarr['post_name']) || empty($postarr['post_name'])) {
+					// Allow identical slugs
+					$post_name = sanitize_title($postarr['post_title']);
 
-				$post_name_rewritten = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM {$wpdb->posts} WHERE ID=%d", $new_post_id));
+					// for Translated documents options:Page URL = Translate
+									if(isset($data['fields']['URL']['data']) && $data['fields']['URL']['data']){
+											$post_name = $data['fields']['URL']['data'];
+									}
 
-				$post_name_base = $post_name;
+					$post_name_rewritten = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM {$wpdb->posts} WHERE ID=%d", $new_post_id));
 
-				if ( $post_name != $post_name_rewritten || $postarr[ 'post_type' ] == 'post' || $postarr[ 'post_type' ] == 'page' ) {
-					$incr = 1;
-					do{
+					$post_name_base = $post_name;
 
-						$exists = $wpdb->get_var($wpdb->prepare("
-							SELECT p.ID FROM {$wpdb->posts} p
-								JOIN {$wpdb->prefix}icl_translations t ON t.element_id = p.ID
-							WHERE p.ID <> %d AND t.language_code = %s AND p.post_name=%s
-						",  $new_post_id, $job->language_code, $post_name));
+					if ( $post_name != $post_name_rewritten || $postarr[ 'post_type' ] == 'post' || $postarr[ 'post_type' ] == 'page' ) {
+						$incr = 1;
+						do{
 
-						if($exists){
-							$incr++;
-						}else{
-							break;
-						}
-						$post_name = $post_name_base . '-' . $incr;
+							$exists = $wpdb->get_var($wpdb->prepare("
+								SELECT p.ID FROM {$wpdb->posts} p
+									JOIN {$wpdb->prefix}icl_translations t ON t.element_id = p.ID
+								WHERE p.ID <> %d AND t.language_code = %s AND p.post_name=%s
+							",  $new_post_id, $job->language_code, $post_name));
 
-					}while($exists);
+							if($exists){
+								$incr++;
+							}else{
+								break;
+							}
+							$post_name = $post_name_base . '-' . $incr;
 
-					$wpdb->update($wpdb->posts, array('post_name' => $post_name), array('ID' => $new_post_id));
+						}while($exists);
+
+						$wpdb->update($wpdb->posts, array('post_name' => $post_name), array('ID' => $new_post_id));
+					}
 				}
-
+				
 				$ICL_Pro_Translation->_content_fix_links_to_translated_content($new_post_id, $job->language_code);
 
 				// update body translation with the links fixed

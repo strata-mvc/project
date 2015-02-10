@@ -26,9 +26,8 @@ function roots_scripts() {
     wp_enqueue_script('comment-reply');
   }
 
-  wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr.min.js', array(), null, false);
-
   // Register the modernizr load script 
+  wp_register_script('modernizr', get_template_directory_uri() . '/assets/js/vendor/modernizr.min.js', array(), null, false);
   wp_register_script('yepnope', get_template_directory_uri() . '/assets/js/bower_components/yepnope/yepnope.1.5.4-min.js', array(), null, false);
   wp_register_script('script-loader', get_template_directory_uri() . '/assets/js/script-loader.js', array('yepnope'), null, false);
 
@@ -37,7 +36,9 @@ function roots_scripts() {
     'bower' => get_template_directory_uri() . '/assets/js/bower_components/',
     'plugins' => get_template_directory_uri() . '/assets/js/plugins/',
     'js' => get_template_directory_uri() . '/assets/js/',
-    'lang' => ICL_LANGUAGE_CODE
+    'lang' => ICL_LANGUAGE_CODE,
+    'ajaxurl' => admin_url('admin-ajax.php'),
+    'security' => wp_create_nonce(AJAX_NONCE_KEY)
   );
   wp_localize_script('script-loader', 'WpConfig', $config);
 
@@ -71,46 +72,3 @@ function roots_jquery_local_fallback($src, $handle = null) {
   return $src;
 }
 add_action('wp_head', 'roots_jquery_local_fallback');
-
-/**
- * Adds a Royal Slider theme stylesheet.
- * Don't forget to add the proper class to the slider in your HTML :
- * 
- * default      : rsDefault
- * default-inverted : rsDefaultInv
- * Minimal white  : rsMinW
- * Universal    : rsUni
- * 
- */
-function royal_slider_theme(){
-
-  $themes = array(
-    "default" => "default/rs-default.css",
-    "default-inverted" => "default-inverted/rs-default-inverted.css",
-    "minimal-white" => "minimal-white/rs-minimal-white.css",
-    "universal" => "universal/rs-universal.css"
-  );
-
-  wp_register_style(
-    "royal_slider_theme", 
-    get_template_directory_uri() . '/assets/css/royal-slider/skins/' . $themes['minimal-white'], 
-    "child_main"
-  );
-  wp_enqueue_style("royal_slider_theme");
-}
-add_action('wp_enqueue_scripts', 'royal_slider_theme', 102);
-
-function roots_google_analytics() { ?>
-<script>
-  (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-  function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-  e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-  e.src='//www.google-analytics.com/analytics.js';
-  r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-  ga('create','<?php echo GOOGLE_ANALYTICS_ID; ?>');ga('send','pageview');
-</script>
-
-<?php }
-if (GOOGLE_ANALYTICS_ID && !current_user_can('manage_options')) {
-  add_action('wp_footer', 'roots_google_analytics', 20);
-}

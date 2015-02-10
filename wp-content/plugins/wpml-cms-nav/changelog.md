@@ -1,4 +1,12 @@
-**Next version**
+**1.4.6**
+
+* **Improvements**
+	* Compatibility with WPML Core
+
+**1.4.5**
+
+* **Improvements**
+	* Compatibility with WPML Core
 
 **1.4.4**
 

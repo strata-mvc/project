@@ -316,7 +316,7 @@ function icl_tf_determine_mo_folder($folder, $rec = 0) {
     $dh = @opendir($folder);
     $lfn = $sitepress->get_locale_file_names();
 
-    while ($file = readdir($dh)) {
+    while ( $dh && $file = readdir( $dh ) ) {
         if (0 === strpos($file, '.'))
             continue;
         if (is_file($folder . '/' . $file) && preg_match('#\.mo$#i', $file) && in_array(preg_replace('#\.mo$#i',

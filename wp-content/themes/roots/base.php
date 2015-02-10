@@ -7,6 +7,9 @@
     </div>
   <![endif]-->
 
+  <?php if ( function_exists( 'gtm4wp_the_gtm_tag' ) ) { gtm4wp_the_gtm_tag(); } ?>
+  <?php echo IP\GTMHelper::getEvents(); ?> 
+
   <div class="snap-drawers">
     <div class="snap-drawer snap-drawer-left">
       <?php

@@ -152,7 +152,8 @@ class SitePress
 			add_filter( 'get_pages', array( $this, 'get_pages' ), 100, 2 );
 
 			// Filter links to the root page
-			add_filter('page_link', array($this, 'filter_root_permalink'), 10, 2);
+			add_filter( 'page_link', array( 'WPML_Root_Page', 'filter_root_permalink' ), 10, 2 );
+			add_filter( 'the_preview', array( 'WPML_Root_Page', 'front_page_id_filter' ), 10, 2 );
 
 			if ( $pagenow == 'edit.php' ) {
 				add_action( 'admin_footer', array( $this, 'language_filter' ) );
@@ -187,7 +188,7 @@ class SitePress
 			// AJAX Actions for the post edit screen
 			add_action( 'wp_ajax_wpml_get_post_parent_id_by_lang', array( 'WPML_Post_Edit_Ajax', 'wpml_get_post_parent_id_by_lang' ) );
 			add_action( 'wp_ajax_wpml_get_taxonomy_terms_json', array( 'WPML_Post_Edit_Ajax', 'wpml_get_taxonomy_terms_json' ) );
-			add_action( 'wp_ajax_wpml_add_term_to_post', array( 'WPML_Post_Edit_Ajax', 'wpml_add_term_to_post' ) );
+			add_action( 'wp_ajax_wpml_save_term', array( 'WPML_Post_Edit_Ajax', 'wpml_save_term' ) );
 			add_action( 'wp_ajax_wpml_remove_terms_from_post', array( 'WPML_Post_Edit_Ajax', 'wpml_remove_terms_from_post' ) );
 			add_action( 'wp_ajax_wpml_switch_post_language', array( 'WPML_Post_Edit_Ajax', 'wpml_switch_post_language' ) );
 			add_action( 'wp_ajax_wpml_before_switch_post_language', array( 'WPML_Post_Edit_Ajax', 'wpml_before_switch_post_language' ) );
@@ -196,6 +197,11 @@ class SitePress
 			add_action( 'wp_ajax_wpml_get_translations_table_data', array( 'WPML_Post_Edit_Ajax', 'wpml_get_translations_table_data' ) );
 			add_action( 'wp_ajax_wpml_get_post_permalink', array( 'WPML_Post_Edit_Ajax', 'wpml_get_post_permalink' ) );
 			add_action( 'wp_ajax_wpml_get_default_lang', array( 'WPML_Post_Edit_Ajax', 'wpml_get_default_lang' ) );
+
+			//AJAX Actions for the taxonomy translation screen
+			add_action( 'wp_ajax_wpml_get_table_taxonomies', array( 'WPML_Taxonomy_Translation_Table_Display', 'wpml_get_table_taxonomies' ) );
+			add_action( 'wp_ajax_wpml_get_terms_and_labels_for_taxonomy_table', array( 'WPML_Taxonomy_Translation_Table_Display', 'wpml_get_terms_and_labels_for_taxonomy_table' ) );
+			add_action( 'wp_ajax_wpml_tt_save_labels_translation', array( 'WPML_Taxonomy_Translation', 'save_labels_translation' ) );
 
 			// Ajax Action for the updating of term names on the troubleshooting page
 			add_action( 'wp_ajax_wpml_update_term_names_troubleshoot', array( 'WPML_Troubleshooting_Terms_Menu', 'wpml_update_term_names_troubleshoot' ) );
@@ -437,8 +443,12 @@ class SitePress
 					} else {
 						if ($this->check_if_admin_action_from_referer()){
 							$this->this_lang = $this->get_admin_language_cookie();
-						} elseif(isset($_SERVER['HTTP_REFERER'])) {
-							$this->this_lang = $this->get_language_from_url($_SERVER['HTTP_REFERER']);
+						} elseif ( isset( $_SERVER[ 'HTTP_REFERER' ] ) ) {
+							$this->this_lang = $this->get_language_from_url( $_SERVER[ 'HTTP_REFERER' ] );
+						} elseif ( $this->get_language_cookie() ) {
+							$this->this_lang = $this->get_language_cookie();
+						} else {
+							$this->this_lang = $this->get_default_language();
 						}
 					}
 				} elseif ( $lang = $this->get_admin_language_cookie() ) {
@@ -453,7 +463,7 @@ class SitePress
 				}
 
 				$update_admin_language_cookie = false;
-				$update_admin_language_cookie |= is_admin() && isset($_GET['lang']) && ( $this->get_current_language() != $this->get_admin_language_cookie() );
+				$update_admin_language_cookie |= ( ( is_admin() && ! wpml_is_ajax() ) || ( wpml_is_ajax() && $this->check_if_admin_action_from_referer() ) ) && isset( $_GET[ 'lang' ] ) && ( $this->get_current_language() != $this->get_admin_language_cookie() );
 				$update_admin_language_cookie |= isset( $_GET[ 'admin_bar' ] ) && ( $_GET[ 'admin_bar' ] == 1 ) && !isset( $_GET[ 'page' ] );
 				$update_admin_language_cookie |= !defined( 'WPML_ST_FOLDER' ) || ( isset($_GET[ 'page' ]) && $_GET[ 'page' ] != WPML_ST_FOLDER . '/menu/string-translation.php' );
 				$update_admin_language_cookie |= !$this->get_admin_language_cookie();
@@ -515,14 +525,14 @@ class SitePress
 						 * we redirect accordingly.
 						 */
 						if ( $this->settings[ 'language_negotiation_type' ] == 1 && $this->settings[ 'urls' ][ 'directory_for_default_language' ] && $this->settings[ 'urls' ][ 'show_on_root' ] == 'page' ) {
-							$filtered_root_url = $this->filter_root_permalink( wpml_strip_subdir_from_url( site_url() ) . $_SERVER[ 'REQUEST_URI' ] );
+							$filtered_root_url = WPML_Root_Page::filter_root_permalink( wpml_strip_subdir_from_url( site_url() ) . $_SERVER[ 'REQUEST_URI' ] );
 							if ( $filtered_root_url != wpml_strip_subdir_from_url( site_url() ) . $_SERVER[ 'REQUEST_URI' ] ) {
 								wp_redirect( $filtered_root_url, 302 );
 								exit();
 							}
 						}
 
-						if ( $this->is_root_page() ) {
+						if ( WPML_Root_Page::is_current_request_root() ) {
 							if ( $this->settings[ 'urls' ][ 'show_on_root' ] == 'html_file' ) {
 								// html file
 								if ( false === strpos( $this->settings[ 'urls' ][ 'root_html_file_path' ], '/' ) ) {
@@ -733,20 +743,23 @@ class SitePress
 		add_action( 'init', array( $this, 'set_up_language_selector' ) );
 
 		global $pagenow;
-		if ( $pagenow == 'admin-ajax.php' ) {
-			if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'wpml_tt_show_terms') {
-				$default_language = $this->get_default_language();
-				//@todo: remove the following live after WPML 3.5 release
-				//$this->switch_lang($default_language, true);
-			}
-		}
+
 		// set language to default and remove language switcher when in Taxonomy Translation page
 		// If the page uses AJAX and the language must be forced to default, please use the
 		// if ( $pagenow == 'admin-ajax.php' )above
-		if ( is_admin() && isset( $_GET[ 'page' ] ) && ( $_GET[ 'page' ] == ICL_PLUGIN_FOLDER . '/menu/taxonomy-translation.php' || $_GET[ 'page' ] == ICL_PLUGIN_FOLDER . '/menu/menus-sync.php' )  ) {
+		if ( is_admin()
+		     && ( isset( $_GET[ 'page' ] )
+		          && ( $_GET[ 'page' ] == ICL_PLUGIN_FOLDER . '/menu/taxonomy-translation.php'
+		               || $_GET[ 'page' ] == ICL_PLUGIN_FOLDER . '/menu/menus-sync.php'
+		               || $_GET[ 'page' ] == ICL_PLUGIN_FOLDER . '/menu/taxonomy-translation-display.class.php' )
+		          || ( $pagenow == 'admin-ajax.php'
+		               && isset( $_POST[ 'action' ] )
+		               && $_POST[ 'action' ] == 'wpml_tt_save_labels_translation' ) )
+		) {
 			$default_language = $this->get_admin_language();
-			$this->switch_lang($default_language, true);
-			add_action( 'init', array( $this, 'remove_admin_language_switcher'));
+			$this->switch_lang( $default_language, true );
+			add_action( "admin_init", array( "WPML_Taxonomy_Translation_Table_Display", "enqueue_taxonomy_table_js" ) );
+			add_action( 'init', array( $this, 'remove_admin_language_switcher' ) );
 		}
 
 		/* Posts and new inline created terms, can only be saved in an active language.
@@ -769,239 +782,7 @@ class SitePress
 		do_action('wpml_after_init');
 	}
 
-	/**
-	 * @param bool|String $requested_url String If this is specified the value of $url will be checked for whether it's the root page.
-	 *                       Checks whether the currently requested page is the root page.
-	 *
-	 * @return bool
-	 */
-	function is_root_page( $requested_url = false ) {
 
-		/*
-		 * A request leads to the root page under the following conditions.
-		 *
-		 * 1. The get parameter on it specifically requests the root page via either:
-		 *  ?preview_id = {root_page_id}
-		 *  ?page_id = {root_page_id}
-		 *  ?p = {root_page_id}
-		 *
-		 * 2. The root page slug is the first slug after the domain.
-		 *
-		 * 3. There is no slug after the domain and the get parameters are not set as to redirect
-		 *    to another page meaning:
-		 *  no ?p, ?page_id or similar query parameter redirects to another post/page
-		 *  no get parameter such as ?cat redirects to an archive page
-		 *
-		 */
-
-		$is_root = true;
-
-		// before checking anything see if the site even uses a root page
-
-		$urls = $this->get_setting( 'urls' );
-
-		if ( ! $urls
-		     || ! isset( $urls[ 'directory_for_default_language' ] )
-		     || ! $urls[ 'directory_for_default_language' ]
-		     || ! isset( $urls[ 'root_page' ] )
-		     || $urls[ 'root_page' ] == 0
-		) {
-			$is_root = false;
-		} elseif ( isset( $_SERVER[ 'REQUEST_URI' ] ) || $requested_url !== false ) {
-
-			$root_id   = $urls[ 'root_page' ];
-			$root_slug = false;
-			if ( $root_id ) {
-				$root_page_object = get_post( $root_id );
-				if ( $root_page_object && isset( $root_page_object->post_name ) ) {
-					$root_slug = $root_page_object->post_name;
-				}
-			}
-
-			if ( $root_slug === false ) {
-				$is_root = false;
-			} else {
-
-				if ( $requested_url ) {
-					$request_uri = parse_url( $requested_url, PHP_URL_PATH );
-                    $query_string = parse_url( $requested_url, PHP_URL_QUERY );
-                    if( $query_string ) {
-                        $request_uri .= '?' . $query_string;
-                    }
-				} else {
-					$request_uri = $_SERVER[ 'REQUEST_URI' ];
-				}
-
-                //If the get parameter ? is not preceeded by a /, add a '/'
-                if ( strpos( $request_uri, '?' ) !== false && strpos( $request_uri, '/?' ) === false ) {
-                    $request_uri = str_replace( '?', '/?', $request_uri );
-                }
-
-				$request_uri = wpml_strip_subdir_from_url( $request_uri );
-
-				//First get the slug of the requested url, should there be one.
-				$slugs_and_get_params = explode( '/', $request_uri );
-
-				foreach ( $slugs_and_get_params as $key => $slug ) {
-					if ( ! trim( $slug ) ) {
-						unset( $slugs_and_get_params[ $key ] );
-					}
-				}
-
-				// if we have any slugs or get parameters it could be we are not on the root page
-
-				if ( ! empty( $slugs_and_get_params ) ) {
-					$get_query_string = '';
-					// First of all see if we have get parameters
-					if ( isset( $_GET ) && ! empty( $_GET ) ) {
-						$get_query_string = array_pop( $slugs_and_get_params );
-						/* In case we have get parameters we can instantly be sure to be on the root page
-						 * This can be done by either id parameters or by slug/name parameters.
-						 * ID parametes as of WP 4.1 are : p, page_id
-						 * Name parameters as of WP 4.1 are: name, pagename
-						 */
-
-						if ( ( isset( $_GET[ 'p' ] ) && $_GET[ 'p' ] != $root_id )
-						     || ( isset( $_GET[ 'page_id' ] ) && $_GET[ 'page_id' ] != $root_id )
-						     || ( isset( $_GET[ 'name' ] ) && $_GET[ 'name' ] != $root_slug )
-						     || ( isset( $_GET[ 'pagename' ] ) && $_GET[ 'pagename' ] != $root_slug )
-						) {
-							$is_root = false;
-						}
-					}
-
-					/*
-					 * Next up there are other get parameters that allow us to recognize not being on the root page for certain.
-					 * These only come into play when neither of the above page parameters is set and therefore no specific page is queried for.
-					 */
-					if ( ! ( isset( $_GET[ 'pagename' ] ) || isset( $_GET[ 'name' ] ) || isset( $_GET[ 'page_id' ] ) || isset( $_GET[ 'p' ] ) ) ) {
-
-						/* The under these conditions excluded parameters, that ensure the root page to not be queried for, are determined in this way:
-						 * First we fetch all rewrite rules. This has to be done from the options cache since the actual rewrite object is not initialized yet.
-						 * Initializing it would impose a siginificant performance hit too.
-						 */
-						$query = new WP_Query( str_replace( '?', '', $get_query_string ) );
-
-						if ( ( $query->is_archive() ) ) {
-							$is_root = false;
-						}
-					}
-
-
-					// In case we have slugs, we need to check the last slug for whether it is the slug of the root page
-
-					if ( $is_root && ! empty( $slugs_and_get_params ) ) {
-						$slugs       = $slugs_and_get_params;
-						$last_slug   = array_pop( $slugs );
-						$second_slug = array_pop( $slugs );
-						if ( ( $root_slug != $last_slug && ! is_numeric( $last_slug )
-						       || ( is_numeric( $last_slug ) && $second_slug != null && $root_slug != $second_slug && 'page' != $second_slug ) )
-						     && ( ! ( isset( $_GET[ 'p' ] ) && $_GET[ 'p' ] == $root_id )
-						          || ! ( isset( $_GET[ 'page_id' ] ) && $_GET[ 'page_id' ] == $root_id )
-						          || ! ( isset( $_GET[ 'name' ] ) && $_GET[ 'name' ] == $root_slug )
-						          || ! ( isset( $_GET[ 'pagename' ] ) && $_GET[ 'pagename' ] == $root_slug ) )
-						) {
-							/* If the last slug is not the root slug or numeric,
-							 * then the current page is not the root page. This condition only holds though
-							 * in case no page/post parameters are appended to the request, that point towards the root page.
-							 */
-							$is_root = false;
-						}
-					}
-				}
-			}
-		}
-
-		return $is_root;
-	}
-
-	/**
-	 * @param $url
-	 * Filters links to the root page, so that they are displayed properly in the front-end.
-	 *
-	 * @return mixed
-	 */
-	function filter_root_permalink( $url ) {
-		$urls             = $this->get_setting( 'urls' );
-		$root_id          = $urls[ 'root_page' ];
-		$root_page_object = get_post( $root_id );
-		$url              = str_replace( ' ', '', $url );
-		$url              = str_replace( '%20/', '/', $url );
-
-		if ( $this->is_root_page( $url ) ) {
-			$root_slug = $root_page_object->post_name;
-
-			// Remove all whitespaces from urls
-			$method  = '';
-			$new_url = str_replace( 'http://', '', $url );
-			if ( $new_url != $url ) {
-				$method = 'http://';
-			} else {
-				$new_url = str_replace( 'https://', '', $url );
-				if ( $new_url != $url ) {
-					$method = 'https://';
-				}
-			}
-
-			$query = '';
-
-			if ( strpos( $new_url, '?' ) !== false ) {
-
-				$split_by_get_url  = explode( '?', $new_url );
-				$url_without_query = array_shift( $split_by_get_url );
-				$query             = implode( '?', $split_by_get_url );
-			} else {
-				$url_without_query = $new_url;
-			}
-
-			$slugs       = explode( '/', $url_without_query );
-
-			foreach ( $slugs as $key => $slug ) {
-				if ( $slug == '' || strpos( $slug, parse_url( $url, PHP_URL_HOST ) ) !== false ) {
-					unset( $slugs[ $key ] );
-				}
-			}
-
-			$last_slug   = array_pop( $slugs );
-			$second_slug = array_pop( $slugs );
-
-			if ( $second_slug == $root_slug && ( is_numeric( $last_slug ) || $last_slug == "" ) ) {
-				$url_without_query   = str_replace( '/' . $second_slug . '/', '/', $url_without_query );
-				$potential_lang_slug = array_pop( $slugs );
-			} elseif ( $last_slug == $root_slug ) {
-				$url_without_query   = str_replace( '/' . $last_slug, '/', $url_without_query );
-				$potential_lang_slug = $second_slug;
-			} else {
-				$potential_lang_slug = array_pop( $slugs );
-			}
-
-			$all_langs = $this->get_active_languages();
-
-			foreach ( $all_langs as $lang ) {
-				if ( $lang[ 'code' ] == $potential_lang_slug ) {
-					$url_without_query = str_replace( '/' . $potential_lang_slug, '/', $url_without_query );
-					break;
-				}
-			}
-			$new_url = trailingslashit($url_without_query);
-
-			if ( $query != '' ) {
-				$new_url = $new_url . '?' . $query;
-			}
-
-			/* Only if we actually have a root url, do we filter the url here.
-			 * This is to ensure that cases like url/wp-admin/members/root-slug are properly
-			 * differentiated from actualy root page calls, in case of root-slug's with
-			 * generic names potentially causing collisions.
-			 */
-
-			if ( empty( $slugs ) ) {
-				$url = $method . $new_url;
-			}
-		}
-
-		return $url;
-	}
 
 	function load_dependencies() {
 		do_action('wpml_load_dependencies');
@@ -2920,7 +2701,7 @@ class SitePress
 				}
 				wp_enqueue_script( $handle );
 			} else {
-				wp_enqueue_script( 'translate-taxonomy', ICL_PLUGIN_URL . '/res/js/taxonomy-translation.js', array( 'jquery' ), ICL_SITEPRESS_VERSION );
+				WPML_Taxonomy_Translation_Table_Display::enqueue_taxonomy_table_js();
 			}
 
 			if ( !wp_style_is( 'toolset-font-awesome', 'registered' ) ) { // check if styles are already registered
@@ -3557,86 +3338,13 @@ class SitePress
 		$this->icl_translations_cache->clear();
 	}
 
-	function get_element_language_details( $el_id, $el_type = 'post_post' )
-	{
+	function get_element_language_details( $el_id, $el_type = 'post_post' ) {
+		global $wpdb;
+
 		$cache_key = $el_id . ':' .  $el_type;
 		$cache_group = 'element_language_details';
 		$cached_details = wp_cache_get($cache_key, $cache_group);
 		if($cached_details) return $cached_details;
-
-		global $wpdb;
-		static $pre_load_done = false;
-		if ( !$pre_load_done && !ICL_DISABLE_CACHE ) {
-			// search previous queries for a group of posts
-			foreach ( $this->queries as $query ) {
-				$pos = strstr( $query, 'post_id IN (' );
-				if ( $pos !== false ) {
-					$group = substr( $pos, 10 );
-					$group = substr( $group, 0, strpos( $group, ')' ) + 1 );
-
-					$query = "SELECT element_id, trid, language_code, source_language_code
-						FROM {$wpdb->prefix}icl_translations
-						WHERE element_id IN {$group} AND element_type=%s";
-					$query_prepared = $wpdb->prepare($query, $el_type );
-					$ret   = $wpdb->get_results( $query_prepared );
-					foreach ( $ret as $details ) {
-						if ( isset( $this->icl_translations_cache ) ) {
-							$this->icl_translations_cache->set( $details->element_id . $el_type, $details );
-						}
-					}
-
-					// get the taxonomy for the posts for later use
-					// categories first
-					$query = "SELECT DISTINCT(tr.term_taxonomy_id), tt.term_id, tt.taxonomy, icl.trid, icl.language_code, icl.source_language_code
-						FROM {$wpdb->prefix}term_relationships as tr
-						LEFT JOIN {$wpdb->prefix}term_taxonomy AS tt
-						ON tr.term_taxonomy_id = tt.term_taxonomy_id
-						LEFT JOIN {$wpdb->prefix}icl_translations as icl ON tr.term_taxonomy_id = icl.element_id
-						WHERE tr.object_id IN {$group}
-						AND (icl.element_type='tax_category' and tt.taxonomy='category')
-						";
-					$query .= "UNION
-					";
-					$query .= "SELECT DISTINCT(tr.term_taxonomy_id), tt.term_id, tt.taxonomy, icl.trid, icl.language_code, icl.source_language_code
-						FROM {$wpdb->prefix}term_relationships as tr
-						LEFT JOIN {$wpdb->prefix}term_taxonomy AS tt
-						ON tr.term_taxonomy_id = tt.term_taxonomy_id
-						LEFT JOIN {$wpdb->prefix}icl_translations as icl ON tr.term_taxonomy_id = icl.element_id
-						WHERE tr.object_id IN {$group}
-						AND (icl.element_type='tax_post_tag' and tt.taxonomy='post_tag')";
-					global $wp_taxonomies;
-					$custom_taxonomies = array_diff( array_keys( $wp_taxonomies ), array( 'post_tag', 'category', 'link_category' ) );
-					if ( !empty( $custom_taxonomies ) ) {
-						foreach ( $custom_taxonomies as $tax ) {
-							$query .= " UNION
-								SELECT DISTINCT(tr.term_taxonomy_id), tt.term_id, tt.taxonomy, icl.trid, icl.language_code, icl.source_language_code
-								FROM {$wpdb->prefix}term_relationships as tr
-								LEFT JOIN {$wpdb->prefix}term_taxonomy AS tt
-								ON tr.term_taxonomy_id = tt.term_taxonomy_id
-								LEFT JOIN {$wpdb->prefix}icl_translations as icl ON tr.term_taxonomy_id = icl.element_id
-								WHERE tr.object_id IN {$group}
-								AND (icl.element_type='tax_{$tax}' and tt.taxonomy='{$tax}')";
-						}
-					}
-					$ret = $wpdb->get_results( $query );
-
-					foreach ( $ret as $details ) {
-						// save language details
-						$lang_details                       = new stdClass();
-						$lang_details->trid                 = $details->trid;
-						$lang_details->language_code        = $details->language_code;
-						$lang_details->source_language_code = $details->source_language_code;
-						if ( isset( $this->icl_translations_cache ) ) {
-							$this->icl_translations_cache->set( $details->term_taxonomy_id . 'tax_' . $details->taxonomy, $lang_details );
-							// save the term taxonomy
-							$this->icl_term_taxonomy_cache->set( 'category_' . $details->term_id, $details->term_taxonomy_id );
-						}
-					}
-					break;
-				}
-			}
-			$pre_load_done = true;
-		}
 
 		if ( isset( $this->icl_translations_cache ) && $this->icl_translations_cache->has_key( $el_id . $el_type ) ) {
 			return $this->icl_translations_cache->get( $el_id . $el_type );
@@ -3646,7 +3354,6 @@ class SitePress
 			SELECT trid, language_code, source_language_code
 			FROM {$wpdb->prefix}icl_translations
 			WHERE element_id=%d AND element_type=%s", array( $el_id, $el_type ) );
-
 		$details = $wpdb->get_row( $details_prepared_sql );
 		if ( isset( $this->icl_translations_cache ) ) {
 			$this->icl_translations_cache->set( $el_id . $el_type, $details );
@@ -6460,7 +6167,7 @@ class SitePress
 						if ( $is_https ) {
 							preg_replace( '#^http://#', 'https://', $new_url );
 						} // normalize protocol
-						$this->settings[ 'language_domains' ][ $default_language ] = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'");
+						$this->settings[ 'language_domains' ][ $default_language ] = $absolute_home_url;
 						$new_url = str_replace( $absolute_home_url, $this->settings[ 'language_domains' ][ $code ], $new_url );
 						if ( $is_https ) {
 							preg_replace( '#^http://#', 'https://', $new_url );
@@ -6611,7 +6318,7 @@ class SitePress
 		global $sitepress_settings;
 
 		if ( function_exists('icl_t') && isset($sitepress_settings['st']['strings_language']) && $this->get_current_language() != $sitepress_settings['st']['strings_language']) {
-			if ( isset($this->settings['posts_slug_translation']['types'][$post_type]) && $this->settings['posts_slug_translation']['types'][$post_type] ) {
+			if ( $this->slug_translation_turned_on($post_type) ) {
 				$post_type_object = get_post_type_object($post_type);
 
 				if (isset($post_type_object->rewrite)) {
@@ -6630,6 +6337,20 @@ class SitePress
 		}
 		
 		return $link;
+	}
+	
+	/** 
+	 * Check if "Translate custom posts slugs (via WPML String Translation)." 
+	 * and slug translation for given $post_type are both checked
+	 * 
+	 * @param string $post_type
+	 * @return boolean
+	 */
+	private function slug_translation_turned_on($post_type) {
+		return isset($this->settings['posts_slug_translation']['types'][$post_type]) 
+					&& $this->settings['posts_slug_translation']['types'][$post_type] 
+					&& isset($this->settings['posts_slug_translation']['on']) 
+					&& $this->settings['posts_slug_translation']['on'];
 	}
 
 	function tax_permalink_filter( $p, $tag )
@@ -6981,7 +6702,7 @@ class SitePress
 				$lang[ 'translated_url' ] = $this->language_url( $lang[ 'code' ] ) . $url_glue . 's=' . urlencode( $wp_query->query[ 's' ] );
 			} else {
 				global $icl_language_switcher_preview;
-				if ( $icl_lso_link_empty || is_home() || is_404() || ( 'page' == get_option( 'show_on_front' ) && ( $this->wp_query->queried_object_id == get_option( 'page_on_front' ) || $this->wp_query->queried_object_id == get_option( 'page_for_posts' ) ) ) || $icl_language_switcher_preview || $this->is_root_page() ) {
+				if ( $icl_lso_link_empty || is_home() || is_404() || ( 'page' == get_option( 'show_on_front' ) && ( $this->wp_query->queried_object_id == get_option( 'page_on_front' ) || $this->wp_query->queried_object_id == get_option( 'page_for_posts' ) ) ) || $icl_language_switcher_preview || WPML_Root_Page::is_current_request_root() ) {
 					$lang[ 'translated_url' ] = $this->language_url( $lang[ 'code' ] );
 					$skip_lang                = false;
 				} else {
@@ -7537,7 +7258,7 @@ class SitePress
 		// comment from Konrad: don't remove this as it is still used by nav menus
 
 		global $icl_adjust_id_url_filter_off;
-		if ( $icl_adjust_id_url_filter_off ) {
+		if ( $icl_adjust_id_url_filter_off || ! $this->get_setting( 'auto_adjust_ids' ) ) {
 			return $term;
 		} // special cases when we need the category in a different language
 
@@ -7612,25 +7333,16 @@ class SitePress
 		return $out;
 	}
 
-	function get_terms_adjust_ids( $terms, $taxonomies, $args )
-	{
-		static $__run_once = false; // only run for calls that have 'include' as an argument. ant only run once.
-		if ( $args[ 'include' ] && !$__run_once && $this->get_current_language() != $this->get_default_language() ) {
-			$__run_once = true;
-			if ( is_array( $args[ 'include' ] ) ) {
-				$include = $args[ 'include' ];
-			} else {
-				$include = array_map( 'trim', explode( ',', $args[ 'include' ] ) );
-			}
-			$tr_include = array();
-			foreach ( $include as $i ) {
-				$t = icl_object_id( $i, $taxonomies[ 0 ], true );
-				if ( $t ) {
-					$tr_include[ ] = $t;
-				}
-			}
-			$args[ 'include' ] = join( ',', $tr_include );
-			$terms             = get_terms( $taxonomies, $args );
+	function get_terms_adjust_ids( $terms, $taxonomies, $args ) {
+		static $recursions = 0; // only run for calls that have 'include' as an argument. ant only run once.
+		$is_alternate_language = ! $this->current_language_is_default();
+		if ( $recursions == 0 && $is_alternate_language ) {
+			$recursions ++;
+
+			$args[ 'include' ] = $this->adjust_taxonomies_terms_ids( $taxonomies, $args[ 'include' ], false );
+			$args[ 'exclude' ] = $this->adjust_taxonomies_terms_ids( $taxonomies, $args[ 'exclude' ], false );
+
+			$terms = get_terms( $taxonomies, $args );
 		}
 
 		return $terms;
@@ -9797,7 +9509,9 @@ class SitePress
 				$lang = $this->get_current_language();
 		}
 
-		return in_array( $lang, array( 'ar', 'he', 'fa', 'ku' ) );
+		$rtl_languages_codes = apply_filters('wpml_rtl_languages_codes', array( 'ar', 'he', 'fa', 'ku' ));
+
+		return in_array( $lang, $rtl_languages_codes );
 	}
 
 	function get_translatable_documents( $include_not_synced = false )
@@ -10057,21 +9771,33 @@ class SitePress
 		}
 	}
 
-	function verify_taxonomy_translations( $taxonomy )
-	{
-		global $wpdb;
-		$element_ids_prepared = $wpdb->prepare( "SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy=%s", $taxonomy);
-		$element_ids = $wpdb->get_col( $element_ids_prepared );
-		if ( !empty( $element_ids ) ) {
-			foreach ( $element_ids as $id ) {
-				$translation_id_prepared = $wpdb->prepare( "SELECT translation_id FROM {$wpdb->prefix}icl_translations WHERE element_id=%d AND element_type=%s", $id, 'tax_' . $taxonomy);
-				$translation_id = $wpdb->get_var( $translation_id_prepared );
-				if ( !$translation_id ) {
-					$this->set_element_language_details( $id, 'tax_' . $taxonomy, false, $this->get_default_language() );
-				}
-			}
+	/**
+	 * This function is to be used on setting a taxonomy from untranslated to being translated.
+	 * It creates potentially missing translations and reassigns posts to the then created terms in the correct language.
+	 * This function affects all terms in a taxonomy and therefore, depending on the database size results in
+	 * heavy resource demand. It should not be used to fix term and post assignment problems other than those
+	 * resulting from the action of turning a translated taxonomy into an untranslated one.
+	 *
+	 * An exception is being made for the installation process assigning all existing terms the default language,
+	 * given no prior language information is saved about them in the database.
+	 *
+	 * @param $taxonomy string
+	 */
+	function verify_taxonomy_translations( $taxonomy ) {
+
+		require_once "inc/taxonomy-term-translation/wpml-term-language-sychronization.class.php";
+
+		$setup_complete = $this->get_setting( 'setup_complete' );
+
+		if ( $setup_complete ) {
+			$tax_sync = new WPML_Term_Language_Synchronization( $taxonomy );
+			$tax_sync->set_translated();
+		} else {
+			WPML_Term_Language_Synchronization::set_initial_term_language( $taxonomy );
 		}
+
 	}
+
 
 	function copy_from_original()
 	{
@@ -10106,7 +9832,7 @@ class SitePress
 		if ( $show ) {
 			wp_nonce_field( 'copy_from_original_nonce', '_icl_nonce_cfo_' . $trid );
 			echo '<input id="icl_cfo" class="button-secondary" type="button" value="' . sprintf( __( 'Copy content from %s', 'sitepress' ), $source_lang_name ) . '"
-				onclick="icl_copy_from_original(\'' . esc_js( $source_lang ) . '\', \'' . esc_js( $trid ) . '\')"' . $disabled . '/>';
+				onclick="icl_copy_from_original(\'' . esc_js( $source_lang ) . '\', \'' . esc_js( $trid ) . '\')"' . $disabled . ' style="white-space:normal;height:auto;line-height:normal;"/>';
 			icl_pop_info( __( "This operation copies the content from the original language onto this translation. It's meant for when you want to start with the original content, but keep translating in this language. This button is only enabled when there's no content in the editor.", 'sitepress' ), 'question' );
 			echo '<br clear="all" />';
 		}
@@ -11450,5 +11176,57 @@ class SitePress
 		}
 		return $form;
 	}
-		
+
+	/**
+	 * @param string|array $source
+	 *
+	 * @return array
+	 */
+	private function explode_and_trim( $source ) {
+		if ( ! is_array( $source ) ) {
+			$source = array_map( 'trim', explode( ',', $source ) );
+
+			return $source;
+		}
+
+		return $source;
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function current_language_is_default() {
+		return $this->get_current_language() == $this->get_default_language();
+	}
+
+	/**
+	 * @param string|array $taxonomies
+	 * @param string|array $terms_ids
+	 * @param bool         $return_original_if_missing
+	 *
+	 * @return array|bool|string
+	 */
+	private function adjust_taxonomies_terms_ids( $taxonomies, $terms_ids, $return_original_if_missing = false ) {
+		$translated_terms_ids = false;
+		if ( $terms_ids ) {
+			$terms_ids            = $this->explode_and_trim( $terms_ids );
+			$translated_terms_ids = array();
+			$taxonomies           = $this->explode_and_trim( $taxonomies );
+			if ( $taxonomies ) {
+				foreach ( $taxonomies as $taxonomy ) {
+					foreach ( $terms_ids as $i ) {
+						$t = icl_object_id( $i, $taxonomy, $return_original_if_missing );
+						if ( $t ) {
+							$translated_terms_ids[ ] = $t;
+						}
+					}
+				}
+				$translated_terms_ids = join( ',', $translated_terms_ids );
+			}
+
+			return $translated_terms_ids;
+		}
+
+		return $translated_terms_ids;
+	}
 }

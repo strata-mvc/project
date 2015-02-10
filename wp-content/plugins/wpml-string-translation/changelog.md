@@ -1,3 +1,11 @@
+**2.0.14**
+* **Fix**
+	* Fixed a menu synchronisation issue with custom links string
+	
+**2.0.13**
+* **Fix**
+	* Fixed an issue that prevented _n and _nx gettext tags from being properly parsed and imported.
+
 **2.0.12**
 
 * **Fix**

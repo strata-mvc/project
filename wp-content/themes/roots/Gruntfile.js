@@ -13,12 +13,37 @@ module.exports = function(grunt) {
         '!assets/js/deps.min.js'
       ]
     },
+     autoprefixer: {
+      options: {
+        browsers: ['last 2 versions', 'ie 8', 'ie 9'], 
+        diff: false,
+        safe: true,
+        remove: false
+      },
+      dist: {
+        src: 'assets/css/main.min.css',
+        dest: 'assets/css/main.min.css'
+      }
+    },
     less: {
+      dev: {
+        files: {
+          'assets/css/main.min.css': [
+            'assets/less/app.less',
+          ]
+        },
+        options: {
+          compress: false,
+          // LESS source map
+          // To enable, set sourceMap to true and update sourceMapRootpath based on your install
+          sourceMap: true,
+          sourceMapFilename: 'assets/css/main.min.css.map',
+        }
+      },
       dist: {
         files: {
           'assets/css/main.min.css': [
             'assets/less/app.less',
-            'assets/css/royal-slider/royalslider.css',
           ]
         },
         options: {
@@ -26,12 +51,53 @@ module.exports = function(grunt) {
           // LESS source map
           // To enable, set sourceMap to true and update sourceMapRootpath based on your install
           sourceMap: false,
-          sourceMapFilename: 'assets/css/main.min.css.map',
-          sourceMapRootpath: '/app/themes/roots/'
         }
       }
     },
     uglify: {
+      dev: {
+        files: {
+          'assets/js/vendor/modernizr.min.js': [
+            'assets/js/bower_components/modernizr/modernizr.js'
+          ],
+          'assets/js/deps.min.js': [
+            'assets/js/plugins/compat-console.js',
+            // 'assets/js/plugins/bootstrap/transition.js',
+            // 'assets/js/plugins/bootstrap/alert.js',
+            // 'assets/js/plugins/bootstrap/button.js',
+            // 'assets/js/plugins/bootstrap/carousel.js',
+            // 'assets/js/plugins/bootstrap/collapse.js',
+            // 'assets/js/plugins/bootstrap/dropdown.js',
+            // 'assets/js/plugins/bootstrap/modal.js',
+            // 'assets/js/plugins/bootstrap/tooltip.js',
+            // 'assets/js/plugins/bootstrap/popover.js',
+            // 'assets/js/plugins/bootstrap/scrollspy.js',
+            // 'assets/js/plugins/bootstrap/tab.js',
+            // 'assets/js/plugins/bootstrap/affix.js',
+            'assets/js/bower_components/gsap/src/minified/TweenMax.min.js',
+            'assets/js/plugins/royal-slider/js/jquery.easing-1.3.js',
+            'assets/js/plugins/royal-slider/js/jquery.royalslider.custom.min.js',
+            'assets/js/plugins/imagesloaded/imagesloaded.pkgd.min.js', //problem with the bower component
+            'assets/js/bower_components/masonry/dist/masonry.pkgd.min.js',
+            'assets/js/bower_components/snapjs/snap.min.js',
+            'assets/js/bower_components/spinjs/spin.js',
+            // 'assets/js/plugins/*.js'
+          ],
+          'assets/js/scripts.min.js': [
+            'assets/js/deps.min.js',
+            'assets/js/plugins/*.js',
+            'assets/js/_*.js'
+          ]
+        },
+        options: {
+          // JS source map: to enable, uncomment the lines below and update sourceMappingURL based on your install
+          // sourceMap: 'assets/js/scripts.min.js.map',
+          // sourceMappingURL: '/app/themes/roots/assets/js/scripts.min.js.map'
+          compress: false,
+          beautify: true,
+          mangle: false
+        }
+      },
       dist: {
         files: {
           'assets/js/vendor/modernizr.min.js': [
@@ -76,28 +142,28 @@ module.exports = function(grunt) {
         }
       }
     },
-    version: {
-      options: {
-        file: 'lib/scripts.php',
-        css: 'assets/css/main.min.css',
-        cssHandle: 'roots_main',
-        js: 'assets/js/scripts.min.js',
-        jsHandle: 'roots_scripts'
-      }
-    },
+    // version: {
+    //   options: {
+    //     file: 'lib/scripts.php',
+    //     css: 'assets/css/main.min.css',
+    //     cssHandle: 'roots_main',
+    //     js: 'assets/js/scripts.min.js',
+    //     jsHandle: 'roots_scripts'
+    //   }
+    // },
     watch: {
-      // less: {
-      //   files: [
-      //     'assets/less/*.less',
-      //     'assets/less/bootstrap/*.less'
-      //   ],
-      //   tasks: ['less', 'version']
-      // },
+      less: {
+        files: [
+          'assets/less/*.less',
+          'assets/less/bootstrap/*.less'
+        ],
+        tasks: ['less:dev', 'autoprefixer:dist']
+      },
       js: {
         files: [
           '<%= jshint.all %>'
         ],
-        tasks: ['jshint', 'uglify', 'version']
+        tasks: ['uglify:dev']
       },
       livereload: {
         // Browser live reloading
@@ -128,16 +194,22 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-wp-version');
+  grunt.loadNpmTasks('grunt-autoprefixer');
 
   // Register tasks
   grunt.registerTask('default', [
     'clean',
-    'less',
-    'uglify',
-    'version'
-  ]);
-  grunt.registerTask('dev', [
+    'less:dev',
+    'autoprefixer:dist',
+    'uglify:dev',
     'watch'
+  ]);
+
+  grunt.registerTask('dist', [
+    'clean',
+    'less:dist',
+    'autoprefixer:dist',
+    'uglify:dist'
   ]);
 
 };

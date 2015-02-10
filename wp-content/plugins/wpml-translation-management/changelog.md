@@ -1,3 +1,8 @@
+**1.9.8**
+
+* **Fix**
+	* Fixed a style issue with the "View Original" link of Translation Jobs table
+	
 **1.9.7**
 
 * **Improvements**

@@ -192,8 +192,8 @@ class ICLMenusSync
 							$translated_object_url_t = '';
 
 							if(function_exists('icl_t') && $this->string_translation_default_language_ok()) {
-								$translated_object_title_t = icl_t( $menu_name . ' menu', 'Menu Item Label ' . $item->ID, $item->post_title, $icl_st_label_exists, true );
-								$translated_object_url_t   = icl_t( $menu_name . ' menu', 'Menu Item URL ' . $item->ID, $item->url, $icl_st_url_exists, true );
+								$translated_object_title_t = icl_t( $menu_name . ' menu', 'Menu Item Label ' . $item->ID, $item->post_title, $icl_st_label_exists, true, $language[ 'code' ] );
+								$translated_object_url_t   = icl_t( $menu_name . ' menu', 'Menu Item URL ' . $item->ID, $item->url, $icl_st_url_exists, true, $language[ 'code' ] );
 							} elseif($translated_object_id && isset($item_translations[$language[ 'code' ]])) {
 								$translated_menu_id = $this->get_translated_menu_id($menu_id, $language[ 'code' ]);
 								$translated_menu_items = wp_get_nav_menu_items($translated_menu_id);
@@ -621,8 +621,12 @@ class ICLMenusSync
 
 								$sitepress->switch_lang( $current_language, false );
 
-								if(!$icl_st_label_exists) icl_register_string($menu_name . ' menu', 'Menu Item Label ' . $item_id, $object_title);
-								if(!$icl_st_url_exists) icl_register_string($menu_name . ' menu', 'Menu Item URL ' . $item_id, $object_url);
+								if( !$icl_st_label_exists ) {
+									icl_register_string($menu_name . ' menu', 'Menu Item Label ' . $item_id, $object_title);
+								}
+								if( !$icl_st_url_exists ) {
+									icl_register_string($menu_name . ' menu', 'Menu Item URL ' . $item_id, $object_url);
+								}
 							} else {
 								$object_title = $name;
 							}

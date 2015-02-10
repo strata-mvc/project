@@ -7,8 +7,27 @@ jQuery(document).ready(function(){
         jQuery('#edittag table[class="form-table"]:first tr:last td:last').html(jQuery('#icl_tax_menu').html());  
     }    
     jQuery('#icl_tax_menu').remove();
-       
-   jQuery('select[name="icl_tag_language"]').change(function(){
+
+    var addTagForm = jQuery('#addtag');
+
+    addTagForm.off('submit', 'preventSubmit');
+
+    var formBlocked = false;
+    addTagForm.on('blur', function(){
+        formBlocked = false;
+    });
+
+    jQuery(document).on('keydown', function(e){
+        if(formBlocked){
+            e.preventDefault();
+        }
+        if(e.keyCode == 13 && addTagForm.find('input:focus').length !== 0){
+            formBlocked = true;
+            addTagForm.ajaxComplete( function(){formBlocked = false;}  )
+        }
+    });
+
+    jQuery('select[name="icl_tag_language"]').change(function(){
         var icl_subsubsub_save = jQuery('#icl_subsubsub').html();
         var lang = jQuery(this).val();
         var ajx = location.href.replace(/#(.*)$/,'');
@@ -36,7 +55,7 @@ jQuery(document).ready(function(){
             tag_end  = resp.indexOf('</div>', tag_start);            
             tag_cloud = resp.substr(tag_start+22,tag_end-tag_start-22);
             jQuery('.tagcloud').html(tag_cloud);
-        });        
+        });
         
    });
 

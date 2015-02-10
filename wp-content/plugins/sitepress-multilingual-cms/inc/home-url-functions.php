@@ -177,7 +177,6 @@ function wpml_home_url_parse_query( $q )
 		return $q;
 	}
     global $sitepress_settings;
-    global $sitepress;
 
 	$site_url = get_site_url();
 
@@ -186,7 +185,7 @@ function wpml_home_url_parse_query( $q )
 		$parts[ 'path' ] = '';
 	}
 
-	if ( ! $sitepress->is_root_page() ) {
+	if ( ! WPML_Root_Page::is_current_request_root() ) {
 		return $q;
 	} else {
 		remove_action( 'parse_query', 'wpml_home_url_parse_query' );
@@ -201,7 +200,7 @@ function wpml_home_url_parse_query( $q )
 			if ( $sanitized_query ) {
 				$sanitized_query .= '&';
 			}
-			$sanitized_query .= 'page=' . $potential_pagination_parameter . '&paged=1';
+			$sanitized_query .= 'page=' . $potential_pagination_parameter;
 		}
 
 		$sanitized_query = str_replace( '?', '', $sanitized_query );
@@ -227,7 +226,6 @@ function wpml_home_url_template_include($template) {
 
 	$is_root_page = isset( $sitepress_settings[ 'urls' ][ 'root_page' ] ) && $sitepress_settings[ 'urls' ][ 'root_page' ] == $id;
 	if ( $is_root_page ) {
-		set_query_var('page', get_query_var('page'));
 		$template = get_page_template();
 	}
     return $template;

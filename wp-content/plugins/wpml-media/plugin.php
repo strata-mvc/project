@@ -5,14 +5,14 @@ Plugin URI: https://wpml.org/
 Description: Add multilingual support for Media files
 Author: OnTheGoSystems
 Author URI: http://www.onthegosystems.com/
-Version: 2.1.7
+Version: 2.1.8
 */
 
 if (defined('WPML_MEDIA_VERSION')) {
 	return;
 }
 
-define('WPML_MEDIA_VERSION', '2.1.7');
+define('WPML_MEDIA_VERSION', '2.1.8');
 define('WPML_MEDIA_PATH', dirname(__FILE__));
 
 require WPML_MEDIA_PATH . '/inc/constants.inc';

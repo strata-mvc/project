@@ -49,82 +49,83 @@ class WPML_Post_Edit_Ajax {
 	}
 
 	/**
-	 * Ajax handler for adding a term to a post.
-	 * todo: use the return of this for flat terms. Check its use for hierarchical ones.
+	 * Ajax handler for adding a term via Ajax.
 	 */
-	public static function wpml_add_term_to_post() {
+	public static function wpml_save_term() {
+		global $sitepress;
 
-		$post_id      = false;
-		$taxonomy     = false;
-		$lang         = false;
-		$term_strings = false;
+		$taxonomy    = false;
+		$lang        = false;
+		$name        = false;
+		$slug        = false;
+		$trid        = false;
+		$description = false;
+		$sync        = false;
 
-		if ( isset( $_POST[ 'wpml_lang' ] ) ) {
-			$lang = $_POST[ 'wpml_lang' ];
+		if ( isset( $_POST[ 'term_language_code' ] ) ) {
+			$lang = $_POST[ 'term_language_code' ];
 		}
 
-		if ( isset( $_POST[ 'wpml_taxonomy' ] ) ) {
-			$taxonomy = $_POST[ 'wpml_taxonomy' ];
+		if ( isset( $_POST[ 'taxonomy' ] ) ) {
+			$taxonomy = $_POST[ 'taxonomy' ];
 		}
 
-		if ( isset( $_POST[ 'wpml_post_id' ] ) ) {
-			$post_id = $_POST[ 'wpml_post_id' ];
+		if ( isset( $_POST[ 'slug' ] ) ) {
+			$slug = $_POST[ 'slug' ];
 		}
 
-		if ( isset( $_POST[ 'wpml_terms' ] ) ) {
-			$term_strings = $_POST[ 'wpml_terms' ];
+		if ( isset( $_POST[ 'name' ] ) ) {
+			$name = $_POST[ 'name' ];
 		}
 
-		$args = array( 'taxonomy' => $taxonomy, 'lang_code' => $lang );
+		if ( isset( $_POST[ 'trid' ] ) ) {
+			$trid = $_POST[ 'trid' ];
+		}
 
-		/*  Hierarchical terms might have a parent element */
-		$hierarchical_flag = is_taxonomy_hierarchical( $taxonomy );
+		if ( isset( $_POST[ 'description' ] ) ) {
+			$description = $_POST[ 'description' ];
+		}
 
-		if ( $hierarchical_flag ) {
-			if ( isset( $_POST[ 'wpml_term_parent_id' ] ) ) {
-				$parent_id = $_POST[ 'wpml_term_parent_id' ];
-				if ( $parent_id ) {
-					$args[ 'parent' ] = $parent_id;
-				}
+		if ( isset( $_POST[ 'force_hierarchical_sync' ] ) ) {
+			$sync = $_POST[ 'force_hierarchical_sync' ];
+		}
+
+		$new_term_object = false;
+
+		if ( $name && $taxonomy && $trid && $lang ) {
+
+			$args = array(
+				'taxonomy'  => $taxonomy,
+				'lang_code' => $lang,
+				'term'      => $name,
+				'trid'      => $trid,
+				'overwrite' => true
+			);
+
+			if ( $slug ) {
+				$args[ 'slug' ] = $slug;
 			}
-		}
-
-		$result = array();
-
-		foreach ( (array) $term_strings as $term_string ) {
-
-			if ( ! $term_string ) {
-				continue;
+			if ( $description ) {
+				$args[ 'description' ] = $description;
 			}
 
-			$args[ 'term' ] = (string)$term_string;
+			$res = WPML_Terms_Translations::create_new_term( $args );
 
-			if ( $post_id ) {
-				$res = WPML_Terms_Translations::create_term_on_post( $post_id, $args );
-			} else {
-				$res = WPML_Terms_Translations::create_new_term( $args );
-			}
-			if ( $res ) {
+			if ( $res && isset( $res[ 'term_taxonomy_id' ] ) ) {
 				/* res holds the term taxonomy id, we return the whole term objects to the ajax call */
-				{
-					$new_term_object = get_term_by( 'term_taxonomy_id', (int) $res, $taxonomy );
+				$new_term_object                = get_term_by( 'term_taxonomy_id', (int) $res[ 'term_taxonomy_id' ], $taxonomy );
+				$lang_details                   = $sitepress->get_element_language_details( $new_term_object->term_taxonomy_id, 'tax_' . $new_term_object->taxonomy );
+				$new_term_object->trid          = $lang_details->trid;
+				$new_term_object->language_code = $lang_details->language_code;
 
-					if ( $new_term_object ) {
-						if ( $hierarchical_flag ) {
-							/* These are to be displayed as selected in the post edit screen */
-							$new_term_object->selected = true;
-
-							/* These are only created one at a time, so they have their special index in the result */
-							$result [ 'new_h_term' ] = $new_term_object;
-						} else {
-							$result [ ] = $new_term_object;
-						}
-					}
+				WPML_Terms_Translations::icl_save_term_translation_action( $taxonomy, $res );
+				if ( $sync ) {
+					$tree = new WPML_Translation_Tree( $taxonomy );
+					$tree->sync_tree( $lang, $sync );
 				}
 			}
 		}
-
-		wp_send_json_success( $result );
+		wp_send_json_success( $new_term_object );
 	}
 
 	/**
@@ -304,7 +305,7 @@ class WPML_Post_Edit_Ajax {
 		global $sitepress;
 
 		$post_id = false;
-		$lang = false;
+		$lang    = false;
 
 		if ( isset( $_POST[ 'wpml_post_id' ] ) ) {
 			$post_id = $_POST[ 'wpml_post_id' ];
@@ -344,7 +345,11 @@ class WPML_Post_Edit_Ajax {
 					$terms_in_tax = array();
 				}
 
-				$translated_taxonomies [ ] = array( 'label' => $taxobject->label, 'name' => $tax, 'hierarchical' => $hierarchical, 'terms' => $terms_in_tax );
+				$translated_taxonomies [ ] = array( 'label'        => $taxobject->label,
+				                                    'name'         => $tax,
+				                                    'hierarchical' => $hierarchical,
+				                                    'terms'        => $terms_in_tax
+				);
 			}
 		}
 
@@ -419,7 +424,7 @@ class WPML_Post_Edit_Ajax {
 		global $sitepress;
 
 		$post_id = false;
-		$lang = false;
+		$lang    = false;
 
 		if ( isset( $_POST[ 'wpml_post_id' ] ) ) {
 			$post_id = $_POST[ 'wpml_post_id' ];
@@ -434,7 +439,7 @@ class WPML_Post_Edit_Ajax {
 		if ( $post_id && $lang ) {
 			$permalink = post_permalink( $post_id );
 			$urls      = $sitepress->get_setting( 'urls' );
-			$root_id = 0;
+			$root_id   = 0;
 			if ( isset( $urls[ 'root_page' ] ) ) {
 				$root_id = $urls[ 'root_page' ];
 			}
@@ -449,6 +454,6 @@ class WPML_Post_Edit_Ajax {
 
 	public static function wpml_get_default_lang() {
 		global $sitepress;
-		wp_send_json_success ( $sitepress->get_default_language () );
+		wp_send_json_success( $sitepress->get_default_language() );
 	}
 }

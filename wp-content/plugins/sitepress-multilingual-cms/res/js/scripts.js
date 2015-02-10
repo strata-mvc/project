@@ -46,6 +46,8 @@ jQuery(document).ready(function($){
                 var p1 = resp.indexOf('<span id="icl_subsubsub">');
                 var p2 = resp.indexOf('<\\/span>', p1);
                 jQuery('#icl_subsubsub').html(resp.substr(p1+25, p2-p1-25).replace(/\\/g, ''));
+                fixMissingPostTypesInLinks();
+
             });
         }
 
@@ -779,7 +781,26 @@ function icl_cf_translation_preferences_submit(cf, obj) {
 
     }
 
+};
+
+
+function fixMissingPostTypesInLinks() {
+    var languageLinks = jQuery('#icl_subsubsub').find('a');
+    var postsFilter = jQuery('#posts-filter');
+    if (languageLinks.length !== 0 && postsFilter.length !== 0) {
+
+        var postTypeField = postsFilter.find('[name="post_type"]');
+        if (postTypeField.length !== 0) {
+            var postType = postTypeField.val();
+            if (postType) {
+                jQuery.each(languageLinks, function () {
+                    var href = jQuery(this).attr('href');
+                    if (href.indexOf('post_type') === -1) {
+                        jQuery(this).attr('href', href + '&post_type=' + postType);
+                    }
+                })
+            }
+        }
+    }
 }
-
-
 
