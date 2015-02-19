@@ -22,12 +22,17 @@ function init_gtm_datalayer($datalayer) {
     return \IP\GTMHelper::initDataLayer($datalayer);
 }
 
-function setup_login_security() {
-	$security = new \IP\Security();
-	$security->addOptionsPage();
-	$security->protectLoginPage();
+/*
+* Initialize Login Security
+*/
+if(LOGIN_SECURITY) {
+	function setup_login_security() {
+		$security = new \IP\Security();
+		$security->addOptionsPage();
+		$security->protectLoginPage();
+	}
+	add_action('init', 'setup_login_security');
 }
-add_action('init', 'setup_login_security');
 
 /**
  * Replaces the {site_name} tag with bloginfo(name) in Gravity Forms notifications

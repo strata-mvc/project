@@ -12,6 +12,10 @@ add_theme_support('jquery-cdn');            // Enable to load jQuery from the Go
  */
 define('POST_EXCERPT_LENGTH', 40); // Length in words for excerpt_length filter (http://codex.wordpress.org/Plugin_API/Filter_Reference/excerpt_length)
 define('AJAX_NONCE_KEY', 'iprospect-wp-pE4HcfTVeBf');
+
+// Activate Login Security
+define('LOGIN_SECURITY', true);
+
 /**
  * .main classes
  */
