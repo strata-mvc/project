@@ -21,3 +21,29 @@ add_filter('gtp4wp_compile_datalayer', 'init_gtm_datalayer', 10);
 function init_gtm_datalayer($datalayer) {
     return \IP\GTMHelper::initDataLayer($datalayer);
 }
+
+function setup_login_security() {
+	$security = new \IP\Security();
+	$security->addOptionsPage();
+	$security->protectLoginPage();
+}
+add_action('init', 'setup_login_security');
+
+/**
+ * Replaces the {site_name} tag with bloginfo(name) in Gravity Forms notifications
+ */
+if( function_exists('gform_replace_merge_tags') ) {
+	add_filter('gform_replace_merge_tags', 'replace_download_link', 10, 7);
+	function replace_download_link($text, $form, $entry, $url_encode, $esc_html, $nl2br, $format) {
+	    
+	    $custom_merge_tag = '{site_name}';
+	    
+	    if(strpos($text, $custom_merge_tag) === false)
+	        return $text;
+	    
+	    $site_name = get_bloginfo("name");
+	    $text = str_replace($custom_merge_tag, $site_name, $text);
+	    
+	    return $text;
+	}
+}

@@ -4,48 +4,50 @@ Plugin Name: Timber
 Plugin URI: http://timber.upstatement.com
 Description: The WordPress Timber Library allows you to write themes using the power Twig templates
 Author: Jared Novack + Upstatement
-Version: 0.20.9
+Version: 0.20.10
 Author URI: http://upstatement.com/
 */
 
 global $wp_version;
 global $timber;
 
-$composer_autoload = __DIR__ . '/vendor/autoload.php';
-if (file_exists($composer_autoload)){
-	require_once($composer_autoload);
+// we look for Composer files first in the theme (theme install)
+// then in the wp-content dir (site install)
+if (    file_exists($composer_autoload = __DIR__ . '/vendor/autoload.php')
+        || file_exists($composer_autoload = WP_CONTENT_DIR.'/vendor/autoload.php')){
+  require_once($composer_autoload);
 }
 
-require_once(__DIR__ . '/functions/timber-twig.php');
-require_once(__DIR__ . '/functions/timber-helper.php');
-require_once(__DIR__ . '/functions/timber-url-helper.php');
-require_once(__DIR__ . '/functions/timber-image-helper.php');
+require_once(__DIR__ . '/lib/timber-twig.php');
+require_once(__DIR__ . '/lib/timber-helper.php');
+require_once(__DIR__ . '/lib/timber-url-helper.php');
+require_once(__DIR__ . '/lib/timber-image-helper.php');
 
-require_once(__DIR__ . '/functions/timber-core-interface.php');
-require_once(__DIR__ . '/functions/timber-core.php');
-require_once(__DIR__ . '/functions/timber-post.php');
-require_once(__DIR__ . '/functions/timber-post-getter.php');
-require_once(__DIR__ . '/functions/timber-comment.php');
-require_once(__DIR__ . '/functions/timber-user.php');
-require_once(__DIR__ . '/functions/timber-term.php');
-require_once(__DIR__ . '/functions/timber-term-getter.php');
-require_once(__DIR__ . '/functions/timber-image.php');
-require_once(__DIR__ . '/functions/timber-menu-item.php');
-require_once(__DIR__ . '/functions/timber-menu.php');
-require_once(__DIR__ . '/functions/timber-query-iterator.php');
-require_once(__DIR__ . '/functions/timber-posts-collection.php');
+require_once(__DIR__ . '/lib/timber-core-interface.php');
+require_once(__DIR__ . '/lib/timber-core.php');
+require_once(__DIR__ . '/lib/timber-post.php');
+require_once(__DIR__ . '/lib/timber-post-getter.php');
+require_once(__DIR__ . '/lib/timber-comment.php');
+require_once(__DIR__ . '/lib/timber-user.php');
+require_once(__DIR__ . '/lib/timber-term.php');
+require_once(__DIR__ . '/lib/timber-term-getter.php');
+require_once(__DIR__ . '/lib/timber-image.php');
+require_once(__DIR__ . '/lib/timber-menu-item.php');
+require_once(__DIR__ . '/lib/timber-menu.php');
+require_once(__DIR__ . '/lib/timber-query-iterator.php');
+require_once(__DIR__ . '/lib/timber-posts-collection.php');
 
 //Other 2nd-class citizens
-require_once(__DIR__ . '/functions/timber-archives.php');
-require_once(__DIR__ . '/functions/timber-routes.php');
-require_once(__DIR__ . '/functions/timber-site.php');
-require_once(__DIR__ . '/functions/timber-theme.php');
-require_once(__DIR__ . '/functions/timber-loader.php');
-require_once(__DIR__ . '/functions/timber-function-wrapper.php');
-require_once(__DIR__ . '/functions/integrations/acf-timber.php');
-require_once(__DIR__ . '/functions/integrations/wpcli-timber.php');
+require_once(__DIR__ . '/lib/timber-archives.php');
+require_once(__DIR__ . '/lib/timber-routes.php');
+require_once(__DIR__ . '/lib/timber-site.php');
+require_once(__DIR__ . '/lib/timber-theme.php');
+require_once(__DIR__ . '/lib/timber-loader.php');
+require_once(__DIR__ . '/lib/timber-function-wrapper.php');
+require_once(__DIR__ . '/lib/integrations/acf-timber.php');
+require_once(__DIR__ . '/lib/integrations/wpcli-timber.php');
 
-require_once(__DIR__ . '/functions/timber-admin.php');
+require_once(__DIR__ . '/lib/timber-admin.php');
 
 /** Usage:
  *

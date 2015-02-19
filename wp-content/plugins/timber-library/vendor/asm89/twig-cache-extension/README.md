@@ -10,10 +10,10 @@ templates using several cache strategies.
 
 The extension is installable via composer:
 
-```js
+```json
 {
     "require": {
-        "asm89/twig-cache-extension": "*"
+        "asm89/twig-cache-extension": "~0.1"
     }
 }
 ```
@@ -62,7 +62,15 @@ Cache blocks can be nested:
         {% endcache %}
     {% endfor %}
 {% endcache %}
+```
 
+The annotation can also be an expression:
+
+```jinja
+{% set version = 42 %}
+{% cache 'hello_v' ~ version 900 %}
+    Hello {{ name }}!
+{% endcache %}
 ```
 
 ## Cache strategies
@@ -72,7 +80,7 @@ of all of them is described below.
 
 ### Lifetime
 
-See the "Quick start" for usage information of the `LifetimeCacheStrategy`.
+See the ["Quick start"](#quick-start) for usage information of the `LifetimeCacheStrategy`.
 
 ### Generational
 

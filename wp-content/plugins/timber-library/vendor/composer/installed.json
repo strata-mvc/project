@@ -1,17 +1,17 @@
 [
     {
         "name": "composer/installers",
-        "version": "v1.0.19",
-        "version_normalized": "1.0.19.0",
+        "version": "v1.0.20",
+        "version_normalized": "1.0.20.0",
         "source": {
             "type": "git",
             "url": "https://github.com/composer/installers.git",
-            "reference": "89d77bfbee79e16653f7162c86e602cc188471db"
+            "reference": "1bff8aa77a18f3616f468ed8000cf86a5725bac3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/composer/installers/zipball/89d77bfbee79e16653f7162c86e602cc188471db",
-            "reference": "89d77bfbee79e16653f7162c86e602cc188471db",
+            "url": "https://api.github.com/repos/composer/installers/zipball/1bff8aa77a18f3616f468ed8000cf86a5725bac3",
+            "reference": "1bff8aa77a18f3616f468ed8000cf86a5725bac3",
             "shasum": ""
         },
         "replace": {
@@ -22,7 +22,7 @@
             "composer/composer": "1.0.*@dev",
             "phpunit/phpunit": "4.1.*"
         },
-        "time": "2014-11-29 01:29:17",
+        "time": "2015-01-11 03:51:11",
         "type": "composer-installer",
         "extra": {
             "class": "Composer\\Installers\\Installer",
@@ -55,6 +55,7 @@
             "Hurad",
             "MODX Evo",
             "OXID",
+            "SMF",
             "Thelia",
             "WolfCMS",
             "agl",
@@ -95,28 +96,46 @@
         ]
     },
     {
+        "name": "jarednova/php-router",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/jarednova/PHP-Router/archive/fix_psr_0.zip",
+            "reference": null,
+            "shasum": null
+        },
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PHPRouter": "src/"
+            }
+        }
+    },
+    {
         "name": "twig/twig",
-        "version": "v1.16.3",
-        "version_normalized": "1.16.3.0",
+        "version": "v1.18.0",
+        "version_normalized": "1.18.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/twigphp/Twig.git",
-            "reference": "6dc11a1e8ecfc30e2c68aaeb218148409d8e68af"
+            "reference": "4cf7464348e7f9893a93f7096a90b73722be99cf"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/twigphp/Twig/zipball/6dc11a1e8ecfc30e2c68aaeb218148409d8e68af",
-            "reference": "6dc11a1e8ecfc30e2c68aaeb218148409d8e68af",
+            "url": "https://api.github.com/repos/twigphp/Twig/zipball/4cf7464348e7f9893a93f7096a90b73722be99cf",
+            "reference": "4cf7464348e7f9893a93f7096a90b73722be99cf",
             "shasum": ""
         },
         "require": {
             "php": ">=5.2.4"
         },
-        "time": "2014-12-25 19:58:19",
+        "time": "2015-01-25 17:32:08",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.16-dev"
+                "dev-master": "1.18-dev"
             }
         },
         "installation-source": "dist",
@@ -155,17 +174,17 @@
     },
     {
         "name": "asm89/twig-cache-extension",
-        "version": "0.1.0",
-        "version_normalized": "0.1.0.0",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/asm89/twig-cache-extension.git",
-            "reference": "35da9579dc0648e5bb52d02530ff81352f7e1247"
+            "reference": "92edc2ab522997fd0a2a02b6b9e89b3e08ac5c60"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/asm89/twig-cache-extension/zipball/35da9579dc0648e5bb52d02530ff81352f7e1247",
-            "reference": "35da9579dc0648e5bb52d02530ff81352f7e1247",
+            "url": "https://api.github.com/repos/asm89/twig-cache-extension/zipball/92edc2ab522997fd0a2a02b6b9e89b3e08ac5c60",
+            "reference": "92edc2ab522997fd0a2a02b6b9e89b3e08ac5c60",
             "shasum": ""
         },
         "require": {
@@ -175,11 +194,11 @@
         "require-dev": {
             "doctrine/cache": "1.*"
         },
-        "time": "2013-11-13 20:03:36",
+        "time": "2014-05-31 13:57:16",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "0.1-dev"
+                "dev-master": "1.0-dev"
             }
         },
         "installation-source": "dist",
@@ -205,109 +224,6 @@
             "cache",
             "extension",
             "twig"
-        ]
-    },
-    {
-        "name": "symfony/yaml",
-        "version": "v2.6.1",
-        "version_normalized": "2.6.1.0",
-        "target-dir": "Symfony/Component/Yaml",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/Yaml.git",
-            "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Yaml/zipball/3346fc090a3eb6b53d408db2903b241af51dcb20",
-            "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "time": "2014-12-02 20:19:20",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.6-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Symfony\\Component\\Yaml\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            },
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            }
-        ],
-        "description": "Symfony Yaml Component",
-        "homepage": "http://symfony.com"
-    },
-    {
-        "name": "dannyvankooten/php-router",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/dannyvankooten/PHP-Router.git",
-            "reference": "e9a479820b871ae4493fec30d5e433456767a505"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/dannyvankooten/PHP-Router/zipball/274b75c1618f69b695caa91d2c7ba0f67f0e774c",
-            "reference": "e9a479820b871ae4493fec30d5e433456767a505",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3",
-            "symfony/yaml": "@dev"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "3.7.*"
-        },
-        "time": "2014-02-12 12:10:38",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "PHPRouter": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Danny van Kooten",
-                "email": "dannyvankooten@gmail.com",
-                "homepage": "http://dannyvankooten.com/"
-            },
-            {
-                "name": "Jefersson Nathan",
-                "email": "malukenho@phpse.net"
-            }
-        ],
-        "description": "Simple PHP Router, supports REST and reverse routing.",
-        "homepage": "https://github.com/dannyvankooten/PHP-Router",
-        "keywords": [
-            "php",
-            "rest",
-            "router",
-            "routing"
         ]
     }
 ]

@@ -39,12 +39,13 @@ if( stristr( $_SERVER['SERVER_NAME'], "dlamarre" ) ) {
 	define('WP_HOME','');
 	define('WP_SITEURL','');
 } else if( stristr( $_SERVER['SERVER_NAME'], "screpin" ) ) {
- 	# LOCAL (Dave Lamarre)
-	define('DB_NAME','');
-	define('DB_USER','');
-	define('DB_PASSWORD','');
-	define('WP_HOME','');
-	define('WP_SITEURL','');
+ 	# LOCAL (Sylvie Crepin)
+	define('DB_NAME','iprospect-roots');
+	define('DB_USER','root');
+	define('DB_PASSWORD','root');
+	define('WP_LOCAL', true);
+	define('WP_HOME','http://www.iprospect-roots.screpin.local');
+	define('WP_SITEURL','http://www.iprospect-roots.screpin.local');
 }  elseif( stristr( $_SERVER['SERVER_NAME'], "test" ) ) {
 	# TEST :
 	define('DB_NAME','');

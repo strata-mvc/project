@@ -61,7 +61,8 @@ function roots_display_sidebar() {
      */
     array(
       'template-custom.php',
-      'template-fullpage.php'
+      'template-fullpage.php',
+      'template-protected.php'
     )
   );
 

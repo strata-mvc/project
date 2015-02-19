@@ -1,4 +1,12 @@
 -------------------------------------------------------------------------------------------------------------------
+Version 1.9.1.2
+    - Fixed issue where tabbing through Date field would skip the next field in the tabindex
+
+-------------------------------------------------------------------------------------------------------------------
+Version 1.9.1.1
+    - Fixed an issue with validation of the address field when the option to use values from another field is enabled and activated.
+
+-------------------------------------------------------------------------------------------------------------------
 Version 1.9.1
     - Added $failed_validation_page as a 3rd parameter to the gform_validation filter.
     - Added GFCommon::has_merge_tag() method to determine if a string contains a GF merge tag.
