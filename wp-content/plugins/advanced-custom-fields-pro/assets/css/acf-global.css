@@ -149,32 +149,25 @@ img.acf-fw {
 *  tooltip
 *
 *---------------------------------------------------------------------------------------------*/
+/* tooltip */
 .acf-tooltip {
-  display: inline;
-  position: relative;
-}
-.acf-tooltip:hover:after {
-  background: #333;
-  background: rgba(0, 0, 0, 0.8);
+  background: #2F353E;
   border-radius: 5px;
-  bottom: 26px;
   color: #fff;
-  content: attr(title);
-  left: 20%;
   padding: 5px 15px;
   position: absolute;
-  z-index: 98;
-  width: 220px;
+  z-index: 9999;
+  font-size: 12px;
 }
-.acf-tooltip:hover:before {
+.acf-tooltip:before {
   border: solid;
-  border-color: #333 transparent;
+  border-color: #2F353E transparent;
   border-width: 6px 6px 0 6px;
-  bottom: 20px;
+  bottom: 0px;
+  margin: 0 0 -6px -6px;
   content: "";
   left: 50%;
   position: absolute;
-  z-index: 99;
 }
 /*---------------------------------------------------------------------------------------------
 *
@@ -554,11 +547,6 @@ img.acf-fw {
   border: 0 none !important;
   padding: 4px;
 }
-/* input table */
-.acf-input-table {
-  border: 1px solid #F5F5F5;
-  background: #F9F9F9;
-}
 /*--------------------------------------------------------------------------------------------
 *
 *	acf-button
@@ -714,6 +702,23 @@ img.acf-fw {
 .metabox-prefs label.acf-hidden {
   display: none;
 }
+/* edit field group */
+.acf-postbox .hndle .acf-hndle-cog {
+  color: #AAAAAA;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 0 2px;
+  float: right;
+  position: relative;
+  display: none;
+}
+.acf-postbox .hndle:hover .acf-hndle-cog,
+.acf-postbox .hndle.hover .acf-hndle-cog {
+  display: block;
+}
+.acf-postbox .hndle .acf-hndle-cog:hover {
+  color: #777777;
+}
 /*---------------------------------------------------------------------------------------------
 *
 *  wp-admin
@@ -818,6 +823,10 @@ img.acf-fw {
 *---------------------------------------------------------------------------------------------*/
 .acf-input-table {
   border: #DFDFDF solid 1px;
+  background: #F9F9F9;
+}
+.compat-item .acf-input-table {
+  border: #DFDFDF solid 1px;
 }
 .acf-input-table > thead th {
   background: #fff;
@@ -849,8 +858,8 @@ img.acf-fw {
 /* order */
 .acf-input-table > thead > tr > th.order,
 .acf-input-table > tbody > tr > td.order {
-  width: 16px !important;
-  text-align: center !important;
+  width: 16px;
+  text-align: center;
   vertical-align: middle;
 }
 .acf-input-table > tbody > tr > td.order {
@@ -866,6 +875,12 @@ img.acf-fw {
 .acf-input-table > tbody > tr > td.order + td {
   border-left-color: #DFDFDF;
 }
+.acf-input-table .order-spacer,
+.acf-input-table .remove-spacer {
+  width: 16px;
+  display: block;
+  height: 1px;
+}
 /* row block layout */
 .acf-table.row-layout > tbody > tr > td,
 .acf-table.block-layout > tbody > tr > td {
@@ -874,11 +889,12 @@ img.acf-fw {
 /* remove */
 .acf-input-table > thead > tr > th.remove,
 .acf-input-table > tbody > tr > td.remove {
-  width: 16px !important;
+  width: 16px;
   vertical-align: middle;
 }
 .acf-input-table > tbody > tr > td.remove {
   background: #F9F9F9;
+  border-left-color: #DFDFDF;
 }
 /* border limits */
 .acf-input-table > thead > tr > th:first-child,
@@ -903,6 +919,12 @@ img.acf-fw {
   opacity: 1;
 }
 /* media fix */
+.media-modal .acf-field * {
+  box-sizing: border-box;
+}
+.media-modal .acf-table {
+  table-layout: auto;
+}
 .media-item .describe .acf-input-table > thead > tr > th {
   width: auto;
 }
@@ -1079,6 +1101,30 @@ img.acf-fw {
 .acf-wrap .feature-section {
   margin-top: 40px;
   padding-bottom: 20px;
+}
+/*--------------------------------------------------------------------------------------------
+*
+*	acf-hl cols
+*
+*--------------------------------------------------------------------------------------------*/
+.acf-hl[data-cols] {
+  margin-left: -8px;
+  margin-right: -8px;
+}
+.acf-hl[data-cols] > li {
+  padding: 0 8px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.acf-hl[data-cols="2"] > li {
+  width: 50%;
+}
+.acf-hl[data-cols="3"] > li {
+  width: 33.333%;
+}
+.acf-hl[data-cols="4"] > li {
+  width: 25%;
 }
 /*--------------------------------------------------------------------------------------------
 *

@@ -37,7 +37,10 @@ class acf_field_file extends acf_field {
 		$this->category = 'content';
 		$this->defaults = array(
 			'return_format'	=> 'array',
-			'library' 		=> 'all'
+			'library' 		=> 'all',
+			'min_size'		=> 0,
+			'max_size'		=> 0,
+			'mime_types'	=> ''
 		);
 		$this->l10n = array(
 			'select'		=> __("Select File",'acf'),
@@ -78,12 +81,17 @@ class acf_field_file extends acf_field {
 		
 		// vars
 		$o = array(
-			'class'		=> 'acf-file-uploader acf-cf',
 			'icon'		=> '',
 			'title'		=> '',
 			'size'		=> '',
 			'url'		=> '',
 			'name'		=> '',
+		);
+		
+		$div = array(
+			'class'				=> 'acf-file-uploader acf-cf',
+			'data-library' 		=> $field['library'],
+			'data-mime_types'	=> $field['mime_types']
 		);
 		
 		if( $field['value'] && is_numeric($field['value']) ) {
@@ -92,7 +100,8 @@ class acf_field_file extends acf_field {
 			
 			if( $file ) {
 				
-				$o['class'] .= ' has-value';
+				$div['class'] .= ' has-value';
+				
 				$o['icon'] = wp_mime_type_icon( $file->ID );
 				$o['title']	= $file->post_title;
 				$o['size'] = @size_format(filesize( get_attached_file( $file->ID ) ));
@@ -111,14 +120,14 @@ class acf_field_file extends acf_field {
 		
 		if( $basic ) {
 			
-			$o['class'] .= ' basic';
+			$div['class'] .= ' basic';
 			
 		}
-		
+				
 ?>
-<div <?php acf_esc_attr_e(array( 'class' => $o['class'], 'data-library' => $field['library'] )); ?>>
+<div <?php acf_esc_attr_e($div); ?>>
 	<div class="acf-hidden">
-		<input type="hidden" <?php acf_esc_attr_e(array( 'name' => $field['name'], 'value' => $field['value'], 'data-name' => 'id' )); ?> />	
+		<?php acf_hidden_input(array( 'name' => $field['name'], 'value' => $field['value'], 'data-name' => 'id' )); ?>
 	</div>
 	<div class="show-if-value file-wrap acf-soh">
 		<div class="file-icon">
@@ -143,7 +152,6 @@ class acf_field_file extends acf_field {
 				<?php endif; ?>
 				<li><a class="acf-icon dark" data-name="remove" href="#"><i class="acf-sprite-delete"></i></a></li>
 			</ul>
-			
 		</div>
 	</div>
 	<div class="hide-if-value">
@@ -183,6 +191,23 @@ class acf_field_file extends acf_field {
 	
 	function render_field_settings( $field ) {
 		
+		// clear numeric settings
+		$clear = array(
+			'min_size',
+			'max_size'
+		);
+		
+		foreach( $clear as $k ) {
+			
+			if( empty($field[$k]) ) {
+				
+				$field[$k] = '';
+				
+			}
+			
+		}
+		
+		
 		// return_format
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Return Value','acf'),
@@ -209,7 +234,38 @@ class acf_field_file extends acf_field {
 				'all'			=> __('All', 'acf'),
 				'uploadedTo'	=> __('Uploaded to post', 'acf')
 			)
-		));	
+		));
+		
+		
+		// min
+		acf_render_field_setting( $field, array(
+			'label'			=> __('Minimum','acf'),
+			'instructions'	=> __('Restrict which files can be uploaded','acf'),
+			'type'			=> 'text',
+			'name'			=> 'min_size',
+			'prepend'		=> __('File size', 'acf'),
+			'append'		=> 'MB',
+		));
+		
+		
+		// max
+		acf_render_field_setting( $field, array(
+			'label'			=> __('Maximum','acf'),
+			'instructions'	=> __('Restrict which files can be uploaded','acf'),
+			'type'			=> 'text',
+			'name'			=> 'max_size',
+			'prepend'		=> __('File size', 'acf'),
+			'append'		=> 'MB',
+		));
+		
+		
+		// allowed type
+		acf_render_field_setting( $field, array(
+			'label'			=> __('Allowed file types','acf'),
+			'instructions'	=> __('Comma separated list. Leave blank for all types','acf'),
+			'type'			=> 'text',
+			'name'			=> 'mime_types',
+		));
 		
 	}
 	

@@ -644,16 +644,12 @@ function acf_the_field_label( $field ) {
 
 function acf_render_field_setting( $field, $setting, $global = false ) {
 	
-	// vars
-	$atts = array();
-	
-	
 	// validate
 	$setting = acf_get_valid_field( $setting );
 	
 	
 	// if this setting is not global, add a data attribute
-	if( ! $global ) {
+	if( !$global ) {
 		
 		$setting['wrapper']['data-setting'] = $field['type'];
 		
@@ -2689,6 +2685,10 @@ function acf_upload_files( $ancestors = array() ) {
 	}
 	
 	
+	// assign global _acfuploader for media validation
+	$_POST['_acfuploader'] = end($ancestors);
+	
+	
 	// file found!
 	$attachment_id = acf_upload_file( $file );
 	
@@ -2722,7 +2722,7 @@ function acf_upload_file( $uploaded_file ) {
 	 
 	 
 	// required for wp_handle_upload() to upload the file
-	$upload_overrides = array( 'test_form' => FALSE );
+	$upload_overrides = array( 'test_form' => false );
 	
 	
 	// upload
@@ -3073,6 +3073,134 @@ function acf_get_current_url() {
 	
 	// return
 	return $url;
+	
+}
+
+
+/*
+*  acf_current_user_can_admin
+*
+*  This function will return true if the current user can administrate the ACF field groups
+*
+*  @type	function
+*  @date	9/02/2015
+*  @since	5.1.5
+*
+*  @param	$post_id (int)
+*  @return	$post_id (int)
+*/
+
+function acf_current_user_can_admin() {
+	
+	if( acf_get_setting('show_admin') && current_user_can(acf_get_setting('capability')) ) {
+		
+		return true;
+		
+	}
+	
+	
+	// return
+	return false;
+	
+}
+
+
+/*
+*  acf_get_filesize
+*
+*  This function will return a numeric value of bytes for a given filesize string
+*
+*  @type	function
+*  @date	18/02/2015
+*  @since	5.1.5
+*
+*  @param	$size (mixed)
+*  @return	(int)
+*/
+
+function acf_get_filesize( $size = 1 ) {
+	
+	// vars
+	$unit = 'MB';
+	$units = array(
+		'TB' => 4,
+		'GB' => 3,
+		'MB' => 2,
+		'KB' => 1,
+	);
+	
+	
+	// look for $unit within the $size parameter (123 KB)
+	if( is_string($size) ) {
+		
+		foreach( $units as $k => $v ) {
+			
+			if( substr($size, -2) === $k ) {
+				
+				$unit = $k;
+				$size = substr($size, 0, -2);
+					
+			}
+			
+		}
+		
+	}
+	
+	
+	// calc bytes
+	$bytes = intval($size) * pow(1024, $units[$unit]); 
+	
+	
+	// return
+	return $bytes;
+	
+}
+
+
+/*
+*  acf_format_filesize
+*
+*  This function will return a formatted string containing the filesize and unit
+*
+*  @type	function
+*  @date	18/02/2015
+*  @since	5.1.5
+*
+*  @param	$size (mixed)
+*  @return	(int)
+*/
+
+function acf_format_filesize( $size = 1 ) {
+	
+	// vars
+	$unit = 'MB';
+	$units = array(
+		'TB' => 4,
+		'GB' => 3,
+		'MB' => 2,
+		'KB' => 1,
+	);
+	
+	
+	// look for $unit within the $size parameter (123 KB)
+	if( is_string($size) ) {
+		
+		foreach( $units as $k => $v ) {
+			
+			if( substr($size, -2) === $k ) {
+				
+				$unit = $k;
+				$size = substr($size, 0, -2);
+					
+			}
+			
+		}
+		
+	}
+	
+	
+	// return
+	return $size . ' ' . $unit;
 	
 }
 

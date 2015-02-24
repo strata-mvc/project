@@ -84,7 +84,7 @@
 		function addFilter( filter, callback, priority, context ) {
 			if( typeof filter === 'string' && typeof callback === 'function' ) {
 				priority = parseInt( ( priority || 10 ), 10 );
-				_addHook( 'filters', filter, callback, priority );
+				_addHook( 'filters', filter, callback, priority, context );
 			}
 
 			return MethodsAvailable;
@@ -2034,8 +2034,8 @@ var acf;
 		}
 		
 		
-		// update setting
-		acf.update('changed', true);
+		// action for 3rd party customization
+		acf.do_action('change', $(this));
 		
 	});
 	
@@ -2043,59 +2043,177 @@ var acf;
 	/*
 	*  unload
 	*
-	*  description
+	*  This model handles the unload prompt
 	*
 	*  @type	function
-	*  @date	1/09/2014
-	*  @since	5.0.0
+	*  @date	21/02/2014
+	*  @since	3.5.1
 	*
-	*  @param	$post_id (int)
-	*  @return	$post_id (int)
+	*  @param	n/a
+	*  @return	n/a
 	*/
-	
-	var unload = function(){
+		
+	acf.unload = acf.model.extend({
+		
+		active: 1,
+		changed: 0,
+		
+		filters: {
+			'validation_complete': 'validation_complete'
+		},
+		
+		actions: {
+			'change':	'on',
+			'submit':	'off'
+		},
+		
+		events: {
+			'submit form':	'off',
+		},
+		
+		validation_complete: function( json, $form ){
 			
-		if( acf.get('changed') ) {
+			if( json.errors ) {
+				
+				this.on();
+				
+			}
 			
+			// return
+			return json;
+			
+		},
+		
+		on: function(){
+			
+			// bail ealry if already changed (or not active)
+			if( this.changed || !this.active ) {
+				
+				return;
+				
+			}
+			
+			
+			// update 
+			this.changed = 1;
+			
+			
+			// add event
+			$(window).on('beforeunload', this.unload);
+			
+		},
+		
+		off: function(){
+			
+			// update 
+			this.changed = 0;
+			
+			
+			// remove event
+			$(window).off('beforeunload', this.unload);
+			
+		},
+		
+		unload: function(){
+			
+			// alert string
 			return acf._e('unload');
 			
 		}
-		
-	};	
+		 
+	});
 	
 	
-	// add unload if validation fails
-	acf.add_filter('validation_complete', function( json, $form ){
+	acf.tooltip = acf.model.extend({
 		
-		if( json.errors ) {
+		$el: null,
+		
+		events: {
+			'mouseenter .acf-js-tooltip':	'on',
+			'mouseleave .acf-js-tooltip':	'off',
+		},
+
+		on: function( e ){
 			
-			$(window).on('beforeunload', unload);
+			//console.log('on');
+			
+			// vars
+			var title = e.$el.attr('title');
+			
+			
+			// hide empty titles
+			if( !title ) {
+				
+				return;
+									
+			}
+			
+			
+			// $t
+			this.$el = $('<div class="acf-tooltip">' + title + '</div>');
+			
+			
+			// append
+			$('body').append( this.$el );
+			
+			
+			// position
+			this.$el.css({
+				top: e.$el.offset().top - this.$el.outerHeight() - 6,
+				left: e.$el.offset().left + ( e.$el.outerWidth() / 2 ) - ( this.$el.outerWidth() / 2 )
+			});
+			
+			
+			// avoid double title	
+			e.$el.data('title', title);
+			e.$el.attr('title', '');
+			
+		},
+		
+		off: function( e ){
+			
+			//console.log('off');
+			
+			// bail early if no $el
+			if( !this.$el ) {
+				
+				return;
+				
+			}
+			
+			
+			// replace title
+			e.$el.attr('title', e.$el.data('title'));
+			
+			
+			// remove tooltip
+			this.$el.remove();
 			
 		}
 		
-		
-		// return
-		return json;
-		
 	});
 	
 	
-	// remove unload when submitting form
-	$(document).on('submit', 'form', function( e ){
+	acf.postbox = acf.model.extend({
 		
-		$(window).off('beforeunload', unload);
-						
-	});
-	
-	acf.add_action('submit', function( $form ){
+		events: {
+			'mouseenter .acf-postbox .handlediv':	'on',
+			'mouseleave .acf-postbox .handlediv':	'off',
+		},
+
+		on: function( e ){
+			
+			e.$el.siblings('.hndle').addClass('hover');
+			
+		},
 		
-		$(window).off('beforeunload', unload);
-						
+		off: function( e ){
+			
+			e.$el.siblings('.hndle').removeClass('hover');
+			
+		}
+		
 	});
-	
-	
-	// add unload event
-	$(window).on('beforeunload', unload);
 			
 	
 	/*
@@ -2310,7 +2428,7 @@ console.time("acf_test_ready");
 				
 				// vars
 				var $el = $('#acf-' + field_group.key),
-					$toggle = $('#adv-settings .acf_postbox-toggle[for="acf-' + field_group.key + '-hide"]');
+					$toggle = $('#adv-settings .acf-postbox-toggle[for="acf-' + field_group.key + '-hide"]');
 				
 				
 				// classes
@@ -2821,13 +2939,26 @@ console.time("acf_test_ready");
 		
 		show_field : function( $field ){
 			
-			// add class
+			// debug
+			//console.log('show_field(%o)', $field);
+			
+			
+			// bail early if field is already visible
+			if( !$field.hasClass('hidden-by-conditional-logic') ) {
+				
+				return;
+				
+			}
+			
+			
+			// remove class
 			$field.removeClass( 'hidden-by-conditional-logic' );
 			
 			
 			// remove "disabled"
 			// ignore inputs which have a class of 'acf-disabled'. These inputs are disabled for life
-			$field.find('input, textarea, select').not('.acf-disabled').removeAttr('disabled');
+			// ignore inputs which are hidden by conditiona logic of a sub field
+			$field.find('.acf-clhi').not('.hidden-by-conditional-logic .acf-clhi').removeAttr('disabled');
 			
 			
 			// action for 3rd party customization
@@ -2839,7 +2970,15 @@ console.time("acf_test_ready");
 		hide_field : function( $field ){
 			
 			// debug
-			//console.log( 'conditional_logic.hide_field(%o)', $field );
+			//console.log('hide_field(%o)', $field);
+			
+			
+			// bail early if field is already hidden
+			if( $field.hasClass('hidden-by-conditional-logic') ) {
+				
+				return;
+				
+			}
 			
 			
 			// add class
@@ -2847,8 +2986,8 @@ console.time("acf_test_ready");
 			
 			
 			// add "disabled"
-			$field.find('input, textarea, select').attr('disabled', 'disabled');
-			
+			$field.find('input, textarea, select').not('.acf-disabled').addClass('acf-clhi').attr('disabled', 'disabled');
+						
 			
 			// action for 3rd party customization
 			acf.do_action('conditional_logic_hide_field', $field );
@@ -3054,7 +3193,7 @@ console.time("acf_test_ready");
 			
 			
 			// filter for 3rd party customization
-			args = acf.apply_filters('date_picker_args', args, this.$el);
+			args = acf.apply_filters('date_picker_args', args, this.$field);
 			
 			
 			// add date picker
@@ -3145,8 +3284,10 @@ console.time("acf_test_ready");
 				title:		acf._e('file', 'select'),
 				mode:		'select',
 				type:		'',
+				field:		acf.get_field_key($field),
 				multiple:	$repeater.exists(),
 				library:	this.o.library,
+				mime_types: this.o.mime_types,
 				
 				select: function( attachment, i ) {
 					
@@ -3516,6 +3657,11 @@ console.time("acf_test_ready");
         		center		: new google.maps.LatLng(this.o.lat, this.o.lng),
         		mapTypeId	: google.maps.MapTypeId.ROADMAP
         	};
+        	
+			
+			// filter for 3rd party customization
+			args = acf.apply_filters('google_map_args', args, this.$field);
+			
 			
 			// create map	        	
         	this.map = new google.maps.Map( this.$el.find('.canvas')[0], args);
@@ -3920,12 +4066,16 @@ console.time("acf_test_ready");
 			
 			// popup
 			var frame = acf.media.popup({
-				'title'		: acf._e('image', 'select'),
-				'mode'		: 'select',
-				'type'		: 'image',
-				'multiple'	: $repeater.exists(),
-				'library'	: this.o.library,
-				'select'	: function( attachment, i ) {
+				
+				title:		acf._e('image', 'select'),
+				mode:		'select',
+				type:		'image',
+				field:		acf.get_field_key($field),
+				multiple:	$repeater.exists(),
+				library:	this.o.library,
+				mime_types: this.o.mime_types,
+				
+				select: function( attachment, i ) {
 					
 					// select / add another image field?
 			    	if( i > 0 ) {
@@ -3998,9 +4148,9 @@ console.time("acf_test_ready");
 					self.render( self.prepare(attachment) );
 					
 				}
+				
 			});
-			
-			
+						
 		},
 		
 		prepare: function( attachment ) {
@@ -4099,21 +4249,28 @@ console.time("acf_test_ready");
 	
 	acf.media = acf.model.extend({
 		
+		mime_types: {},
+		
 		actions: {
-			'ready':	'onReady',
-			'load':		'onLoad'
+			'ready': 'ready'
 		},
 		
 		popup : function( args ) {
 			
+			// reference
+			var self = this;
+			
+			
 			// defaults
 			var defaults = {
-				'mode'			: 'select', // 'upload'|'edit'
-				'title'			: '',		// 'Upload Image'
-				'button'		: '',		// 'Select Image'
-				'type'			: '',		// 'image'
-				'library'		: 'all',	// 'all'|'uploadedTo'
-				'multiple'		: false,	// false, true, 'add'
+				mode:		'select',	// 'upload'|'edit'
+				title:		'',			// 'Upload Image'
+				button:		'',			// 'Select Image'
+				type:		'',			// 'image'
+				field:		'',			// 'field_123'
+				mime_types:	'',			// 'pdf, etc'
+				library:	'all',		// 'all'|'uploadedTo'
+				multiple:	false,		// false, true, 'add'
 			};
 			
 			
@@ -4123,10 +4280,10 @@ console.time("acf_test_ready");
 			
 			// frame options
 			var options = {
-				'title'			: args.title,
-				'multiple'		: args.multiple,
-				'library'		: {},
-				'states'		: [],
+				title:		args.title,
+				multiple:	args.multiple,
+				library:	{},
+				states:		[],
 			};
 			
 			
@@ -4134,7 +4291,7 @@ console.time("acf_test_ready");
 			if( args.type ) {
 				
 				options.library = {
-					'type' : args.type
+					type: args.type
 				};
 				
 			}
@@ -4144,7 +4301,7 @@ console.time("acf_test_ready");
 			if( args.mode == 'edit' ) {
 				
 				options.library = {
-					'post__in' : [args.id]
+					post__in: [args.id]
 				};
 				
 			}
@@ -4154,7 +4311,7 @@ console.time("acf_test_ready");
 			if( args.button ) {
 			
 				options.button = {
-					'text' : args.button
+					text: args.button
 				};
 				
 			}
@@ -4165,12 +4322,12 @@ console.time("acf_test_ready");
 				
 				// main state
 				new wp.media.controller.Library({
-					library		: wp.media.query( options.library ),
-					multiple	: options.multiple,
-					title		: options.title,
-					priority	: 20,
-					filterable	: 'all',
-					editable	: true,
+					library:		wp.media.query( options.library ),
+					multiple: 		options.multiple,
+					title: 			options.title,
+					priority: 		20,
+					filterable: 	'all',
+					editable: 		true,
 
 					// If the user isn't allowed to edit fields,
 					// can they still edit it locally?
@@ -4181,7 +4338,7 @@ console.time("acf_test_ready");
 			
 			
 			// edit image functionality (added in WP 3.9)
-			if( typeof wp.media.controller.EditImage !== 'undefined' ) {
+			if( acf.isset(wp, 'media', 'controller', 'EditImage') ) {
 				
 				options.states.push( new wp.media.controller.EditImage() );
 				
@@ -4192,14 +4349,30 @@ console.time("acf_test_ready");
 			var frame = wp.media( options );
 			
 			
-			// log events
-			/*
-frame.on('all', function( e ) {
+			// plupload
+			if( acf.isset(_wpPluploadSettings, 'defaults', 'multipart_params') ) {
 				
-				console.log( 'frame all: %o', e );
+				// add _acfuploader so that Uploader will inherit
+				_wpPluploadSettings.defaults.multipart_params._acfuploader = args.field;
+				
+				
+				// remove acf_field so future Uploaders won't inherit
+				frame.on('open', function(){
+					
+					delete _wpPluploadSettings.defaults.multipart_params._acfuploader;
+					
+				});
+				
+			}
+						
+			
+			// log events
+			frame.on('all', function( e ) {
+				
+				//console.log( 'frame all: %o', e );
 			
 			});
-*/
+
 			
 			
 			// edit image view
@@ -4223,9 +4396,7 @@ frame.on('all', function( e ) {
 				// populate above vars making sure to allow for failure
 				try {
 					
-					var content = frame.content.get(),
-						toolbar = content.toolbar,
-						filters = toolbar.get('filters');
+					var filters = frame.content.get().toolbar.get('filters');
 				
 				} catch(e) {
 				
@@ -4236,72 +4407,103 @@ frame.on('all', function( e ) {
 				}
 				
 				
-				// uploaded to post
-				if( args.library == 'uploadedTo' && $.isNumeric(acf.get('post_id')) ) {
+				// image
+				if( args.type == 'image' ) {
 					
-					// remove 'uploaded' option
-					filters.$el.find('option[value="uploaded"]').remove();
+					// update all
+					filters.filters.all.text = acf._e('image', 'all');
+					
+					
+					// remove some filters
+					delete filters.filters.audio;
+					delete filters.filters.video;
+					
+					
+					// update all filters to show images
+					$.each( filters.filters, function( k, filter ){
+						
+						if( filter.props.type === null ) {
+							
+							filter.props.type = 'image';
+							
+						}
+						
+					});
+					
+				}
+				
+				
+				// custom mime types
+				if( args.mime_types ) {
+					
+					// explode
+					var extra_types = args.mime_types.split(' ').join('').split('.').join('').split(',');
+					
+					
+					// loop through mime_types
+					$.each( extra_types, function( i, type ){
+						
+						// find mime
+						$.each( self.mime_types, function( t, mime ){
+							
+							// continue if key does not match
+							if( t.indexOf(type) === -1 ) {
+								
+								return;
+								
+							}
+							
+							
+							// create new filter
+							var filter = {
+								text: type,
+								props: {
+									status:  null,
+									type:    mime,
+									uploadedTo: null,
+									orderby: 'date',
+									order:   'DESC'
+								},
+								priority: 20
+							};			
+											
+							
+							// append filter
+							filters.filters[ mime ] = filter;
+														
+						});
+						
+					});
+					
+				}
+				
+				
+				// uploaded to post
+				var post_id = acf.get('post_id');
+				
+				if( args.library == 'uploadedTo' && $.isNumeric(post_id) ) {
+					
+					// remove some filters
+					delete filters.filters.unattached;
+					delete filters.filters.uploaded;
 					
 					
 					// add 'uploadedTo' text
-					filters.$el.after('<span class="acf-uploadedTo">' + acf._e('image', 'uploadedTo') + '</span>')
+					filters.$el.parent().append('<span class="acf-uploadedTo">' + acf._e('image', 'uploadedTo') + '</span>');
 					
 					
 					// add uploadedTo to filters
-					$.each( filters.filters, function( k, v ){
+					$.each( filters.filters, function( k, filter ){
 						
-						v.props.uploadedTo = acf.get('post_id');
-						
-					});
-				
-				}
-				
-				
-				// type = image
-				if( args.type == 'image' ) {
-					
-					// filter only images
-					$.each( filters.filters, function( k, v ){
-					
-						v.props.type = 'image';
+						filter.props.uploadedTo = post_id;
 						
 					});
-					
-					
-					// remove non image options from filter list
-					filters.$el.find('option').each(function(){
-						
-						// vars
-						var v = $(this).attr('value');
-						
-						
-						// don't remove the 'uploadedTo' if the library option is 'all'
-						if( v == 'uploaded' && args.library == 'all' ) {
-						
-							return;
-							
-						}
-						
-						
-						// remove this option
-						if( v.indexOf('image') === -1 ) {
-						
-							$(this).remove();
-							
-						}
-						
-					});
-					
-					
-					// set default filter
-					filters.$el.val('image');
 					
 				}
 				
 				
-				// trigger change
-				filters.$el.trigger('change')
-				
+				// render
+				filters.refresh();
 				
 			});
 			
@@ -4314,8 +4516,8 @@ frame.on('all', function( e ) {
 				// reference
 				var self = this,
 					i = -1;
-				
-								
+					
+					
 				// get selected images
 				var selection = frame.state().get('selection');
 				
@@ -4327,9 +4529,10 @@ frame.on('all', function( e ) {
 						
 						i++;
 						
-						args.select.apply( self, [ attachment, i] );
+						args.select.apply( self, [attachment, i] );
 						
 					});
+					
 				}
 				
 			});
@@ -4425,49 +4628,80 @@ frame.on('all', function( e ) {
 			}, 1);
 			
 			
+			
+			
 			// return
 			return frame;
 			
 		},
 		
-		onReady: function(){
+		ready: function(){
 			
 			// vars
-			var version = acf.get('wp_version');
+			var version = acf.get('wp_version'),
+				post_id = acf.get('post_id');
 			
 			
-			// bail early if no version
-			if( !version ) {
+			// update wp.media
+			if( acf.isset(window,'wp','media','view','settings','post') && $.isNumeric(post_id) ) {
 				
-				return;
+				wp.media.view.settings.post.id = post_id;
+					
+			}
+			
+			
+			// update version
+			if( version ) {
+				
+				// use only major version
+				if( typeof version == 'string' ) {
+					
+					version = version.substr(0,1);
+					
+				}
+				
+				
+				// add body class
+				$('body').addClass('acf-wp-' + version);
 				
 			}
 			
 			
-			// use only major version
-			if( typeof version == 'string' ) {
-				
-				version = version.substr(0,1);
-				
-			}
-			
-			
-			$('body').addClass('acf-wp-' + version);
+			// customize wp.media views
+			this.customize_AttachmentFiltersAll();
+			this.customize_AttachmentCompat();
 			
 		},
 		
-		onLoad: function(){
+		customize_AttachmentFiltersAll: function(){
 			
-			// bail early if wp.media does not exist (field group edit page)
-			if( typeof wp == 'undefined' ) {
+			// bail ealry if no view
+			if( !acf.isset(window,'wp','media','view','AttachmentFilters','All') ) {
 			
 				return false;
 				
 			}
 			
 			
-			// validate prototype
-			if( ! acf.isset(wp, 'media', 'view', 'AttachmentCompat', 'prototype') ) {
+			// add function refresh
+			wp.media.view.AttachmentFilters.All.prototype.refresh = function(){
+				
+				// Build `<option>` elements.
+				this.$el.html( _.chain( this.filters ).map( function( filter, value ) {
+					return {
+						el: $( '<option></option>' ).val( value ).html( filter.text )[0],
+						priority: filter.priority || 50
+					};
+				}, this ).sortBy('priority').pluck('el').value() );
+				
+			};
+			
+		},
+		
+		customize_AttachmentCompat: function(){
+			
+			// bail ealry if no view
+			if( !acf.isset(window,'wp','media','view','AttachmentCompat') ) {
 			
 				return false;
 				
@@ -4475,23 +4709,23 @@ frame.on('all', function( e ) {
 			
 			
 			// vars
-			var _prototype = wp.media.view.AttachmentCompat.prototype;
+			var view = wp.media.view.AttachmentCompat.prototype;
 			
 			
-			// orig
-			_prototype.orig_render = _prototype.render;
-			_prototype.orig_dispose = _prototype.dispose;
+			// backup functions
+			view.render2 = view.render;
+			view.dispose2 = view.dispose;
 			
 			
 			// modify render
-			_prototype.render = function() {
+			view.render = function() {
 				
 				// reference
-				var _this = this;
+				var self = this;
 				
 				
 				// validate
-				if( _this.ignore_render ) {
+				if( this.ignore_render ) {
 				
 					return this;	
 					
@@ -4499,14 +4733,14 @@ frame.on('all', function( e ) {
 				
 				
 				// run the old render function
-				this.orig_render();
+				this.render2();
 				
 				
 				// add button
 				setTimeout(function(){
 					
 					// vars
-					var $media_model = _this.$el.closest('.media-modal');
+					var $media_model = self.$el.closest('.media-modal');
 					
 					
 					// is this an edit only modal?
@@ -4526,7 +4760,7 @@ frame.on('all', function( e ) {
 					
 					
 					// create button
-					var button = $([
+					var $a = $([
 						'<a href="#" class="acf-expand-details">',
 							'<span class="is-closed"><span class="acf-icon small"><i class="acf-sprite-left"></i></span>' + acf._e('expand_details') +  '</span>',
 							'<span class="is-open"><span class="acf-icon small"><i class="acf-sprite-right"></i></span>' + acf._e('collapse_details') +  '</span>',
@@ -4535,7 +4769,7 @@ frame.on('all', function( e ) {
 					
 					
 					// add events
-					button.on('click', function( e ){
+					$a.on('click', function( e ){
 						
 						e.preventDefault();
 						
@@ -4553,7 +4787,7 @@ frame.on('all', function( e ) {
 					
 					
 					// append
-					$media_model.find('.media-frame-router').append( button );
+					$media_model.find('.media-frame-router').append( $a );
 						
 				
 				}, 0);
@@ -4564,35 +4798,36 @@ frame.on('all', function( e ) {
 				clearTimeout( acf.media.render_timout );
 				acf.media.render_timout = setTimeout(function(){
 					
-					acf.do_action('append', _this.$el);
+					acf.do_action('append', self.$el);
 					
 				}, 50);
 
 				
 				// return based on the original render function
 				return this;
+				
 			};
 			
 			
 			// modify dispose
-			_prototype.dispose = function() {
+			view.dispose = function() {
 				
 				// remove
 				acf.do_action('remove', this.$el);
 				
 				
 				// run the old render function
-				this.orig_dispose();
+				this.dispose2();
 				
 			};
 			
 			
 			// override save
-			_prototype.save = function( event ) {
+			view.save = function( e ) {
 			
-				if( event ) {
+				if( e ) {
 					
-					event.preventDefault();
+					e.preventDefault();
 					
 				}
 				
@@ -4610,26 +4845,9 @@ frame.on('all', function( e ) {
 				
 			};
 			
-			
-			// update the wp.media.view.settings.post.id setting
-			setTimeout(function(){
-			
-				// Hack for CPT without a content editor
-				try {
-				
-					// post_id may be string (user_1) and therefore, the uploaded image cannot be attached to the post
-					if( $.isNumeric(acf.o.post_id) ) {
-					
-						wp.media.view.settings.post.id = acf.o.post_id;
-						
-					}
-					
-				} catch(e) {}
-				
-			}, 10);
-			
-			
 		}
+		
+		
 	});
 
 })(jQuery);
@@ -6514,6 +6732,22 @@ var scroll_timer = null;
 				return false;
 				
 			}
+			
+			
+			// generate new id
+			var old_id = this.o.id,
+				new_id = acf.get_uniqid('acf-editor-');
+			
+			
+			this.$field.find('[id]').each(function(){
+				
+				$(this).attr('id', $(this).attr('id').replace( old_id, new_id ) );
+				
+			});
+			
+			
+			// update id
+			this.o.id = new_id
 			
 			
 			// vars

@@ -37,6 +37,7 @@ class acf_field_message extends acf_field {
 		$this->category = 'layout';
 		$this->defaults = array(
 			'message'	=> '',
+			'esc_html'	=> 0
 		);
 		
 		
@@ -58,8 +59,25 @@ class acf_field_message extends acf_field {
 	*/
 	
 	function render_field( $field ) {
-	
-		echo wpautop( $field['message'] );
+		
+		// wptexturize (improves "quotes")
+		$field['message'] = wptexturize( $field['message'] );
+		
+		
+		// esc_html
+		if( $field['esc_html'] ) {
+			
+			$field['message'] = esc_html( $field['message'] );
+			
+		}
+		
+		
+		// wpautop (wraps in p)
+		$field['message'] = wpautop( $field['message'] );
+		
+		
+		// return
+		echo $field['message'];
 		
 	}
 	
@@ -85,6 +103,20 @@ class acf_field_message extends acf_field {
 			'instructions'	=> __('Please note that all text will first be passed through the wp function ','acf') . '<a href="http://codex.wordpress.org/Function_Reference/wpautop" target="_blank">wpautop()</a>',
 			'type'			=> 'textarea',
 			'name'			=> 'message',
+		));
+		
+		
+		// HTML
+		acf_render_field_setting( $field, array(
+			'label'			=> __('Escape HTML','acf'),
+			'instructions'	=> __('Controls how HTML tags are rendered','acf'),
+			'type'			=> 'radio',
+			'name'			=> 'esc_html',
+			'choices'		=> array(
+				1				=> __("Yes",'acf'),
+				0				=> __("No",'acf'),
+			),
+			'layout'	=>	'horizontal',
 		));
 		
 	}

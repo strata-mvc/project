@@ -51,7 +51,7 @@ class acf_settings_export {
 		
 		
 		// add page
-		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Import / Export','acf'), __('Import / Export','acf'), 'manage_options','acf-settings-export', array($this,'html') );
+		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Import / Export','acf'), __('Import / Export','acf'), acf_get_setting('capability'),'acf-settings-export', array($this,'html') );
 		
 		
 		// actions

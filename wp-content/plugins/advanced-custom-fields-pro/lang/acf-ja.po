@@ -5,17 +5,17 @@ msgstr ""
 "Project-Id-Version: ACF\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/advanced-custom-fields\n"
 "POT-Creation-Date: 2013-07-09 03:49:07+00:00\n"
-"PO-Revision-Date: 2014-09-03 09:49+1000\n"
-"Last-Translator: Fumito MIZUNO <ounziw@gmail.com>\n"
+"PO-Revision-Date: 2015-02-24 11:01+1000\n"
+"Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
 "Language-Team: Fumito MIZUNO <ounziw@gmail.com>\n"
-"Language: Japanese\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.7.4\n"
 
 #: acf.php:325
-msgid "Field&nbsp;Groups"
+msgid "Field Groups"
 msgstr "フィールドグループ"
 
 #: acf.php:326 core/controllers/field_groups.php:214
@@ -208,19 +208,12 @@ msgid "Advanced Custom Fields Add-Ons"
 msgstr "Advanced Custom Fields"
 
 #: core/controllers/addons.php:196
-msgid ""
-"The following Add-ons are available to increase the functionality of the "
-"Advanced Custom Fields plugin."
-msgstr ""
-"Advanced Custom Fields プラグインに機能を追加するアドオンが利用できます。"
+msgid "The following Add-ons are available to increase the functionality of the Advanced Custom Fields plugin."
+msgstr "Advanced Custom Fields プラグインに機能を追加するアドオンが利用できます。"
 
 #: core/controllers/addons.php:197
-msgid ""
-"Each Add-on can be installed as a separate plugin (receives updates) or "
-"included in your theme (does not receive updates)."
-msgstr ""
-"それぞれのアドオンは、個別のプラグインとしてインストールする(管理画面で更新で"
-"きる)か、テーマに含める(管理画面で更新できない)かしてください。"
+msgid "Each Add-on can be installed as a separate plugin (receives updates) or included in your theme (does not receive updates)."
+msgstr "それぞれのアドオンは、個別のプラグインとしてインストールする(管理画面で更新できる)か、テーマに含める(管理画面で更新できない)かしてください。"
 
 #: core/controllers/addons.php:219 core/controllers/addons.php:240
 msgid "Installed"
@@ -246,17 +239,10 @@ msgstr "XML をエクスポートする"
 msgid "Export Field Groups"
 msgstr "フィールドグループをインポートする"
 
-#: core/controllers/export.php:221
-#, fuzzy
-msgid "Field Groups"
-msgstr "新規フィールドグループ"
-
 #: core/controllers/export.php:222
 #, fuzzy
 msgid "Select the field groups to be exported"
-msgstr ""
-"一覧からフィールドグループを選択し、\"XML をエクスポートする\" をクリックして"
-"ください"
+msgstr "一覧からフィールドグループを選択し、\"XML をエクスポートする\" をクリックしてください"
 
 #: core/controllers/export.php:239 core/controllers/export.php:252
 #, fuzzy
@@ -269,26 +255,16 @@ msgid "Export to PHP"
 msgstr "フィールドグループを PHP 形式でエクスポートする"
 
 #: core/controllers/export.php:253
-msgid ""
-"ACF will create a .xml export file which is compatible with the native WP "
-"import plugin."
-msgstr ""
-"ACF は .xml 形式のエクスポートファイルを作成します。WP のインポートプラグイン"
-"と互換性があります。"
+msgid "ACF will create a .xml export file which is compatible with the native WP import plugin."
+msgstr "ACF は .xml 形式のエクスポートファイルを作成します。WP のインポートプラグインと互換性があります。"
 
 #: core/controllers/export.php:254
-msgid ""
-"Imported field groups <b>will</b> appear in the list of editable field "
-"groups. This is useful for migrating fields groups between Wp websites."
-msgstr ""
-"インポートしたフィールドグループは、編集可能なフィールドグループの一覧に表示"
-"されます。WP ウェブサイト間でフィールドグループを移行するのに役立ちます。"
+msgid "Imported field groups <b>will</b> appear in the list of editable field groups. This is useful for migrating fields groups between Wp websites."
+msgstr "インポートしたフィールドグループは、編集可能なフィールドグループの一覧に表示されます。WP ウェブサイト間でフィールドグループを移行するのに役立ちます。"
 
 #: core/controllers/export.php:256
 msgid "Select field group(s) from the list and click \"Export XML\""
-msgstr ""
-"一覧からフィールドグループを選択し、\"XML をエクスポートする\" をクリックして"
-"ください"
+msgstr "一覧からフィールドグループを選択し、\"XML をエクスポートする\" をクリックしてください"
 
 #: core/controllers/export.php:257
 msgid "Save the .xml file when prompted"
@@ -300,9 +276,7 @@ msgstr "ツール &raquo; インポートと進み、WordPress を選択して�
 
 #: core/controllers/export.php:259
 msgid "Install WP import plugin if prompted"
-msgstr ""
-"(インストールを促された場合は) WP インポートプラグインをインストールしてくだ"
-"さい"
+msgstr "(インストールを促された場合は) WP インポートプラグインをインストールしてください"
 
 #: core/controllers/export.php:260
 msgid "Upload and import your exported .xml file"
@@ -321,30 +295,16 @@ msgid "ACF will create the PHP code to include in your theme."
 msgstr "ACF は、テーマに含める PHP コードを作成します"
 
 #: core/controllers/export.php:269 core/controllers/export.php:310
-msgid ""
-"Registered field groups <b>will not</b> appear in the list of editable field "
-"groups. This is useful for including fields in themes."
-msgstr ""
-"登録したフィールドグループは、編集可能なフィールドグループの一覧に<b>表示され"
-"ません</b>。テーマにフィールドを含めるときに役立ちます。"
+msgid "Registered field groups <b>will not</b> appear in the list of editable field groups. This is useful for including fields in themes."
+msgstr "登録したフィールドグループは、編集可能なフィールドグループの一覧に<b>表示されません</b>。テーマにフィールドを含めるときに役立ちます。"
 
 #: core/controllers/export.php:270 core/controllers/export.php:311
-msgid ""
-"Please note that if you export and register field groups within the same WP, "
-"you will see duplicate fields on your edit screens. To fix this, please move "
-"the original field group to the trash or remove the code from your functions."
-"php file."
-msgstr ""
-"同一の WP でフィールドグループをエクスポートして登録する場合は、編集画面で重"
-"複フィールドになることに注意してください。これを修正するには、元のフィールド"
-"グループをゴミ箱へ移動するか、functions.php ファイルからこのコードを除去して"
-"ください。"
+msgid "Please note that if you export and register field groups within the same WP, you will see duplicate fields on your edit screens. To fix this, please move the original field group to the trash or remove the code from your functions.php file."
+msgstr "同一の WP でフィールドグループをエクスポートして登録する場合は、編集画面で重複フィールドになることに注意してください。これを修正するには、元のフィールドグループをゴミ箱へ移動するか、functions.php ファイルからこのコードを除去してください。"
 
 #: core/controllers/export.php:272
 msgid "Select field group(s) from the list and click \"Create PHP\""
-msgstr ""
-"一覧からフィールドグループを選択し、\"PHP 形式のデータを作成する\" をクリック"
-"してください。"
+msgstr "一覧からフィールドグループを選択し、\"PHP 形式のデータを作成する\" をクリックしてください。"
 
 #: core/controllers/export.php:273 core/controllers/export.php:302
 msgid "Copy the PHP code generated"
@@ -356,8 +316,7 @@ msgstr "functions.php に貼り付けてください"
 
 #: core/controllers/export.php:275 core/controllers/export.php:304
 msgid "To activate any Add-ons, edit and use the code in the first few lines."
-msgstr ""
-"アドオンを有効化するには、最初の何行かのコードを編集して使用してください"
+msgstr "アドオンを有効化するには、最初の何行かのコードを編集して使用してください"
 
 #: core/controllers/export.php:295
 msgid "Export Field Groups to PHP"
@@ -376,23 +335,12 @@ msgid "Include in theme"
 msgstr "テーマに含める"
 
 #: core/controllers/export.php:317
-msgid ""
-"The Advanced Custom Fields plugin can be included within a theme. To do so, "
-"move the ACF plugin inside your theme and add the following code to your "
-"functions.php file:"
-msgstr ""
-"Advanced Custom Fields プラグインは、テーマに含めることができます。プラグイン"
-"をテーマ内に移動し、functions.php に下記コードを追加してください。"
+msgid "The Advanced Custom Fields plugin can be included within a theme. To do so, move the ACF plugin inside your theme and add the following code to your functions.php file:"
+msgstr "Advanced Custom Fields プラグインは、テーマに含めることができます。プラグインをテーマ内に移動し、functions.php に下記コードを追加してください。"
 
 #: core/controllers/export.php:323
-msgid ""
-"To remove all visual interfaces from the ACF plugin, you can use a constant "
-"to enable lite mode. Add the following code to your functions.php file "
-"<b>before</b> the include_once code:"
-msgstr ""
-"Advanced Custom Fields プラグインのビジュアルインターフェースを取り除くには、"
-"定数を利用して「ライトモード」を有効にすることができます。functions.php の "
-"include_once よりも<b>前</b>に下記のコードを追加してください。"
+msgid "To remove all visual interfaces from the ACF plugin, you can use a constant to enable lite mode. Add the following code to your functions.php file <b>before</b> the include_once code:"
+msgstr "Advanced Custom Fields プラグインのビジュアルインターフェースを取り除くには、定数を利用して「ライトモード」を有効にすることができます。functions.php の include_once よりも<b>前</b>に下記のコードを追加してください。"
 
 #: core/controllers/export.php:331
 #, fuzzy
@@ -405,44 +353,34 @@ msgid ""
 " *  Install Add-ons\n"
 " *  \n"
 " *  The following code will include all 4 premium Add-Ons in your theme.\n"
-" *  Please do not attempt to include a file which does not exist. This will "
-"produce an error.\n"
+" *  Please do not attempt to include a file which does not exist. This will produce an error.\n"
 " *  \n"
 " *  All fields must be included during the 'acf/register_fields' action.\n"
-" *  Other types of Add-ons (like the options page) can be included outside "
-"of this action.\n"
+" *  Other types of Add-ons (like the options page) can be included outside of this action.\n"
 " *  \n"
-" *  The following code assumes you have a folder 'add-ons' inside your "
-"theme.\n"
+" *  The following code assumes you have a folder 'add-ons' inside your theme.\n"
 " *\n"
 " *  IMPORTANT\n"
-" *  Add-ons may be included in a premium theme as outlined in the terms and "
-"conditions.\n"
+" *  Add-ons may be included in a premium theme as outlined in the terms and conditions.\n"
 " *  However, they are NOT to be included in a premium / free plugin.\n"
-" *  For more information, please read http://www.advancedcustomfields.com/"
-"terms-conditions/\n"
+" *  For more information, please read http://www.advancedcustomfields.com/terms-conditions/\n"
 " */"
 msgstr ""
 "/**\n"
 " *  Install Add-ons\n"
 " *  \n"
 " *  The following code will include all 4 premium Add-Ons in your theme.\n"
-" *  Please do not attempt to include a file which does not exist. This will "
-"produce an error.\n"
+" *  Please do not attempt to include a file which does not exist. This will produce an error.\n"
 " *  \n"
 " *  All fields must be included during the 'acf/register_fields' action.\n"
-" *  Other types of Add-ons (like the options page) can be included outside "
-"of this action.\n"
+" *  Other types of Add-ons (like the options page) can be included outside of this action.\n"
 " *  \n"
-" *  The following code assumes you have a folder 'add-ons' inside your "
-"theme.\n"
+" *  The following code assumes you have a folder 'add-ons' inside your theme.\n"
 " *\n"
 " *  IMPORTANT\n"
-" *  Add-ons may be included in a premium theme as outlined in the terms and "
-"conditions.\n"
+" *  Add-ons may be included in a premium theme as outlined in the terms and conditions.\n"
 " *  However, they are NOT to be included in a premium / free plugin.\n"
-" *  For more information, please read http://www.advancedcustomfields.com/"
-"terms-conditions/\n"
+" *  For more information, please read http://www.advancedcustomfields.com/terms-conditions/\n"
 " */"
 
 #: core/controllers/export.php:370 core/controllers/field_group.php:366
@@ -456,20 +394,15 @@ msgid ""
 "/**\n"
 " *  Register Field Groups\n"
 " *\n"
-" *  The register_field_group function accepts 1 array which holds the "
-"relevant data to register a field group\n"
-" *  You may edit the array as you see fit. However, this may result in "
-"errors if the array is not compatible with ACF\n"
+" *  The register_field_group function accepts 1 array which holds the relevant data to register a field group\n"
+" *  You may edit the array as you see fit. However, this may result in errors if the array is not compatible with ACF\n"
 " */"
 msgstr ""
 "/**\n"
 " * フィールドグループを登録する\n"
-" * register_field_group 関数は、フィールドグループを登録するのに関係するデー"
-"タを持っている一つの配列を受け付けます。\n"
-" * 配列を好きなように編集することができます。しかし、配列が ACF と互換性の無"
-"い場合、エラーになってしまいます。\n"
-" * このコードは、functions.php ファイルを読み込む度に実行する必要がありま"
-"す。\n"
+" * register_field_group 関数は、フィールドグループを登録するのに関係するデータを持っている一つの配列を受け付けます。\n"
+" * 配列を好きなように編集することができます。しかし、配列が ACF と互換性の無い場合、エラーになってしまいます。\n"
+" * このコードは、functions.php ファイルを読み込む度に実行する必要があります。\n"
 " */"
 
 #: core/controllers/export.php:435
@@ -616,8 +549,7 @@ msgstr "最新版への更新ありがとうございます。"
 
 #: core/controllers/field_groups.php:249
 msgid "is more polished and enjoyable than ever before. We hope you like it."
-msgstr ""
-"は以前よりも洗練され、より良くなりました。気に入ってもらえると嬉しいです。"
+msgstr "は以前よりも洗練され、より良くなりました。気に入ってもらえると嬉しいです。"
 
 #: core/controllers/field_groups.php:256
 msgid "What’s New"
@@ -633,14 +565,8 @@ msgid "Activation codes have grown into plugins!"
 msgstr "アクティベーションコードから、プラグインに変更されました。"
 
 #: core/controllers/field_groups.php:314
-msgid ""
-"Add-ons are now activated by downloading and installing individual plugins. "
-"Although these plugins will not be hosted on the wordpress.org repository, "
-"each Add-on will continue to receive updates in the usual way."
-msgstr ""
-"アドオンは、個別のプラグインをダウンロードしてインストールしてください。"
-"wordpress.org リポジトリにはありませんが、管理画面でこれらのアドオンの更新を"
-"行う事が出来ます。"
+msgid "Add-ons are now activated by downloading and installing individual plugins. Although these plugins will not be hosted on the wordpress.org repository, each Add-on will continue to receive updates in the usual way."
+msgstr "アドオンは、個別のプラグインをダウンロードしてインストールしてください。wordpress.org リポジトリにはありませんが、管理画面でこれらのアドオンの更新を行う事が出来ます。"
 
 #: core/controllers/field_groups.php:320
 msgid "All previous Add-ons have been successfully installed"
@@ -648,9 +574,7 @@ msgstr "今まで使用していたアドオンがインストールされまし
 
 #: core/controllers/field_groups.php:324
 msgid "This website uses premium Add-ons which need to be downloaded"
-msgstr ""
-"このウェブサイトではプレミアムアドオンが使用されており、アドオンをダウンロー"
-"ドする必要があります。"
+msgstr "このウェブサイトではプレミアムアドオンが使用されており、アドオンをダウンロードする必要があります。"
 
 #: core/controllers/field_groups.php:324
 #, fuzzy
@@ -658,12 +582,8 @@ msgid "Download your activated Add-ons"
 msgstr "アドオンを有効化する"
 
 #: core/controllers/field_groups.php:329
-msgid ""
-"This website does not use premium Add-ons and will not be affected by this "
-"change."
-msgstr ""
-"このウェブサイトではプレミアムアドオンを使用しておらず、この変更に影響されま"
-"せん。"
+msgid "This website does not use premium Add-ons and will not be affected by this change."
+msgstr "このウェブサイトではプレミアムアドオンを使用しておらず、この変更に影響されません。"
 
 #: core/controllers/field_groups.php:339
 msgid "Easier Development"
@@ -700,12 +620,8 @@ msgid "Custom Field Types"
 msgstr "カスタムフィールド"
 
 #: core/controllers/field_groups.php:349
-msgid ""
-"Creating your own field type has never been easier! Unfortunately, version 3 "
-"field types are not compatible with version 4."
-msgstr ""
-"独自のフィールドタイプが簡単に作成できます。残念ですが、バージョン 3 とバー"
-"ジョン 4 には互換性がありません。"
+msgid "Creating your own field type has never been easier! Unfortunately, version 3 field types are not compatible with version 4."
+msgstr "独自のフィールドタイプが簡単に作成できます。残念ですが、バージョン 3 とバージョン 4 には互換性がありません。"
 
 #: core/controllers/field_groups.php:350
 msgid "Migrating your field types is easy, please"
@@ -724,11 +640,8 @@ msgid "Actions &amp; Filters"
 msgstr "アクションとフィルター"
 
 #: core/controllers/field_groups.php:353
-msgid ""
-"All actions & filters have received a major facelift to make customizing ACF "
-"even easier! Please"
-msgstr ""
-"カスタマイズを簡単にするため、すべてのアクションとフィルターを改装しました。"
+msgid "All actions & filters have received a major facelift to make customizing ACF even easier! Please"
+msgstr "カスタマイズを簡単にするため、すべてのアクションとフィルターを改装しました。"
 
 #: core/controllers/field_groups.php:353
 #, fuzzy
@@ -760,26 +673,16 @@ msgid "Database Changes"
 msgstr "データベース更新"
 
 #: core/controllers/field_groups.php:363
-msgid ""
-"Absolutely <strong>no</strong> changes have been made to the database "
-"between versions 3 and 4. This means you can roll back to version 3 without "
-"any issues."
-msgstr ""
-"バージョン 3 と 4 でデータベースの更新はありません。問題が発生した場合、バー"
-"ジョン 3 へのロールバックを行うことができます。"
+msgid "Absolutely <strong>no</strong> changes have been made to the database between versions 3 and 4. This means you can roll back to version 3 without any issues."
+msgstr "バージョン 3 と 4 でデータベースの更新はありません。問題が発生した場合、バージョン 3 へのロールバックを行うことができます。"
 
 #: core/controllers/field_groups.php:365
 msgid "Potential Issues"
 msgstr "潜在的な問題"
 
 #: core/controllers/field_groups.php:366
-msgid ""
-"Do to the sizable changes surounding Add-ons, field types and action/"
-"filters, your website may not operate correctly. It is important that you "
-"read the full"
-msgstr ""
-"アドオン、フィールドタイプ、アクション／フィルターに関する変更のため、ウェブ"
-"サイトが正常に動作しない可能性があります。"
+msgid "Do to the sizable changes surounding Add-ons, field types and action/filters, your website may not operate correctly. It is important that you read the full"
+msgstr "アドオン、フィールドタイプ、アクション／フィルターに関する変更のため、ウェブサイトが正常に動作しない可能性があります。"
 
 #: core/controllers/field_groups.php:366
 msgid "Migrating from v3 to v4"
@@ -794,9 +697,7 @@ msgid "Really Important!"
 msgstr "非常に重要"
 
 #: core/controllers/field_groups.php:369
-msgid ""
-"If you updated the ACF plugin without prior knowledge of such changes, "
-"please roll back to the latest"
+msgid "If you updated the ACF plugin without prior knowledge of such changes, please roll back to the latest"
 msgstr "予備知識無しに更新してしまった場合は、"
 
 #: core/controllers/field_groups.php:369
@@ -812,12 +713,8 @@ msgid "Thank You"
 msgstr "ありがとうございます"
 
 #: core/controllers/field_groups.php:375
-msgid ""
-"A <strong>BIG</strong> thank you to everyone who has helped test the version "
-"4 beta and for all the support I have received."
-msgstr ""
-"バージョン 4 ベータのテストに協力してくださった皆さん、サポートしてくださった"
-"皆さんに感謝します。"
+msgid "A <strong>BIG</strong> thank you to everyone who has helped test the version 4 beta and for all the support I have received."
+msgstr "バージョン 4 ベータのテストに協力してくださった皆さん、サポートしてくださった皆さんに感謝します。"
 
 #: core/controllers/field_groups.php:376
 msgid "Without you all, this release would not have been possible!"
@@ -837,19 +734,11 @@ msgid "Overview"
 msgstr "概要"
 
 #: core/controllers/field_groups.php:404
-msgid ""
-"Previously, all Add-ons were unlocked via an activation code (purchased from "
-"the ACF Add-ons store). New to v4, all Add-ons act as separate plugins which "
-"need to be individually downloaded, installed and updated."
-msgstr ""
-"今までは、アドオンはアクティベーションコードでロック解除していました。バー"
-"ジョン 4 では、アドオンは個別のプラグインとしてダウンロードしてインストールす"
-"る必要があります。"
+msgid "Previously, all Add-ons were unlocked via an activation code (purchased from the ACF Add-ons store). New to v4, all Add-ons act as separate plugins which need to be individually downloaded, installed and updated."
+msgstr "今までは、アドオンはアクティベーションコードでロック解除していました。バージョン 4 では、アドオンは個別のプラグインとしてダウンロードしてインストールする必要があります。"
 
 #: core/controllers/field_groups.php:406
-msgid ""
-"This page will assist you in downloading and installing each available Add-"
-"on."
+msgid "This page will assist you in downloading and installing each available Add-on."
 msgstr "このページは、アドオンのダウンロードやインストールを手助けします。"
 
 #: core/controllers/field_groups.php:408
@@ -899,9 +788,7 @@ msgid "Use the uploader to browse, select and install your Add-on (.zip file)"
 msgstr "アドオンのファイルを選択してインストールする"
 
 #: core/controllers/field_groups.php:473
-msgid ""
-"Once the plugin has been uploaded and installed, click the 'Activate Plugin' "
-"link"
+msgid "Once the plugin has been uploaded and installed, click the 'Activate Plugin' link"
 msgstr "アップロードできたら、有効化をクリックする"
 
 #: core/controllers/field_groups.php:474
@@ -1036,11 +923,8 @@ msgid "Save format"
 msgstr "フォーマットを保存する"
 
 #: core/fields/date_picker/date_picker.php:106
-msgid ""
-"This format will determin the value saved to the database and returned via "
-"the API"
-msgstr ""
-"このフォーマットは、値をデータベースに保存し、API で返す形式を決定します"
+msgid "This format will determin the value saved to the database and returned via the API"
+msgstr "このフォーマットは、値をデータベースに保存し、API で返す形式を決定します"
 
 #: core/fields/date_picker/date_picker.php:107
 msgid "\"yymmdd\" is the most versatile save format. Read more about"
@@ -1060,9 +944,7 @@ msgid "This format will be seen by the user when entering a value"
 msgstr "ユーザーが値を入力するときのフォーマット"
 
 #: core/fields/date_picker/date_picker.php:123
-msgid ""
-"\"dd/mm/yy\" or \"mm/dd/yy\" are the most used display formats. Read more "
-"about"
+msgid "\"dd/mm/yy\" or \"mm/dd/yy\" are the most used display formats. Read more about"
 msgstr "よく使用されるのは、\"dd/mm/yy\" や \"mm/dd/yy\" です。詳細は"
 
 #: core/fields/date_picker/date_picker.php:137
@@ -1379,9 +1261,7 @@ msgid "Tab"
 msgstr "タブ"
 
 #: core/fields/tab.php:68
-msgid ""
-"All fields proceeding this \"tab field\" (or until another \"tab field\"  is "
-"defined) will appear grouped on the edit screen."
+msgid "All fields proceeding this \"tab field\" (or until another \"tab field\"  is defined) will appear grouped on the edit screen."
 msgstr "タブフィールドでフィールドを区切り、グループ化して表示します。"
 
 #: core/fields/tab.php:69
@@ -1426,8 +1306,7 @@ msgid "Load & Save Terms to Post"
 msgstr "タームの読み込み／保存"
 
 #: core/fields/taxonomy.php:358
-msgid ""
-"Load value based on the post's terms and update the post's terms on save"
+msgid "Load value based on the post's terms and update the post's terms on save"
 msgstr "投稿のタームに基づいて値を読み込み、投稿のタームを更新する"
 
 #: core/fields/taxonomy.php:375
@@ -1547,12 +1426,8 @@ msgid "Field Key"
 msgstr "フィールドキー"
 
 #: core/views/meta_box_fields.php:104
-msgid ""
-"No fields. Click the <strong>+ Add Field</strong> button to create your "
-"first field."
-msgstr ""
-"フィールドはありません。<strong>+ 新規追加</strong>ボタンをクリックして最初の"
-"フィールドを作成してください"
+msgid "No fields. Click the <strong>+ Add Field</strong> button to create your first field."
+msgstr "フィールドはありません。<strong>+ 新規追加</strong>ボタンをクリックして最初のフィールドを作成してください"
 
 #: core/views/meta_box_fields.php:119 core/views/meta_box_fields.php:122
 msgid "Edit this Field"
@@ -1647,11 +1522,8 @@ msgid "Rules"
 msgstr "ルール"
 
 #: core/views/meta_box_location.php:49
-msgid ""
-"Create a set of rules to determine which edit screens will use these "
-"advanced custom fields"
-msgstr ""
-"どの編集画面でカスタムフィールドを表示するかを決定するルールを作成します。"
+msgid "Create a set of rules to determine which edit screens will use these advanced custom fields"
+msgstr "どの編集画面でカスタムフィールドを表示するかを決定するルールを作成します。"
 
 #: core/views/meta_box_location.php:60
 #, fuzzy
@@ -1765,12 +1637,8 @@ msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
 msgstr "編集画面で<b>表示しない</b>アイテムを<b>選択する</b>"
 
 #: core/views/meta_box_options.php:84
-msgid ""
-"If multiple field groups appear on an edit screen, the first field group's "
-"options will be used. (the one with the lowest order number)"
-msgstr ""
-"編集画面に複数のフィールドグループが表示される場合、最初の(=順序番号の最も低"
-"い)フィールドグループのオプションが使用されます。"
+msgid "If multiple field groups appear on an edit screen, the first field group's options will be used. (the one with the lowest order number)"
+msgstr "編集画面に複数のフィールドグループが表示される場合、最初の(=順序番号の最も低い)フィールドグループのオプションが使用されます。"
 
 #: core/views/meta_box_options.php:94
 msgid "Content Editor"

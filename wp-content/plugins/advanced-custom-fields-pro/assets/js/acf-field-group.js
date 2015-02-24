@@ -2416,6 +2416,73 @@
 	
 	
 	/*
+	*  Append
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	12/02/2015
+	*  @since	5.1.5
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	acf.add_action('open_field change_field_type', function( $el ){
+		
+		// clear name
+		$el.find('tr[data-append]').each(function(){
+			
+			// vars
+			var append = $(this).data('append');
+			
+			
+			// find sibling
+			$sibling = $(this).siblings('[data-name="' + append + '"]');
+			
+			
+			// bail early if no $sibling
+			if( !$sibling.exists() ) {
+				
+				return;
+				
+			}
+			
+			
+			// vars
+			var $wrap = $sibling.children('.acf-input'),
+				$ul = $wrap.children('.acf-hl');
+			
+			
+			if( !$ul.exists() ) {
+				
+				$wrap.wrapInner('<ul class="acf-hl"><li></li></ul>');
+				
+				$ul = $wrap.children('.acf-hl');
+			}
+			
+			
+			// create $li
+			var $li = $('<li></li>').append( $(this).children('.acf-input').children() );
+			
+			
+			// append $li
+			$ul.append( $li );
+			
+			
+			// update cols
+			$ul.attr('data-cols', $ul.children().length );
+			
+			
+			// remove
+			$(this).remove();
+			
+		});
+			
+	});
+	
+	
+	/*
 	*  Select
 	*
 	*  This field type requires some extra logic for its settings
@@ -2682,6 +2749,64 @@
 	$(document).on('change', '.acf-field-object-date-picker input[type="radio"]', function(){
 		
 		acf_render_date_picker_field( acf.field_group.focus( $(this) ) );
+		
+	});
+	
+	
+	/*
+	*  tab
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	12/02/2015
+	*  @since	5.1.5
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	acf.add_action('change_field_label change_field_type', function( $el ){
+		
+		// bail early if not radio
+		if( $el.attr('data-type') != 'tab' ) {
+			
+			return;
+			
+		}
+		
+		
+		// clear name
+		$el.find('tr[data-name="name"]:first input').val('').trigger('change');
+		
+	});
+	
+	
+	/*
+	*  message
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	12/02/2015
+	*  @since	5.1.5
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	acf.add_action('change_field_label change_field_type', function( $el ){
+		
+		// bail early if not radio
+		if( $el.attr('data-type') != 'message' ) {
+			
+			return;
+			
+		}
+		
+		
+		// clear name
+		$el.find('tr[data-name="name"]:first input').val('').trigger('change');
 		
 	});
 	

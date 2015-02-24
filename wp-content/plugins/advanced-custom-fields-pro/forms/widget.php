@@ -31,45 +31,14 @@ class acf_form_widget {
 	function __construct() {
 		
 		// actions
-		add_action('admin_enqueue_scripts',		array( $this, 'admin_enqueue_scripts'));
-		
-		
-		// actions
+		add_action('admin_enqueue_scripts',		array($this, 'admin_enqueue_scripts'));
 		add_action('in_widget_form', 			array($this, 'edit_widget'), 10, 3);
-		add_filter('widget_update_callback',	array($this, 'save_widget'), 10, 4);
-		
-	}
-	
-	
-	/*
-	*  validate_page
-	*
-	*  This function will check if the current page is for a post/page edit form
-	*
-	*  @type	function
-	*  @date	23/06/12
-	*  @since	3.1.8
-	*
-	*  @param	N/A
-	*  @return	(boolean)
-	*/
-	
-	function validate_page() {
-		
-		// global
-		global $pagenow;
 		
 		
-		// validate page
-		if( $pagenow == 'widgets.php' ) {
+		// ajax
+		add_action('wp_ajax_save-widget', 		array($this, 'save_widget'), 0, 1);
+		add_action('wp_ajax_update-widget', 	array($this, 'save_widget'), 0, 1);
 		
-			return true;
-		
-		}
-		
-		
-		// return
-		return false;
 	}
 	
 	
@@ -89,9 +58,13 @@ class acf_form_widget {
 	
 	function admin_enqueue_scripts() {
 		
-		// validate page
-		if( ! $this->validate_page() ) {
+		// validate screen
+		if( acf_is_screen('widgets') || acf_is_screen('customize') ) {
 		
+			// valid
+			
+		} else {
+			
 			return;
 			
 		}
@@ -103,6 +76,7 @@ class acf_form_widget {
 		
 		// actions
 		add_action('acf/input/admin_footer', array($this, 'admin_footer'));
+
 	}
 	
 	
@@ -126,6 +100,7 @@ class acf_form_widget {
 		$post_id = 0;
 		
 		
+		// get id
 		if( $widget->number !== '__i__' ) {
 		
 			$post_id = "widget_{$widget->id}";
@@ -185,26 +160,26 @@ class acf_form_widget {
 	*  @return	$post_id (int)
 	*/
 	
-	function save_widget( $instance, $new_instance, $old_instance, $widget ) {
+	function save_widget() {
 		
-		// verify and remove nonce
-		if( ! acf_verify_nonce('widget') ) {
+		// bail early if no nonce
+		if( !acf_verify_nonce('widget') ) {
 		
-			return $instance;
+			return;
 			
 		}
 		
+		
+		// vars
+		$id = acf_maybe_get($_POST, 'widget-id');
+		
 	    
 	    // save data
-	    if( acf_validate_save_post() ) {
+	    if( $id && acf_validate_save_post() ) {
 	    	
-			acf_save_post( "widget_{$widget->id}" );		
+			acf_save_post( "widget_{$id}" );		
 		
 		}
-		
-		
-		// return
-		return $instance;
 		
 	}
 	
@@ -230,12 +205,8 @@ class acf_form_widget {
 	
 	 acf.add_filter('get_fields', function( $fields ){
 	 	
-	 	$fields = $fields.not('#available-widgets .acf-field');
-	 	
-		
-		// return
-		return $fields;
-	    
+	 	return $fields.not('#available-widgets .acf-field');
+
     });
 		
 	acf.add_action('ready', function(){
@@ -308,12 +279,26 @@ class acf_form_widget {
 	});
 	
 	$(document).on('widget-added', function( e, $widget ){
-			
+		
 		// this is a newly added widget
 		acf.do_action('append', $widget );
 		
 	});
 	
+	$(document).on('widget-saved', function( e, $widget ){
+		
+		// this is a newly added widget
+		acf.do_action('submit', $widget );
+		
+	});
+	
+	$(document).on('widget-updated', function( e, $widget ){
+		
+		// this is a newly added widget
+		acf.do_action('submit', $widget );
+		
+	});
+		
 })(jQuery);	
 </script>
 <?php

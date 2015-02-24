@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/advanced-custom-fields\n"
-"POT-Creation-Date: 2014-12-20 11:31+0330\n"
-"PO-Revision-Date: 2014-12-28 12:20+0330\n"
-"Last-Translator: Kamel Kimiaei <Kamel.Kimiaei.Fard@gmail.com>\n"
+"POT-Creation-Date: 2015-02-24 10:52+1000\n"
+"PO-Revision-Date: 2015-02-24 10:53+1000\n"
+"Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
 "Language-Team:  <Kamel.Kimiaei.Fard@gmail.com>\n"
-"Language: Persian\n"
+"Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;esc_html__;"
@@ -25,86 +25,86 @@ msgstr ""
 msgid "Advanced Custom Fields"
 msgstr "زمینه های دلخواه پیشرفته"
 
-#: ../acf.php:247
-msgid "Field&nbsp;Groups"
+#: ../acf.php:251
+msgid "Field Groups"
 msgstr "گروه های زمینه"
 
-#: ../acf.php:248
+#: ../acf.php:252
 msgid "Field Group"
 msgstr "گروه زمینه"
 
-#: ../acf.php:249 ../acf.php:275 ../admin/admin.php:51
+#: ../acf.php:253 ../acf.php:285 ../admin/admin.php:56
 #: ../pro/fields/flexible-content.php:521
 msgid "Add New"
 msgstr "افزودن"
 
-#: ../acf.php:250
+#: ../acf.php:254
 msgid "Add New Field Group"
 msgstr "افزودن گروه زمینه جدید"
 
-#: ../acf.php:251
+#: ../acf.php:255
 msgid "Edit Field Group"
 msgstr "ویرایش گروه زمینه"
 
-#: ../acf.php:252
+#: ../acf.php:256
 msgid "New Field Group"
 msgstr "گروه زمینه جدید"
 
-#: ../acf.php:253
+#: ../acf.php:257
 msgid "View Field Group"
 msgstr "مشاهده گروه زمینه"
 
-#: ../acf.php:254
+#: ../acf.php:258
 msgid "Search Field Groups"
 msgstr "جستجوی گروه های زمینه"
 
-#: ../acf.php:255
+#: ../acf.php:259
 msgid "No Field Groups found"
 msgstr "گروه زمینه ای یافت نشد"
 
-#: ../acf.php:256
+#: ../acf.php:260
 msgid "No Field Groups found in Trash"
 msgstr "گروه زمینه ای در زباله دان یافت نشد"
 
-#: ../acf.php:273 ../admin/field-group.php:178 ../admin/field-group.php:210
+#: ../acf.php:283 ../admin/field-group.php:178 ../admin/field-group.php:210
 #: ../admin/field-group.php:249 ../admin/field-groups.php:487
 msgid "Fields"
 msgstr "زمینه ها"
 
-#: ../acf.php:274
+#: ../acf.php:284
 msgid "Field"
 msgstr "زمینه"
 
-#: ../acf.php:276
+#: ../acf.php:286
 msgid "Add New Field"
 msgstr "زمینه جدید"
 
-#: ../acf.php:277
+#: ../acf.php:287
 msgid "Edit Field"
 msgstr "ویرایش زمینه"
 
-#: ../acf.php:278 ../admin/views/field-group-fields.php:18
+#: ../acf.php:288 ../admin/views/field-group-fields.php:18
 #: ../admin/views/settings-info.php:109
 msgid "New Field"
 msgstr "زمینه جدید"
 
-#: ../acf.php:279
+#: ../acf.php:289
 msgid "View Field"
 msgstr "نمایش زمینه"
 
-#: ../acf.php:280
+#: ../acf.php:290
 msgid "Search Fields"
 msgstr "جستجوی گروه های زمینه"
 
-#: ../acf.php:281
+#: ../acf.php:291
 msgid "No Fields found"
 msgstr "گروه زمینه ای یافت نشد"
 
-#: ../acf.php:282
+#: ../acf.php:292
 msgid "No Fields found in Trash"
 msgstr "گروه زمینه ای در زباله دان یافت نشد"
 
-#: ../admin/admin.php:50 ../admin/views/field-group-options.php:93
+#: ../admin/admin.php:52 ../admin/views/field-group-options.php:93
 msgid "Custom Fields"
 msgstr "زمینه های دلخواه"
 
@@ -153,7 +153,10 @@ msgstr "هیچ زمینه شرط پذیری موجود نیست"
 msgid "Field group title is required"
 msgstr "عنوان گروه زمینه ضروری است"
 
-#: ../admin/field-group.php:176 ../api/api-field-group.php:579
+#: ../admin/field-group.php:176 ../api/api-field-group.php:609
+#: ../assets/_build/js/field-group.js:919
+#: ../assets/_build/js/field-group.js:920 ../assets/js/acf-field-group.js:919
+#: ../assets/js/acf-field-group.js:920 ../assets/js/acf-field-group.min.js:1
 msgid "copy"
 msgstr "کپی"
 
@@ -161,7 +164,7 @@ msgstr "کپی"
 #: ../admin/views/field-group-field-conditional-logic.php:67
 #: ../admin/views/field-group-field-conditional-logic.php:162
 #: ../admin/views/field-group-locations.php:23
-#: ../admin/views/field-group-locations.php:132
+#: ../admin/views/field-group-locations.php:132 ../core/media.php:150
 msgid "or"
 msgstr "یا"
 
@@ -189,7 +192,7 @@ msgstr "این زمینه قبل از اینکه ذخیره شود نمی توا
 msgid "Null"
 msgstr "خالی (null)"
 
-#: ../admin/field-group.php:185 ../core/input.php:158
+#: ../admin/field-group.php:185 ../core/input.php:128
 msgid "The changes you made will be lost if you navigate away from this page"
 msgstr "اگر از صفحه جاری خارج شوید ، تغییرات شما ذخیره نخواهند شد"
 
@@ -212,23 +215,25 @@ msgstr "نمایش کلید های زمینه"
 
 #: ../admin/field-group.php:254
 #: ../admin/views/field-group-field-conditional-logic.php:40
-#: ../admin/views/field-group-field.php:133 ../fields/page_link.php:554
-#: ../fields/page_link.php:568 ../fields/post_object.php:492
-#: ../fields/post_object.php:506 ../fields/select.php:396
-#: ../fields/select.php:410 ../fields/select.php:424 ../fields/select.php:438
-#: ../fields/taxonomy.php:732 ../fields/user.php:377 ../fields/user.php:391
-#: ../fields/wysiwyg.php:384 ../pro/admin/views/settings-updates.php:93
+#: ../admin/views/field-group-field.php:134 ../fields/message.php:116
+#: ../fields/page_link.php:554 ../fields/page_link.php:568
+#: ../fields/post_object.php:492 ../fields/post_object.php:506
+#: ../fields/select.php:397 ../fields/select.php:411 ../fields/select.php:425
+#: ../fields/select.php:439 ../fields/taxonomy.php:732 ../fields/user.php:377
+#: ../fields/user.php:391 ../fields/wysiwyg.php:384
+#: ../pro/admin/views/settings-updates.php:93
 msgid "Yes"
 msgstr "بله"
 
 #: ../admin/field-group.php:255
 #: ../admin/views/field-group-field-conditional-logic.php:41
-#: ../admin/views/field-group-field.php:134 ../fields/page_link.php:555
-#: ../fields/page_link.php:569 ../fields/post_object.php:493
-#: ../fields/post_object.php:507 ../fields/select.php:397
-#: ../fields/select.php:411 ../fields/select.php:425 ../fields/select.php:439
-#: ../fields/taxonomy.php:733 ../fields/user.php:378 ../fields/user.php:392
-#: ../fields/wysiwyg.php:385 ../pro/admin/views/settings-updates.php:102
+#: ../admin/views/field-group-field.php:135 ../fields/message.php:117
+#: ../fields/page_link.php:555 ../fields/page_link.php:569
+#: ../fields/post_object.php:493 ../fields/post_object.php:507
+#: ../fields/select.php:398 ../fields/select.php:412 ../fields/select.php:426
+#: ../fields/select.php:440 ../fields/taxonomy.php:733 ../fields/user.php:378
+#: ../fields/user.php:392 ../fields/wysiwyg.php:385
+#: ../pro/admin/views/settings-updates.php:103
 msgid "No"
 msgstr "خیر"
 
@@ -291,8 +296,8 @@ msgstr "پوسته پیش فرض"
 #: ../admin/field-group.php:771 ../admin/field-group.php:779
 #: ../admin/field-group.php:793 ../admin/field-group.php:800
 #: ../admin/field-group.php:815 ../admin/field-group.php:825
-#: ../fields/file.php:209 ../fields/image.php:198
-#: ../pro/fields/gallery.php:561
+#: ../fields/file.php:234 ../fields/image.php:223
+#: ../pro/fields/gallery.php:665
 msgid "All"
 msgstr "همه"
 
@@ -357,8 +362,8 @@ msgstr "هماهنگ سازی موجود است"
 msgid "Title"
 msgstr "عنوان"
 
-#: ../admin/field-groups.php:544 ../admin/settings-info.php:75
-#: ../pro/admin/views/settings-updates.php:109
+#: ../admin/field-groups.php:544 ../admin/settings-info.php:76
+#: ../pro/admin/views/settings-updates.php:111
 msgid "Changelog"
 msgstr "تغییرات"
 
@@ -448,28 +453,32 @@ msgstr "<b>خطا</b>. لیست افزونه ها قابل خواندن نیست
 msgid "Import / Export"
 msgstr "درون ریزی/برون بری"
 
-#: ../admin/settings-export.php:217
+#: ../admin/settings-export.php:147 ../admin/settings-export.php:361
+msgid "No field groups selected"
+msgstr "گروه زمینه ای انتخاب نشده است"
+
+#: ../admin/settings-export.php:184
 msgid "No file selected"
 msgstr "هیچ پرونده ای انتخاب نشده"
 
-#: ../admin/settings-export.php:230
+#: ../admin/settings-export.php:197
 msgid "Error uploading file. Please try again"
 msgstr "خطا در آپلود فایل. لطفا مجدد بررسی کنید"
 
-#: ../admin/settings-export.php:239
+#: ../admin/settings-export.php:206
 msgid "Incorrect file type"
 msgstr "نوع فایل صحیح نیست"
 
-#: ../admin/settings-export.php:256
+#: ../admin/settings-export.php:223
 msgid "Import file empty"
 msgstr "فایل وارد شده خالی است"
 
-#: ../admin/settings-export.php:352
+#: ../admin/settings-export.php:319
 #, php-format
 msgid "<b>Success</b>. Import tool added %s field groups: %s"
 msgstr "<b>انجام شد</b> ابزار وارد سازی %s زمینه را وارد کرد: %s"
 
-#: ../admin/settings-export.php:361
+#: ../admin/settings-export.php:328
 #, php-format
 msgid ""
 "<b>Warning</b>. Import tool detected %s field groups already exist and have "
@@ -478,15 +487,11 @@ msgstr ""
 "<b>اخطار</b> ابزار وارد سازی تشخصی داد که گروه زمینه %s اکنون موجود می باشد "
 "و %s نادیده گرفته شد"
 
-#: ../admin/settings-export.php:390
-msgid "No field groups selected"
-msgstr "گروه زمینه ای انتخاب نشده است"
-
-#: ../admin/settings-info.php:49
+#: ../admin/settings-info.php:50
 msgid "Info"
 msgstr "اطلاعات"
 
-#: ../admin/settings-info.php:74
+#: ../admin/settings-info.php:75
 msgid "What's New"
 msgstr "چه چیز جدید است؟"
 
@@ -527,7 +532,7 @@ msgstr "افزودن گروه قانون"
 msgid "Edit field"
 msgstr "ویرایش زمینه"
 
-#: ../admin/views/field-group-field.php:54
+#: ../admin/views/field-group-field.php:54 ../pro/fields/gallery.php:353
 msgid "Edit"
 msgstr "ویرایش"
 
@@ -560,55 +565,55 @@ msgstr "خطا"
 msgid "Field type does not exist"
 msgstr "نوع زمینه وجود ندارد"
 
-#: ../admin/views/field-group-field.php:77
+#: ../admin/views/field-group-field.php:78
 msgid "Field Label"
 msgstr "برچسب زمینه"
 
-#: ../admin/views/field-group-field.php:78
+#: ../admin/views/field-group-field.php:79
 msgid "This is the name which will appear on the EDIT page"
 msgstr "این نامی است که در صفحه \"ویرایش\" نمایش داده خواهد شد."
 
-#: ../admin/views/field-group-field.php:89
+#: ../admin/views/field-group-field.php:90
 msgid "Field Name"
 msgstr "نام زمینه"
 
-#: ../admin/views/field-group-field.php:90
+#: ../admin/views/field-group-field.php:91
 msgid "Single word, no spaces. Underscores and dashes allowed"
 msgstr "تک کلمه، بدون فاصله. خط زیرین و خط تیره ها مجازاند"
 
-#: ../admin/views/field-group-field.php:101 ../fields/taxonomy.php:707
+#: ../admin/views/field-group-field.php:102 ../fields/taxonomy.php:707
 msgid "Field Type"
 msgstr "نوع زمینه"
 
-#: ../admin/views/field-group-field.php:114 ../fields/tab.php:98
+#: ../admin/views/field-group-field.php:115 ../fields/tab.php:109
 msgid "Instructions"
 msgstr "دستورالعمل ها"
 
-#: ../admin/views/field-group-field.php:115
+#: ../admin/views/field-group-field.php:116
 msgid "Instructions for authors. Shown when submitting data"
 msgstr "دستورالعمل هایی برای نویسندگان. هنگام ارسال داده ها نمایش داده می شوند"
 
-#: ../admin/views/field-group-field.php:126
+#: ../admin/views/field-group-field.php:127
 msgid "Required?"
 msgstr "لازم است؟"
 
-#: ../admin/views/field-group-field.php:150
+#: ../admin/views/field-group-field.php:151
 msgid "Wrapper Attributes"
 msgstr "مشخصات پوشش فیلد"
 
-#: ../admin/views/field-group-field.php:162
+#: ../admin/views/field-group-field.php:157
 msgid "width"
 msgstr "عرض"
 
-#: ../admin/views/field-group-field.php:177
+#: ../admin/views/field-group-field.php:171
 msgid "class"
 msgstr "کلاس"
 
-#: ../admin/views/field-group-field.php:190
+#: ../admin/views/field-group-field.php:184
 msgid "id"
 msgstr "شناسه"
 
-#: ../admin/views/field-group-field.php:203
+#: ../admin/views/field-group-field.php:196
 msgid "Close Field"
 msgstr "بستن زمینه"
 
@@ -787,11 +792,11 @@ msgstr "بدون متاباکس"
 msgid "Label placement"
 msgstr "مکان برچسب"
 
-#: ../admin/views/field-group-options.php:60
+#: ../admin/views/field-group-options.php:60 ../fields/tab.php:125
 msgid "Top aligned"
 msgstr "سمت بالا"
 
-#: ../admin/views/field-group-options.php:61
+#: ../admin/views/field-group-options.php:61 ../fields/tab.php:126
 msgid "Left Aligned"
 msgstr "سمت چپ"
 
@@ -949,7 +954,7 @@ msgstr ""
 "شود. زمانی که دکمه وارد کردن را در زیر کلیک کنید، سیستم اقدام به ساخت گروه "
 "های زمینه خواهد نمود"
 
-#: ../admin/views/settings-export.php:106 ../fields/file.php:43
+#: ../admin/views/settings-export.php:106 ../fields/file.php:46
 msgid "Select File"
 msgstr "انتخاب پرونده"
 
@@ -985,8 +990,8 @@ msgid ""
 "and select."
 msgstr ""
 "استفاده از کتابخانه محبوب Select2 باعث سرعت در عملکرد و کاربری بهتر در انواع "
-"زمینه هاشامل آبجکت نوشته، پیوند(لینک) صفحه ، طبقه بندی و زمینه های انتخاب"
-"(Select) شده است"
+"زمینه هاشامل آبجکت نوشته، پیوند(لینک) صفحه ، طبقه بندی و زمینه های "
+"انتخاب(Select) شده است"
 
 #: ../admin/views/settings-info.php:35
 msgid "Improved Design"
@@ -1305,31 +1310,31 @@ msgstr "ببینید چه چیزی جدید است"
 msgid "Data is at the latest version."
 msgstr "داده ها آخرین نسخه می باشند"
 
-#: ../api/api-helpers.php:1165
+#: ../api/api-helpers.php:1198
 msgid "Thumbnail"
 msgstr "تصویر بندانگشتی"
 
-#: ../api/api-helpers.php:1166
+#: ../api/api-helpers.php:1199
 msgid "Medium"
 msgstr "متوسط"
 
-#: ../api/api-helpers.php:1167
+#: ../api/api-helpers.php:1200
 msgid "Large"
 msgstr "بزرگ"
 
-#: ../api/api-helpers.php:1215
+#: ../api/api-helpers.php:1248
 msgid "Full Size"
 msgstr "اندازه کامل"
 
-#: ../api/api-helpers.php:1772
+#: ../api/api-helpers.php:1806
 msgid "(no title)"
 msgstr "(بدون عنوان)"
 
-#: ../api/api-template.php:1249 ../pro/fields/gallery.php:488
+#: ../api/api-template.php:1268 ../pro/fields/gallery.php:576
 msgid "Update"
 msgstr "بروزرسانی"
 
-#: ../api/api-template.php:1250
+#: ../api/api-template.php:1269
 msgid "Post updated"
 msgstr "نوشته بروز شد."
 
@@ -1354,63 +1359,98 @@ msgstr "جی کوئری"
 msgid "Layout"
 msgstr "چیدمان"
 
-#: ../core/input.php:159
+#: ../core/input.php:129
 msgid "Expand Details"
 msgstr "نمایش جزئیات"
 
-#: ../core/input.php:160
+#: ../core/input.php:130
 msgid "Collapse Details"
 msgstr "عدم نمایش جزئیات"
 
-#: ../core/input.php:207
+#: ../core/input.php:180
 msgid "Validation successful"
 msgstr "اعتبار سنجی موفق بود"
 
-#: ../core/input.php:219
+#: ../core/input.php:192
 msgid "Validation failed"
 msgstr "مشکل در اعتبار سنجی"
 
-#: ../core/input.php:226
+#: ../core/input.php:199
 #, php-format
 msgid "1 required field below is empty"
 msgid_plural "%s required fields below are empty"
 msgstr[0] "زمینه زیر خالی است"
 msgstr[1] "%s زمینه در زیر خالی است"
 
-#: ../core/input.php:558
+#: ../core/input.php:535
 #, php-format
 msgid "%s value is required"
 msgstr "مقدار %s لازم است"
+
+#: ../core/media.php:84
+#, php-format
+msgid "Image width must be at least %dpx."
+msgstr "عرض تصویر باید حداقل %d پیکسل باشد."
+
+#: ../core/media.php:89
+#, php-format
+msgid "Image width must not exceed %dpx."
+msgstr "عرض تصویر نباید از %d پیکسل بیشتر باشد."
+
+#: ../core/media.php:104
+#, php-format
+msgid "Image height must be at least %dpx."
+msgstr "ارتفاع فایل باید حداقل %d پیکسل باشد."
+
+#: ../core/media.php:109
+#, php-format
+msgid "Image height must not exceed %dpx."
+msgstr "ارتفاع تصویر نباید از %d پیکسل بیشتر باشد."
+
+#: ../core/media.php:125
+#, php-format
+msgid "File size must be at least %s."
+msgstr "حجم فایل باید حداقل %s باشد."
+
+#: ../core/media.php:130
+#, php-format
+msgid "File size must must not exceed %s."
+msgstr "حجم فایل ها نباید از %s بیشتر باشد."
+
+#: ../core/media.php:154
+#, php-format
+msgid "File type must be %s."
+msgstr "نوع فایل باید %s باشد"
 
 #: ../fields/checkbox.php:36 ../fields/taxonomy.php:714
 msgid "Checkbox"
 msgstr "جعبه انتخاب(چک باکس)"
 
-#: ../fields/checkbox.php:169 ../fields/radio.php:193 ../fields/select.php:373
+#: ../fields/checkbox.php:169 ../fields/radio.php:193 ../fields/select.php:374
 msgid "Choices"
 msgstr "انتخاب ها"
 
-#: ../fields/checkbox.php:170 ../fields/radio.php:194 ../fields/select.php:374
+#: ../fields/checkbox.php:170 ../fields/radio.php:194 ../fields/select.php:375
 msgid "Enter each choice on a new line."
 msgstr "هر انتخاب را در یک خط جدید وارد کنید."
 
-#: ../fields/checkbox.php:170 ../fields/radio.php:194 ../fields/select.php:374
+#: ../fields/checkbox.php:170 ../fields/radio.php:194 ../fields/select.php:375
 msgid "For more control, you may specify both a value and label like this:"
 msgstr "برای کنترل بیشتر، ممکن است هر دو مقدار و برچسب را مانند زیر مشخص کنید:"
 
-#: ../fields/checkbox.php:170 ../fields/radio.php:194 ../fields/select.php:374
+#: ../fields/checkbox.php:170 ../fields/radio.php:194 ../fields/select.php:375
 msgid "red : Red"
 msgstr "red : قرمز"
 
 #: ../fields/checkbox.php:178 ../fields/color_picker.php:158
 #: ../fields/email.php:124 ../fields/number.php:150 ../fields/radio.php:222
-#: ../fields/select.php:382 ../fields/text.php:148 ../fields/textarea.php:145
+#: ../fields/select.php:383 ../fields/text.php:148 ../fields/textarea.php:145
 #: ../fields/true_false.php:115 ../fields/url.php:117
 #: ../fields/wysiwyg.php:345
 msgid "Default Value"
 msgstr "مقدار پیش فرض"
 
-#: ../fields/checkbox.php:179 ../fields/select.php:383
+#: ../fields/checkbox.php:179 ../fields/select.php:384
 msgid "Enter each default value on a new line"
 msgstr "هر مقدار پیش فرض را در یک خط جدید وارد کنید"
 
@@ -1518,68 +1558,98 @@ msgstr "بعد از ورودی نمایش داده می شود"
 msgid "File"
 msgstr "پرونده"
 
-#: ../fields/file.php:44
+#: ../fields/file.php:47
 msgid "Edit File"
 msgstr "ویرایش پرونده"
 
-#: ../fields/file.php:45
+#: ../fields/file.php:48
 msgid "Update File"
 msgstr "بروزرسانی پرونده"
 
-#: ../fields/file.php:46 ../fields/image.php:47 ../pro/fields/gallery.php:48
+#: ../fields/file.php:49 ../pro/fields/gallery.php:55
 msgid "uploaded to this post"
 msgstr "بارگذاری شده در این نوشته"
 
-#: ../fields/file.php:132
+#: ../fields/file.php:141
 msgid "File Name"
 msgstr "نام پرونده"
 
-#: ../fields/file.php:136
+#: ../fields/file.php:145
 msgid "File Size"
 msgstr "اندازه پرونده"
 
-#: ../fields/file.php:160
+#: ../fields/file.php:168
 msgid "No File selected"
 msgstr "هیچ پرونده ای انتخاب نشده"
 
-#: ../fields/file.php:160
+#: ../fields/file.php:168
 msgid "Add File"
 msgstr "افزودن پرونده"
 
-#: ../fields/file.php:188 ../fields/image.php:167 ../fields/taxonomy.php:751
+#: ../fields/file.php:213 ../fields/image.php:192 ../fields/taxonomy.php:751
 msgid "Return Value"
 msgstr "مقدار بازگشت"
 
-#: ../fields/file.php:189 ../fields/image.php:168
+#: ../fields/file.php:214 ../fields/image.php:193
 msgid "Specify the returned value on front end"
 msgstr "مقدار برگشتی در نمایش نهایی را تعیین کنید"
 
-#: ../fields/file.php:194
+#: ../fields/file.php:219
 msgid "File Array"
 msgstr "آرایه فایل"
 
-#: ../fields/file.php:195
+#: ../fields/file.php:220
 msgid "File URL"
 msgstr "آدرس پرونده"
 
-#: ../fields/file.php:196
+#: ../fields/file.php:221
 msgid "File ID"
 msgstr "شناسه(ID) پرونده"
 
-#: ../fields/file.php:203 ../fields/image.php:192
-#: ../pro/fields/gallery.php:555
+#: ../fields/file.php:228 ../fields/image.php:217
+#: ../pro/fields/gallery.php:659
 msgid "Library"
 msgstr "کتابخانه"
 
-#: ../fields/file.php:204 ../fields/image.php:193
-#: ../pro/fields/gallery.php:556
+#: ../fields/file.php:229 ../fields/image.php:218
+#: ../pro/fields/gallery.php:660
 msgid "Limit the media library choice"
 msgstr "محدود کردن انتخاب کتابخانه چندرسانه ای"
 
-#: ../fields/file.php:210 ../fields/image.php:199
-#: ../pro/fields/gallery.php:562
+#: ../fields/file.php:235 ../fields/image.php:224
+#: ../pro/fields/gallery.php:666
 msgid "Uploaded to post"
 msgstr "بارگذاری شده در نوشته"
+
+#: ../fields/file.php:242 ../fields/image.php:231
+#: ../pro/fields/gallery.php:673
+msgid "Minimum"
+msgstr "کمترین"
+
+#: ../fields/file.php:243 ../fields/file.php:254
+msgid "Restrict which files can be uploaded"
+msgstr "محدودیت در آپلود فایل ها"
+
+#: ../fields/file.php:246 ../fields/file.php:257 ../fields/image.php:254
+#: ../fields/image.php:287 ../pro/fields/gallery.php:696
+#: ../pro/fields/gallery.php:729
+msgid "File size"
+msgstr "اندازه فایل"
+
+#: ../fields/file.php:253 ../fields/image.php:264
+#: ../pro/fields/gallery.php:706
+msgid "Maximum"
+msgstr "بیشترین"
+
+#: ../fields/file.php:264 ../fields/image.php:297
+#: ../pro/fields/gallery.php:739
+msgid "Allowed file types"
+msgstr "انواع مجاز فایل"
+
+#: ../fields/file.php:265 ../fields/image.php:298
+#: ../pro/fields/gallery.php:740
+msgid "Comma separated list. Leave blank for all types"
+msgstr "با کامای انگلیسی جدا کرده یا برای عدم محدودیت خالی بگذارید"
 
 #: ../fields/google-map.php:36
 msgid "Google Map"
@@ -1621,7 +1691,9 @@ msgstr "بزرگنمایی"
 msgid "Set the initial zoom level"
 msgstr "تعین مقدار بزرگنمایی اولیه"
 
-#: ../fields/google-map.php:209
+#: ../fields/google-map.php:209 ../fields/image.php:243
+#: ../fields/image.php:276 ../pro/fields/gallery.php:685
+#: ../pro/fields/gallery.php:718
 msgid "Height"
 msgstr "ارتفاع"
 
@@ -1633,54 +1705,80 @@ msgstr "سفارشی کردن ارتفاع نقشه"
 msgid "Image"
 msgstr "تصویر"
 
-#: ../fields/image.php:44
+#: ../fields/image.php:51
 msgid "Select Image"
 msgstr "انتخاب تصویر"
 
-#: ../fields/image.php:45 ../pro/fields/gallery.php:46
+#: ../fields/image.php:52 ../pro/fields/gallery.php:53
 msgid "Edit Image"
 msgstr "ویرایش تصویر"
 
-#: ../fields/image.php:46 ../pro/fields/gallery.php:47
+#: ../fields/image.php:53 ../pro/fields/gallery.php:54
 msgid "Update Image"
 msgstr "بروزرسانی تصویر"
 
-#: ../fields/image.php:140
+#: ../fields/image.php:54
+msgid "Uploaded to this post"
+msgstr "بارگذاری شده در این نوشته"
+
+#: ../fields/image.php:55
+msgid "All images"
+msgstr "تمام تصاویر"
+
+#: ../fields/image.php:144
 msgid "No image selected"
 msgstr "هیچ تصویری انتخاب نشده"
 
-#: ../fields/image.php:140
+#: ../fields/image.php:144
 msgid "Add Image"
 msgstr "افزودن تصویر"
 
-#: ../fields/image.php:173
+#: ../fields/image.php:198
 msgid "Image Array"
 msgstr "آرایه تصاویر"
 
-#: ../fields/image.php:174
+#: ../fields/image.php:199
 msgid "Image URL"
 msgstr "آدرس تصویر"
 
-#: ../fields/image.php:175
+#: ../fields/image.php:200
 msgid "Image ID"
 msgstr "شناسه(ID) تصویر"
 
-#: ../fields/image.php:182 ../pro/fields/gallery.php:545
+#: ../fields/image.php:207 ../pro/fields/gallery.php:649
 msgid "Preview Size"
 msgstr "اندازه پیش نمایش"
 
-#: ../fields/image.php:183 ../pro/fields/gallery.php:546
+#: ../fields/image.php:208 ../pro/fields/gallery.php:650
 msgid "Shown when entering data"
 msgstr "هنگام وارد کردن داده ها نمایش داده می شود"
 
-#: ../fields/message.php:36 ../fields/message.php:84
+#: ../fields/image.php:232 ../fields/image.php:265
+#: ../pro/fields/gallery.php:674 ../pro/fields/gallery.php:707
+msgid "Restrict which images can be uploaded"
+msgstr "محدودیت در آپلود تصاویر"
+
+#: ../fields/image.php:235 ../fields/image.php:268
+#: ../pro/fields/gallery.php:677 ../pro/fields/gallery.php:710
+msgid "Width"
+msgstr "عرض"
+
+#: ../fields/message.php:36 ../fields/message.php:102
 #: ../fields/true_false.php:106
 msgid "Message"
 msgstr "پیام"
 
-#: ../fields/message.php:85
+#: ../fields/message.php:103
 msgid "Please note that all text will first be passed through the wp function "
 msgstr "دقت کنید که نکاک متن ها اول از تابع وردپرس عبور خواهند کرد"
+
+#: ../fields/message.php:111
+msgid "Escape HTML"
+msgstr "حذف HTML"
+
+#: ../fields/message.php:112
+msgid "Controls how HTML tags are rendered"
+msgstr "کنترل چگونگی نمایش تگ های HTML"
 
 #: ../fields/number.php:36
 msgid "Number"
@@ -1753,12 +1851,12 @@ msgid "No taxonomy filter"
 msgstr "بدون فیلتر طبقه بندی"
 
 #: ../fields/page_link.php:549 ../fields/post_object.php:487
-#: ../fields/select.php:391 ../fields/taxonomy.php:727 ../fields/user.php:372
+#: ../fields/select.php:392 ../fields/taxonomy.php:727 ../fields/user.php:372
 msgid "Allow Null?"
 msgstr "آیا Null مجاز است؟"
 
 #: ../fields/page_link.php:563 ../fields/post_object.php:501
-#: ../fields/select.php:405 ../fields/user.php:386
+#: ../fields/select.php:406 ../fields/user.php:386
 msgid "Select multiple values?"
 msgstr "آیا چندین مقدار انتخاب شوند؟"
 
@@ -1852,11 +1950,11 @@ msgstr "حداکثر تعداد نوشته ها"
 msgid "Select"
 msgstr "انتخاب(دراپ باکس)"
 
-#: ../fields/select.php:419
+#: ../fields/select.php:420
 msgid "Stylised UI"
 msgstr "ظاهر بهینه شده"
 
-#: ../fields/select.php:433
+#: ../fields/select.php:434
 msgid "Use AJAX to lazy load choices?"
 msgstr "از ایجکس برای خواندن گزینه های استفاده شود؟"
 
@@ -1864,11 +1962,11 @@ msgstr "از ایجکس برای خواندن گزینه های استفاده �
 msgid "Tab"
 msgstr "تب"
 
-#: ../fields/tab.php:82
+#: ../fields/tab.php:94
 msgid "Warning"
 msgstr "اخطار"
 
-#: ../fields/tab.php:87
+#: ../fields/tab.php:99
 msgid ""
 "The tab field will display incorrectly when added to a Table style repeater "
 "field or flexible content field layout"
@@ -1876,7 +1974,7 @@ msgstr ""
 "زمینه تب در زمانی که در آن زمینه تکرارشونده و یا زمینه محتوای انعطاف پذیر به "
 "کار ببرید درست نمایش داده نخواهد شد"
 
-#: ../fields/tab.php:101
+#: ../fields/tab.php:112
 msgid ""
 "Use \"Tab Fields\" to better organize your edit screen by grouping fields "
 "together."
@@ -1884,7 +1982,7 @@ msgstr ""
 "از (زمینه تب) برای سازماندهی بهتر صفحه ویرایش با گروه بندی زمینه ها زیر تب "
 "ها استفاده کنید. "
 
-#: ../fields/tab.php:103
+#: ../fields/tab.php:114
 msgid ""
 "All fields following this \"tab field\" (or until another \"tab field\" is "
 "defined) will be grouped together using this field's label as the tab "
@@ -1892,6 +1990,10 @@ msgid ""
 msgstr ""
 "همه زمینه های زیر این \" زمینه تب \"  (یا تا زمینه تب بعدی) با هم گروه بندی "
 "می شوند و برچسب زمینه در تب به نمایش در خواهد آمد"
+
+#: ../fields/tab.php:121
+msgid "Placement"
+msgstr "جانمایی"
 
 #: ../fields/taxonomy.php:667
 msgid "None"
@@ -2005,13 +2107,13 @@ msgid "Wysiwyg Editor"
 msgstr "ویرایشگر دیداری"
 
 #: ../fields/wysiwyg.php:297
+msgid "Visual"
+msgstr "بصری"
+
+#: ../fields/wysiwyg.php:298
 msgctxt "Name for the Text editor tab (formerly HTML)"
 msgid "Text"
 msgstr "متن"
-
-#: ../fields/wysiwyg.php:298
-msgid "Visual"
-msgstr "بصری"
 
 #: ../fields/wysiwyg.php:354
 msgid "Tabs"
@@ -2037,11 +2139,15 @@ msgstr "نوار ابزار"
 msgid "Show Media Upload Buttons?"
 msgstr "آیا دکمه های بارگذاری رسانه نمایش داده شوند؟"
 
+#: ../forms/post.php:341
+msgid "Edit field group"
+msgstr "ویرایش گروه زمینه"
+
 #: ../pro/acf-pro.php:24
 msgid "Advanced Custom Fields PRO"
 msgstr "زمینه های دلخواه پیشرفته نسخه حرفه ای"
 
-#: ../pro/acf-pro.php:181
+#: ../pro/acf-pro.php:174
 msgid "Flexible Content requires at least 1 layout"
 msgstr "زمینه محتوای انعطاف پذیر حداقل به یک طرح نیاز دارد"
 
@@ -2140,11 +2246,11 @@ msgstr "بروزرسانی افزونه"
 msgid "Please enter your license key above to unlock updates"
 msgstr "برای فعالسازی به روزرسانی لایسنس خود را بنویسید"
 
-#: ../pro/admin/views/settings-updates.php:102
+#: ../pro/admin/views/settings-updates.php:104
 msgid "Check Again"
 msgstr "بررسی دوباره"
 
-#: ../pro/admin/views/settings-updates.php:119
+#: ../pro/admin/views/settings-updates.php:121
 msgid "Upgrade Notice"
 msgstr "نکات به روزرسانی"
 
@@ -2265,55 +2371,59 @@ msgstr "حداکثر تعداد طرح ها"
 msgid "Gallery"
 msgstr "گالری"
 
-#: ../pro/fields/gallery.php:45
+#: ../pro/fields/gallery.php:52
 msgid "Add Image to Gallery"
 msgstr "افزودن تصویر به گالری"
 
-#: ../pro/fields/gallery.php:49
+#: ../pro/fields/gallery.php:56
 msgid "Maximum selection reached"
 msgstr "بیشترین حد انتخاب شده است"
 
-#: ../pro/fields/gallery.php:309
-msgid "Attachment Details"
-msgstr "جزئیات پیوست"
+#: ../pro/fields/gallery.php:333
+msgid "Length"
+msgstr "طول"
 
-#: ../pro/fields/gallery.php:459
+#: ../pro/fields/gallery.php:353
+msgid "Remove"
+msgstr "حذف"
+
+#: ../pro/fields/gallery.php:547
 msgid "Add to gallery"
 msgstr "اضافه به گالری"
 
-#: ../pro/fields/gallery.php:463
+#: ../pro/fields/gallery.php:551
 msgid "Bulk actions"
 msgstr "کارهای گروهی"
 
-#: ../pro/fields/gallery.php:464
+#: ../pro/fields/gallery.php:552
 msgid "Sort by date uploaded"
 msgstr "به ترتیب تاریخ آپلود"
 
-#: ../pro/fields/gallery.php:465
+#: ../pro/fields/gallery.php:553
 msgid "Sort by date modified"
 msgstr "به ترتیب تاریخ اعمال تغییرات"
 
-#: ../pro/fields/gallery.php:466
+#: ../pro/fields/gallery.php:554
 msgid "Sort by title"
 msgstr "به ترتیب عنوان"
 
-#: ../pro/fields/gallery.php:467
+#: ../pro/fields/gallery.php:555
 msgid "Reverse current order"
 msgstr "معکوس سازی ترتیب کنونی"
 
-#: ../pro/fields/gallery.php:485
+#: ../pro/fields/gallery.php:573
 msgid "Close"
 msgstr "بستن"
 
-#: ../pro/fields/gallery.php:525
+#: ../pro/fields/gallery.php:631
 msgid "Minimum Selection"
 msgstr "حداقل انتخاب"
 
-#: ../pro/fields/gallery.php:535
+#: ../pro/fields/gallery.php:640
 msgid "Maximum Selection"
 msgstr "حداکثر انتخاب"
 
-#: ../pro/fields/gallery.php:717
+#: ../pro/fields/gallery.php:833
 #, php-format
 msgid "%s requires at least %s selection"
 msgid_plural "%s requires at least %s selections"
@@ -2355,6 +2465,142 @@ msgstr "حداقل تعداد سطرها"
 #: ../pro/fields/repeater.php:382
 msgid "Maximum Rows"
 msgstr "حداکثر تعداد سطرها"
+
+#: ../assets/_build/js/acf-file.js:55 ../assets/_build/js/acf-file.js:190
+#: ../assets/_build/js/acf-file.js:191 ../assets/js/acf-input.js:3284
+#: ../assets/js/acf-input.js:3419 ../assets/js/acf-input.js:3420
+#: ../assets/js/acf-input.min.js:1
+msgid "file"
+msgstr ""
+
+#: ../assets/_build/js/acf-image.js:55 ../assets/_build/js/acf-image.js:189
+#: ../assets/_build/js/acf-image.js:190 ../assets/_build/js/acf-media.js:167
+#: ../assets/_build/js/acf-media.js:245 ../assets/js/acf-input.js:4070
+#: ../assets/js/acf-input.js:4204 ../assets/js/acf-input.js:4205
+#: ../assets/js/acf-input.js:4414 ../assets/js/acf-input.js:4492
+#: ../assets/js/acf-input.min.js:1 ../pro/assets/_build/js/acf-gallery.js:515
+#: ../pro/assets/_build/js/acf-gallery.js:516
+#: ../pro/assets/js/acf-pro-input.js:1514
+#: ../pro/assets/js/acf-pro-input.js:1515
+#: ../pro/assets/js/acf-pro-input.min.js:1
+#, fuzzy
+msgid "image"
+msgstr "تصویر"
+
+#: ../assets/_build/js/acf-media.js:518 ../assets/js/acf-input.js:4765
+#: ../assets/js/acf-input.min.js:2
+#, fuzzy
+msgid "expand_details"
+msgstr "نمایش جزئیات"
+
+#: ../assets/_build/js/acf-media.js:519 ../assets/js/acf-input.js:4766
+#: ../assets/js/acf-input.min.js:2
+#, fuzzy
+msgid "collapse_details"
+msgstr "عدم نمایش جزئیات"
+
+#: ../assets/_build/js/acf-relationship.js:175
+#: ../assets/_build/js/acf-relationship.js:222
+#: ../assets/_build/js/acf-relationship.js:378 ../assets/js/acf-input.js:5302
+#: ../assets/js/acf-input.js:5349 ../assets/js/acf-input.js:5505
+#: ../assets/js/acf-input.min.js:2
+#, fuzzy
+msgid "relationship"
+msgstr "ارتباط"
+
+#: ../assets/_build/js/acf.js:1873 ../assets/js/acf-input.js:2120
+#: ../assets/js/acf-input.min.js:1
+#, fuzzy
+msgid "unload"
+msgstr "دانلود"
+
+#: ../assets/_build/js/field-group.js:476 ../assets/js/acf-field-group.js:476
+#: ../assets/js/acf-field-group.min.js:1
+#, fuzzy
+msgid "title_is_required"
+msgstr "عنوان گروه زمینه ضروری است"
+
+#: ../assets/_build/js/field-group.js:552 ../assets/js/acf-field-group.js:552
+#: ../assets/js/acf-field-group.min.js:1
+msgid "move_to_trash"
+msgstr ""
+
+#: ../assets/_build/js/field-group.js:1003
+#: ../assets/js/acf-field-group.js:1003 ../assets/js/acf-field-group.min.js:1
+msgid "move_field_warning"
+msgstr ""
+
+#: ../assets/_build/js/field-group.js:1011
+#: ../assets/js/acf-field-group.js:1011 ../assets/js/acf-field-group.min.js:1
+#, fuzzy
+msgid "move_field"
+msgstr "جابجایی زمینه"
+
+#: ../assets/_build/js/field-group.js:1543
+#: ../assets/js/acf-field-group.js:1543 ../assets/js/acf-field-group.min.js:1
+msgid "field_name_start"
+msgstr ""
+
+#: ../assets/_build/js/field-group.js:1910
+#: ../assets/js/acf-field-group.js:1910 ../assets/js/acf-field-group.min.js:1
+msgid "null"
+msgstr ""
+
+#: ../assets/_build/js/field-group.js:2370
+#: ../assets/js/acf-field-group.js:2370 ../assets/js/acf-field-group.min.js:1
+msgid "hide_show_all"
+msgstr ""
+
+#: ../pro/assets/_build/js/acf-flexible-content.js:165
+#: ../pro/assets/_build/js/acf-flexible-content.js:170
+#: ../pro/assets/_build/js/acf-flexible-content.js:193
+#: ../pro/assets/_build/js/acf-flexible-content.js:199
+#: ../pro/assets/_build/js/acf-flexible-content.js:223
+#: ../pro/assets/_build/js/acf-flexible-content.js:228
+#: ../pro/assets/_build/js/acf-flexible-content.js:229
+#: ../pro/assets/_build/js/acf-flexible-content.js:249
+#: ../pro/assets/_build/js/acf-flexible-content.js:255
+#: ../pro/assets/_build/js/acf-flexible-content.js:256
+#: ../pro/assets/_build/js/acf-flexible-content.js:295
+#: ../pro/assets/_build/js/acf-flexible-content.js:303
+#: ../pro/assets/_build/js/acf-flexible-content.js:324
+#: ../pro/assets/_build/js/acf-flexible-content.js:332
+#: ../pro/assets/_build/js/field-group.js:621
+#: ../pro/assets/js/acf-pro-field-group.js:621
+#: ../pro/assets/js/acf-pro-field-group.min.js:1
+#: ../pro/assets/js/acf-pro-input.js:604 ../pro/assets/js/acf-pro-input.js:609
+#: ../pro/assets/js/acf-pro-input.js:632 ../pro/assets/js/acf-pro-input.js:638
+#: ../pro/assets/js/acf-pro-input.js:662 ../pro/assets/js/acf-pro-input.js:667
+#: ../pro/assets/js/acf-pro-input.js:668 ../pro/assets/js/acf-pro-input.js:688
+#: ../pro/assets/js/acf-pro-input.js:694 ../pro/assets/js/acf-pro-input.js:695
+#: ../pro/assets/js/acf-pro-input.js:734 ../pro/assets/js/acf-pro-input.js:742
+#: ../pro/assets/js/acf-pro-input.js:763 ../pro/assets/js/acf-pro-input.js:771
+#: ../pro/assets/js/acf-pro-input.min.js:1
+#, fuzzy
+msgid "flexible_content"
+msgstr "محتوای انعطاف پذیر"
+
+#: ../pro/assets/_build/js/acf-gallery.js:444
+#: ../pro/assets/_build/js/acf-gallery.js:620
+#: ../pro/assets/_build/js/acf-gallery.js:638
+#: ../pro/assets/js/acf-pro-input.js:1443
+#: ../pro/assets/js/acf-pro-input.js:1619
+#: ../pro/assets/js/acf-pro-input.js:1637
+#: ../pro/assets/js/acf-pro-input.min.js:1
+#, fuzzy
+msgid "gallery"
+msgstr "گالری"
+
+#: ../pro/assets/_build/js/acf-repeater.js:184
+#: ../pro/assets/_build/js/acf-repeater.js:247
+#: ../pro/assets/js/acf-pro-input.js:340 ../pro/assets/js/acf-pro-input.js:403
+#: ../pro/assets/js/acf-pro-input.min.js:1
+#, fuzzy
+msgid "repeater"
+msgstr "زمینه تکرار کننده"
+
+#~ msgid "Attachment Details"
+#~ msgstr "جزئیات پیوست"
 
 #~ msgid "Custom field updated."
 #~ msgstr "زمینه دلخواه بروز شد"
@@ -2433,9 +2679,6 @@ msgstr "حداکثر تعداد سطرها"
 
 #~ msgid "Purchase & Install"
 #~ msgstr "خرید و نصب"
-
-#~ msgid "Download"
-#~ msgstr "دانلود"
 
 #~ msgid "Export"
 #~ msgstr "برون بری"

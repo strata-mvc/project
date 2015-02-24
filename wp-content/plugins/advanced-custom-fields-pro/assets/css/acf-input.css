@@ -461,10 +461,10 @@ html[dir="rtl"] .pac-container .pac-item {
 *	WYSIWYG
 *	
 *-------------------------------------------------------------------------*/
-.acf-wysiwyg-wrap iframe {
+.acf-editor-wrap iframe {
   min-height: 200px;
 }
-.acf-wysiwyg-wrap .wp-editor-container {
+.acf-editor-wrap .wp-editor-container {
   border: 1px solid #E5E5E5;
   box-shadow: none;
 }
@@ -472,13 +472,13 @@ html[dir="rtl"] .pac-container .pac-item {
   z-index: 150005 !important;
 }
 /* WP < 4.1 */
-.acf-wysiwyg-wrap .wp-switch-editor {
+.acf-editor-wrap .wp-switch-editor {
   float: left;
   -moz-box-sizing: content-box;
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
 }
-.acf-wysiwyg-wrap.tmce-active .wp-editor-area {
+.acf-editor-wrap.tmce-active .wp-editor-area {
   color: #333 !important;
 }
 /*---------------------------------------------------------------------------------------------
@@ -885,8 +885,31 @@ html[dir="rtl"] .acf-image-uploader .view {
 .media-modal .compat-attachment-fields td.acf-input table th {
   display: table-cell;
 }
-.compat-item table.widefat {
-  border: #DFDFDF solid 1px;
+/* field widths floats */
+.media-modal .compat-attachment-fields > tbody > .acf-field {
+  margin: 0;
+}
+.media-modal .compat-attachment-fields > tbody > .acf-field > .acf-label {
+  min-width: 30%;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+  display: block;
+  float: left;
+}
+.media-modal .compat-attachment-fields > tbody > .acf-field > .acf-label label {
+  padding-top: 7px;
+  margin: 5px 0 0;
+  color: #666666;
+  font-weight: 400;
+  line-height: 16px;
+}
+.media-modal .compat-attachment-fields > tbody > .acf-field > .acf-input {
+  width: 66%;
+  margin: 5px 0 0;
+  padding: 0;
+  float: right;
+  display: block;
 }
 /* Expand / Collapse button */
 .media-modal .acf-expand-details {
@@ -978,14 +1001,12 @@ html[dir="rtl"] .acf-image-uploader .view {
   overflow: hidden;
 }
 .media-modal.acf-expanded .media-sidebar .setting span,
-.media-modal.acf-expanded .compat-item .label,
-.media-modal.acf-expanded .compat-item .acf-label {
+.media-modal.acf-expanded .compat-attachment-fields > tbody > .acf-field > .acf-label {
   min-width: 20%;
 }
 .media-modal.acf-expanded .media-sidebar .setting input,
 .media-modal.acf-expanded .media-sidebar .setting textarea,
-.media-modal.acf-expanded .compat-item .field,
-.media-modal.acf-expanded .compat-item .acf-input {
+.media-modal.acf-expanded .compat-attachment-fields > tbody > .acf-field > .acf-input {
   width: 77%;
 }
 /* Create gallery fix */
@@ -993,12 +1014,21 @@ html[dir="rtl"] .acf-image-uploader .view {
   padding-top: 8px;
   margin: 0 10px 0 0;
 }
+/* fix % margin which causes .acf-uploadedTo to drop down below select */
+.media-frame select.attachment-filters {
+  margin-right: 6px;
+}
 .media-modal .acf-uploadedTo {
   line-height: 28px;
+  height: 28px;
   display: inline-block;
   position: relative;
-  bottom: -6px;
-  margin: 0 10px 0 0;
+  margin: 11px 6px 0 0;
+  vertical-align: middle;
+}
+/* allow line breaks in upload error */
+.media-modal .upload-error-message {
+  white-space: pre-wrap;
 }
 /*---------------------------------------------------------------------------------------------
 *
@@ -1097,31 +1127,6 @@ html[dir="rtl"] .acf-image-uploader .view {
 .compat-field-acf-blank {
   display: none !important;
 }
-.compat-item .acf-field {
-  margin: 0;
-}
-.compat-item .acf-label {
-  min-width: 30%;
-  margin: 0;
-  padding: 0;
-  text-align: right;
-  display: block;
-  float: left;
-}
-.compat-item .acf-label label {
-  padding-top: 7px;
-  margin: 5px 0 0;
-  color: #666666;
-  font-weight: 400;
-  line-height: 16px;
-}
-.compat-item .acf-input {
-  width: 66%;
-  margin: 5px 0 0;
-  padding: 0;
-  float: right;
-  display: block;
-}
 /* WP4 */
 body.acf-wp-4 .media-modal.acf-media-modal .media-frame-content {
   top: 50px;
@@ -1135,6 +1140,14 @@ body.acf-wp-4 .media-modal.acf-media-modal .media-frame-content {
 .media-modal.acf-media-modal .media-frame-toolbar,
 .media-modal.acf-media-modal .media-frame-content {
   left: 0;
+}
+/*--------------------------------------------------------------------------
+*
+*	Profile page
+*	
+*-------------------------------------------------------------------------*/
+#profile-page .acf-field textarea {
+  width: 100%;
 }
 /*--------------------------------------------------------------------------
 *

@@ -107,12 +107,32 @@ http://support.advancedcustomfields.com/
 
 == Changelog ==
 
+= 5.1.9.1 =
+* Language: Fixed corrupt language files
+
+= 5.1.9 =
+* Image field: Added new settings to restrict uploads (width, height, size, type)
+* File field: Same as above
+* Gallery field: Same as above
+* Message field: Added new `esc_html` setting to show HTML as plain text
+* Core: Fixed customizer issues when editing widgets
+* Core: Added new filter to validate upload - http://www.advancedcustomfields.com/resources/acfupload_prefilter/
+* Core: Added file types (new field setting) to media popup select filter
+* Core: Added an edit field group link to metabox titles
+* Core: Added new `capability` setting for use in admin pages / CPT
+* Core: Minor fixes and improvements
+* Language: Updated Portuguese (Brazil) translation - thanks to augustoms
+* Language: Updated Hebrew translation - thanks to Ahrale
+* Language: Updated Swedish translation - thanks to Fredrik Andersson
+* Language: Updated Russian translation - thanks to Alexey Samoylov
+* Language: Updated Ukrainian translation - thanks to Jurko Chervony
+
 = 5.1.8 =
 * WYSIWYG field: Fixed bug causing formatting issue when drag/drop
 * Tab field: Fixed UI glitch where left aligned tabs would get cut off in small field group
 * Message field: Added missing wrapper settings
 * Core: Minor fixes and improvements
-* Language: Updated Russian translation - thanks to Andy Toniyevych
+* Language: Updated Swedish translation - thanks to Andy Toniyevych
 
 = 5.1.7.1 =
 * Core: Fixed JS error on data input screens

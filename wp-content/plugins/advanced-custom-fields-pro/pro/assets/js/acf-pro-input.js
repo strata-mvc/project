@@ -104,40 +104,19 @@
 			
 			// vars
 			var $th = $table.find('> thead > tr > th'),
-				available_width = 100,
-				count = 0;
-			
-			
-			// accomodate for order / remove
-			if( $th.filter('.order').exists() ) {
-				
-				available_width = 93;
-				
-			}
+				available_width = 100;
 			
 			
 			// clear widths
-			$th.removeAttr('width');
+			$th.css('width', 'auto');
 			
 			
 			// update $th
 			$th = $th.not('.order, .remove, .hidden-by-conditional-logic');
-				
+			
 			
 			// set custom widths first
 			$th.filter('[data-width]').each(function(){
-				
-				// bail early if hit limit
-				if( (count+1) == $th.length ) {
-					
-					return false;
-					
-				}
-				
-				
-				// increase counter
-				count++;
-				
 				
 				// vars
 				var width = parseInt( $(this).attr('data-width') );
@@ -148,32 +127,24 @@
 				
 				
 				// set width
-				$(this).attr('width', width + '%');
+				$(this).css('width', width + '%');
 				
 			});
 			
 			
+			// update $th
+			$th = $th.not('[data-width]');
+			
+			
 			// set custom widths first
-			$th.not('[data-width]').each(function(){
-				
-				// bail early if hit limit
-				if( (count+1) == $th.length ) {
-					
-					return false;
-					
-				}
-				
-				
-				// increase counter
-				count++;
-				
+			$th.each(function(){
 				
 				// cal width
 				var width = available_width / $th.length;
 				
 				
 				// set width
-				$(this).attr('width', width + '%');
+				$(this).css('width', width + '%');
 				
 			});
 			
@@ -1539,11 +1510,12 @@
 			
 			// popup
 			var frame = acf.media.popup({
-				'title'		: acf._e('image', 'edit'),
-				'button'	: acf._e('image', 'update'),
-				'mode'		: 'edit',
-				'id'		: id,
-				'select'	: function( attachment ){
+				
+				title:		acf._e('image', 'edit'),
+				button:		acf._e('image', 'update'),
+				mode:		'edit',
+				id:			id,
+				select:		function( attachment ){
 					
 					// override url
 					if( acf.isset(attachment, 'attributes', 'sizes', self.o.preview_size, 'url') ) {
@@ -1652,8 +1624,7 @@
 			
 			
 			// vars
-			var library = this.o.library,
-				preview_size = this.o.preview_size;
+			var preview_size = this.o.preview_size;
 			
 			
 			// reference
@@ -1662,11 +1633,14 @@
 			
 			// popup
 			var frame = acf.media.popup({
+				
 				title:		acf._e('gallery', 'select'),
 				mode:		'select',
-				type:		'all',
+				type:		'',
+				field:		acf.get_field_key(this.$field),
 				multiple:	'add',
-				library:	library,
+				library:	this.o.library,
+				mime_types: this.o.mime_types,
 				
 				select: function( attachment, i ) {
 					

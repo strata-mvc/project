@@ -11,7 +11,8 @@
 }
 .acf-repeater .acf-input-table td.remove .acf-icon {
   position: relative;
-  margin-left: -1px;
+  margin-left: -2px;
+  margin-right: -2px;
 }
 .acf-repeater .acf-input-table td.remove .acf-repeater-add-row {
   position: absolute;

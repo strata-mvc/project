@@ -6,15 +6,12 @@ add_theme_support('root-relative-urls');    // Enable relative URLs
 add_theme_support('bootstrap-gallery');     // Enable Bootstrap's thumbnails component on [gallery]
 add_theme_support('nice-search');           // Enable /?s= to /search/ redirect
 add_theme_support('jquery-cdn');            // Enable to load jQuery from the Google CDN
-
+add_theme_support('login-security');
 /**
  * Configuration values
  */
 define('POST_EXCERPT_LENGTH', 40); // Length in words for excerpt_length filter (http://codex.wordpress.org/Plugin_API/Filter_Reference/excerpt_length)
 define('AJAX_NONCE_KEY', 'iprospect-wp-pE4HcfTVeBf');
-
-// Activate Login Security
-define('LOGIN_SECURITY', true);
 
 /**
  * .main classes

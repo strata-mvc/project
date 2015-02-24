@@ -328,15 +328,18 @@ class acf_form_post {
 		}
 		
 		
-		// inline script
 		?>
 		<div class="acf-hidden">
 			<script type="text/javascript">
 			(function($) {
 				
-				$('#<?php echo $id; ?>').addClass('<?php echo $class; ?>').removeClass('hide-if-js');
-				$('#<?php echo $id; ?> > .inside').addClass('acf-fields acf-cf');
+				$('#<?php echo $id; ?>').addClass('<?php echo $class; ?>');
+				$('#<?php echo $id; ?>').children('.inside').addClass('acf-fields acf-cf');
 				$('#adv-settings label[for="<?php echo $id; ?>-hide"]').addClass('<?php echo $toggle_class; ?>');
+				
+				<?php if( $field_group['ID'] && acf_current_user_can_admin() ): ?>
+					$('#<?php echo $id; ?>').children('.hndle').append('<a href="<?php echo admin_url('post.php?post=' . $field_group['ID'] . '&action=edit'); ?>" class="dashicons dashicons-admin-generic acf-hndle-cog acf-js-tooltip" title="<?php _e('Edit field group', 'acf'); ?>"></a>');
+				<?php endif; ?>
 				
 			})(jQuery);	
 			</script>

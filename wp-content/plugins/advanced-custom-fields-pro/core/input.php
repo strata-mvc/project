@@ -18,7 +18,6 @@ class acf_input {
 	
 	function __construct() {
 		
-		add_action('acf/save_post', 							array($this, 'save_files'), 5, 1);
 		add_action('acf/save_post', 							array($this, 'save_post'), 10, 1);
 		add_action('acf/input/admin_enqueue_scripts', 			array($this, 'admin_enqueue_scripts'), 0, 0);
 		add_action('acf/input/admin_footer', 					array($this, 'admin_footer'), 0, 0);
@@ -27,35 +26,6 @@ class acf_input {
 		// ajax
 		add_action( 'wp_ajax_acf/validate_save_post',			array($this, 'ajax_validate_save_post') );
 		add_action( 'wp_ajax_nopriv_acf/validate_save_post',	array($this, 'ajax_validate_save_post') );
-	}
-	
-	
-	/*
-	*  save_files
-	*
-	*  This function will save the $_FILES data
-	*
-	*  @type	function
-	*  @date	24/10/2014
-	*  @since	5.0.9
-	*
-	*  @param	$post_id (int)
-	*  @return	$post_id (int)
-	*/
-	
-	function save_files( $post_id = 0 ) {
-		
-		// bail early if no $_FILES data
-		if( empty($_FILES['acf']['name']) ) {
-			
-			return;
-			
-		}
-		
-		
-		// upload files
-		acf_upload_files();
-	
 	}
 	
 	
@@ -161,16 +131,19 @@ class acf_input {
 		));
 		
 		
-		?>
-		<script type="text/javascript">
-		(function($) {
-		
-			acf.o = <?php echo json_encode( $o ); ?>;
-			acf.l10n = <?php echo json_encode( $l10n ); ?>;
-		
-		})(jQuery);	
-		</script>
-		<?php
+?>
+<script type="text/javascript">
+/* <![CDATA[ */
+if( typeof acf !== 'undefined' ) {
+
+	acf.o = <?php echo json_encode($o); ?>;
+	acf.l10n = <?php echo json_encode($l10n); ?>;
+	<?php do_action('acf/input/admin_footer_js'); ?>
+	
+}
+/* ]]> */
+</script>
+<?php
 		
 	}
 	

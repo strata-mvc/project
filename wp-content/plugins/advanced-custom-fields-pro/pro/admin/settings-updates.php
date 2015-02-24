@@ -48,7 +48,7 @@ class acf_settings_updates {
 		
 		
 		// add page
-		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Updates','acf'), __('Updates','acf'), 'manage_options','acf-settings-updates', array($this,'html') );
+		$page = add_submenu_page('edit.php?post_type=acf-field-group', __('Updates','acf'), __('Updates','acf'), acf_get_setting('capability'),'acf-settings-updates', array($this,'html') );
 		
 		
 		// actions

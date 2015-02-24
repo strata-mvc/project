@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-03 09:49+1000\n"
-"PO-Revision-Date: 2014-09-03 09:50+1000\n"
-"Last-Translator: Bartosz Arendt <info@digitalfactory.pl>\n"
+"PO-Revision-Date: 2015-02-24 11:02+1000\n"
+"Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
 "Language-Team: Digital Factory <info@digitalfactory.pl>\n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: __;_e;_x;_n;_getttext\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../acf.php:63
@@ -23,8 +23,8 @@ msgid "Advanced Custom Fields"
 msgstr "Zaawansowane własne pola"
 
 #: ../acf.php:244
-msgid "Field&nbsp;Groups"
-msgstr "Grupy&nbsp;Pól"
+msgid "Field Groups"
+msgstr "Grupy Pól"
 
 #: ../acf.php:245
 #, fuzzy
@@ -456,9 +456,7 @@ msgstr ""
 
 #: ../admin/settings-export.php:365
 #, php-format
-msgid ""
-"<b>Warning</b>. Import tool detected %s field groups already exist and have "
-"been ignored: %s"
+msgid "<b>Warning</b>. Import tool detected %s field groups already exist and have been ignored: %s"
 msgstr ""
 
 #: ../admin/settings-export.php:394
@@ -609,12 +607,8 @@ msgid "Type"
 msgstr "Typ wpisu"
 
 #: ../admin/views/field-group-fields.php:44
-msgid ""
-"No fields. Click the <strong>+ Add Field</strong> button to create your "
-"first field."
-msgstr ""
-"Brak pól. Kliknij przycisk <strong>+ Dodaj pole</strong> aby utworzyć "
-"pierwsze własne pole."
+msgid "No fields. Click the <strong>+ Add Field</strong> button to create your first field."
+msgstr "Brak pól. Kliknij przycisk <strong>+ Dodaj pole</strong> aby utworzyć pierwsze własne pole."
 
 #: ../admin/views/field-group-fields.php:51
 msgid "Drag and drop to reorder"
@@ -629,12 +623,8 @@ msgid "Rules"
 msgstr "Warunki"
 
 #: ../admin/views/field-group-locations.php:36
-msgid ""
-"Create a set of rules to determine which edit screens will use these "
-"advanced custom fields"
-msgstr ""
-"Utwórz zestaw warunków, które określą w których miejscach będą wykorzystane "
-"określone własne pola"
+msgid "Create a set of rules to determine which edit screens will use these advanced custom fields"
+msgstr "Utwórz zestaw warunków, które określą w których miejscach będą wykorzystane określone własne pola"
 
 #: ../admin/views/field-group-locations.php:51
 msgid "Show this field group if"
@@ -802,13 +792,8 @@ msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
 msgstr "<b>Wybierz</b> elementy, które chcesz <b>ukryć</b> na stronie edycji."
 
 #: ../admin/views/field-group-options.php:101
-msgid ""
-"If multiple field groups appear on an edit screen, the first field group's "
-"options will be used. (the one with the lowest order number)"
-msgstr ""
-"Jeśli na stronie edycji znajduje się kilka grup pól, zostaną zastosowane "
-"ustawienia z pierwszej z nich. (pierwsza grupa pól to ta, która ma "
-"najmniejszy numer w kolejności)"
+msgid "If multiple field groups appear on an edit screen, the first field group's options will be used. (the one with the lowest order number)"
+msgstr "Jeśli na stronie edycji znajduje się kilka grup pól, zostaną zastosowane ustawienia z pierwszej z nich. (pierwsza grupa pól to ta, która ma najmniejszy numer w kolejności)"
 
 #: ../admin/views/field-group-options.php:107
 msgid "Permalink"
@@ -880,12 +865,7 @@ msgid "Export Field Groups to PHP"
 msgstr "Eksportuj Grupy pól do PHP"
 
 #: ../admin/views/settings-export-generate.php:17
-msgid ""
-"The following code can be used to register a local version of the selected "
-"field group(s). A local field group can provide many benefits such as faster "
-"load times, version control & dynamic fields/settings. Simply copy and paste "
-"the following code to your theme's functions.php file or include it within "
-"an external file."
+msgid "The following code can be used to register a local version of the selected field group(s). A local field group can provide many benefits such as faster load times, version control & dynamic fields/settings. Simply copy and paste the following code to your theme's functions.php file or include it within an external file."
 msgstr ""
 
 #: ../admin/views/settings-export.php:7
@@ -894,11 +874,7 @@ msgid "Export Field Groups"
 msgstr "Importuj Grupy pól"
 
 #: ../admin/views/settings-export.php:10
-msgid ""
-"Select the field groups you would like to export and then select your export "
-"method. Use the download button to export to a .json file which you can then "
-"import to another ACF installation. Use the generate button to export to PHP "
-"code which you can place in your theme."
+msgid "Select the field groups you would like to export and then select your export method. Use the download button to export to a .json file which you can then import to another ACF installation. Use the generate button to export to PHP code which you can place in your theme."
 msgstr ""
 
 #: ../admin/views/settings-export.php:20
@@ -923,9 +899,7 @@ msgid "Import Field Groups"
 msgstr "Importuj Grupy pól"
 
 #: ../admin/views/settings-export.php:96
-msgid ""
-"Select the Advanced Custom Fields JSON file you would like to import. When "
-"you click the import button below, ACF will import the field groups."
+msgid "Select the Advanced Custom Fields JSON file you would like to import. When you click the import button below, ACF will import the field groups."
 msgstr ""
 
 #: ../admin/views/settings-export.php:106 ../fields/file.php:43
@@ -943,9 +917,7 @@ msgstr "Zaawansowane własne pola"
 
 #: ../admin/views/settings-info.php:10
 #, php-format
-msgid ""
-"Thank you for updating! ACF %s is bigger and better than ever before. We "
-"hope you like it."
+msgid "Thank you for updating! ACF %s is bigger and better than ever before. We hope you like it."
 msgstr ""
 
 #: ../admin/views/settings-info.php:25
@@ -957,10 +929,7 @@ msgid "Improved Usability"
 msgstr ""
 
 #: ../admin/views/settings-info.php:31
-msgid ""
-"Including the popular Select2 library has improved both usability and speed "
-"across a number of field types including post object, page link, taxonomy "
-"and select."
+msgid "Including the popular Select2 library has improved both usability and speed across a number of field types including post object, page link, taxonomy and select."
 msgstr ""
 
 #: ../admin/views/settings-info.php:35
@@ -968,10 +937,7 @@ msgid "Improved Design"
 msgstr ""
 
 #: ../admin/views/settings-info.php:36
-msgid ""
-"Many fields have undergone a visual refresh to make ACF look better than "
-"ever! Noticeable changes are seen on the gallery, relationship and oEmbed "
-"(new) fields!"
+msgid "Many fields have undergone a visual refresh to make ACF look better than ever! Noticeable changes are seen on the gallery, relationship and oEmbed (new) fields!"
 msgstr ""
 
 #: ../admin/views/settings-info.php:40
@@ -979,10 +945,7 @@ msgid "Improved Data"
 msgstr ""
 
 #: ../admin/views/settings-info.php:41
-msgid ""
-"Redesigning the data architecture has allowed sub fields to live "
-"independently from their parents. This allows you to drag and drop fields in "
-"and out of parent fields!"
+msgid "Redesigning the data architecture has allowed sub fields to live independently from their parents. This allows you to drag and drop fields in and out of parent fields!"
 msgstr ""
 
 #: ../admin/views/settings-info.php:47
@@ -994,16 +957,12 @@ msgid "Introducing ACF PRO"
 msgstr ""
 
 #: ../admin/views/settings-info.php:53
-msgid ""
-"We're changing the way premium functionality is delivered in an exiting way!"
+msgid "We're changing the way premium functionality is delivered in an exiting way!"
 msgstr ""
 
 #: ../admin/views/settings-info.php:54
 #, php-format
-msgid ""
-"All 4 premium add-ons have been combined into a new <a href=\"%s\">Pro "
-"version of ACF</a>. With both personal and developer licenses available, "
-"premium functionality is more affordable and accessible than ever before!"
+msgid "All 4 premium add-ons have been combined into a new <a href=\"%s\">Pro version of ACF</a>. With both personal and developer licenses available, premium functionality is more affordable and accessible than ever before!"
 msgstr ""
 
 #: ../admin/views/settings-info.php:58
@@ -1011,10 +970,7 @@ msgid "Powerful Features"
 msgstr ""
 
 #: ../admin/views/settings-info.php:59
-msgid ""
-"ACF PRO contains powerful features such as repeatable data, flexible content "
-"layouts, a beautiful gallery field and the ability to create extra admin "
-"options pages!"
+msgid "ACF PRO contains powerful features such as repeatable data, flexible content layouts, a beautiful gallery field and the ability to create extra admin options pages!"
 msgstr ""
 
 #: ../admin/views/settings-info.php:60
@@ -1028,17 +984,12 @@ msgstr ""
 
 #: ../admin/views/settings-info.php:65
 #, php-format
-msgid ""
-"To help make upgrading easy, <a href=\"%s\">login to your store account</a> "
-"and claim a free copy of ACF PRO!"
+msgid "To help make upgrading easy, <a href=\"%s\">login to your store account</a> and claim a free copy of ACF PRO!"
 msgstr ""
 
 #: ../admin/views/settings-info.php:66
 #, php-format
-msgid ""
-"We also wrote an <a href=\"%s\">upgrade guide</a> to answer any questions, "
-"but if you do have one, please contact our support team via the <a href=\"%s"
-"\">help desk</a>"
+msgid "We also wrote an <a href=\"%s\">upgrade guide</a> to answer any questions, but if you do have one, please contact our support team via the <a href=\"%s\">help desk</a>"
 msgstr ""
 
 #: ../admin/views/settings-info.php:74
@@ -1074,9 +1025,7 @@ msgid "Better version control"
 msgstr ""
 
 #: ../admin/views/settings-info.php:95
-msgid ""
-"New auto export to JSON feature allows field settings to be version "
-"controlled"
+msgid "New auto export to JSON feature allows field settings to be version controlled"
 msgstr ""
 
 #: ../admin/views/settings-info.php:99
@@ -1114,9 +1063,7 @@ msgid "New Settings"
 msgstr "Ustawienia"
 
 #: ../admin/views/settings-info.php:120
-msgid ""
-"Field group settings have been added for label placement and instruction "
-"placement"
+msgid "Field group settings have been added for label placement and instruction placement"
 msgstr ""
 
 #: ../admin/views/settings-info.php:124
@@ -1141,8 +1088,7 @@ msgid "Relationship Field"
 msgstr "Relacja"
 
 #: ../admin/views/settings-info.php:135
-msgid ""
-"New Relationship field setting for 'Filters' (Search, Post Type, Taxonomy)"
+msgid "New Relationship field setting for 'Filters' (Search, Post Type, Taxonomy)"
 msgstr ""
 
 #: ../admin/views/settings-info.php:139
@@ -1151,9 +1097,7 @@ msgid "Moving Fields"
 msgstr "Pola"
 
 #: ../admin/views/settings-info.php:140
-msgid ""
-"New field group functionality allows you to move a field between groups & "
-"parents"
+msgid "New field group functionality allows you to move a field between groups & parents"
 msgstr ""
 
 #: ../admin/views/settings-info.php:144 ../fields/page_link.php:36
@@ -1170,9 +1114,7 @@ msgid "Better Options Pages"
 msgstr "Strona opcji"
 
 #: ../admin/views/settings-info.php:150
-msgid ""
-"New functions for options page allow creation of both parent and child menu "
-"pages"
+msgid "New functions for options page allow creation of both parent and child menu pages"
 msgstr ""
 
 #: ../admin/views/settings-info.php:158
@@ -1192,15 +1134,11 @@ msgstr ""
 
 #: ../admin/views/update-notice.php:26
 #, php-format
-msgid ""
-"We have detected an issue which requires your attention: This website makes "
-"use of premium add-ons (%s) which are no longer compatible with ACF."
+msgid "We have detected an issue which requires your attention: This website makes use of premium add-ons (%s) which are no longer compatible with ACF."
 msgstr ""
 
 #: ../admin/views/update-notice.php:28
-msgid ""
-"Don't panic, you can simply roll back the plugin and continue using ACF as "
-"you know it!"
+msgid "Don't panic, you can simply roll back the plugin and continue using ACF as you know it!"
 msgstr ""
 
 #: ../admin/views/update-notice.php:30
@@ -1217,9 +1155,7 @@ msgid "Database Upgrade Required"
 msgstr ""
 
 #: ../admin/views/update-notice.php:36
-msgid ""
-"Before you start using the new awesome features, please update your database "
-"to the newest version."
+msgid "Before you start using the new awesome features, please update your database to the newest version."
 msgstr ""
 
 #: ../admin/views/update-notice.php:38
@@ -1228,9 +1164,7 @@ msgid "Update Database"
 msgstr "Aktualizuj bazę danych"
 
 #: ../admin/views/update-notice.php:45
-msgid ""
-"It is strongly recommended that you backup your database before proceeding. "
-"Are you sure you wish to run the updater now?"
+msgid "It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?"
 msgstr ""
 
 #: ../admin/views/update.php:9
@@ -1857,22 +1791,15 @@ msgid "Warning"
 msgstr ""
 
 #: ../fields/tab.php:88
-msgid ""
-"The tab field will display incorrectly when added to a Table style repeater "
-"field or flexible content field layout"
+msgid "The tab field will display incorrectly when added to a Table style repeater field or flexible content field layout"
 msgstr ""
 
 #: ../fields/tab.php:102
-msgid ""
-"Use \"Tab Fields\" to better organize your edit screen by grouping fields "
-"together."
+msgid "Use \"Tab Fields\" to better organize your edit screen by grouping fields together."
 msgstr ""
 
 #: ../fields/tab.php:104
-msgid ""
-"All fields following this \"tab field\" (or until another \"tab field\" is "
-"defined) will be grouped together using this field's label as the tab "
-"heading."
+msgid "All fields following this \"tab field\" (or until another \"tab field\" is defined) will be grouped together using this field's label as the tab heading."
 msgstr ""
 
 #: ../fields/taxonomy.php:565
@@ -1903,8 +1830,7 @@ msgid "Load & Save Terms to Post"
 msgstr ""
 
 #: ../fields/taxonomy.php:643
-msgid ""
-"Load value based on the post's terms and update the post's terms on save"
+msgid "Load value based on the post's terms and update the post's terms on save"
 msgstr ""
 
 #: ../fields/taxonomy.php:654
@@ -2036,10 +1962,7 @@ msgstr ""
 
 #: ../pro/admin/connect.php:167
 #, php-format
-msgid ""
-"To enable updates, please enter your license key on the <a href=\"%s"
-"\">Updates</a> page. If you don't have a licence key, please see <a href=\"%s"
-"\">details & pricing</a>"
+msgid "To enable updates, please enter your license key on the <a href=\"%s\">Updates</a> page. If you don't have a licence key, please see <a href=\"%s\">details & pricing</a>"
 msgstr ""
 
 #: ../pro/admin/options-page.php:55
@@ -2091,9 +2014,7 @@ msgid "License"
 msgstr ""
 
 #: ../pro/admin/views/settings-updates.php:24
-msgid ""
-"To unlock updates, please enter your license key below. If you don't have a "
-"licence key, please see"
+msgid "To unlock updates, please enter your license key below. If you don't have a licence key, please see"
 msgstr ""
 
 #: ../pro/admin/views/settings-updates.php:24
@@ -2358,10 +2279,6 @@ msgstr "Pola"
 msgid "Minimum Rows"
 msgstr "Minimalna liczba rzędów"
 
-#: ../pro/fields/repeater.php:384
-msgid "Maximum Rows"
-msgstr "Maksymalna liczba rzędów"
-
 #~ msgid "Validation Failed. One or more fields below are required."
 #~ msgstr "Walidacja nie powiodła się. Jedno lub więcej pól jest wymaganych."
 
@@ -2374,12 +2291,8 @@ msgstr "Maksymalna liczba rzędów"
 #~ msgid "Add Fields to Edit Screens"
 #~ msgstr "Dodaj pola do stron edycji"
 
-#~ msgid ""
-#~ "Read documentation, learn the functions and find some tips &amp; tricks "
-#~ "for your next web project."
-#~ msgstr ""
-#~ "Przeczytaj dokumentację, naucz się funkcji i poznaj parę tricków, które "
-#~ "mogą przydać Ci się w Twoim kolejnym projekcie."
+#~ msgid "Read documentation, learn the functions and find some tips &amp; tricks for your next web project."
+#~ msgstr "Przeczytaj dokumentację, naucz się funkcji i poznaj parę tricków, które mogą przydać Ci się w Twoim kolejnym projekcie."
 
 #~ msgid "View the ACF website"
 #~ msgstr "Odwiedź stronę wtyczki"
@@ -2438,22 +2351,14 @@ msgstr "Maksymalna liczba rzędów"
 #~ msgid "Gallery Field"
 #~ msgstr "Galeria"
 
-#~ msgid ""
-#~ "Add-ons can be unlocked by purchasing a license key. Each key can be used "
-#~ "on multiple sites."
-#~ msgstr ""
-#~ "Dodatki można odblokować kupując kod aktywacyjny. Każdy kod aktywacyjny "
-#~ "może być wykorzystywany na dowolnej liczbie stron."
+#~ msgid "Add-ons can be unlocked by purchasing a license key. Each key can be used on multiple sites."
+#~ msgstr "Dodatki można odblokować kupując kod aktywacyjny. Każdy kod aktywacyjny może być wykorzystywany na dowolnej liczbie stron."
 
 #~ msgid "Export Field Groups to XML"
 #~ msgstr "Eksportuj Grupy pól do XML"
 
-#~ msgid ""
-#~ "ACF will create a .xml export file which is compatible with the native WP "
-#~ "import plugin."
-#~ msgstr ""
-#~ "Wtyczka utworzy plik eksportu .xml, który jest kompatybilny z domyślną "
-#~ "wtyczką importu plików."
+#~ msgid "ACF will create a .xml export file which is compatible with the native WP import plugin."
+#~ msgstr "Wtyczka utworzy plik eksportu .xml, który jest kompatybilny z domyślną wtyczką importu plików."
 
 #~ msgid "Export XML"
 #~ msgstr "Eksportuj XML"
@@ -2494,10 +2399,8 @@ msgstr "Maksymalna liczba rzędów"
 #~ msgid "Paste into your functions.php file"
 #~ msgstr "Wklej do pliku functions.php"
 
-#~ msgid ""
-#~ "To activate any Add-ons, edit and use the code in the first few lines."
-#~ msgstr ""
-#~ "Aby aktywować dodatki, edytuj i użyj kodu w pierwszych kilku liniach."
+#~ msgid "To activate any Add-ons, edit and use the code in the first few lines."
+#~ msgstr "Aby aktywować dodatki, edytuj i użyj kodu w pierwszych kilku liniach."
 
 #~ msgid "Back to settings"
 #~ msgstr "Wróć do ustawień"
@@ -2505,42 +2408,32 @@ msgstr "Maksymalna liczba rzędów"
 #~ msgid ""
 #~ "/**\n"
 #~ " * Activate Add-ons\n"
-#~ " * Here you can enter your activation codes to unlock Add-ons to use in "
-#~ "your theme. \n"
-#~ " * Since all activation codes are multi-site licenses, you are allowed to "
-#~ "include your key in premium themes. \n"
-#~ " * Use the commented out code to update the database with your activation "
-#~ "code. \n"
-#~ " * You may place this code inside an IF statement that only runs on theme "
-#~ "activation.\n"
+#~ " * Here you can enter your activation codes to unlock Add-ons to use in your theme. \n"
+#~ " * Since all activation codes are multi-site licenses, you are allowed to include your key in premium themes. \n"
+#~ " * Use the commented out code to update the database with your activation code. \n"
+#~ " * You may place this code inside an IF statement that only runs on theme activation.\n"
 #~ " */"
 #~ msgstr ""
 #~ "/**\n"
 #~ " * Aktywuj dodatki\n"
 #~ " * Możesz tu wpisać kody aktywacyjne uruchamiające dodatkowe funkcje. \n"
-#~ " * W związku z tym, że kody są na dowolną ilość licencji, możesz je "
-#~ "stosować także w płatnych szablonach. \n"
+#~ " * W związku z tym, że kody są na dowolną ilość licencji, możesz je stosować także w płatnych szablonach. \n"
 #~ " * Użyj kodu aby zaktualizować bazę danych. \n"
-#~ " * Możesz umieścić ten kod w funkcjach if, które uruchamiają się np. przy "
-#~ "aktywacji szablonu.\n"
+#~ " * Możesz umieścić ten kod w funkcjach if, które uruchamiają się np. przy aktywacji szablonu.\n"
 #~ " */"
 
 #~ msgid ""
 #~ "/**\n"
 #~ " * Register field groups\n"
-#~ " * The register_field_group function accepts 1 array which holds the "
-#~ "relevant data to register a field group\n"
-#~ " * You may edit the array as you see fit. However, this may result in "
-#~ "errors if the array is not compatible with ACF\n"
+#~ " * The register_field_group function accepts 1 array which holds the relevant data to register a field group\n"
+#~ " * You may edit the array as you see fit. However, this may result in errors if the array is not compatible with ACF\n"
 #~ " * This code must run every time the functions.php file is read\n"
 #~ " */"
 #~ msgstr ""
 #~ "/**\n"
 #~ " * Zarejestruj grupy pól\n"
-#~ " * Funkcja register_field_group akceptuje 1 ciąg zmiennych, która zawiera "
-#~ "wszystkie dane służące rejestracji grupy\n"
-#~ " * Możesz edytować tę zmienną i dopasowywać ją do swoich potrzeb. Ale "
-#~ "może to też powodować błąd jeśli ta zmienna nie jest kompatybilna z ACF\n"
+#~ " * Funkcja register_field_group akceptuje 1 ciąg zmiennych, która zawiera wszystkie dane służące rejestracji grupy\n"
+#~ " * Możesz edytować tę zmienną i dopasowywać ją do swoich potrzeb. Ale może to też powodować błąd jeśli ta zmienna nie jest kompatybilna z ACF\n"
 #~ " * Kod musi być uruchamiany każdorazowo w pliku functions.php\n"
 #~ " */"
 
@@ -2592,12 +2485,8 @@ msgstr "Maksymalna liczba rzędów"
 #~ msgid "Field Order"
 #~ msgstr "Kolejność pola"
 
-#~ msgid ""
-#~ "No fields. Click the \"+ Add Sub Field button\" to create your first "
-#~ "field."
-#~ msgstr ""
-#~ "Brak pól. Kliknij przycisk \"+ Dodaj pole podrzędne\" aby utworzyć "
-#~ "pierwsze własne pole."
+#~ msgid "No fields. Click the \"+ Add Sub Field button\" to create your first field."
+#~ msgstr "Brak pól. Kliknij przycisk \"+ Dodaj pole podrzędne\" aby utworzyć pierwsze własne pole."
 
 #~ msgid "Docs"
 #~ msgstr "Dokumentacja"
@@ -2646,8 +2535,7 @@ msgstr "Maksymalna liczba rzędów"
 #~ "\t\t\t\tTip: deselect all post types to show all post type's posts"
 #~ msgstr ""
 #~ "Filtruj wpisy wybierając typ wpisu<br />\n"
-#~ "\t\t\t\tPodpowiedź: nie zaznaczenie żadnego typu wpisów spowoduje "
-#~ "wyświetlenie wszystkich"
+#~ "\t\t\t\tPodpowiedź: nie zaznaczenie żadnego typu wpisów spowoduje wyświetlenie wszystkich"
 
 #~ msgid "Set to -1 for infinite"
 #~ msgstr "Wpisanie -1 oznacza nieskończoność"
@@ -2715,12 +2603,8 @@ msgstr "Maksymalna liczba rzędów"
 #~ msgid "Show on page"
 #~ msgstr "Wyświetl na stronie"
 
-#~ msgid ""
-#~ "Watch tutorials, read documentation, learn the API code and find some "
-#~ "tips &amp; tricks for your next web project."
-#~ msgstr ""
-#~ "Obejrzyj tutorial, przeczytaj dokumentację, naucz się API i poznaj parę "
-#~ "tricków do przydatnych w Twoim kolejnym projekcie."
+#~ msgid "Watch tutorials, read documentation, learn the API code and find some tips &amp; tricks for your next web project."
+#~ msgstr "Obejrzyj tutorial, przeczytaj dokumentację, naucz się API i poznaj parę tricków do przydatnych w Twoim kolejnym projekcie."
 
 #~ msgid "View the plugins website"
 #~ msgstr "Odwiedź witrynę wtyczki"
@@ -2728,12 +2612,8 @@ msgstr "Maksymalna liczba rzędów"
 #~ msgid "Support"
 #~ msgstr "Pomoc"
 
-#~ msgid ""
-#~ "Join the growing community over at the support forum to share ideas, "
-#~ "report bugs and keep up to date with ACF"
-#~ msgstr ""
-#~ "Dołącz do rosnącej społeczności użytkowników i forum pomocy, aby dzielić "
-#~ "się pomysłami, zgłąszać błedy i być na bierząco z tą wtyczką."
+#~ msgid "Join the growing community over at the support forum to share ideas, report bugs and keep up to date with ACF"
+#~ msgstr "Dołącz do rosnącej społeczności użytkowników i forum pomocy, aby dzielić się pomysłami, zgłąszać błedy i być na bierząco z tą wtyczką."
 
 #~ msgid "View the Support Forum"
 #~ msgstr "Zobacz forum pomocy"
@@ -2753,12 +2633,8 @@ msgstr "Maksymalna liczba rzędów"
 #~ msgid "Unlock Special Fields."
 #~ msgstr "Odblokuj pola specjalne"
 
-#~ msgid ""
-#~ "Special Fields can be unlocked by purchasing an activation code. Each "
-#~ "activation code can be used on multiple sites."
-#~ msgstr ""
-#~ "Pola specjalne można odblokować kupując kod aktywacyjny. Każdy kod "
-#~ "aktywacyjny może być wykorzystywany wielokrotnie."
+#~ msgid "Special Fields can be unlocked by purchasing an activation code. Each activation code can be used on multiple sites."
+#~ msgstr "Pola specjalne można odblokować kupując kod aktywacyjny. Każdy kod aktywacyjny może być wykorzystywany wielokrotnie."
 
 #~ msgid "Visit the Plugin Store"
 #~ msgstr "Odwiedź sklep wtyczki"
@@ -2769,35 +2645,20 @@ msgstr "Maksymalna liczba rzędów"
 #~ msgid "Have an ACF export file? Import it here."
 #~ msgstr "Wyeksportowałeś plik z polami? Możesz go zaimportować tutaj."
 
-#~ msgid ""
-#~ "Want to create an ACF export file? Just select the desired ACF's and hit "
-#~ "Export"
-#~ msgstr ""
-#~ "Chcesz stworzyć i wyeksportować plik z polami? Wybierz pola i kliknij "
-#~ "Eksport"
+#~ msgid "Want to create an ACF export file? Just select the desired ACF's and hit Export"
+#~ msgstr "Chcesz stworzyć i wyeksportować plik z polami? Wybierz pola i kliknij Eksport"
 
-#~ msgid ""
-#~ "No fields. Click the \"+ Add Field button\" to create your first field."
-#~ msgstr ""
-#~ "Brak pól. Kliknij przycisk \"+ Dodaj pole\" aby utworzyć pierwsze własne "
-#~ "pole."
+#~ msgid "No fields. Click the \"+ Add Field button\" to create your first field."
+#~ msgstr "Brak pól. Kliknij przycisk \"+ Dodaj pole\" aby utworzyć pierwsze własne pole."
 
-#~ msgid ""
-#~ "Special Fields can be unlocked by purchasing a license key. Each key can "
-#~ "be used on multiple sites."
-#~ msgstr ""
-#~ "Pola specjalne można odblokować kupując kod aktywacyjny. Każdy kod "
-#~ "aktywacyjny może być wykorzystywany wielokrotnie."
+#~ msgid "Special Fields can be unlocked by purchasing a license key. Each key can be used on multiple sites."
+#~ msgstr "Pola specjalne można odblokować kupując kod aktywacyjny. Każdy kod aktywacyjny może być wykorzystywany wielokrotnie."
 
 #~ msgid "Select which ACF groups to export"
 #~ msgstr "Wybierz, które grupy chcesz wyeksportować"
 
-#~ msgid ""
-#~ "Have an ACF export file? Import it here. Please note that v2 and v3 .xml "
-#~ "files are not compatible."
-#~ msgstr ""
-#~ "Wyeksportowałeś plik z polami? Zaimportuj go tutaj. Zwróć uwagę, że "
-#~ "wersje 2 i 3 plików .xml nie są ze sobą kompatybilne."
+#~ msgid "Have an ACF export file? Import it here. Please note that v2 and v3 .xml files are not compatible."
+#~ msgstr "Wyeksportowałeś plik z polami? Zaimportuj go tutaj. Zwróć uwagę, że wersje 2 i 3 plików .xml nie są ze sobą kompatybilne."
 
 #~ msgid "Import your .xml file"
 #~ msgstr "Zaimportuj plik .xml"
@@ -2840,6 +2701,3 @@ msgstr "Maksymalna liczba rzędów"
 
 #~ msgid "Adv Upgrade"
 #~ msgstr "Zaawansowana aktualizacja"
-
-#~ msgid "Advanced&nbsp;Custom&nbsp;Fields"
-#~ msgstr "Zaawansowane&nbsp;Włąsne&nbsp;Pola"

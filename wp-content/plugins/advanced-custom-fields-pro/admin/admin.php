@@ -49,11 +49,11 @@ class acf_admin {
 		
 		
 		// add parent menu page
-		add_menu_page(__("Custom Fields",'acf'), __("Custom Fields",'acf'), 'manage_options', 'edit.php?post_type=acf-field-group', false, false, '80.025');
+		add_menu_page(__("Custom Fields",'acf'), __("Custom Fields",'acf'), acf_get_setting('capability'), 'edit.php?post_type=acf-field-group', false, false, '80.025');
 		
 		
 		// add child menu page
-		add_submenu_page('edit.php?post_type=acf-field-group', __('Add New','acf'), __('Add New','acf'), 'manage_options','post-new.php?post_type=acf-field-group' );
+		add_submenu_page('edit.php?post_type=acf-field-group', __('Add New','acf'), __('Add New','acf'), acf_get_setting('capability'),'post-new.php?post_type=acf-field-group' );
 		
 	}
 	

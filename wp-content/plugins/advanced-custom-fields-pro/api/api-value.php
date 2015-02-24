@@ -156,7 +156,6 @@ function acf_format_value( $value, $post_id, $field ) {
 } 
 
 
-
 /*
 *  acf_update_value
 *
@@ -261,7 +260,7 @@ function acf_update_option( $option = '', $value = false, $autoload = 'no' ) {
 	    $return = update_option( $option, $value );
 	    
 	} else {
-	
+		
 		$return = add_option( $option, $value, $deprecated, $autoload );
 		
 	}
