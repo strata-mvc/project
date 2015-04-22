@@ -19,7 +19,8 @@ class ICanLocalizeQuery{
       
     
     function createAccount($data){
-		if (isset($_GET['page']) && $_GET['page'] == ICL_PLUGIN_FOLDER . '/menu/support.php') {
+		$page = filter_input(INPUT_GET, 'page' );
+		if ($page == ICL_PLUGIN_FOLDER . '/menu/support.php') {
 			$add = '?ignore_languages=1';
 		}else{
             $add = '';
@@ -80,7 +81,7 @@ class ICanLocalizeQuery{
     
     
     function _request($request, $method='GET', $formvars=null, $formfiles=null, $gzipped = false){
-        global $sitepress_settings, $sitepress;
+        global $sitepress_settings;
         $request = str_replace(" ", "%20", $request);
         $c = new IcanSnoopy();
         

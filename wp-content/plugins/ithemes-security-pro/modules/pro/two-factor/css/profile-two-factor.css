@@ -1,0 +1,25 @@
+#itsec_two_factor_app_pass_settings {
+	margin-bottom: 3em;
+}
+
+#itsec_two_factor_app_pass_settings h4 {
+	margin: 0;
+}
+
+#app-passwords {
+	margin: 1em 0;
+	border: 1px solid #ddd;
+	background: #fff;
+	border-spacing: 0px;
+	width: 100%;
+	max-width: 450px;
+}
+
+#app-passwords .app-password td {
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+#app-passwords .app-password .delete-button {
+	float:right;
+}

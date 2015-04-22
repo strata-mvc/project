@@ -6,11 +6,6 @@ class WPML_Media_Upgrade
 		'2.0.1',
 	);
 
-//	function __construct()
-//	{
-//		add_action( 'plugins_loaded', array( $this, 'run' ) );
-//	}
-
 	static function run()
 	{
 		global $wpdb;
@@ -25,10 +20,6 @@ class WPML_Media_Upgrade
 
 			//Read the version stored in plugin settings and defaults to '1.6' (the last version before introducing the upgrade logic) if not found
 			$current_version = WPML_Media::get_setting( 'version', '1.6' );
-
-//			echo '<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-//					OK: $current_version = ' . $current_version;
-//			exit(0);
 
 			$migration_ran = false;
 

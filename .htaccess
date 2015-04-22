@@ -222,12 +222,12 @@ RewriteCond %{HTTP_HOST} !^www\.
 RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
 </IfModule>
 
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI} /update.php
-    RewriteCond %{REMOTE_ADDR} !^66\.158\.136\.227
-    RewriteRule ^(.*)$ index.php [R=404,L]
-</IfModule>
+#<IfModule mod_rewrite.c>
+#    RewriteEngine On
+#    RewriteCond %{REQUEST_URI} /update.php
+#    RewriteCond %{REMOTE_ADDR} !^66\.158\.136\.227
+#    RewriteRule ^(.*)$ index.php [R=404,L]
+#</IfModule>
 
 # BEGIN WordPress
 <IfModule mod_rewrite.c>

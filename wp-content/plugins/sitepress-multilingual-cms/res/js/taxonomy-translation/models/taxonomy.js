@@ -104,17 +104,25 @@
             var terms = row.get("terms");
             lang = terms[termLang].get("source_language_code");
 
-            if (!lang) {
+            if (!lang || !terms[lang]) {
                 var i;
                 for (i in TaxonomyTranslation.util.langCodes) {
                     var otherLang = TaxonomyTranslation.util.langCodes[i];
-                    if (terms[otherLang] && terms[otherLang].get("name")) {
+                    if (otherLang != termLang && terms[otherLang] && terms[otherLang].get("name")) {
                         lang = otherLang;
                         break;
                     }
                 }
             }
-            return terms[lang].get("name");
+
+            var res;
+            if (terms[lang]) {
+                res = terms[lang].get("name");
+            } else {
+                res = terms[termLang].get("name");
+            }
+
+            return res;
         },
 
         saveLabel: function (singular, plural, lang) {
@@ -126,26 +134,23 @@
                 type: "POST",
                 data: {
                     action: 'wpml_tt_save_labels_translation',
+                    _icl_nonce: labels.wpml_tt_save_labels_translation_nonce,
                     singular: singular,
                     plural: plural,
                     taxonomy_language_code: lang,
                     taxonomy: self.get('taxonomy')
                 },
                 success: function (response) {
-
                     if (response.data) {
                         var newLabelData = response.data;
-
                         if (newLabelData.singular && newLabelData.general && newLabelData.lang) {
-
                             TaxonomyTranslation.data.translatedTaxonomyLabels[newLabelData.lang] = {
                                 singular: newLabelData.singular,
                                 general: newLabelData.general
                             };
-
                             WPML_Translate_taxonomy.callbacks.fire('wpml_tt_save_term_translation', self.get('taxonomy'));
-
                             self.trigger("labelTranslationSaved");
+
                             return self;
                         }
                     }

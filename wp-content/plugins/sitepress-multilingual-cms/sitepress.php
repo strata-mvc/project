@@ -5,20 +5,31 @@ Plugin URI: https://wpml.org/
 Description: WPML Multilingual CMS. <a href="https://wpml.org">Documentation</a>.
 Author: OnTheGoSystems
 Author URI: http://www.onthegosystems.com/
-Version: 3.1.8.4
+Version: 3.1.9.6
 */
 
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 if(defined('ICL_SITEPRESS_VERSION')) return;
-define('ICL_SITEPRESS_VERSION', '3.1.8.4');
-//define('ICL_SITEPRESS_DEV_VERSION', '3.1.8.4');
+define('ICL_SITEPRESS_VERSION', '3.1.9.6');
 define('ICL_PLUGIN_PATH', dirname(__FILE__));
 define('ICL_PLUGIN_FOLDER', basename(ICL_PLUGIN_PATH));
 
 define( 'ICL_PLUGIN_URL', filter_include_url( rtrim( plugin_dir_url( __FILE__ ), DIRECTORY_SEPARATOR ) ) );
 
+//PHP 5.2 backward compatibility
+if ( !defined( 'FILTER_SANITIZE_FULL_SPECIAL_CHARS' ) ) {
+    define( 'FILTER_SANITIZE_FULL_SPECIAL_CHARS', FILTER_SANITIZE_STRING );
+}
+
 require ICL_PLUGIN_PATH . '/inc/functions.php';
+
+if ( !function_exists( 'filter_input' ) ) {
+    wpml_set_plugin_as_inactive();
+    add_action( 'admin_notices', 'wpml_missing_filter_input_notice' );
+    return;
+}
+
 require ICL_PLUGIN_PATH . '/inc/template-functions.php';
 
 function wpml_set_plugin_as_inactive() {
@@ -86,6 +97,10 @@ require_once ( ICL_PLUGIN_PATH . '/menu/wpml-troubleshooting-terms-menu.class.ph
 require_once ICL_PLUGIN_PATH . '/menu/taxonomy-translation-display.class.php';
 require_once ICL_PLUGIN_PATH . '/inc/sitepress-schema.php';
 require_once ICL_PLUGIN_PATH . '/inc/wpml-root-page.class.php';
+
+require ICL_PLUGIN_PATH . '/inc/wpml-language-resolution.class.php';
+$wpml_language_resolution = new WPML_Language_Resolution();
+
 require ICL_PLUGIN_PATH . '/sitepress.class.php';
 require ICL_PLUGIN_PATH . '/inc/hacks.php';
 require ICL_PLUGIN_PATH . '/inc/upgrade.php';

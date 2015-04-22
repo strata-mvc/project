@@ -14,6 +14,8 @@ if( ! class_exists('acf_form_taxonomy') ) :
 
 class acf_form_taxonomy {
 	
+	var $form = '#addtag';
+	
 	
 	/*
 	*  __construct
@@ -94,7 +96,7 @@ class acf_form_taxonomy {
 	function admin_enqueue_scripts() {
 		
 		// validate page
-		if( ! $this->validate_page() ) {
+		if( !$this->validate_page() ) {
 			
 			return;
 			
@@ -110,9 +112,10 @@ class acf_form_taxonomy {
 		acf_enqueue_scripts();
 		
 		
-		// render
-		add_action("{$taxonomy}_add_form_fields", 	array( $this, 'add_term' ), 10, 1);
-		add_action("{$taxonomy}_edit_form", 		array( $this, 'edit_term' ), 10, 2);
+		// actions
+		add_action('admin_footer',					array($this, 'admin_footer'), 10, 1);
+		add_action("{$taxonomy}_add_form_fields", 	array($this, 'add_term'), 10, 1);
+		add_action("{$taxonomy}_edit_form", 		array($this, 'edit_term'), 10, 2);
 		
 	}
 	
@@ -139,6 +142,10 @@ class acf_form_taxonomy {
 		);
 		
 		
+		// update vars
+		$this->form = '#addtag';
+		
+		
 		// get field groups
 		$field_groups = acf_get_field_groups( $args );
 		
@@ -159,12 +166,143 @@ class acf_form_taxonomy {
 				
 			}
 			
+		}
+		
+	}
+	
+	
+	/*
+	*  edit_term
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	8/10/13
+	*  @since	5.0.0
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function edit_term( $term, $taxonomy ) {
+		
+		// vars
+		$post_id = "{$taxonomy}_{$term->term_id}";
+		$args = array(
+			'taxonomy' => $taxonomy
+		);
+		
+		
+		// update vars
+		$this->form = '#edittag';
+		
+		
+		// get field groups
+		$field_groups = acf_get_field_groups( $args );
+		
+		
+		// render
+		if( !empty($field_groups) ) {
+			
+			acf_form_data(array( 
+				'post_id'	=> $post_id, 
+				'nonce'		=> 'taxonomy' 
+			));
+			
+			foreach( $field_groups as $field_group ) {
+				
+				$fields = acf_get_fields( $field_group );
+				
+				?>
+				<?php if( $field_group['style'] == 'default' ): ?>
+					<h3><?php echo $field_group['title']; ?></h3>
+				<?php endif; ?>
+				<table class="form-table">
+					<tbody>
+						<?php acf_render_fields( $post_id, $fields, 'tr', 'field' ); ?>
+					</tbody>
+				</table>
+				<?php 
+				
+			}
+		
+		}
+		
+	}
+	
+	
+	/*
+	*  admin_footer
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	27/03/2015
+	*  @since	5.1.5
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function admin_footer() {
+		
 ?>
+<style type="text/css">
+
+<?php echo $this->form; ?> p.submit .spinner {
+	vertical-align: top;
+	float: none;
+	margin-top: 4px;
+}
+
+</style>
 <script type="text/javascript">
 (function($) {
 	
+	// vars
+	var $spinner = $('<?php echo $this->form; ?> p.submit .spinner');
+	
+	
+	// create spinner if not exists (may exist in future WP versions)
+	if( !$spinner.exists() ) {
+		
+		// create spinner
+		$spinner = $('<span class="spinner"></span>');
+		
+		
+		// append
+		$('<?php echo $this->form; ?> p.submit').append( $spinner );
+		
+	}
+	
+	
+	// show spinner on submit
+	$(document).on('submit', '<?php echo $this->form; ?>', function(){
+		
+		// show spinner
+		$spinner.css('display', 'inline-block');
+		
+	});
+	
+	
+	// hide spinner after validation
+	acf.add_filter('validation_complete', function( json, $form ){
+		
+		// hide spinner
+		$spinner.css('display', 'none');
+		
+		
+		// return
+		return json;
+				
+	});
+	
+	
+<?php if( $this->form == '#addtag' ): ?>
+
 	// store origional HTML
 	var $orig = $('#addtag').children('.acf-field').clone();
+	
 	
 	$(document).ready(function(){
 		
@@ -208,6 +346,10 @@ class acf_form_taxonomy {
 			acf.validation.$trigger = $(this);
 			
 			
+			// show spinner
+			$spinner.css('display', 'inline-block');
+			
+			
 			// run validation
 			acf.validation.fetch( $('#addtag') );
 			
@@ -246,69 +388,12 @@ class acf_form_taxonomy {
 		
 
 	});
-
+	
+<?php endif; ?>
 	
 })(jQuery);	
 </script>
 <?php
-			
-		}
-		
-	}
-	
-	
-	/*
-	*  edit_term
-	*
-	*  description
-	*
-	*  @type	function
-	*  @date	8/10/13
-	*  @since	5.0.0
-	*
-	*  @param	$post_id (int)
-	*  @return	$post_id (int)
-	*/
-	
-	function edit_term( $term, $taxonomy ) {
-		
-		// vars
-		$post_id = "{$taxonomy}_{$term->term_id}";
-		$args = array(
-			'taxonomy' => $taxonomy
-		);
-		
-		
-		// get field groups
-		$field_groups = acf_get_field_groups( $args );
-		
-		
-		// render
-		if( !empty($field_groups) ) {
-			
-			acf_form_data(array( 
-				'post_id'	=> $post_id, 
-				'nonce'		=> 'taxonomy' 
-			));
-			
-			foreach( $field_groups as $field_group ) {
-				
-				$fields = acf_get_fields( $field_group );
-				
-				?>
-				<?php if( $field_group['style'] == 'default' ): ?>
-					<h3><?php echo $field_group['title']; ?></h3>
-				<?php endif; ?>
-				<table class="form-table">
-					<tbody>
-						<?php acf_render_fields( $post_id, $fields, 'tr', 'field' ); ?>
-					</tbody>
-				</table>
-				<?php 
-				
-			}
-		
-		}
 		
 	}
 	

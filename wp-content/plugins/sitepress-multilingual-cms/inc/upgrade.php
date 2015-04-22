@@ -1,5 +1,9 @@
 <?php
-if (!defined('ICL_SITEPRESS_DEV_VERSION') && (version_compare( get_option( 'icl_sitepress_version' ), ICL_SITEPRESS_VERSION, '=' ) || ( isset( $_REQUEST[ 'action' ] ) && $_REQUEST[ 'action' ] == 'error_scrape' ) || ! isset( $wpdb ) )) {
+
+$filtered_action = filter_input( INPUT_POST, 'action' );
+$filtered_action = $filtered_action ? $filtered_action : filter_input( INPUT_GET, 'action' );
+
+if (!defined('ICL_SITEPRESS_DEV_VERSION') && (version_compare( get_option( 'icl_sitepress_version' ), ICL_SITEPRESS_VERSION, '=' ) || ( 0 === strcmp( $filtered_action, 'error_scrape') ) || ! isset( $wpdb ) )) {
 	return;
 }
 
@@ -15,7 +19,7 @@ add_action('plugins_loaded', 'icl_plugin_upgrade' , 1);
 
 
 function icl_plugin_upgrade(){
-    global $wpdb, $sitepress_settings, $sitepress;
+    global $wpdb;
     
     $iclsettings = get_option('icl_sitepress_settings');    
     
@@ -96,36 +100,24 @@ function icl_plugin_upgrade(){
         $sql = "ALTER TABLE {$wpdb->prefix}icl_translation_status ADD COLUMN `_prevstate` longtext";
         $wpdb->query($sql);
     }
-    
-    icl_upgrade_version('2.0.5');
-    
-    icl_upgrade_version('2.2.2');
-    
-    icl_upgrade_version('2.3.0');
-    
-    icl_upgrade_version('2.3.1');
-    
-    icl_upgrade_version('2.3.3');
-    
-    icl_upgrade_version('2.4.0');
-    
-    icl_upgrade_version('2.5.0');
-    
-    icl_upgrade_version('2.5.2');
-    
-    icl_upgrade_version('2.6.0');
-    
-    icl_upgrade_version('2.7');
-    
-    icl_upgrade_version('2.9');
-    
-    icl_upgrade_version('2.9.3');
-    
-	icl_upgrade_version('3.1');
 
-	icl_upgrade_version('3.1.5');
-
-    icl_upgrade_version('3.1.8');
+	icl_upgrade_version( '2.0.5' );
+	icl_upgrade_version( '2.2.2' );
+	icl_upgrade_version( '2.3.0' );
+	icl_upgrade_version( '2.3.1' );
+	icl_upgrade_version( '2.3.3' );
+	icl_upgrade_version( '2.4.0' );
+	icl_upgrade_version( '2.5.0' );
+	icl_upgrade_version( '2.5.2' );
+	icl_upgrade_version( '2.6.0' );
+	icl_upgrade_version( '2.6.2' );
+	icl_upgrade_version( '2.7' );
+	icl_upgrade_version( '2.9' );
+	icl_upgrade_version( '2.9.3' );
+	icl_upgrade_version( '3.1' );
+	icl_upgrade_version( '3.1.5' );
+	icl_upgrade_version( '3.1.8' );
+	icl_upgrade_version( '3.1.9.5' );
 
 	//Forcing upgrade logic when ICL_SITEPRESS_DEV_VERSION is defined
 	//This allow to run the logic between different alpha/beta/RC versions

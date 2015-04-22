@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/advanced-custom-fields\n"
-"POT-Creation-Date: 2015-02-24 10:52+1000\n"
-"PO-Revision-Date: 2015-02-24 10:53+1000\n"
+"POT-Creation-Date: 2015-04-16 16:10+0330\n"
+"PO-Revision-Date: 2015-04-16 16:13+0330\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
 "Language-Team:  <Kamel.Kimiaei.Fard@gmail.com>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;esc_html__;"
@@ -154,9 +154,6 @@ msgid "Field group title is required"
 msgstr "عنوان گروه زمینه ضروری است"
 
 #: ../admin/field-group.php:176 ../api/api-field-group.php:609
-#: ../assets/_build/js/field-group.js:919
-#: ../assets/_build/js/field-group.js:920 ../assets/js/acf-field-group.js:919
-#: ../assets/js/acf-field-group.js:920 ../assets/js/acf-field-group.min.js:1
 msgid "copy"
 msgstr "کپی"
 
@@ -164,7 +161,7 @@ msgstr "کپی"
 #: ../admin/views/field-group-field-conditional-logic.php:67
 #: ../admin/views/field-group-field-conditional-logic.php:162
 #: ../admin/views/field-group-locations.php:23
-#: ../admin/views/field-group-locations.php:132 ../core/media.php:150
+#: ../admin/views/field-group-locations.php:131 ../core/media.php:150
 msgid "or"
 msgstr "یا"
 
@@ -216,10 +213,10 @@ msgstr "نمایش کلید های زمینه"
 #: ../admin/field-group.php:254
 #: ../admin/views/field-group-field-conditional-logic.php:40
 #: ../admin/views/field-group-field.php:134 ../fields/message.php:116
-#: ../fields/page_link.php:554 ../fields/page_link.php:568
-#: ../fields/post_object.php:492 ../fields/post_object.php:506
+#: ../fields/page_link.php:567 ../fields/page_link.php:581
+#: ../fields/post_object.php:436 ../fields/post_object.php:450
 #: ../fields/select.php:397 ../fields/select.php:411 ../fields/select.php:425
-#: ../fields/select.php:439 ../fields/taxonomy.php:732 ../fields/user.php:377
+#: ../fields/select.php:439 ../fields/taxonomy.php:751 ../fields/user.php:377
 #: ../fields/user.php:391 ../fields/wysiwyg.php:384
 #: ../pro/admin/views/settings-updates.php:93
 msgid "Yes"
@@ -228,105 +225,117 @@ msgstr "بله"
 #: ../admin/field-group.php:255
 #: ../admin/views/field-group-field-conditional-logic.php:41
 #: ../admin/views/field-group-field.php:135 ../fields/message.php:117
-#: ../fields/page_link.php:555 ../fields/page_link.php:569
-#: ../fields/post_object.php:493 ../fields/post_object.php:507
+#: ../fields/page_link.php:568 ../fields/page_link.php:582
+#: ../fields/post_object.php:437 ../fields/post_object.php:451
 #: ../fields/select.php:398 ../fields/select.php:412 ../fields/select.php:426
-#: ../fields/select.php:440 ../fields/taxonomy.php:733 ../fields/user.php:378
+#: ../fields/select.php:440 ../fields/taxonomy.php:752 ../fields/user.php:378
 #: ../fields/user.php:392 ../fields/wysiwyg.php:385
 #: ../pro/admin/views/settings-updates.php:103
 msgid "No"
 msgstr "خیر"
 
-#: ../admin/field-group.php:586
-msgid "Super Admin"
-msgstr "مدیرکل"
-
-#: ../admin/field-group.php:659 ../pro/admin/views/options-page.php:52
+#: ../admin/field-group.php:642 ../pro/admin/views/options-page.php:52
 msgid "Publish"
 msgstr "انتشار"
 
-#: ../admin/field-group.php:660
+#: ../admin/field-group.php:643
 msgid "Pending Review"
 msgstr "در انتظار بررسی"
 
-#: ../admin/field-group.php:661
+#: ../admin/field-group.php:644
 msgid "Draft"
 msgstr "پیش نویس"
 
-#: ../admin/field-group.php:662
+#: ../admin/field-group.php:645
 msgid "Future"
 msgstr "شاخص"
 
-#: ../admin/field-group.php:663
+#: ../admin/field-group.php:646
 msgid "Private"
 msgstr "خصوصی"
 
-#: ../admin/field-group.php:664
+#: ../admin/field-group.php:647
 msgid "Revision"
 msgstr "بازنگری"
 
-#: ../admin/field-group.php:665
+#: ../admin/field-group.php:648
 msgid "Trash"
 msgstr "زباله دان"
 
-#: ../admin/field-group.php:729
+#: ../admin/field-group.php:712
 msgid "Front Page"
 msgstr "برگه نخست"
 
-#: ../admin/field-group.php:730
+#: ../admin/field-group.php:713
 msgid "Posts Page"
 msgstr "برگه ی نوشته ها"
 
-#: ../admin/field-group.php:731
-msgid "Top Level Page (parent of 0)"
-msgstr "بالاترین سطح برگه (parent of 0)"
+#: ../admin/field-group.php:714
+msgid "Top Level Page (no parent)"
+msgstr "بالاترین سطح برگه(بدون والد)"
 
-#: ../admin/field-group.php:732
+#: ../admin/field-group.php:715
 msgid "Parent Page (has children)"
 msgstr "برگه مادر (دارای زیر مجموعه)"
 
-#: ../admin/field-group.php:733
+#: ../admin/field-group.php:716
 msgid "Child Page (has parent)"
 msgstr "برگه زیر مجموعه (دارای مادر)"
 
-#: ../admin/field-group.php:749
+#: ../admin/field-group.php:732
 msgid "Default Template"
 msgstr "پوسته پیش فرض"
 
-#: ../admin/field-group.php:771 ../admin/field-group.php:779
-#: ../admin/field-group.php:793 ../admin/field-group.php:800
-#: ../admin/field-group.php:815 ../admin/field-group.php:825
+#: ../admin/field-group.php:754
+msgid "Logged in"
+msgstr "وارده شده"
+
+#: ../admin/field-group.php:755
+msgid "Viewing front end"
+msgstr "درحال نمایش سمت کاربر"
+
+#: ../admin/field-group.php:756
+msgid "Viewing back end"
+msgstr "درحال نمایش سمت مدیریت"
+
+#: ../admin/field-group.php:775
+msgid "Super Admin"
+msgstr "مدیرکل"
+
+#: ../admin/field-group.php:786 ../admin/field-group.php:794
+#: ../admin/field-group.php:808 ../admin/field-group.php:815
+#: ../admin/field-group.php:830 ../admin/field-group.php:840
 #: ../fields/file.php:234 ../fields/image.php:223
-#: ../pro/fields/gallery.php:665
+#: ../pro/fields/gallery.php:656
 msgid "All"
 msgstr "همه"
 
-#: ../admin/field-group.php:780
+#: ../admin/field-group.php:795
 msgid "Add / Edit"
 msgstr "اضافه کردن/ویرایش"
 
-#: ../admin/field-group.php:781
+#: ../admin/field-group.php:796
 msgid "Register"
 msgstr "ثبت نام"
 
-#: ../admin/field-group.php:1012
+#: ../admin/field-group.php:1027
 msgid "Move Complete."
 msgstr "انتقال کامل شد."
 
-#: ../admin/field-group.php:1013
+#: ../admin/field-group.php:1028
 #, php-format
 msgid "The %s field can now be found in the %s field group"
 msgstr "زمینه %s اکنون در گروه زمینه %s  قرار گرفته است"
 
-#: ../admin/field-group.php:1015
+#: ../admin/field-group.php:1030
 msgid "Close Window"
 msgstr "بستن زمینه"
 
-#: ../admin/field-group.php:1050
+#: ../admin/field-group.php:1065
 msgid "Please select the destination for this field"
 msgstr "مقصد انتقال این زمینه را مشخص کنید"
 
-#: ../admin/field-group.php:1057
+#: ../admin/field-group.php:1072
 msgid "Move Field"
 msgstr "جابجایی زمینه"
 
@@ -400,7 +409,7 @@ msgstr "توابع"
 msgid "Actions"
 msgstr "اکشن ها (مربوط به کدنویسی)"
 
-#: ../admin/field-groups.php:554 ../fields/relationship.php:773
+#: ../admin/field-groups.php:554 ../fields/relationship.php:719
 msgid "Filters"
 msgstr "فیلترها"
 
@@ -508,22 +517,22 @@ msgid "Show this field if"
 msgstr "نمایش این گروه زمینه اگر"
 
 #: ../admin/views/field-group-field-conditional-logic.php:111
-#: ../admin/views/field-group-locations.php:89
+#: ../admin/views/field-group-locations.php:88
 msgid "is equal to"
 msgstr "برابر شود با"
 
 #: ../admin/views/field-group-field-conditional-logic.php:112
-#: ../admin/views/field-group-locations.php:90
+#: ../admin/views/field-group-locations.php:89
 msgid "is not equal to"
 msgstr "برابر نشود با"
 
 #: ../admin/views/field-group-field-conditional-logic.php:149
-#: ../admin/views/field-group-locations.php:119
+#: ../admin/views/field-group-locations.php:118
 msgid "and"
 msgstr "و"
 
 #: ../admin/views/field-group-field-conditional-logic.php:164
-#: ../admin/views/field-group-locations.php:134
+#: ../admin/views/field-group-locations.php:133
 msgid "Add rule group"
 msgstr "افزودن گروه قانون"
 
@@ -532,7 +541,7 @@ msgstr "افزودن گروه قانون"
 msgid "Edit field"
 msgstr "ویرایش زمینه"
 
-#: ../admin/views/field-group-field.php:54 ../pro/fields/gallery.php:353
+#: ../admin/views/field-group-field.php:54 ../pro/fields/gallery.php:356
 msgid "Edit"
 msgstr "ویرایش"
 
@@ -581,7 +590,7 @@ msgstr "نام زمینه"
 msgid "Single word, no spaces. Underscores and dashes allowed"
 msgstr "تک کلمه، بدون فاصله. خط زیرین و خط تیره ها مجازاند"
 
-#: ../admin/views/field-group-field.php:102 ../fields/taxonomy.php:707
+#: ../admin/views/field-group-field.php:102 ../fields/taxonomy.php:726
 msgid "Field Type"
 msgstr "نوع زمینه"
 
@@ -667,86 +676,86 @@ msgstr ""
 msgid "Show this field group if"
 msgstr "نمایش این گروه زمینه اگر"
 
-#: ../admin/views/field-group-locations.php:41 ../core/field.php:130
-msgid "Basic"
-msgstr "پایه"
+#: ../admin/views/field-group-locations.php:41
+#: ../admin/views/field-group-locations.php:47
+msgid "Post"
+msgstr "نوشته"
 
-#: ../admin/views/field-group-locations.php:42 ../fields/relationship.php:779
+#: ../admin/views/field-group-locations.php:42 ../fields/relationship.php:725
 msgid "Post Type"
 msgstr "نوع نوشته"
 
 #: ../admin/views/field-group-locations.php:43
-msgid "Logged in User Type"
-msgstr "نوع کاربر وارد شده"
-
-#: ../admin/views/field-group-locations.php:45
-#: ../admin/views/field-group-locations.php:46
-msgid "Post"
-msgstr "نوشته"
-
-#: ../admin/views/field-group-locations.php:47
-msgid "Post Category"
-msgstr "دسته بندی نوشته"
-
-#: ../admin/views/field-group-locations.php:48
-msgid "Post Format"
-msgstr "فرمت نوشته"
-
-#: ../admin/views/field-group-locations.php:49
 msgid "Post Status"
 msgstr "وضعیت نوشته"
 
-#: ../admin/views/field-group-locations.php:50
+#: ../admin/views/field-group-locations.php:44
+msgid "Post Format"
+msgstr "فرمت نوشته"
+
+#: ../admin/views/field-group-locations.php:45
+msgid "Post Category"
+msgstr "دسته بندی نوشته"
+
+#: ../admin/views/field-group-locations.php:46
 msgid "Post Taxonomy"
 msgstr "طبقه بندی نوشته"
 
-#: ../admin/views/field-group-locations.php:52
+#: ../admin/views/field-group-locations.php:49
 #: ../admin/views/field-group-locations.php:53
 msgid "Page"
 msgstr "برگه"
 
-#: ../admin/views/field-group-locations.php:54
-msgid "Page Type"
-msgstr "نوع برگه"
-
-#: ../admin/views/field-group-locations.php:55
-msgid "Page Parent"
-msgstr "برگه مادر"
-
-#: ../admin/views/field-group-locations.php:56
+#: ../admin/views/field-group-locations.php:50
 msgid "Page Template"
 msgstr "قالب برگه"
 
-#: ../admin/views/field-group-locations.php:58 ../fields/user.php:36
+#: ../admin/views/field-group-locations.php:51
+msgid "Page Type"
+msgstr "نوع برگه"
+
+#: ../admin/views/field-group-locations.php:52
+msgid "Page Parent"
+msgstr "برگه مادر"
+
+#: ../admin/views/field-group-locations.php:55 ../fields/user.php:36
 msgid "User"
 msgstr "کاربر"
 
-#: ../admin/views/field-group-locations.php:59
+#: ../admin/views/field-group-locations.php:56
+msgid "Current User"
+msgstr "کاربر فعلی"
+
+#: ../admin/views/field-group-locations.php:57
+msgid "Current User Role"
+msgstr "نقش کاربرفعلی"
+
+#: ../admin/views/field-group-locations.php:58
 msgid "User Form"
 msgstr "فرم کاربر"
 
-#: ../admin/views/field-group-locations.php:60
+#: ../admin/views/field-group-locations.php:59
 msgid "User Role"
 msgstr "نقش کاربر"
 
-#: ../admin/views/field-group-locations.php:62
+#: ../admin/views/field-group-locations.php:61
 #: ../pro/admin/options-page.php:55
 msgid "Forms"
 msgstr "فرم ها"
 
-#: ../admin/views/field-group-locations.php:63
+#: ../admin/views/field-group-locations.php:62
 msgid "Attachment"
 msgstr "پیوست"
 
-#: ../admin/views/field-group-locations.php:64
+#: ../admin/views/field-group-locations.php:63
 msgid "Taxonomy Term"
 msgstr "آیتم طبقه بندی"
 
-#: ../admin/views/field-group-locations.php:65
+#: ../admin/views/field-group-locations.php:64
 msgid "Comment"
 msgstr "دیدگاه"
 
-#: ../admin/views/field-group-locations.php:66
+#: ../admin/views/field-group-locations.php:65
 msgid "Widget"
 msgstr "ابزارک"
 
@@ -817,7 +826,7 @@ msgid "Hide on screen"
 msgstr "مخفی کردن در صفحه"
 
 #: ../admin/views/field-group-options.php:84
-msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
+msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
 msgstr "<b>انتخاب</b> آیتم ها برای <b>پنهان کردن</b> آن ها از صفحه ویرایش."
 
 #: ../admin/views/field-group-options.php:84
@@ -868,7 +877,7 @@ msgstr "فرمت"
 msgid "Page Attributes"
 msgstr "صفات برگه"
 
-#: ../admin/views/field-group-options.php:101 ../fields/relationship.php:792
+#: ../admin/views/field-group-options.php:101 ../fields/relationship.php:738
 msgid "Featured Image"
 msgstr "تصویر شاخص"
 
@@ -990,8 +999,8 @@ msgid ""
 "and select."
 msgstr ""
 "استفاده از کتابخانه محبوب Select2 باعث سرعت در عملکرد و کاربری بهتر در انواع "
-"زمینه هاشامل آبجکت نوشته، پیوند(لینک) صفحه ، طبقه بندی و زمینه های "
-"انتخاب(Select) شده است"
+"زمینه هاشامل آبجکت نوشته، پیوند(لینک) صفحه ، طبقه بندی و زمینه های انتخاب"
+"(Select) شده است"
 
 #: ../admin/views/settings-info.php:35
 msgid "Improved Design"
@@ -1031,8 +1040,9 @@ msgstr "معرفی نسخه حرفه ای"
 
 #: ../admin/views/settings-info.php:53
 msgid ""
-"We're changing the way premium functionality is delivered in an exiting way!"
-msgstr "ما در حال تغییر راه عملکردهای پولی افزونه به شیوه ای هیجان انگیز هستیم"
+"We're changing the way premium functionality is delivered in an exciting way!"
+msgstr ""
+"ما در حال تغییر راه عملکردهای پولی افزونه به شیوه ای هیجان انگیز هستیم!"
 
 #: ../admin/views/settings-info.php:54
 #, php-format
@@ -1310,33 +1320,37 @@ msgstr "ببینید چه چیزی جدید است"
 msgid "Data is at the latest version."
 msgstr "داده ها آخرین نسخه می باشند"
 
-#: ../api/api-helpers.php:1198
+#: ../api/api-helpers.php:816
 msgid "Thumbnail"
 msgstr "تصویر بندانگشتی"
 
-#: ../api/api-helpers.php:1199
+#: ../api/api-helpers.php:817
 msgid "Medium"
 msgstr "متوسط"
 
-#: ../api/api-helpers.php:1200
+#: ../api/api-helpers.php:818
 msgid "Large"
 msgstr "بزرگ"
 
-#: ../api/api-helpers.php:1248
+#: ../api/api-helpers.php:866
 msgid "Full Size"
 msgstr "اندازه کامل"
 
-#: ../api/api-helpers.php:1806
+#: ../api/api-helpers.php:1552
 msgid "(no title)"
 msgstr "(بدون عنوان)"
 
-#: ../api/api-template.php:1268 ../pro/fields/gallery.php:576
+#: ../api/api-template.php:1268 ../pro/fields/gallery.php:567
 msgid "Update"
 msgstr "بروزرسانی"
 
 #: ../api/api-template.php:1269
 msgid "Post updated"
 msgstr "نوشته بروز شد."
+
+#: ../core/field.php:130
+msgid "Basic"
+msgstr "پایه"
 
 #: ../core/field.php:131
 msgid "Content"
@@ -1422,7 +1436,7 @@ msgstr "حجم فایل ها نباید از %s بیشتر باشد."
 msgid "File type must be %s."
 msgstr "نوع فایل باید %s باشد"
 
-#: ../fields/checkbox.php:36 ../fields/taxonomy.php:714
+#: ../fields/checkbox.php:36 ../fields/taxonomy.php:733
 msgid "Checkbox"
 msgstr "جعبه انتخاب(چک باکس)"
 
@@ -1586,7 +1600,7 @@ msgstr "هیچ پرونده ای انتخاب نشده"
 msgid "Add File"
 msgstr "افزودن پرونده"
 
-#: ../fields/file.php:213 ../fields/image.php:192 ../fields/taxonomy.php:751
+#: ../fields/file.php:213 ../fields/image.php:192 ../fields/taxonomy.php:770
 msgid "Return Value"
 msgstr "مقدار بازگشت"
 
@@ -1607,22 +1621,22 @@ msgid "File ID"
 msgstr "شناسه(ID) پرونده"
 
 #: ../fields/file.php:228 ../fields/image.php:217
-#: ../pro/fields/gallery.php:659
+#: ../pro/fields/gallery.php:650
 msgid "Library"
 msgstr "کتابخانه"
 
 #: ../fields/file.php:229 ../fields/image.php:218
-#: ../pro/fields/gallery.php:660
+#: ../pro/fields/gallery.php:651
 msgid "Limit the media library choice"
 msgstr "محدود کردن انتخاب کتابخانه چندرسانه ای"
 
 #: ../fields/file.php:235 ../fields/image.php:224
-#: ../pro/fields/gallery.php:666
+#: ../pro/fields/gallery.php:657
 msgid "Uploaded to post"
 msgstr "بارگذاری شده در نوشته"
 
 #: ../fields/file.php:242 ../fields/image.php:231
-#: ../pro/fields/gallery.php:673
+#: ../pro/fields/gallery.php:664
 msgid "Minimum"
 msgstr "کمترین"
 
@@ -1631,23 +1645,23 @@ msgid "Restrict which files can be uploaded"
 msgstr "محدودیت در آپلود فایل ها"
 
 #: ../fields/file.php:246 ../fields/file.php:257 ../fields/image.php:254
-#: ../fields/image.php:287 ../pro/fields/gallery.php:696
-#: ../pro/fields/gallery.php:729
+#: ../fields/image.php:287 ../pro/fields/gallery.php:687
+#: ../pro/fields/gallery.php:720
 msgid "File size"
 msgstr "اندازه فایل"
 
 #: ../fields/file.php:253 ../fields/image.php:264
-#: ../pro/fields/gallery.php:706
+#: ../pro/fields/gallery.php:697
 msgid "Maximum"
 msgstr "بیشترین"
 
 #: ../fields/file.php:264 ../fields/image.php:297
-#: ../pro/fields/gallery.php:739
+#: ../pro/fields/gallery.php:730
 msgid "Allowed file types"
 msgstr "انواع مجاز فایل"
 
 #: ../fields/file.php:265 ../fields/image.php:298
-#: ../pro/fields/gallery.php:740
+#: ../pro/fields/gallery.php:731
 msgid "Comma separated list. Leave blank for all types"
 msgstr "با کامای انگلیسی جدا کرده یا برای عدم محدودیت خالی بگذارید"
 
@@ -1683,21 +1697,21 @@ msgstr "مرکز"
 msgid "Center the initial map"
 msgstr "تقشه اولیه را وسط قرار بده"
 
-#: ../fields/google-map.php:199
+#: ../fields/google-map.php:202
 msgid "Zoom"
 msgstr "بزرگنمایی"
 
-#: ../fields/google-map.php:200
+#: ../fields/google-map.php:203
 msgid "Set the initial zoom level"
 msgstr "تعین مقدار بزرگنمایی اولیه"
 
-#: ../fields/google-map.php:209 ../fields/image.php:243
-#: ../fields/image.php:276 ../pro/fields/gallery.php:685
-#: ../pro/fields/gallery.php:718
+#: ../fields/google-map.php:212 ../fields/image.php:243
+#: ../fields/image.php:276 ../fields/oembed.php:264
+#: ../pro/fields/gallery.php:676 ../pro/fields/gallery.php:709
 msgid "Height"
 msgstr "ارتفاع"
 
-#: ../fields/google-map.php:210
+#: ../fields/google-map.php:213
 msgid "Customise the map height"
 msgstr "سفارشی کردن ارتفاع نقشه"
 
@@ -1745,21 +1759,21 @@ msgstr "آدرس تصویر"
 msgid "Image ID"
 msgstr "شناسه(ID) تصویر"
 
-#: ../fields/image.php:207 ../pro/fields/gallery.php:649
+#: ../fields/image.php:207 ../pro/fields/gallery.php:640
 msgid "Preview Size"
 msgstr "اندازه پیش نمایش"
 
-#: ../fields/image.php:208 ../pro/fields/gallery.php:650
+#: ../fields/image.php:208 ../pro/fields/gallery.php:641
 msgid "Shown when entering data"
 msgstr "هنگام وارد کردن داده ها نمایش داده می شود"
 
 #: ../fields/image.php:232 ../fields/image.php:265
-#: ../pro/fields/gallery.php:674 ../pro/fields/gallery.php:707
+#: ../pro/fields/gallery.php:665 ../pro/fields/gallery.php:698
 msgid "Restrict which images can be uploaded"
 msgstr "محدودیت در آپلود تصاویر"
 
-#: ../fields/image.php:235 ../fields/image.php:268
-#: ../pro/fields/gallery.php:677 ../pro/fields/gallery.php:710
+#: ../fields/image.php:235 ../fields/image.php:268 ../fields/oembed.php:253
+#: ../pro/fields/gallery.php:668 ../pro/fields/gallery.php:701
 msgid "Width"
 msgstr "عرض"
 
@@ -1777,8 +1791,8 @@ msgid "Escape HTML"
 msgstr "حذف HTML"
 
 #: ../fields/message.php:112
-msgid "Controls how HTML tags are rendered"
-msgstr "کنترل چگونگی نمایش تگ های HTML"
+msgid "Allow HTML markup to display as visible text instead of rendering"
+msgstr "اجازه نمایش کدهای HTML به عنوان متن به جای اعمال آنها"
 
 #: ../fields/number.php:36
 msgid "Number"
@@ -1822,7 +1836,7 @@ msgstr "آدرس را وارد کنید"
 msgid "No embed found for the given URL"
 msgstr "امکان جاسازی برای آدرس وارد شده یافت نشد"
 
-#: ../fields/oembed.php:250 ../fields/oembed.php:260
+#: ../fields/oembed.php:250 ../fields/oembed.php:261
 msgid "Embed Size"
 msgstr "اندازه جانمایی"
 
@@ -1830,32 +1844,32 @@ msgstr "اندازه جانمایی"
 msgid "Archives"
 msgstr "بایگانی ها"
 
-#: ../fields/page_link.php:521 ../fields/post_object.php:459
-#: ../fields/relationship.php:745
+#: ../fields/page_link.php:534 ../fields/post_object.php:403
+#: ../fields/relationship.php:691
 msgid "Filter by Post Type"
 msgstr "فیلتر با نوع نوشته"
 
-#: ../fields/page_link.php:529 ../fields/post_object.php:467
-#: ../fields/relationship.php:753
+#: ../fields/page_link.php:542 ../fields/post_object.php:411
+#: ../fields/relationship.php:699
 msgid "All post types"
 msgstr "تمام انواع نوشته"
 
-#: ../fields/page_link.php:535 ../fields/post_object.php:473
-#: ../fields/relationship.php:759
+#: ../fields/page_link.php:548 ../fields/post_object.php:417
+#: ../fields/relationship.php:705
 msgid "Filter by Taxonomy"
 msgstr "فیلتر با طبقه بندی"
 
-#: ../fields/page_link.php:543 ../fields/post_object.php:481
-#: ../fields/relationship.php:767
-msgid "No taxonomy filter"
-msgstr "بدون فیلتر طبقه بندی"
+#: ../fields/page_link.php:556 ../fields/post_object.php:425
+#: ../fields/relationship.php:713
+msgid "All taxonomies"
+msgstr "تمام طبقه بندی ها"
 
-#: ../fields/page_link.php:549 ../fields/post_object.php:487
-#: ../fields/select.php:392 ../fields/taxonomy.php:727 ../fields/user.php:372
+#: ../fields/page_link.php:562 ../fields/post_object.php:431
+#: ../fields/select.php:392 ../fields/taxonomy.php:746 ../fields/user.php:372
 msgid "Allow Null?"
 msgstr "آیا Null مجاز است؟"
 
-#: ../fields/page_link.php:563 ../fields/post_object.php:501
+#: ../fields/page_link.php:576 ../fields/post_object.php:445
 #: ../fields/select.php:406 ../fields/user.php:386
 msgid "Select multiple values?"
 msgstr "آیا چندین مقدار انتخاب شوند؟"
@@ -1864,16 +1878,16 @@ msgstr "آیا چندین مقدار انتخاب شوند؟"
 msgid "Password"
 msgstr "رمزعبور"
 
-#: ../fields/post_object.php:36 ../fields/post_object.php:520
-#: ../fields/relationship.php:820
+#: ../fields/post_object.php:36 ../fields/post_object.php:464
+#: ../fields/relationship.php:766
 msgid "Post Object"
 msgstr "آبجکت یک نوشته"
 
-#: ../fields/post_object.php:515 ../fields/relationship.php:815
+#: ../fields/post_object.php:459 ../fields/relationship.php:761
 msgid "Return Format"
 msgstr "فرمت بازگشت"
 
-#: ../fields/post_object.php:521 ../fields/relationship.php:821
+#: ../fields/post_object.php:465 ../fields/relationship.php:767
 msgid "Post ID"
 msgstr "شناسه(ID) نوشته"
 
@@ -1913,40 +1927,40 @@ msgstr "درحال خواندن"
 msgid "No matches found"
 msgstr "مطابقتی یافت نشد"
 
-#: ../fields/relationship.php:637
+#: ../fields/relationship.php:580
 msgid "Search..."
 msgstr "جستجو . . ."
 
-#: ../fields/relationship.php:646
+#: ../fields/relationship.php:589
 msgid "Select post type"
 msgstr "انتحاب نوع نوشته"
 
-#: ../fields/relationship.php:659
+#: ../fields/relationship.php:602
 msgid "Select taxonomy"
 msgstr "انتخاب طبقه بندی"
 
-#: ../fields/relationship.php:778
+#: ../fields/relationship.php:724
 msgid "Search"
 msgstr "جستجو"
 
-#: ../fields/relationship.php:780 ../fields/taxonomy.php:36
-#: ../fields/taxonomy.php:698
+#: ../fields/relationship.php:726 ../fields/taxonomy.php:36
+#: ../fields/taxonomy.php:717
 msgid "Taxonomy"
 msgstr "طبقه بندی"
 
-#: ../fields/relationship.php:787
+#: ../fields/relationship.php:733
 msgid "Elements"
 msgstr "عناصر"
 
-#: ../fields/relationship.php:788
+#: ../fields/relationship.php:734
 msgid "Selected elements will be displayed in each result"
 msgstr "عناصر انتخاب شده در هر نتیجه نمایش داده خواهند شد"
 
-#: ../fields/relationship.php:806
+#: ../fields/relationship.php:752
 msgid "Maximum posts"
 msgstr "حداکثر تعداد نوشته ها"
 
-#: ../fields/select.php:36 ../fields/select.php:160 ../fields/taxonomy.php:719
+#: ../fields/select.php:36 ../fields/select.php:160 ../fields/taxonomy.php:738
 msgid "Select"
 msgstr "انتخاب(دراپ باکس)"
 
@@ -1995,42 +2009,42 @@ msgstr ""
 msgid "Placement"
 msgstr "جانمایی"
 
-#: ../fields/taxonomy.php:667
+#: ../fields/taxonomy.php:686
 msgid "None"
 msgstr "هیچ"
 
-#: ../fields/taxonomy.php:713
+#: ../fields/taxonomy.php:732
 msgid "Multiple Values"
 msgstr "چندین مقدار"
 
-#: ../fields/taxonomy.php:715
+#: ../fields/taxonomy.php:734
 msgid "Multi Select"
 msgstr "چندین انتخاب"
 
-#: ../fields/taxonomy.php:717
+#: ../fields/taxonomy.php:736
 msgid "Single Value"
 msgstr "تک مقدار"
 
-#: ../fields/taxonomy.php:718
+#: ../fields/taxonomy.php:737
 msgid "Radio Buttons"
 msgstr "دکمه های رادیویی"
 
-#: ../fields/taxonomy.php:741
+#: ../fields/taxonomy.php:760
 msgid "Load & Save Terms to Post"
 msgstr "خواندن و ذخیره دسته(ترم)ها برای نوشته"
 
-#: ../fields/taxonomy.php:745
+#: ../fields/taxonomy.php:764
 msgid ""
 "Load value based on the post's terms and update the post's terms on save"
 msgstr ""
 "مقدار بر اساس دسته(ترم) نوشته خوانده شود و دسته های نوشته را در هنگام ذخیره "
 "به روز رسانی کند"
 
-#: ../fields/taxonomy.php:756
+#: ../fields/taxonomy.php:775
 msgid "Term Object"
 msgstr "به صورت آبجکت"
 
-#: ../fields/taxonomy.php:757
+#: ../fields/taxonomy.php:776
 msgid "Term ID"
 msgstr "شناسه(ID) آیتم(ترم)"
 
@@ -2379,51 +2393,51 @@ msgstr "افزودن تصویر به گالری"
 msgid "Maximum selection reached"
 msgstr "بیشترین حد انتخاب شده است"
 
-#: ../pro/fields/gallery.php:333
+#: ../pro/fields/gallery.php:336
 msgid "Length"
 msgstr "طول"
 
-#: ../pro/fields/gallery.php:353
+#: ../pro/fields/gallery.php:356
 msgid "Remove"
 msgstr "حذف"
 
-#: ../pro/fields/gallery.php:547
+#: ../pro/fields/gallery.php:538
 msgid "Add to gallery"
 msgstr "اضافه به گالری"
 
-#: ../pro/fields/gallery.php:551
+#: ../pro/fields/gallery.php:542
 msgid "Bulk actions"
 msgstr "کارهای گروهی"
 
-#: ../pro/fields/gallery.php:552
+#: ../pro/fields/gallery.php:543
 msgid "Sort by date uploaded"
 msgstr "به ترتیب تاریخ آپلود"
 
-#: ../pro/fields/gallery.php:553
+#: ../pro/fields/gallery.php:544
 msgid "Sort by date modified"
 msgstr "به ترتیب تاریخ اعمال تغییرات"
 
-#: ../pro/fields/gallery.php:554
+#: ../pro/fields/gallery.php:545
 msgid "Sort by title"
 msgstr "به ترتیب عنوان"
 
-#: ../pro/fields/gallery.php:555
+#: ../pro/fields/gallery.php:546
 msgid "Reverse current order"
 msgstr "معکوس سازی ترتیب کنونی"
 
-#: ../pro/fields/gallery.php:573
+#: ../pro/fields/gallery.php:564
 msgid "Close"
 msgstr "بستن"
 
-#: ../pro/fields/gallery.php:631
+#: ../pro/fields/gallery.php:622
 msgid "Minimum Selection"
 msgstr "حداقل انتخاب"
 
-#: ../pro/fields/gallery.php:640
+#: ../pro/fields/gallery.php:631
 msgid "Maximum Selection"
 msgstr "حداکثر انتخاب"
 
-#: ../pro/fields/gallery.php:833
+#: ../pro/fields/gallery.php:812
 #, php-format
 msgid "%s requires at least %s selection"
 msgid_plural "%s requires at least %s selections"
@@ -2466,138 +2480,48 @@ msgstr "حداقل تعداد سطرها"
 msgid "Maximum Rows"
 msgstr "حداکثر تعداد سطرها"
 
-#: ../assets/_build/js/acf-file.js:55 ../assets/_build/js/acf-file.js:190
-#: ../assets/_build/js/acf-file.js:191 ../assets/js/acf-input.js:3284
-#: ../assets/js/acf-input.js:3419 ../assets/js/acf-input.js:3420
-#: ../assets/js/acf-input.min.js:1
-msgid "file"
-msgstr ""
+#~ msgid "Controls how HTML tags are rendered"
+#~ msgstr "کنترل چگونگی نمایش تگ های HTML"
 
-#: ../assets/_build/js/acf-image.js:55 ../assets/_build/js/acf-image.js:189
-#: ../assets/_build/js/acf-image.js:190 ../assets/_build/js/acf-media.js:167
-#: ../assets/_build/js/acf-media.js:245 ../assets/js/acf-input.js:4070
-#: ../assets/js/acf-input.js:4204 ../assets/js/acf-input.js:4205
-#: ../assets/js/acf-input.js:4414 ../assets/js/acf-input.js:4492
-#: ../assets/js/acf-input.min.js:1 ../pro/assets/_build/js/acf-gallery.js:515
-#: ../pro/assets/_build/js/acf-gallery.js:516
-#: ../pro/assets/js/acf-pro-input.js:1514
-#: ../pro/assets/js/acf-pro-input.js:1515
-#: ../pro/assets/js/acf-pro-input.min.js:1
 #, fuzzy
-msgid "image"
-msgstr "تصویر"
+#~ msgid "image"
+#~ msgstr "تصویر"
 
-#: ../assets/_build/js/acf-media.js:518 ../assets/js/acf-input.js:4765
-#: ../assets/js/acf-input.min.js:2
 #, fuzzy
-msgid "expand_details"
-msgstr "نمایش جزئیات"
+#~ msgid "expand_details"
+#~ msgstr "نمایش جزئیات"
 
-#: ../assets/_build/js/acf-media.js:519 ../assets/js/acf-input.js:4766
-#: ../assets/js/acf-input.min.js:2
 #, fuzzy
-msgid "collapse_details"
-msgstr "عدم نمایش جزئیات"
+#~ msgid "collapse_details"
+#~ msgstr "عدم نمایش جزئیات"
 
-#: ../assets/_build/js/acf-relationship.js:175
-#: ../assets/_build/js/acf-relationship.js:222
-#: ../assets/_build/js/acf-relationship.js:378 ../assets/js/acf-input.js:5302
-#: ../assets/js/acf-input.js:5349 ../assets/js/acf-input.js:5505
-#: ../assets/js/acf-input.min.js:2
 #, fuzzy
-msgid "relationship"
-msgstr "ارتباط"
+#~ msgid "relationship"
+#~ msgstr "ارتباط"
 
-#: ../assets/_build/js/acf.js:1873 ../assets/js/acf-input.js:2120
-#: ../assets/js/acf-input.min.js:1
 #, fuzzy
-msgid "unload"
-msgstr "دانلود"
+#~ msgid "unload"
+#~ msgstr "دانلود"
 
-#: ../assets/_build/js/field-group.js:476 ../assets/js/acf-field-group.js:476
-#: ../assets/js/acf-field-group.min.js:1
 #, fuzzy
-msgid "title_is_required"
-msgstr "عنوان گروه زمینه ضروری است"
+#~ msgid "title_is_required"
+#~ msgstr "عنوان گروه زمینه ضروری است"
 
-#: ../assets/_build/js/field-group.js:552 ../assets/js/acf-field-group.js:552
-#: ../assets/js/acf-field-group.min.js:1
-msgid "move_to_trash"
-msgstr ""
-
-#: ../assets/_build/js/field-group.js:1003
-#: ../assets/js/acf-field-group.js:1003 ../assets/js/acf-field-group.min.js:1
-msgid "move_field_warning"
-msgstr ""
-
-#: ../assets/_build/js/field-group.js:1011
-#: ../assets/js/acf-field-group.js:1011 ../assets/js/acf-field-group.min.js:1
 #, fuzzy
-msgid "move_field"
-msgstr "جابجایی زمینه"
+#~ msgid "move_field"
+#~ msgstr "جابجایی زمینه"
 
-#: ../assets/_build/js/field-group.js:1543
-#: ../assets/js/acf-field-group.js:1543 ../assets/js/acf-field-group.min.js:1
-msgid "field_name_start"
-msgstr ""
-
-#: ../assets/_build/js/field-group.js:1910
-#: ../assets/js/acf-field-group.js:1910 ../assets/js/acf-field-group.min.js:1
-msgid "null"
-msgstr ""
-
-#: ../assets/_build/js/field-group.js:2370
-#: ../assets/js/acf-field-group.js:2370 ../assets/js/acf-field-group.min.js:1
-msgid "hide_show_all"
-msgstr ""
-
-#: ../pro/assets/_build/js/acf-flexible-content.js:165
-#: ../pro/assets/_build/js/acf-flexible-content.js:170
-#: ../pro/assets/_build/js/acf-flexible-content.js:193
-#: ../pro/assets/_build/js/acf-flexible-content.js:199
-#: ../pro/assets/_build/js/acf-flexible-content.js:223
-#: ../pro/assets/_build/js/acf-flexible-content.js:228
-#: ../pro/assets/_build/js/acf-flexible-content.js:229
-#: ../pro/assets/_build/js/acf-flexible-content.js:249
-#: ../pro/assets/_build/js/acf-flexible-content.js:255
-#: ../pro/assets/_build/js/acf-flexible-content.js:256
-#: ../pro/assets/_build/js/acf-flexible-content.js:295
-#: ../pro/assets/_build/js/acf-flexible-content.js:303
-#: ../pro/assets/_build/js/acf-flexible-content.js:324
-#: ../pro/assets/_build/js/acf-flexible-content.js:332
-#: ../pro/assets/_build/js/field-group.js:621
-#: ../pro/assets/js/acf-pro-field-group.js:621
-#: ../pro/assets/js/acf-pro-field-group.min.js:1
-#: ../pro/assets/js/acf-pro-input.js:604 ../pro/assets/js/acf-pro-input.js:609
-#: ../pro/assets/js/acf-pro-input.js:632 ../pro/assets/js/acf-pro-input.js:638
-#: ../pro/assets/js/acf-pro-input.js:662 ../pro/assets/js/acf-pro-input.js:667
-#: ../pro/assets/js/acf-pro-input.js:668 ../pro/assets/js/acf-pro-input.js:688
-#: ../pro/assets/js/acf-pro-input.js:694 ../pro/assets/js/acf-pro-input.js:695
-#: ../pro/assets/js/acf-pro-input.js:734 ../pro/assets/js/acf-pro-input.js:742
-#: ../pro/assets/js/acf-pro-input.js:763 ../pro/assets/js/acf-pro-input.js:771
-#: ../pro/assets/js/acf-pro-input.min.js:1
 #, fuzzy
-msgid "flexible_content"
-msgstr "محتوای انعطاف پذیر"
+#~ msgid "flexible_content"
+#~ msgstr "محتوای انعطاف پذیر"
 
-#: ../pro/assets/_build/js/acf-gallery.js:444
-#: ../pro/assets/_build/js/acf-gallery.js:620
-#: ../pro/assets/_build/js/acf-gallery.js:638
-#: ../pro/assets/js/acf-pro-input.js:1443
-#: ../pro/assets/js/acf-pro-input.js:1619
-#: ../pro/assets/js/acf-pro-input.js:1637
-#: ../pro/assets/js/acf-pro-input.min.js:1
 #, fuzzy
-msgid "gallery"
-msgstr "گالری"
+#~ msgid "gallery"
+#~ msgstr "گالری"
 
-#: ../pro/assets/_build/js/acf-repeater.js:184
-#: ../pro/assets/_build/js/acf-repeater.js:247
-#: ../pro/assets/js/acf-pro-input.js:340 ../pro/assets/js/acf-pro-input.js:403
-#: ../pro/assets/js/acf-pro-input.min.js:1
 #, fuzzy
-msgid "repeater"
-msgstr "زمینه تکرار کننده"
+#~ msgid "repeater"
+#~ msgstr "زمینه تکرار کننده"
 
 #~ msgid "Attachment Details"
 #~ msgstr "جزئیات پیوست"

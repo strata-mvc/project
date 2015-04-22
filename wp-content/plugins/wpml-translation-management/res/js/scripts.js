@@ -830,7 +830,7 @@ function icl_get_job_original_contents(job_id, field_type, calling_element) {
     var ajax_spinner = jQuery('<span class="spinner" style="float:left;"> </span>');
     calling_element.replaceWith(ajax_spinner);
     ajax_spinner.show();
-
+    var nonce = jQuery('#icl-copy-from-original-nonce').html();
     jQuery.ajax(
       {
           type:     "POST",
@@ -839,6 +839,7 @@ function icl_get_job_original_contents(job_id, field_type, calling_element) {
           data:     {
               tm_editor_job_id:    job_id,
               tm_editor_job_field: field_type,
+              tm_editor_copy_nonce: nonce,
               action:              'icl_get_job_original_field_content'
           },
           success:  function (response) {

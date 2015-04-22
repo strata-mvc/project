@@ -20,10 +20,23 @@
                                     <label>
                                     <?php 
                                         $url =  $this->append_site_key_to_download_url($download['url'], $site_key, $repository_id );
+                                        $download_data = array(
+                                            'url'           => $url, 
+                                            'basename'      => $download['basename'], 
+                                            'nonce'         => wp_create_nonce('install_plugin_' . $url),
+                                            'repository_id' => $repository_id
+                                        );
+
+                                        $disabled = $expired ||
+                                                    (
+                                                        $this->plugin_is_installed($download['name'], $download['basename'], $download['version']) &&
+                                                        !$this->plugin_is_embedded_version($download['name'], $download['basename'])
+                                                    )||
+                                                    !WP_Installer()->is_uploading_allowed();
+
                                     ?>
-                                    <input type="checkbox" name="downloads[]" value="<?php echo base64_encode(json_encode(array('url' => $url, 
-                                        'basename' => $download['basename'], 'nonce' => wp_create_nonce('install_plugin_' . $url)))); ?>" <?php 
-                                        if($expired || $this->plugin_is_installed($download['name'], $download['basename'], $download['version'])): ?>disabled="disabled"<?php endif; ?> />&nbsp;
+                                    <input type="checkbox" name="downloads[]" value="<?php echo base64_encode(json_encode($download_data)); ?>" <?php 
+                                        if($disabled): ?>disabled="disabled"<?php endif; ?> />&nbsp;
                                         
                                     </label>                                
                                 </td>
@@ -46,7 +59,11 @@
                         <?php endforeach; ?>
                         </tbody>
                     </table>
-                    
+
+                    <?php if(!WP_Installer()->is_uploading_allowed()): ?>
+                        <p class="installer-error-box"><?php printf(__('Downloading is not possible because WordPress cannot write into the plugins folder. %sHow to fix%s.', 'installer'), '<a href="http://codex.wordpress.org/Changing_File_Permissions">', '</a>') ?></p>
+                    <?php endif;?>
+
                     <br />
                     <input type="submit" class="button-secondary" value="<?php esc_attr_e('Download', 'installer') ?>" disabled="disabled" />
                     &nbsp;

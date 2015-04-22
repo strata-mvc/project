@@ -53,8 +53,11 @@ class WPML_Translation_Management{
             
             // Add a nice warning message if the user tries to edit a post manually and it's actually in the process of being translated
             global $pagenow;
-            if(($pagenow == 'post-new.php' || $pagenow == 'post.php') && (isset($_GET['trid']) || isset($_GET['post']) ) && isset($_GET['lang'])){
-                add_action('admin_notices', array($this, '_warn_editing_icl_translation'));    
+            $request_get_trid = filter_input ( INPUT_GET, 'trid' );
+            $request_get_post = filter_input ( INPUT_GET, 'post' );
+            $request_get_lang = filter_input ( INPUT_GET, 'lang' );
+            if ( ( $pagenow === 'post-new.php' || $pagenow === 'post.php' ) && ( $request_get_trid || $request_get_post ) && $request_get_lang ) {
+                add_action ( 'admin_notices', array( $this, '_warn_editing_icl_translation' ) );
             }
             
             add_action('wp_ajax_dismiss_icl_side_by_site', array($this, 'dismiss_icl_side_by_site'));
@@ -144,20 +147,23 @@ class WPML_Translation_Management{
   
     function _warn_editing_icl_translation(){
         global $wpdb, $sitepress, $iclTranslationManagement;
+        $request_get_trid = filter_input(INPUT_GET, 'trid', FILTER_SANITIZE_NUMBER_INT, FILTER_NULL_ON_FAILURE);
+        $request_get_post = filter_input(INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT, FILTER_NULL_ON_FAILURE);
+        $request_get_lang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_NULL_ON_FAILURE);
 
 		$post_type = false;
-        if(isset($_GET['trid'])){
+        if($request_get_trid){
             $translation_id = $wpdb->get_var($wpdb->prepare("
                     SELECT t.translation_id 
                         FROM {$wpdb->prefix}icl_translations t
                         JOIN {$wpdb->prefix}icl_translation_status s ON t.translation_id = s.translation_id
                         WHERE t.trid=%d AND t.language_code=%s"
-                , $_GET['trid'], $_GET['lang']));            
+                , $request_get_trid, $request_get_lang));            
         }else{
-            $post_type = $wpdb->get_var($wpdb->prepare("SELECT post_type FROM {$wpdb->posts} WHERE ID=%d", $_GET['post']));
+            $post_type = $wpdb->get_var($wpdb->prepare("SELECT post_type FROM {$wpdb->posts} WHERE ID=%d", $request_get_post));
             $translation_id = $wpdb->get_var($wpdb->prepare("
                     SELECT translation_id FROM {$wpdb->prefix}icl_translations WHERE element_id=%d AND element_type=%s AND language_code=%s"
-                , $_GET['post'], 'post_' . $post_type, $_GET['lang']));            
+                , $request_get_post, 'post_' . $post_type, $request_get_lang));            
         }
         
         if($translation_id){
@@ -172,7 +178,7 @@ class WPML_Translation_Management{
             }else{
 				$is_original = false;
 				if($post_type) {
-					$element_language_details = $sitepress->get_element_language_details($_GET['post'], 'post_' . $post_type);
+					$element_language_details = $sitepress->get_element_language_details($request_get_post, 'post_' . $post_type);
 					$is_original = !$element_language_details->source_language_code;
 				}
                 if(!$is_original && $iclTranslationManagement->settings['doc_translation_method'] == ICL_TM_TMETHOD_EDITOR){
@@ -283,21 +289,33 @@ class WPML_Translation_Management{
     function _icl_tm_parent_filter(){
         global $sitepress;
 		$current_language = $sitepress->get_current_language();
-		$sitepress->switch_lang($_POST['lang']);
-        if($_POST['type'] == 'page'){                        
-            $html = wp_dropdown_pages(array('echo'=>0, 'name'=>'filter[parent_id]', 'selected'=>$_POST['parent_id']));            
-        }elseif($_POST['type'] == 'category'){
-            $html = wp_dropdown_categories(array('echo'=>0, 'orderby'=>'name', 'name'=>'filter[parent_id]', 'selected'=>$_POST['parent_id']));
+		$request_post_type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_NULL_ON_FAILURE);
+		$request_post_lang = filter_input(INPUT_POST, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_NULL_ON_FAILURE);
+		$request_post_parent_id = filter_input(INPUT_POST, 'parent_id', FILTER_SANITIZE_NUMBER_INT, FILTER_NULL_ON_FAILURE);
+		$request_post_parent_all = filter_input(INPUT_POST, 'parent_all', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_NULL_ON_FAILURE);
+		$sitepress->switch_lang($request_post_lang);
+        if($request_post_type == 'page'){                        
+            $html = wp_dropdown_pages(array('echo'=>0, 'name'=>'filter[parent_id]', 'selected'=>$request_post_parent_id));            
+        }elseif($request_post_type == 'category'){
+            $html = wp_dropdown_categories(array('echo'=>0, 'orderby'=>'name', 'name'=>'filter[parent_id]', 'selected'=>$request_post_parent_id));
         }else{
             $html = '';
         }
         $sitepress->switch_lang($current_language);
         
         $html .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-        if(is_null($_POST['parent_all']) || $_POST['parent_all']) $checked = ' checked="checked"'; else $checked="";
+				if(is_null($request_post_parent_all) || $request_post_parent_all) { 
+					$checked = ' checked="checked"'; 
+				} else {
+					$checked="";
+				}
         $html .= "<label><input type=\"radio\" name=\"filter[parent_all]\" value=\"1\" {$checked} />&nbsp;" . __('Show all items under this parent.', 'wpml-translation-management') . '</label>';
         $html .= "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-        if(empty($_POST['parent_all'])) $checked = ' checked="checked"'; else $checked="";
+        if(empty($request_post_parent_all)) {
+					$checked = ' checked="checked"'; 
+				} else {
+					$checked="";
+				}
         $html .= "<label><input type=\"radio\" name=\"filter[parent_all]\" value=\"0\" {$checked} />&nbsp;" . __('Show only items that are immediately under this parent.', 'wpml-translation-management') . '</label>';
         
         echo json_encode(array('html'=>$html));

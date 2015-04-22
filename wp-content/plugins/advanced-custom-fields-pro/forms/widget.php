@@ -280,24 +280,22 @@ class acf_form_widget {
 	
 	$(document).on('widget-added', function( e, $widget ){
 		
-		// this is a newly added widget
 		acf.do_action('append', $widget );
 		
 	});
 	
 	$(document).on('widget-saved', function( e, $widget ){
 		
-		// this is a newly added widget
 		acf.do_action('submit', $widget );
 		
 	});
 	
-	$(document).on('widget-updated', function( e, $widget ){
-		
-		// this is a newly added widget
-		acf.do_action('submit', $widget );
-		
-	});
+	<?php if( acf_is_screen('customize') ): ?>
+	
+	// customizer saves widget on any input change, so unload is not needed
+	acf.unload.active = 0;
+
+	<?php endif; ?>
 		
 })(jQuery);	
 </script>

@@ -6,12 +6,12 @@ if(!class_exists('ICL_Language_Switcher')) {
 
 class SitePressLanguageSwitcher {
 
-    var $widget_preview = false;
-    var $widget_css_defaults;
+    public $settings       = array();
+    public $widget_preview = false;
+    public $widget_css_defaults;
+    public $footer_css_defaults;
 
-    var $footer_css_defaults;
-
-    var $color_schemes = array(
+    public $color_schemes = array(
             'Gray' => array(
                 'font-current-normal' => '#222222',
                 'font-current-hover' => '#000000',

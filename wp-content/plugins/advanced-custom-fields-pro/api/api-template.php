@@ -592,6 +592,7 @@ function have_rows( $selector, $post_id = false ) {
 		// add row
 		$GLOBALS['acf_field'][] = array(
 			'selector'	=> $selector,
+			'name'		=> $field['name'], // used by update_sub_field
 			'value'		=> $value,
 			'field'		=> $field,
 			'i'			=> -1,
@@ -605,6 +606,7 @@ function have_rows( $selector, $post_id = false ) {
 		
 		$GLOBALS['acf_field'][] = array(
 			'selector'	=> $selector,
+			'name'		=> $row['name'] . '_' . $row['i'], // used by update_sub_field
 			'value'		=> $value,
 			'field'		=> $sub_field,
 			'i'			=> -1,
@@ -1457,11 +1459,42 @@ function acf_form( $args = array() ) {
 	<div class="acf-form-submit">
 	
 		<input type="submit" class="button button-primary button-large" value="<?php echo $args['submit_value']; ?>" />
+		<span class="acf-loading" style="display: none;"></span>
 		
 	</div>
 	<!-- / Submit -->
 	
 	</form>
+	<script type="text/javascript">
+	(function($) {
+		
+		// vars
+		var $spinner = $('#<?php echo $args['form_attributes']['id']; ?> .acf-form-submit .acf-loading');
+		
+		
+		// show spinner on submit
+		$(document).on('submit', '#<?php echo $args['form_attributes']['id']; ?>', function(){
+			
+			// show spinner
+			$spinner.css('display', 'inline-block');
+			
+		});
+		
+		
+		// hide spinner after validation
+		acf.add_filter('validation_complete', function( json, $form ){
+			
+			// hide spinner
+			$spinner.css('display', 'none');
+			
+			
+			// return
+			return json;
+					
+		});
+		
+	})(jQuery);	
+	</script>
 	<?php endif;
 }
 
@@ -1531,28 +1564,17 @@ function update_sub_field( $selector, $value, $post_id = false ) {
 	
 	// vars
 	$field = false;
-	$name = '';
 	
 	
 	// within a have_rows loop
 	if( is_string($selector) ) {
 		
+		// get current row
+		$row = acf_get_row();
 		
-		// loop over global data
-		if( !empty($GLOBALS['acf_field']) ) {
-			
-			foreach( $GLOBALS['acf_field'] as $row ) {
-				
-				// add to name
-				$name .= "{$row['name']}_{$row['i']}_";
-				
-				
-				// override $post_id
-				$post_id = $row['post_id'];
-				
-			}
-			
-		}
+		
+		// override $post_id
+		$post_id = $row['post_id'];
 		
 		
 		// get sub field
@@ -1571,12 +1593,8 @@ function update_sub_field( $selector, $value, $post_id = false ) {
 		}
 		
 		
-		// append name
-		$name .= $field['name'];
-		
-		
 		// update name
-		$field['name'] = $name;
+		$field['name'] = "{$row['name']}_{$row['i']}_{$field['name']}";
 		
 		
 	} elseif( is_array($selector) ) {
@@ -1598,7 +1616,7 @@ function update_sub_field( $selector, $value, $post_id = false ) {
 		
 		
 		// add to name
-		$name .= "{$field['name']}";
+		$name = "{$field['name']}";
 		
 		
 		// sub fields
@@ -1644,6 +1662,7 @@ function update_sub_field( $selector, $value, $post_id = false ) {
 				
 				
 	}
+	
 	
 	// save
 	return acf_update_value( $value, $post_id, $field );

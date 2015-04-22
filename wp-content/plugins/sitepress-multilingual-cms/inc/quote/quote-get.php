@@ -14,19 +14,21 @@
         jQuery('#icl-quote-get-form').ajaxForm({target:'#icl-quote-get-wrap'});
     });
     function iclQuoteGetSetSelectLangs() {
-        if (jQuery('#icl-quote-get-from').val() == 0) {
-            jQuery('.icl-quote-get-toggle-to').fadeOut();
+        var quoteGetFrom = jQuery('#icl-quote-get-from').val();
+        var quoteGetToggle = jQuery('.icl-quote-get-toggle-to');
+        if (quoteGetFrom == 0) {
+            quoteGetToggle.fadeOut();
             jQuery('.icl-quote-get-to').removeAttr('checked');
             iclQuoteGetCheckFromTo();
             return false;
         }
-        jQuery('.icl-quote-get-toggle-to').fadeIn();
-        jQuery('#icl-quote-get-to-'+jQuery('#icl-quote-get-from').val()).removeAttr('checked').parent().hide(0,
-        function(){
-            iclQuoteGetCheckFromTo();
-        }
-    );
-        jQuery('.icl-quote-get-to').not('#icl-quote-get-to-'+jQuery('#icl-quote-get-from').val()).parent().show();
+        quoteGetToggle.fadeIn();
+        jQuery('#icl-quote-get-to-'+quoteGetFrom).removeAttr('checked').parent().hide(0,
+            function(){
+                iclQuoteGetCheckFromTo();
+            }
+        );
+        quoteGetToggle.not('#icl-quote-get-to-'+quoteGetFrom).parent().show();
     }
     function iclQuoteGetCheckFromTo() {
         var enable = false;
@@ -69,7 +71,7 @@
  * @param array $saved
  */
 function icl_quote_get_step_one($saved) {
-    global $sitepress, $sitepress_settings;
+    global $sitepress;
     $active_languages = $sitepress->get_active_languages();
 
 ?>
@@ -174,50 +176,66 @@ function icl_quote_get_step_one($saved) {
                 $rows[$name]['num'] = count($posts);
             }
 
-?>
-        <h1><?php _e('Content Types', 'sitepress'); ?></h1>
-	<p>
-<?php printf(__('Your site includes different kinds of content items. Choose which types to include in the quote. <br /><br />To get the word count of specific documents, use the %sTranslation Dashboard%s.',
-                            'sitepress'), '<a href="admin.php?page=' . WPML_TM_FOLDER . '/menu/main.php">', '</a>'); ?>
-        </p>
-        <input type="hidden" name="step" value="2" />
-        <table border="0" cellpadding="5" cellspacing="15" class="widefat" style="margin-top: 15px;">
-            <thead>
+            ?>
+            <h1><?php _e( 'Content Types', 'sitepress' ); ?></h1>
+            <p>
+                <?php printf(
+                    __(
+                        'Your site includes different kinds of content items. Choose which types to include in the quote. <br /><br />To get the word count of specific documents, use the %sTranslation Dashboard%s.',
+                        'sitepress'
+                    ),
+                    '<a href="admin.php?page=' . WPML_TM_FOLDER . '/menu/main.php">',
+                    '</a>'
+                ); ?>
+            </p>
+            <input type="hidden" name="step" value="2"/>
+            <table border="0" cellpadding="5" cellspacing="15" class="widefat" style="margin-top: 15px;">
+                <thead>
                 <tr>
                     <th></th>
-                    <th><?php _e('Type', 'sitepress'); ?></th>
-                    <th><?php _e('Number of items', 'sitepress'); ?></th>
-                    <th><?php _e('Number of words', 'sitepress'); ?></th>
+                    <th><?php _e( 'Type', 'sitepress' ); ?></th>
+                    <th><?php _e( 'Number of items', 'sitepress' ); ?></th>
+                    <th><?php _e( 'Number of words', 'sitepress' ); ?></th>
                 </tr>
-            </thead>
-            <tbody>
-        <?php
-            foreach ($rows as $type => $data) {
-                $selected = @is_array($saved['content']) && @array_key_exists($data['ID'], $saved['content']) ? ' checked="checked"' : '';
+                </thead>
+                <tbody>
+                <?php
+                foreach ( $rows as $type => $data ) {
+                    $selected = @is_array( $saved[ 'content' ] ) && @array_key_exists(
+                        $data[ 'ID' ],
+                        $saved[ 'content' ]
+                    ) ? ' checked="checked"' : '';
 
-        ?>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="content[<?php echo $data['ID']; ?>]" value="1" class="icl-quote-get-content-checbox" onclick="iclQuoteGetCheckContentCb();"<?php echo $selected; ?> />
-                        <input type="hidden" name="description[<?php echo $data['ID']; ?>][title]" value="<?php echo $data['title']; ?>" />
-                        <input type="hidden" name="description[<?php echo $data['ID']; ?>][num]" value="<?php echo $data['num']; ?>" />
-                        <input type="hidden" name="description[<?php echo $data['ID']; ?>][words]" value="<?php echo $data['words']; ?>" />
-                    </td>
-                    <td><?php echo $data['title']; ?></td>
-                    <td><?php echo $data['num']; ?></td>
-                    <td><?php echo $data['words']; ?></td>
-                </tr>
-        <?php
-            }
+                    ?>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="content[<?php echo $data[ 'ID' ]; ?>]" value="1"
+                                   class="icl-quote-get-content-checbox"
+                                   onclick="iclQuoteGetCheckContentCb();"<?php echo $selected; ?> />
+                            <input type="hidden" name="description[<?php echo $data[ 'ID' ]; ?>][title]"
+                                   value="<?php echo $data[ 'title' ]; ?>"/>
+                            <input type="hidden" name="description[<?php echo $data[ 'ID' ]; ?>][num]"
+                                   value="<?php echo $data[ 'num' ]; ?>"/>
+                            <input type="hidden" name="description[<?php echo $data[ 'ID' ]; ?>][words]"
+                                   value="<?php echo $data[ 'words' ]; ?>"/>
+                        </td>
+                        <td><?php echo $data[ 'title' ]; ?></td>
+                        <td><?php echo $data[ 'num' ]; ?></td>
+                        <td><?php echo $data[ 'words' ]; ?></td>
+                    </tr>
+                <?php
+                }
 
-        ?>
-        </tbody>
-    </table>
-    <p>
-        <input type="submit" id="icl-quote-back-1" value="<?php _e('Back', 'sitepress'); ?>" name="back" class="button-secondary icl-quote-get-back" />
-        <input type="submit" id="icl-quote-next-2" value="<?php _e('Continue', 'sitepress'); ?>" name="next" disabled="disabled" class="button-secondary icl-quote-get-next" />
+                ?>
+                </tbody>
+            </table>
+            <p>
+                <input type="submit" id="icl-quote-back-1" value="<?php _e( 'Back', 'sitepress' ); ?>" name="back"
+                       class="button-secondary icl-quote-get-back"/>
+                <input type="submit" id="icl-quote-next-2" value="<?php _e( 'Continue', 'sitepress' ); ?>" name="next"
+                       disabled="disabled" class="button-secondary icl-quote-get-next"/>
             </p>
-<?php
+        <?php
         }
 
 /**

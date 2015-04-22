@@ -69,6 +69,7 @@ jQuery(document).ready(function () {
 				method: "POST",
 				data: {
 					action: 'wpml_update_term_names_troubleshoot',
+					_icl_nonce: troubleshooting_strings.termNamesNonce,
 					terms: selectedIDsJSON
 				},
 				success: function (response) {

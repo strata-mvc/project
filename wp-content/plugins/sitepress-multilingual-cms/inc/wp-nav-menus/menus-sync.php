@@ -17,17 +17,23 @@ class ICLMenusSync
 		}
 	}
 
-	function init()
-	{
-		$this->get_menus_tree();
+    function init() {
+        $action = filter_input( INPUT_POST, 'action' );
+        $nonce = filter_input( INPUT_POST, '_icl_nonce_menu_sync' );
 
-		if ( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] == 'icl_msync_preview' ) {
-			$this->is_preview = true;
-			$this->sync_data  = isset( $_POST[ 'sync' ] ) ? $_POST[ 'sync' ] : false;
-		} elseif ( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] == 'icl_msync_confirm' ) {
-			$this->do_sync( $_POST[ 'sync' ] );
-		}
-	}
+	    if ( $action && !wp_verify_nonce( $nonce, '_icl_nonce_menu_sync' ) ) {
+		    die( 'Invalid nonce' );
+	    }
+
+        $this->get_menus_tree();
+
+        if ( $action == 'icl_msync_preview' ) {
+            $this->is_preview = true;
+            $this->sync_data = isset( $_POST[ 'sync' ] ) ? $_POST[ 'sync' ] : false;
+        } elseif ( $action == 'icl_msync_confirm' ) {
+            $this->do_sync( $_POST[ 'sync' ] );
+        }
+    }
 
 	function get_menus_tree()
 	{

@@ -82,8 +82,9 @@ class po_parser {
 
 		$po_title = 'WPML_EXPORT';
 
-		if ( isset( $_GET[ 'context' ] ) ) {
-			$po_title .= '_' . $_GET[ 'context' ];
+		$context = filter_input(INPUT_GET, 'context' );
+		if ( $context !== null ) {
+			$po_title .= '_' . $context;
 		}
 
 		$po .= '"Project-Id-Version:' . $po_title . '\n"' . PHP_EOL;
@@ -92,10 +93,9 @@ class po_parser {
 		$po .= '"Last-Translator: \n"' . PHP_EOL;
 		$po .= '"Language-Team: \n"' . PHP_EOL;
 
-		$translation_language = 'en';
-		if ( isset( $_GET[ 'translation_language' ] ) ) {
-			$translation_language = $_GET[ 'translation_language' ];
-		}
+		$translation_language  = filter_input(INPUT_GET, 'translation_language', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		$translation_language = $translation_language ? $translation_language : 'en';
+
 		$po .= '"Language:' . $translation_language . '\n"' . PHP_EOL;
 
 		$po .= '"MIME-Version: 1.0\n"' . PHP_EOL;
@@ -104,10 +104,10 @@ class po_parser {
 			$ids[ ] = $s[ 'string_id' ];
 		}
 		if ( ! empty( $ids ) ) {
-			$res = $wpdb->get_results( "
+			$res = $wpdb->get_results( $wpdb->prepare("
 	            SELECT string_id, position_in_page 
 	            FROM {$wpdb->prefix}icl_string_positions 
-	            WHERE kind = " . ICL_STRING_TRANSLATION_STRING_TRACKING_TYPE_SOURCE . " AND string_id IN(" . join( ',', $ids ) . ")" );
+	            WHERE kind = %d AND string_id IN(" . wpml_prepare_in( $ids, '%d' ) . ")", ICL_STRING_TRANSLATION_STRING_TRACKING_TYPE_SOURCE ) );
 			foreach ( $res as $row ) {
 				$positions[ $row->string_id ] = $row->position_in_page;
 			}

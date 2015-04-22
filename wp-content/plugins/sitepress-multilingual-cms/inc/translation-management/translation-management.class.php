@@ -120,8 +120,8 @@ class TranslationManagement{
 		if(!$user || empty($user->data)) return;
 
 		$ct['translator_id'] =  $current_user->ID;
-		$ct['display_name'] =  isset($user->data->display_name) ? $user->data->display_name : $user->data->user_login;
-		$ct['user_login'] =  $user->data->user_login;
+        $ct['user_login']    =  isset($user->data->user_login) ? $user->data->user_login : false;
+		$ct['display_name']  =  isset( $user->data->display_name ) ? $user->data->display_name : $ct['user_login'];
 		$ct['language_pairs'] = get_user_meta($current_user->ID, $wpdb->prefix.'language_pairs', true);
 		if(empty($ct['language_pairs'])) $ct['language_pairs'] = array();
 
@@ -258,24 +258,11 @@ class TranslationManagement{
 		return $settings;
 	}
 
-	/*
-	function editor_directionality($tag) {
-		$job = $this->get_translation_job((int)$_GET['job_id'], false, true);
-		$rtl_translation = in_array($job->language_code, array('ar','he','fa'));
-		if ($rtl_translation) {
-			$dir = 'dir="rtl"';
-		} else {
-			$dir = 'dir="ltr"';
-		}
-		return str_replace('<textarea', '<textarea ' . $dir, $tag);
-	}
-	*/
-
 	function process_request($action, $data){
 		$data = stripslashes_deep($data);
 		switch($action){
 			case 'add_translator':
-				if(wp_create_nonce('add_translator') == $data['add_translator_nonce']){
+				if(wp_verify_nonce($data['add_translator_nonce'], 'add_translator') ){
 					// Initial adding
 					if (isset($data['from_lang']) && isset($data['to_lang'])) {
 					  $data['lang_pairs'] = array();
@@ -287,14 +274,14 @@ class TranslationManagement{
 				}
 				break;
 			case 'edit_translator':
-				if(wp_create_nonce('edit_translator') == $data['edit_translator_nonce']){
+				if(wp_verify_nonce($data['edit_translator_nonce'], 'edit_translator')){
 					$this->edit_translator($data['user_id'], isset($data['lang_pairs']) ? $data['lang_pairs'] : array());
 					$_user = new WP_User($data['user_id']);
 					wp_redirect('admin.php?page='.WPML_TM_FOLDER.'/menu/main.php&sm=translators&icl_tm_message='.urlencode(sprintf(__('Language pairs for %s have been edited.','sitepress'),$_user->data->display_name)).'&icl_tm_message_type=updated');
 				}
 				break;
 			case 'remove_translator':
-				if(wp_create_nonce('remove_translator') == $data['remove_translator_nonce']){
+				if ( wp_verify_nonce( $data[ 'remove_translator_nonce' ], 'remove_translator' ) ) {
 					$this->remove_translator($data['user_id']);
 					$_user = new WP_User($data['user_id']);
 					wp_redirect('admin.php?page='.WPML_TM_FOLDER.'/menu/main.php&sm=translators&icl_tm_message='.urlencode(sprintf(__('%s has been removed as a translator for this site.','sitepress'),$_user->data->display_name)).'&icl_tm_message_type=updated');
@@ -355,7 +342,7 @@ class TranslationManagement{
 				wp_redirect('admin.php?page='.WPML_TM_FOLDER . '/menu/translations-queue.php&job_id=' . array_pop($job_ids));
 				break;
 		   case 'cancel_jobs':
-				$ret = $this->cancel_translation_request($data['icl_translation_id']);
+				$this->cancel_translation_request($data['icl_translation_id']);
 				$this->messages[] = array(
 					'type'=>'updated',
 					'text' => __('Translation requests cancelled.', 'sitepress')
@@ -367,17 +354,7 @@ class TranslationManagement{
 	function ajax_calls( $call, $data ) {
 		global $wpdb, $sitepress, $sitepress_settings;
 		switch ( $call ) {
-			/*
-			case 'save_dashboard_setting':
-					$iclsettings['dashboard'] = $sitepress_settings['dashboard'];
-					if(isset($data['setting']) && isset($data['value'])){
-							$iclsettings['dashboard'][$data['setting']] = $data['value'];
-							$sitepress->save_settings($iclsettings);
-					}
-					break;
-			*/
 			case 'assign_translator':
-
 				$_exp          = explode( '-', $data[ 'translator_id' ] );
 				$service       = isset( $_exp[ 1 ] ) ? $_exp[ 1 ] : 'local';
 				$translator_id = $_exp[ 0 ];
@@ -638,10 +615,6 @@ class TranslationManagement{
 		extract($args_default);
 		extract($args, EXTR_OVERWRITE);
 
-//        $sql = "SELECT u.ID, u.user_login, u.display_name, u.user_email, m.meta_value AS caps
-//                    FROM {$wpdb->users} u JOIN {$wpdb->usermeta} m ON u.id=m.user_id AND m.meta_key LIKE '{$wpdb->prefix}capabilities' ORDER BY u.display_name";
-//        $res = $wpdb->get_results($sql);
-
 		$cached_translators = get_option($wpdb->prefix . 'icl_translators_cached', array());
 
 		if (empty($cached_translators)) {
@@ -655,18 +628,13 @@ class TranslationManagement{
 		$users = array();
 		foreach($res as $row){
 			$user = new WP_User($row->ID);
-//            $caps = @unserialize($row->caps);
-//            $row->language_pairs = (array)get_user_meta($row->ID, $wpdb->prefix.'language_pairs', true);
+
 			$user->language_pairs = (array)get_user_meta($row->ID, $wpdb->prefix.'language_pairs', true);
-//            if(!empty($from) && !empty($to) && (!isset($row->language_pairs[$from][$to]) || !$row->language_pairs[$from][$to])){
-//                continue;
-//            }
+
 			if(!empty($from) && !empty($to) && (!isset($user->language_pairs[$from][$to]) || !$user->language_pairs[$from][$to])){
 				continue;
 			}
-//            if(isset($caps['translate'])){
-//                $users[] = $user;
-//            }
+
 			if($user->has_cap('translate')){
 				$users[] = $user;
 			}
@@ -771,7 +739,7 @@ class TranslationManagement{
 				<option value="<?php echo $t->ID ?>" <?php if ($selected == $t->ID): ?>selected="selected"<?php endif; ?>><?php echo esc_html( $t->display_name );
 					?> <?php if ( $show_service ) {
 						echo '(';
-						echo isset( $t->service ) ? $t->service : _e( 'Local', 'sitepress' );
+						echo ( isset( $t->service ) ? $t->service : __( 'Local', 'sitepress' ) );
 						echo ')';
 					} ?></option>
 			<?php endforeach; ?>
@@ -788,11 +756,18 @@ class TranslationManagement{
 	}
 
 	public function get_number_of_docs_pending($service = 'icanlocalize'){
-		global $wpdb;
-		$n = $wpdb->get_var($wpdb->prepare("
-			SELECT COUNT(rid) FROM {$wpdb->prefix}icl_translation_status WHERE translation_service=%s AND status < " . ICL_TM_COMPLETE . "
-		", $service));
-		return $n;
+        global $wpdb;
+
+        $n = $wpdb->get_var(
+            $wpdb->prepare(
+                "
+			SELECT COUNT(rid) FROM {$wpdb->prefix}icl_translation_status WHERE translation_service=%s AND status < %d
+		",
+                ICL_TM_COMPLETE,
+                $service
+            )
+        );
+        return $n;
 	}
 
 
@@ -1340,6 +1315,8 @@ class TranslationManagement{
 		$post         = get_post( $post_id );
 		$trid         = $sitepress->get_element_trid( $post_id, 'post_' . $post->post_type );
 		$translations = $sitepress->get_element_translations( $trid, 'post_' . $post->post_type );
+        $master_post_id = false;
+        $this_language  = "";
 
 		foreach ( $translations as $lang => $tr ) {
 			if ( $tr->original ) {
@@ -1349,8 +1326,10 @@ class TranslationManagement{
 			}
 		}
 
-		$this->make_duplicate( $master_post_id, $this_language );
+        if ( $master_post_id !== false && $this_language !== "" ) {
 
+            $this->make_duplicate( $master_post_id, $this_language );
+        }
 	}
 
 	function get_duplicates( $master_post_id )
@@ -1618,8 +1597,8 @@ class TranslationManagement{
 
 	function delete_post_actions($post_id){
 		global $wpdb;
-		$post_type = $wpdb->get_var("SELECT post_type FROM {$wpdb->posts} WHERE ID={$post_id}");
-		if(!empty($post_type)){
+        $post_type = $wpdb->get_var( $wpdb->prepare( "SELECT post_type FROM {$wpdb->posts} WHERE ID=%d", $post_id ) );
+        if(!empty($post_type)){
 			$translation_id = $wpdb->get_var($wpdb->prepare("SELECT translation_id FROM {$wpdb->prefix}icl_translations WHERE element_id=%d AND element_type=%s", $post_id, 'post_' . $post_type));
 			if($translation_id){
 				$rid = $wpdb->get_var($wpdb->prepare("SELECT rid FROM {$wpdb->prefix}icl_translation_status WHERE translation_id=%d", $translation_id));
@@ -1628,8 +1607,13 @@ class TranslationManagement{
 					$jobs = $wpdb->get_col($wpdb->prepare("SELECT job_id FROM {$wpdb->prefix}icl_translate_job WHERE rid=%d", $rid));
 					$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}icl_translate_job WHERE rid=%d", $rid));
 					if(!empty($jobs)){
-						$wpdb->query("DELETE FROM {$wpdb->prefix}icl_translate WHERE job_id IN (".join(',', $jobs).")");
-					}
+                        $wpdb->query(
+                            "DELETE FROM {$wpdb->prefix}icl_translate WHERE job_id IN (" . wpml_prepare_in(
+                                $jobs,
+                                '%d'
+                            ) . ")"
+                        );
+                    }
 				}
 			}
 		}
@@ -1649,20 +1633,27 @@ class TranslationManagement{
 		// has trid only when it's a translation of another tag
 		$trid = isset($_POST['icl_trid']) && (isset($_POST['icl_'.$icl_el_type.'_language'])) ? $_POST['icl_trid']:null;
 		// see if we have a "translation of" setting.
-		$src_language = false;
 		if (isset($_POST['icl_translation_of']) && $_POST['icl_translation_of']) {
-			$src_term_id = $_POST['icl_translation_of'];
-			if ($src_term_id != 'none') {
-				$res = $wpdb->get_row("SELECT trid, language_code
-					FROM {$wpdb->prefix}icl_translations WHERE element_id={$src_term_id} AND element_type='{$icl_el_type}'");
-				$trid = $res->trid;
-				$src_language = $res->language_code;
-			} else {
-				$trid = null;
-			}
+            $src_term_id = $_POST[ 'icl_translation_of' ];
+            if ( $src_term_id != 'none' ) {
+                $res  = $wpdb->get_row(
+                    $wpdb->prepare(
+                        "
+                          SELECT trid, language_code
+					      FROM {$wpdb->prefix}icl_translations
+					      WHERE element_id=%d
+					        AND element_type=%s",
+                        $src_term_id,
+                        $icl_el_type
+                    )
+                );
+                $trid = $res->trid;
+            } else {
+                $trid = null;
+            }
 		}
-
-		if(isset($_POST['action']) && $_POST['action'] == 'inline-save-tax'){
+        $action = filter_input( INPUT_POST, 'action' );
+        if ( $action === 'inline-save-tax' ) {
 			$trid = $sitepress->get_element_trid($tt_id, $icl_el_type);
 		}
 
@@ -1716,12 +1707,18 @@ class TranslationManagement{
 
 			// if we have job_ids to be updated proceed
 			if(!empty($job_ids)){
-				$in = implode (',', $job_ids);
 				$field_type = ($el_type == 'category' ? 'categories' : $el_type);
 				//grab the term names
-				$results = $wpdb->get_results( $wpdb->prepare(
-					"SELECT tid, field_data, field_format FROM {$wpdb->prefix}icl_translate WHERE job_id IN ({$in}) AND field_type = %s", $field_type
-				));
+                $results = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT tid, field_data, field_format
+                         FROM {$wpdb->prefix}icl_translate
+                         WHERE job_id IN (" . wpml_prepare_in(
+                            $job_ids, '%d'
+                        ) . ") AND field_type = %s",
+                        $field_type
+                    )
+                );
 
 				$count = 0;
 				foreach($results as $result){
@@ -1751,13 +1748,19 @@ class TranslationManagement{
 			}
 
 			// if we have job_ids2 to be updated proceed
-			if(!empty($job_ids2)){
-				$in = implode (',', $job_ids2);
-				$field_type = ($el_type == 'category' ? 'categories' : $el_type);
-				//grab the term names
-				$results = $wpdb->get_results( $wpdb->prepare(
-					"SELECT tid, field_data_translated, field_format FROM {$wpdb->prefix}icl_translate WHERE job_id IN ({$in}) AND field_type  = %s", $field_type
-				));
+            if ( !empty( $job_ids2 ) ) {
+                $field_type = ( $el_type == 'category' ? 'categories' : $el_type );
+                //grab the term names
+                $results = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT tid, field_data_translated, field_format
+                         FROM {$wpdb->prefix}icl_translate
+                         WHERE job_id  IN (" . wpml_prepare_in(
+                            $job_ids2, '%d'
+                        ) . ") AND field_type  = %s",
+                        $field_type
+                    )
+                );
 
 				$count = 0;
 				foreach($results as $result){
@@ -1822,13 +1825,19 @@ class TranslationManagement{
 				sort($post_categories, SORT_STRING);
 			}
 
-			global $wpdb, $sitepress_settings;
-			// get custom taxonomies
-			$taxonomies = $wpdb->get_col("
+            global $wpdb, $sitepress_settings;
+            // get custom taxonomies
+            $taxonomies = $wpdb->get_col(
+                $wpdb->prepare(
+                    "
 				SELECT DISTINCT tx.taxonomy
-				FROM {$wpdb->term_taxonomy} tx JOIN {$wpdb->term_relationships} tr ON tx.term_taxonomy_id = tr.term_taxonomy_id
-				WHERE tr.object_id = {$post->ID}
-			");
+				FROM {$wpdb->term_taxonomy} tx
+				JOIN {$wpdb->term_relationships} tr
+				  ON tx.term_taxonomy_id = tr.term_taxonomy_id
+				WHERE tr.object_id =%d ",
+                    $post->ID
+                )
+            );
 
 			sort($taxonomies, SORT_STRING);
 			foreach($taxonomies as $t){
@@ -1901,7 +1910,7 @@ class TranslationManagement{
 		$limit_no = 0;
 
 		extract($args);
-
+        /** @var wpdb $wpdb */
 		global $wpdb, $wp_query, $sitepress;
 
 		$t_el_types = array_keys($sitepress->get_translatable_documents());
@@ -1914,7 +1923,7 @@ class TranslationManagement{
 		}else{
 			foreach( $active_languages as $lang){
 				if($lang['code'] == $from_lang) continue;
-				$tbl_alias_suffix = str_replace('-','_',$lang['code']);
+				$tbl_alias_suffix = esc_sql(str_replace('-','_',$lang['code']));
 				$select .= ", iclts_{$tbl_alias_suffix}.status AS status_{$tbl_alias_suffix}, iclts_{$tbl_alias_suffix}.needs_update AS needs_update_{$tbl_alias_suffix}";
 			}
 		}
@@ -1926,16 +1935,16 @@ class TranslationManagement{
 		$join = "";
 		$join   .= " LEFT JOIN {$wpdb->prefix}icl_translations t ON t.element_id=p.ID\n";
 		if($to_lang){
-			$tbl_alias_suffix = str_replace('-','_',$to_lang);
-			$join .= " LEFT JOIN {$wpdb->prefix}icl_translations iclt_{$tbl_alias_suffix}
-						ON iclt_{$tbl_alias_suffix}.trid=t.trid AND iclt_{$tbl_alias_suffix}.language_code='{$to_lang}'\n";
-			$join   .= " LEFT JOIN {$wpdb->prefix}icl_translation_status iclts ON iclts.translation_id=iclt_{$tbl_alias_suffix}.translation_id\n";
+			$tbl_alias_suffix = esc_sql(str_replace('-','_', $to_lang));
+			$join .= $wpdb->prepare(" LEFT JOIN {$wpdb->prefix}icl_translations iclt_{$tbl_alias_suffix}
+						ON iclt_{$tbl_alias_suffix}.trid=t.trid AND iclt_{$tbl_alias_suffix}.language_code=%s ", $to_lang);
+			$join   .= " LEFT JOIN {$wpdb->prefix}icl_translation_status iclts ON iclts.translation_id=iclt_{$tbl_alias_suffix}.translation_id ";
 		}else{
 			foreach( $active_languages as $lang){
 				if($lang['code'] == $from_lang) continue;
-				$tbl_alias_suffix = str_replace('-','_',$lang['code']);
-				$join .= " LEFT JOIN {$wpdb->prefix}icl_translations iclt_{$tbl_alias_suffix}
-						ON iclt_{$tbl_alias_suffix}.trid=t.trid AND iclt_{$tbl_alias_suffix}.language_code='{$lang['code']}'\n";
+				$tbl_alias_suffix = esc_sql(str_replace('-','_',$lang['code']));
+				$join .= $wpdb->prepare(" LEFT JOIN {$wpdb->prefix}icl_translations iclt_{$tbl_alias_suffix}
+						ON iclt_{$tbl_alias_suffix}.trid=t.trid AND iclt_{$tbl_alias_suffix}.language_code=%s ", $lang['code']);
 				$join   .= " LEFT JOIN {$wpdb->prefix}icl_translation_status iclts_{$tbl_alias_suffix}
 						ON iclts_{$tbl_alias_suffix}.translation_id=iclt_{$tbl_alias_suffix}.translation_id\n";
 			}
@@ -1943,79 +1952,104 @@ class TranslationManagement{
 
 
 		// WHERE
-		$where = " t.language_code = '{$from_lang}' AND p.post_status NOT IN ('trash', 'auto-draft') \n";
+		$where = $wpdb->prepare(" t.language_code = %s AND p.post_status NOT IN ('trash', 'auto-draft') ", $from_lang);
 		if(!empty($type)){
-			$where .= " AND p.post_type = '{$type}'";
-			$where .= " AND t.element_type = 'post_{$type}'\n";
+			$where .= $wpdb->prepare(" AND p.post_type = %s ", $type);
+			$where .= $wpdb->prepare(" AND t.element_type = %s ", 'post_' . $type);
 		}else{
-			$where .= " AND p.post_type IN ('".join("','",$t_el_types)."')\n";
+            $in_el_types_snippet = wpml_prepare_in($t_el_types);
+			$where .= " AND p.post_type IN ( {$in_el_types_snippet} ) ";
 			foreach($t_el_types as $k=>$v){
 				$t_el_types[$k] = 'post_' . $v;
 			}
-			$where .= " AND t.element_type IN ('".join("','",$t_el_types)."')\n";
+            $in_el_types_icl_snippet = wpml_prepare_in($t_el_types);
+			$where .= " AND t.element_type IN ( {$in_el_types_icl_snippet} ) ";
 		}
 		if(!empty($title)){
-			$where .= " AND p.post_title LIKE '%".esc_sql($title)."%'\n";
+			$where .= $wpdb->prepare(" AND p.post_title LIKE %s ", '%' . $title . '%' );
 		}
 
 		if(!empty($status)){
-			$where .= " AND p.post_status = '{$status}'\n";
+			$where .= $wpdb->prepare(" AND p.post_status = %s ", $status);
 		}
 
 		if(isset($from_date)){
-			$where .= " AND p.post_date > '{$from_date}'\n";
+			$where .= $wpdb->prepare(" AND p.post_date > %s ", $from_date);
 		}
 
 		if(isset($to_date)){
-			$where .= " AND p.post_date > '{$to_date}'\n";
+            $where .= $wpdb->prepare(" AND p.post_date > %s ", $to_date);
 		}
 
 		if($tstatus){
 			if($to_lang){
-				if($tstatus == 'not'){
-					$where .= " AND (iclts.status IS NULL OR iclts.status = ".ICL_TM_WAITING_FOR_TRANSLATOR." OR iclts.needs_update = 1)\n";
-				}elseif($tstatus == 'need-update'){
-					$where .= " AND iclts.needs_update = 1\n";
-				}elseif($tstatus == 'in_progress'){
-					$where .= " AND iclts.status = ".ICL_TM_IN_PROGRESS." AND iclts.needs_update = 0\n";
-				}elseif($tstatus == 'complete'){
-					$where .= " AND (iclts.status = ".ICL_TM_COMPLETE." OR iclts.status = ".ICL_TM_DUPLICATE.") AND iclts.needs_update = 0\n";
-				}
+                if ( $tstatus == 'not' ) {
+                    $where .= $wpdb->prepare(
+                        " AND (iclts.status IS NULL OR iclts.status = %d OR iclts.needs_update = 1) ",
+                        ICL_TM_WAITING_FOR_TRANSLATOR
+                    );
+                } elseif ( $tstatus == 'need-update' ) {
+                    $where .= " AND iclts.needs_update = 1\n";
+                } elseif ( $tstatus == 'in_progress' ) {
+                    $where .= $wpdb->prepare(
+                        " AND iclts.status = %d AND iclts.needs_update = 0 ",
+                        ICL_TM_IN_PROGRESS
+                    );
+                } elseif ( $tstatus == 'complete' ) {
+                    $where .= $wpdb->prepare(
+                        " AND (iclts.status = %d OR iclts.status = %d) AND iclts.needs_update = 0 ",
+                        ICL_TM_COMPLETE,
+                        ICL_TM_DUPLICATE
+                    );
+                }
 
 			}elseif( $active_languages && count($active_languages)>1 ){
 				if($tstatus == 'not'){
 					$where .= " AND (";
 					$wheres = array();
-					foreach( $active_languages as $lang){
-						if($lang['code'] == $from_lang) continue;
-						$tbl_alias_suffix = str_replace('-','_',$lang['code']);
-						$wheres[] = "iclts_{$tbl_alias_suffix}.status IS NULL OR iclts_{$tbl_alias_suffix}.status = ".ICL_TM_WAITING_FOR_TRANSLATOR." OR iclts_{$tbl_alias_suffix}.needs_update = 1\n";
-					}
+                    foreach ( $active_languages as $lang ) {
+                        if ( $lang[ 'code' ] == $from_lang ) {
+                            continue;
+                        }
+                        $tbl_alias_suffix = esc_sql( str_replace( '-', '_', $lang[ 'code' ] ) );
+                        $wheres[ ] = $wpdb->prepare(
+                            "iclts_{$tbl_alias_suffix}.status IS NULL
+                            OR iclts_{$tbl_alias_suffix}.status = %d
+                            OR iclts_{$tbl_alias_suffix}.needs_update = 1 ",
+                            ICL_TM_WAITING_FOR_TRANSLATOR
+                        );
+                    }
 					$where .= join(' OR ', $wheres) . ")";
 				}elseif($tstatus == 'need-update'){
 					$where .= " AND (";
 					$wheres = array();
 					foreach( $active_languages as $lang){
 						if($lang['code'] == $from_lang) continue;
-						$tbl_alias_suffix = str_replace('-','_',$lang['code']);
+						$tbl_alias_suffix = esc_sql(str_replace('-','_',$lang['code']));
 						$wheres[] = "iclts_{$tbl_alias_suffix}.needs_update = 1\n";
 					}
 					$where .= join(' OR ', $wheres) . ")";
 				}elseif($tstatus == 'in_progress'){
-					$where .= " AND (";
-					$wheres = array();
-					foreach( $active_languages as $lang){
-						if($lang['code'] == $from_lang) continue;
-						$tbl_alias_suffix = str_replace('-','_',$lang['code']);
-						$wheres[] = "iclts_{$tbl_alias_suffix}.status = ".ICL_TM_IN_PROGRESS."\n";
-					}
+                    $where .= " AND (";
+                    $wheres = array();
+                    foreach ( $active_languages as $lang ) {
+                        if ( $lang[ 'code' ] == $from_lang ) {
+                            continue;
+                        }
+                        $tbl_alias_suffix = esc_sql( str_replace( '-', '_', $lang[ 'code' ] ) );
+                        $wheres[ ] = $wpdb->prepare( "iclts_{$tbl_alias_suffix}.status = %d ", ICL_TM_IN_PROGRESS );
+                    }
 					$where .= join(' OR ', $wheres)  . ")";
 				}elseif($tstatus == 'complete'){
 					foreach( $active_languages as $lang){
 						if($lang['code'] == $from_lang) continue;
-						$tbl_alias_suffix = str_replace('-','_',$lang['code']);
-						$where .= " AND (iclts_{$tbl_alias_suffix}.status = ".ICL_TM_COMPLETE." OR iclts_{$tbl_alias_suffix}.status = ".ICL_TM_DUPLICATE.") AND iclts_{$tbl_alias_suffix}.needs_update = 0\n";
-					}
+                        $tbl_alias_suffix = esc_sql( str_replace( '-', '_', $lang[ 'code' ] ) );
+                        $where .= $wpdb->prepare(
+                            " AND (iclts_{$tbl_alias_suffix}.status = %d OR iclts_{$tbl_alias_suffix}.status = %d) AND iclts_{$tbl_alias_suffix}.needs_update = 0 ",
+                            ICL_TM_COMPLETE,
+                            ICL_TM_DUPLICATE
+                        );
+                    }
 				}
 			}
 		}
@@ -2024,9 +2058,9 @@ class TranslationManagement{
 			if($parent_all){
 				$children = icl_get_post_children_recursive($parent_id);
 				if(!$children) $children[] = -1;
-				$where .= ' AND p.ID IN (' . join(',', $children) . ')';
-			}else{
-				$where .= ' AND p.post_parent=' . intval($parent_id);
+                $where .= ' AND p.ID IN (' . wpml_prepare_in( $children, '%d' ) . ')';
+            }else{
+				$where .= $wpdb->prepare(' AND p.post_parent=%d ', $parent_id);
 			}
 		}
 
@@ -2036,11 +2070,13 @@ class TranslationManagement{
 				$children[] = $parent_id;
 				$join .= "  JOIN {$wpdb->term_relationships} tr ON p.ID = tr.object_id
 							JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id AND taxonomy = 'category'
-							JOIN {$wpdb->terms} tm ON tt.term_id = tm.term_id AND tm.term_id IN(" . join(',', $children) . ")";
+							JOIN {$wpdb->terms} tm ON tt.term_id = tm.term_id AND tm.term_id IN(" . wpml_prepare_in( $children, '%d' ) . ")";
 			}else{
-				$join .= "  JOIN {$wpdb->term_relationships} tr ON p.ID = tr.object_id
-							JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id AND taxonomy = 'category'
-							JOIN {$wpdb->terms} tm ON tt.term_id = tm.term_id AND tm.term_id = " . intval($parent_id);
+				$join .= $wpdb->prepare(" JOIN {$wpdb->term_relationships} tr ON p.ID = tr.object_id
+                                          JOIN {$wpdb->term_taxonomy} tt
+                                            ON tr.term_taxonomy_id = tt.term_taxonomy_id AND taxonomy = 'category'
+                                          JOIN {$wpdb->terms} tm ON tt.term_id = tm.term_id AND tm.term_id = %d ",
+                                        intval($parent_id));
 			}
 		}
 
@@ -2051,18 +2087,17 @@ class TranslationManagement{
 			$order = " p.post_date DESC";
 		}
 		if($sort_order){
-			$order .= $sort_order;
-		}else{
+            $order .= esc_sql( $sort_order );
+        }else{
 			$order .= 'DESC';
 		}
 
-
-
-		// LIMIT
-		if(!isset($_GET['paged'])) $_GET['paged'] = 1;
-		$offset = ($_GET['paged']-1)*$limit_no;
-		$limit = " " . $offset . ',' . $limit_no;
-
+        // LIMIT
+        $paged    = filter_input( INPUT_GET, 'paged', FILTER_SANITIZE_NUMBER_INT );
+        $limit_no = filter_var( $limit_no, FILTER_SANITIZE_NUMBER_INT );
+        $paged    = $paged ? $paged : 1;
+        $offset   = ( $paged - 1 ) * $limit_no;
+        $limit    = " " . $offset . ',' . $limit_no;
 
 		$sql = "
 			SELECT SQL_CALC_FOUND_ROWS {$select}
@@ -2103,7 +2138,7 @@ class TranslationManagement{
 				SELECT *
 				FROM {$wpdb->prefix}icl_translations tr
 				JOIN {$wpdb->prefix}icl_translation_status ts ON tr.translation_id = ts.translation_id
-				WHERE tr.trid=%s AND tr.language_code='%s'
+				WHERE tr.trid=%d AND tr.language_code=%s
 			", $trid, $language));
 		}
 		return $translation;
@@ -2114,18 +2149,19 @@ class TranslationManagement{
 		$trid = $sitepress->get_element_trid($element_id, $element_type);
 		$translations = array();
 		if($trid){
-			$service =  $service ? " AND translation_service = '$service'" : '';
+			$service =  $service ? $wpdb->prepare(" AND translation_service = %s ", $service ) : '';
 			$translations = $wpdb->get_results($wpdb->prepare("
 				SELECT *
 				FROM {$wpdb->prefix}icl_translations tr
 				JOIN {$wpdb->prefix}icl_translation_status ts ON tr.translation_id = ts.translation_id
-				WHERE tr.trid=%s {$service}
+				WHERE tr.trid= %d {$service}
 			", $trid));
 			foreach($translations as $k=>$v){
 				$translations[$v->language_code] = $v;
 				unset($translations[$k]);
 			}
 		}
+
 		return $translations;
 	}
 
@@ -2399,12 +2435,10 @@ class TranslationManagement{
 	 */
 	function update_translation_status($data){
 		global $wpdb;
-		if(!isset($data['translation_id'])) return;
+		if(!isset($data['translation_id'])) return array();
 		$rid = $wpdb->get_var($wpdb->prepare("SELECT rid FROM {$wpdb->prefix}icl_translation_status WHERE translation_id=%d", $data['translation_id']));
 		if($rid){
-
 			$wpdb->update($wpdb->prefix.'icl_translation_status', $data, array('rid'=>$rid));
-
 			$update = true;
 		}else{
 			$wpdb->insert($wpdb->prefix.'icl_translation_status',$data);
@@ -2745,7 +2779,6 @@ class TranslationManagement{
 		}
 
 		return $job_id;
-
 	}
 
 	function assign_translation_job($job_id, $translator_id, $service='local'){
@@ -2807,30 +2840,30 @@ class TranslationManagement{
 		$service = isset($_exp[1]) ? $_exp[1] : 'local';
 		$translator_id = $_exp[0];
 
-		$where = " s.status > " . ICL_TM_NOT_TRANSLATED;
-		if($status != ''){
-			$where .= " AND s.status=" . intval($status);
-		}
+        $where = $wpdb->prepare( " s.status > %d ", ICL_TM_NOT_TRANSLATED );
+        if($status != ''){
+            $where .= $wpdb->prepare( " AND s.status=%d ", $status );
+        }
 		if($status != ICL_TM_DUPLICATE){
-			$where .= " AND s.status <> " . ICL_TM_DUPLICATE;
+			$where .= $wpdb->prepare(" AND s.status <> %d ", ICL_TM_DUPLICATE );
 		}
 		if(!empty($translator_id)){
 			if($include_unassigned){
-				$where .= " AND (j.translator_id=" . intval($translator_id) . " OR j.translator_id=0) ";
-			}else{
-				$where .= " AND j.translator_id=" . intval($translator_id);
-			}
+                $where .= $wpdb->prepare( " AND (j.translator_id=%d OR j.translator_id=0) ", $translator_id );
+            }else{
+                $where .= $wpdb->prepare( " AND j.translator_id=%d ", $translator_id );
+            }
 			if(!empty($service)){
-				$where .= " AND s.translation_service='{$service}'";
-			}
+                $where .= $wpdb->prepare( " AND s.translation_service=%s ", $service );
+            }
 
 			$language_pairs = get_user_meta($translator_id, $wpdb->prefix.'language_pairs', true);
 		}
 
 		// HANDLE FROM
 		if(!empty($from)){
-			$where .= PHP_EOL . " AND t.source_language_code='".esc_sql($from)."'";
-		}else{
+            $where .= $wpdb->prepare( " AND t.source_language_code=%s", $from );
+        }else{
 			// only if we filter by translator, make sure to use just the 'from' languages that apply
 			// in no translator_id, ommit condition and all will be pulled
 			if($translator_id){
@@ -2841,17 +2874,21 @@ class TranslationManagement{
 						if(isset($tls[$to])) $from_languages[] = $fl;
 					}
 					if($from_languages){
-						$where .= PHP_EOL . sprintf(" AND t.source_language_code IN(%s)", "'" . join("','", $from_languages) . "'");
-					}
+                        $where .= " AND t.source_language_code IN(" . wpml_prepare_in( $from_languages ) . ")";
+                    }
 				}else{
 					// all to all case
 					// get all possible combinations for $translator_id
 					$from_languages = array_keys($language_pairs);
 					$where_conditions = array();
 					foreach($from_languages as $fl){
-						$to_languages = "'" . join("','", array_keys($language_pairs[$fl])) . "'";
-						$where_conditions[] = sprintf(" (t.source_language_code='%s' AND t.language_code IN (%s)) ", $fl, $to_languages);
-					}
+                        $where_conditions[ ] = $wpdb->prepare(
+                            " (t.source_language_code='%s' AND t.language_code IN (" . wpml_prepare_in(
+                                array_keys( $language_pairs[ $fl ] )
+                            ) . ")) ",
+                            $fl
+                        );
+                    }
 					if(!empty($where_conditions)){
 						$where .= PHP_EOL . ' AND ( ' . join (' OR ', $where_conditions) . ')';
 					}
@@ -2871,10 +2908,8 @@ class TranslationManagement{
 					// get languages the user can translate into from $from
 					$tos = isset($language_pairs[$from]) ? array_keys($language_pairs[$from]) : array();
 					if($tos){
-						$where .= PHP_EOL . sprintf(" AND t.language_code IN(%s)", "'" . join("','", $tos) . "'");
-					}
-				}else{
-					// covered by 'all to all case' above
+                        $where .= " AND t.language_code IN(" . wpml_prepare_in( $tos ) . ")";
+                    }
 				}
 			}
 		}
@@ -2887,9 +2922,11 @@ class TranslationManagement{
 		$orderby = join(', ', $orderby);
 
 		// LIMIT
-		if(!isset($_GET['paged'])) $_GET['paged'] = 1;
-		$offset = ($_GET['paged']-1)*$limit_no;
-		$limit = " " . $offset . ',' . $limit_no;
+        $paged    = filter_input( INPUT_GET, 'paged', FILTER_SANITIZE_NUMBER_INT );
+        $paged    = $paged ? $paged : 1;
+        $limit_no = filter_var( $limit_no, FILTER_SANITIZE_NUMBER_INT );
+        $offset   = ( $paged - 1 ) * $limit_no;
+        $limit    = " " . $offset . ',' . $limit_no;
 
 		$jobs = $wpdb->get_results(
 			"SELECT SQL_CALC_FOUND_ROWS
@@ -2904,11 +2941,6 @@ class TranslationManagement{
 				LIMIT {$limit}
 			"
 		);
-
-
-		//echo '<pre>';
-		//print_r($wpdb->last_query);
-		//echo '</pre>';
 
 		$count = $wpdb->get_var("SELECT FOUND_ROWS()");
 
@@ -3079,13 +3111,13 @@ class TranslationManagement{
 	}
 
 	function get_translation_job_id($trid, $language_code){
-		global $wpdb, $sitepress;
+		global $wpdb;
 
 		$job_id = $wpdb->get_var($wpdb->prepare("
 			SELECT tj.job_id FROM {$wpdb->prefix}icl_translate_job tj
 				JOIN {$wpdb->prefix}icl_translation_status ts ON tj.rid = ts.rid
 				JOIN {$wpdb->prefix}icl_translations t ON ts.translation_id = t.translation_id
-				WHERE t.trid = %d AND t.language_code='%s'
+				WHERE t.trid = %d AND t.language_code=%s
 				ORDER BY tj.job_id DESC LIMIT 1
 		", $trid, $language_code));
 
@@ -3203,12 +3235,23 @@ class TranslationManagement{
 				$postarr['post_status'] = !$sitepress_settings['translated_document_status'] ? 'draft' : $original_post->post_status;
 
 				if($original_post->post_parent){
-					$post_parent_trid = $wpdb->get_var("SELECT trid FROM {$wpdb->prefix}icl_translations
-						WHERE element_type='post_{$original_post->post_type}' AND element_id='{$original_post->post_parent}'");
-					if($post_parent_trid){
-						$parent_id = $wpdb->get_var("SELECT element_id FROM {$wpdb->prefix}icl_translations
-							WHERE element_type='post_{$original_post->post_type}' AND trid='{$post_parent_trid}' AND language_code='{$job->language_code}'");
-					}
+                    $post_parent_trid_sql = $wpdb->prepare(
+                        "SELECT trid FROM {$wpdb->prefix}icl_translations
+						WHERE element_type=%s AND element_id=%d",
+                        'post_' . $original_post->post_type,
+                        $original_post->post_parent
+                    );
+                    $post_parent_trid     = $wpdb->get_var( $post_parent_trid_sql );
+                    if ( $post_parent_trid ) {
+                        $parent_id_sql = $wpdb->prepare(
+                            "SELECT element_id FROM {$wpdb->prefix}icl_translations
+							WHERE element_type=%s AND trid=%d AND language_code=%s",
+                            'post_' . $original_post->post_type,
+                            $post_parent_trid,
+                            $job->language_code
+                        );
+                        $parent_id     = $wpdb->get_var( $parent_id_sql );
+                    }
 				}
 
 				if(isset($parent_id) && $sitepress_settings['sync_page_parent']){
@@ -3624,13 +3667,12 @@ class TranslationManagement{
 			$error = sprintf(__('Translation entry not found for: %d', 'wpml-translation-management'), $job_id);
 		}
 
+        return $error;
 	}
 
 	function abort_translation(){
-		global $wpdb;
 
 		$job_id = $_POST['job_id'];
-		$error = '';
 		$message = '';
 
 		$error = $this->remove_translation_job($job_id, ICL_TM_WAITING_FOR_TRANSLATOR, 0);
@@ -3953,8 +3995,7 @@ class TranslationManagement{
 	// shows post content for visual mode (iframe) in translation editor
 	function _show_post_content(){
 		global $tinymce_version;
-		$data = '';
-		
+
 		$post = $this->_get_post($_GET['post_id']);
 		
 		if($post){
@@ -4162,7 +4203,10 @@ class TranslationManagement{
 			$taxonomy_types = array_merge( $sitepress->get_translatable_taxonomies( true, $post_type ), $taxonomy_types );
 		}
 		$taxonomy_types = array_unique( $taxonomy_types );
-		$taxonomies     = $wpdb->get_results( "SELECT taxonomy, term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy IN ('" . join( "','", $taxonomy_types ) . "')" );
+        $taxonomies     = $wpdb->get_results( "SELECT taxonomy, term_taxonomy_id
+                                               FROM {$wpdb->term_taxonomy}
+                                               WHERE taxonomy
+                                                IN (" . wpml_prepare_in( $taxonomy_types ) . ")" );
 		if ( $taxonomies ) {
 			foreach ( $taxonomies as $taxonomy ) {
 				$this->add_missing_language_to_taxonomy( $taxonomy );

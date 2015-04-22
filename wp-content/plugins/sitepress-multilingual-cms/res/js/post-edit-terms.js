@@ -60,7 +60,7 @@ function iclGetSwitchLanguageConfirmation(){
             modal:   true,
             buttons: {
                 Ok:     function () {
-                    defer.resolve()
+                    defer.resolve();
                     jQuery(this).dialog("close");
 
                 },
@@ -77,8 +77,6 @@ function iclPostLanguageAskConfirmation() {
 
 	var post_language_switcher = jQuery('#icl_post_language');
 	var previous_post_language = post_language_switcher.data('last_lang');
-	var new_post_language = post_language_switcher.val();
-	var post_id = jQuery('#post_ID').val();
 
 	jQuery('#edit-slug-buttons').find('> .cancel').click();
 
@@ -107,9 +105,10 @@ function iclSwitchPostLanguage() {
 				dataType: 'json',
 				data:     {
 					wpml_from:    previous_post_language,
-					action:       'wpml_switch_post_language',
-					wpml_to:      new_post_language,
-					wpml_post_id: post_id
+                    action: 'wpml_switch_post_language',
+                    _icl_nonce: icl_post_edit_messages._nonce,
+                    wpml_to: new_post_language,
+                    wpml_post_id: post_id
 				},
 				success:  function () {
 					post_language_switcher.data('last_lang', new_post_language);

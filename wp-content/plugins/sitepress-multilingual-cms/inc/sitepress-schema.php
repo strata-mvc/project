@@ -218,8 +218,8 @@ function icl_sitepress_activate() {
                  CREATE TABLE IF NOT EXISTS `{$table_name}` (
                   `id` bigint(20) unsigned NOT NULL auto_increment,
                   `language` varchar(7) NOT NULL,
-                  `context` varchar(160) NOT NULL,
-                  `name` varchar(160) NOT NULL,
+                  `context` varchar(160) CHARACTER SET UTF8 NOT NULL,
+                  `name` varchar(160) CHARACTER SET UTF8 NOT NULL,
                   `value` text NOT NULL,
                   `status` TINYINT NOT NULL,
                   PRIMARY KEY  (`id`),

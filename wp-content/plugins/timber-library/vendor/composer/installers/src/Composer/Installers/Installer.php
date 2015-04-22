@@ -13,6 +13,7 @@ class Installer extends LibraryInstaller
      * @var array
      */
     private $supportedTypes = array(
+        'aimeos'       => 'AimeosInstaller',
         'asgard'       => 'AsgardInstaller',
         'agl'          => 'AglInstaller',
         'annotatecms'  => 'AnnotateCmsInstaller',
@@ -66,6 +67,7 @@ class Installer extends LibraryInstaller
         'wordpress'    => 'WordPressInstaller',
         'zend'         => 'ZendInstaller',
         'zikula'       => 'ZikulaInstaller',
+        'prestashop'   => 'PrestashopInstaller',
     );
 
     /**

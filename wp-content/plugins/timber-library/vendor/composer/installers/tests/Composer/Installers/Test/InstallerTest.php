@@ -85,6 +85,7 @@ class InstallerTest extends TestCase
     {
         return array(
             array('agl-module', true),
+            array('aimeos-extension', true),
             array('annotatecms-module', true),
             array('annotatecms-component', true),
             array('annotatecms-service', true),
@@ -142,6 +143,8 @@ class InstallerTest extends TestCase
             array('phpbb-extension', true),
             array('pimcore-plugin', true),
             array('ppi-module', true),
+            array('prestashop-module', true),
+            array('prestashop-theme', true),
             array('puppet-module', true),
             array('redaxo-addon', true),
             array('redaxo-bestyle-plugin', true),
@@ -195,6 +198,7 @@ class InstallerTest extends TestCase
     {
         return array(
             array('agl-module', 'More/MyTestPackage/', 'agl/my_test-package'),
+            array('aimeos-extension', 'ext/ai-test/', 'author/ai-test'),
             array('annotatecms-module', 'addons/modules/my_module/', 'vysinsky/my_module'),
             array('annotatecms-component', 'addons/components/my_component/', 'vysinsky/my_component'),
             array('annotatecms-service', 'addons/services/my_service/', 'vysinsky/my_service'),
@@ -252,6 +256,8 @@ class InstallerTest extends TestCase
             array('october-plugin', 'plugins/shama/my_plugin/', 'shama/my_plugin'),
             array('october-theme', 'themes/my_theme/', 'shama/my_theme'),
             array('piwik-plugin', 'plugins/VisitSummary/', 'shama/visit-summary'),
+            array('prestashop-module', 'modules/a-module/', 'vendor/a-module'),
+            array('prestashop-theme', 'themes/a-theme/', 'vendor/a-theme'),
             array('phpbb-extension', 'ext/test/foo/', 'test/foo'),
             array('phpbb-style', 'styles/foo/', 'test/foo'),
             array('phpbb-language', 'language/foo/', 'test/foo'),

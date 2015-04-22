@@ -100,10 +100,15 @@ class acf_field_image extends acf_field {
 		if( $field['value'] && is_numeric($field['value']) ) {
 			
 			$url = wp_get_attachment_image_src($field['value'], $field['preview_size']);
-			$url = $url[0];
 			
-			$div['class'] .= ' has-value';
+			if( $url ) {
+				
+				$url = $url[0];
 			
+				$div['class'] .= ' has-value';
+			
+			}
+						
 		}
 		
 		

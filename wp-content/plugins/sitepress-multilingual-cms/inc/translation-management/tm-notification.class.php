@@ -14,6 +14,7 @@ class TM_Notification{
     }
     
     function new_job_any($job_id){
+        /** @var TranslationManagement $iclTranslationManagement */
         global $iclTranslationManagement, $sitepress, $wpdb;
         $job = $iclTranslationManagement->get_translation_job($job_id);
         $translators = TranslationManagement::get_blog_translators(array('to'=>$job->language_code));
@@ -53,6 +54,7 @@ class TM_Notification{
     }
     
     function new_job_translator($job_id, $translator_id){
+        /** @var TranslationManagement $iclTranslationManagement */
         global $iclTranslationManagement, $sitepress, $wpdb;
         $job = $iclTranslationManagement->get_translation_job($job_id);
         
@@ -100,6 +102,7 @@ class TM_Notification{
     }
     
     function work_complete($job_id, $update = false){
+        /** @var TranslationManagement $iclTranslationManagement */
         global $iclTranslationManagement, $sitepress, $wpdb;
         $job = $iclTranslationManagement->get_translation_job($job_id);    
         if($job->manager_id == $job->translator_id) return;
@@ -139,6 +142,7 @@ class TM_Notification{
     }
     
     function translator_resigned($translator_id, $job_id){
+        /** @var TranslationManagement $iclTranslationManagement */
         global $iclTranslationManagement, $sitepress, $wpdb;
         $job = $iclTranslationManagement->get_translation_job($job_id);    
         if($job->manager_id == $translator_id) return;
@@ -172,6 +176,7 @@ class TM_Notification{
     }
     
     function translator_removed($translator_id, $job_id){
+        /** @var TranslationManagement $iclTranslationManagement */
         global $iclTranslationManagement, $sitepress, $wpdb;
         $job = $iclTranslationManagement->get_translation_job($job_id);    
         if($job->manager_id == $translator_id) return;

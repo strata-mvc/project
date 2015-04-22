@@ -261,7 +261,7 @@
 			
 			
 			// disable clone inputs
-			this.$clone.find('[name]').attr('disabled', 'disabled');
+			this.$clone.find('input, textarea, select').attr('disabled', 'disabled');
 						
 			
 			// render
@@ -357,8 +357,8 @@
 			$html.removeClass('acf-clone');
 			
 			
-			// enable inputs
-			$html.find('[name]').removeAttr('disabled');
+			// enable inputs (ignore inputs disabled for life)
+			$html.find('input, textarea, select').not('.acf-disabled').removeAttr('disabled');
 			
 			
 			// add row
@@ -385,7 +385,7 @@
 			return $html;
 		},
 		
-		remove : function( e ){
+		remove: function( e ){
 			
 			// reference
 			var self = this,
@@ -405,10 +405,14 @@
 			}
 			
 			
-			// trigger change to allow attachmetn save
+			// trigger change to allow attachment save
 			this.$input.trigger('change');
 				
-				
+			
+			// action for 3rd party customization
+			acf.do_action('remove', $tr);
+			
+			
 			// animate out tr
 			acf.remove_tr( $tr, function(){
 				
@@ -539,7 +543,7 @@
 			
 			
 			// disable clone inputs
-			this.$clones.find('[name]').attr('disabled', 'disabled');
+			this.$clones.find('input, textarea, select').attr('disabled', 'disabled');
 						
 			
 			// render
@@ -867,8 +871,8 @@
 				$html = $( html );
 			
 			
-			// enable inputs
-			$html.find('[name]').removeAttr('disabled');
+			// enable inputs (ignore inputs disabled for life)
+			$html.find('input, textarea, select').not('.acf-disabled').removeAttr('disabled');
 			
 							
 			// hide no values message
@@ -904,7 +908,7 @@
 			
 		},
 		
-		remove : function( e ){
+		remove: function( e ){
 			
 			// vars
 			var $layout	= e.$el.closest('.layout');
@@ -931,6 +935,10 @@
 			
 			// trigger change
 			this.$input.trigger('change');
+			
+			
+			// action for 3rd party customization
+			acf.do_action('remove', $layout);
 			
 			
 			// remove

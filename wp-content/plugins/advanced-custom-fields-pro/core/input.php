@@ -119,7 +119,7 @@ class acf_input {
 			'ajaxurl'		=> admin_url( 'admin-ajax.php' ),
 			'ajax'			=> $args['ajax'],
 			'validation'	=> $args['validation'],
-			'wp_version'	=> $wp_version,
+			'wp_version'	=> $wp_version
 		);
 		
 		
@@ -127,7 +127,7 @@ class acf_input {
 		$l10n = apply_filters( 'acf/input/admin_l10n', array(
 			'unload'			=> __('The changes you made will be lost if you navigate away from this page','acf'),
 			'expand_details' 	=> __('Expand Details','acf'),
-			'collapse_details' 	=> __('Collapse Details','acf'),
+			'collapse_details' 	=> __('Collapse Details','acf')
 		));
 		
 		

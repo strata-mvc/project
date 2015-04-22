@@ -352,7 +352,7 @@ html[dir="rtl"] .acf-flexible-content .layout .acf-fc-layout-controlls {
   top: 0;
   right: 0;
   bottom: 0;
-  width: 299px;
+  width: 0;
   background: #F9F9F9;
   border-left: #DFDFDF solid 1px;
   z-index: 1;
@@ -421,7 +421,8 @@ html[dir="rtl"] .acf-flexible-content .layout .acf-fc-layout-controlls {
   overflow-x: inherit;
   padding: 10px;
 }
-.acf-gallery .acf-gallery-side-data .acf-label {
+.acf-gallery .acf-gallery-side-data .acf-label,
+.acf-gallery .acf-gallery-side-data th.label {
   color: #666666;
   font-size: 12px;
   line-height: 25px;
@@ -429,15 +430,23 @@ html[dir="rtl"] .acf-flexible-content .layout .acf-fc-layout-controlls {
   width: auto;
   vertical-align: top;
 }
-.acf-gallery .acf-gallery-side-data .acf-label label {
+.acf-gallery .acf-gallery-side-data .acf-label label,
+.acf-gallery .acf-gallery-side-data th.label label {
   font-weight: normal;
 }
-.acf-gallery .acf-gallery-side-data .acf-input {
+.acf-gallery .acf-gallery-side-data .acf-input,
+.acf-gallery .acf-gallery-side-data td.field {
   padding: 0 0 8px;
 }
-.acf-gallery .acf-field textarea {
+.acf-gallery .acf-gallery-side-data textarea {
   min-height: 0;
   height: 60px;
+}
+.acf-gallery .acf-gallery-side-data p.help {
+  font-size: 12px;
+}
+.acf-gallery .acf-gallery-side-data p.help:hover {
+  font-weight: normal;
 }
 /* selected */
 .attachment.acf-selected {

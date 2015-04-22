@@ -3,11 +3,20 @@ global $wpdb, $post, $sitepress, $iclTranslationManagement, $current_user, $wp_v
 
 $job = $iclTranslationManagement->get_translation_job((int)$_GET['job_id'], false, true, 1); // don't include not-translatable and auto-assign
 
-if(empty($job)){
+if ( empty( $job ) || ( ( ( $job->translator_id != 0 && $job->translator_id != $current_user->ID )
+                          || ( !$iclTranslationManagement->is_translator(
+                $current_user->ID,
+                array(
+                    'lang_from' => $job->source_language_code,
+                    'lang_to' => $job->language_code
+                )
+            ) ) ) && !current_user_can( 'manage_options' ) )
+) {
     $job_checked = true;
     include WPML_TM_PATH . '/menu/translations-queue.php';
     return;
 }
+
 $rtl_original = $sitepress->is_rtl($job->source_language_code);
 $rtl_translation = $sitepress->is_rtl($job->language_code);
 $rtl_original_attribute = $rtl_original ? ' dir="rtl"' : ' dir="ltr"';
@@ -46,6 +55,8 @@ require_once(ABSPATH . 'wp-admin/includes/media.php');
         <?php echo $translators_note ?>
     </div>
     <?php endif; ?>
+    
+    <div id="icl-copy-from-original-nonce" style="display: none;"><?php echo wp_create_nonce('icl_copy_from_original_nonce') ?></div>
     
     <form id="icl_tm_editor" method="post" action="">
     <input type="hidden" name="icl_tm_action" value="save_translation" />

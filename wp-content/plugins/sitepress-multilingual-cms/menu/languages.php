@@ -12,7 +12,8 @@
         return;
     }
 
-    if (isset($_GET['trop'])) { require_once dirname(__FILE__).'/edit-languages.php'; return; }
+		$request_get_trop = filter_input(INPUT_GET, 'trop', FILTER_SANITIZE_NUMBER_INT, FILTER_NULL_ON_FAILURE);
+    if ($request_get_trop) { require_once dirname(__FILE__).'/edit-languages.php'; return; }
 
 	$setup_complete = $sitepress->get_setting( 'setup_complete' );
 	$active_languages = $sitepress->get_active_languages();
@@ -32,6 +33,8 @@
 	$seo = $sitepress->get_setting( 'seo' );
 
 	$default_language = $sitepress->get_default_language();
+	
+	$all_languages = $sitepress->get_languages( $sitepress->get_admin_language() );
 
 	$sample_lang = false;
 	$default_language_details = false;
@@ -41,14 +44,18 @@
         $blog_current_lang = 0;
         if($blog_lang = get_option('WPLANG')){
             $exp = explode('_',$blog_lang);
-            $blog_current_lang = $wpdb->get_var("SELECT code FROM {$wpdb->prefix}icl_languages WHERE code='{$exp[0]}'");
+            $blog_current_lang = $wpdb->get_var(
+                                    $wpdb->prepare("SELECT code FROM {$wpdb->prefix}icl_languages WHERE code= %s",
+                                                   $exp[0]));
         }
         if(!$blog_current_lang && defined('WPLANG') && WPLANG != ''){
             $blog_current_lang = $wpdb->get_var($wpdb->prepare("SELECT code FROM {$wpdb->prefix}icl_languages WHERE default_locale=%s", WPLANG));
             if(!$blog_current_lang){
                 $blog_lang = WPLANG;
                 $exp = explode('_',$blog_lang);
-                $blog_current_lang = $wpdb->get_var("SELECT code FROM {$wpdb->prefix}icl_languages WHERE code='{$exp[0]}'");
+                $blog_current_lang = $wpdb->get_var(
+                    $wpdb->prepare("SELECT code FROM {$wpdb->prefix}icl_languages WHERE code= %s",
+                                   $exp[0]));
             }
         }
         if(!$blog_current_lang){
@@ -348,7 +355,12 @@ global $language_switcher_defaults, $language_switcher_defaults_alt;
                                 <?php
                                     if(!class_exists('WP_Http')) include_once ABSPATH . WPINC . '/class-http.php';
                                     $client = new WP_Http();
-                                    if (empty($_POST['url']) || false === strpos($_POST['url'],'?')){$url_glue='?';}else{$url_glue='&';}
+																		$request_post_url = filter_input(INPUT_POST, 'url' );
+                                    if ( ! $request_post_url || false === strpos($request_post_url,'?')){
+																			$url_glue='?';
+																		}else{
+																			$url_glue='&';
+																		}
 									$sample_lang_url = get_home_url() . '/' . $sample_lang[ 'code' ];
 									$response = $client->request( $sample_lang_url .'/' . $url_glue . '____icl_validate_domain=1', array('timeout'=>15, 'decompress'=>false));
                                     if (!is_wp_error($response) && ($response['response']['code']=='200') && ($response['body'] == '<!--'.get_home_url().'-->')){
@@ -549,7 +561,9 @@ global $language_switcher_defaults, $language_switcher_defaults_alt;
 
                         <div class="wpml-section-content-inner">
                             <p class="icl_form_errors" style="display:none"></p>
-                            <?php if(isset($_GET['icl_ls_reset']) && $_GET['icl_ls_reset'] == 'default'): ?>
+                            <?php 
+                            $request_get_icl_ls_reset = filter_input(INPUT_GET, 'icl_ls_reset' );
+                            if($request_get_icl_ls_reset === 'default'): ?>
                                 <p class="icl_form_success"><?php _e('Default settings have been loaded', 'sitepress')?></p>
                             <?php endif; ?>
                             <h4><?php _e('Language switcher widget', 'sitepress')?></h4>
@@ -781,12 +795,14 @@ global $language_switcher_defaults, $language_switcher_defaults_alt;
 
                         <?php do_action('icl_language_switcher_options'); ?>
 
-                        <?php if(!empty( $setup_complete )): ?>
+                        <?php if ( !empty( $setup_complete ) ):
+                            $request_get_page = filter_input ( INPUT_GET, 'page' );
+                        ?>
                         <div class="wpml-section-content-inner">
                             <p class="buttons-wrap">
                                 <span class="icl_ajx_response" id="icl_ajx_response3"></span>
                                 <a class="button button-secondary" onclick="if(!confirm('<?php echo esc_js(__('Are you sure you want to reset to the default settings?', 'sitepress')) ?>')) return false;"
-                                    href="<?php echo admin_url('admin.php?page='.$_GET['page'].'&amp;restore_ls_settings=1') ?>"><?php _e('Restore default', 'sitepress')?></a>
+                                    href="<?php echo admin_url('admin.php?page='.$request_get_page.'&amp;restore_ls_settings=1') ?>"><?php _e('Restore default', 'sitepress')?></a>
                                 <button class="button-primary" name="save" type="submit"><?php _e('Save','sitepress') ?></button>
                             </p>
                         </div>
@@ -815,7 +831,7 @@ global $language_switcher_defaults, $language_switcher_defaults_alt;
             </div> <!-- .wpml-section -->
         <?php endif; ?>
 
-        <?php if(!empty( $setup_complete ) && count($active_languages) > 1): ?>
+        <?php if(!empty( $setup_complete ) && count($all_languages) > 1): ?>
             <div class="wpml-section wpml-section-admin-language" id="lang-sec-4">
                 <div class="wpml-section-header">
                     <h3><?php _e('Admin language', 'sitepress') ?></h3>
@@ -829,10 +845,10 @@ global $language_switcher_defaults, $language_switcher_defaults_alt;
                                 <?php _e('Default admin language: ', 'sitepress'); ?>
                                 <?php $default_language_details = $sitepress->get_language_details( $default_language ); ?>
                                 <select name="icl_admin_default_language">
-                                <option value="_default_"><?php printf(__('Default language (currently %s)', 'sitepress'),  $default_language_details['display_name']); ?></option>
-                                <?php foreach($active_languages as $al):?>
-                                <option value="<?php echo $al['code'] ?>"<?php if($sitepress->get_setting('admin_default_language')==$al['code']) echo ' selected="selected"'?>><?php echo $al['display_name']; if($sitepress->get_admin_language() != $al['code']) echo ' ('. $al['native_name'] .')' ?>&nbsp;</option>
-                                <?php endforeach; ?>
+	                                <option value="_default_"><?php printf(__('Default language (currently %s)', 'sitepress'),  $default_language_details['display_name']); ?></option>
+	                                <?php foreach($all_languages as $al):?>
+		                                <option value="<?php echo $al['code'] ?>"<?php if($sitepress->get_setting('admin_default_language')==$al['code']) echo ' selected="selected"'?>><?php echo $al['display_name']; if($sitepress->get_admin_language() != $al['code']) echo ' ('. $al['native_name'] .')' ?>&nbsp;</option>
+	                                <?php endforeach; ?>
                                 </select>
                             </label>
                         </p>
@@ -1012,7 +1028,10 @@ global $language_switcher_defaults, $language_switcher_defaults_alt;
 
     <?php if(!empty( $setup_complete )): ?>
 
-        <?php do_action('icl_extra_options_' . $_GET['page']); ?>
+        <?php
+        $request_get_page = filter_input ( INPUT_GET, 'page' );
+        do_action ( 'icl_extra_options_' . $request_get_page );
+        ?>
 
         <div class="wpml-section wpml-section-seo-options" id="lang-sec-9-5">
             <div class="wpml-section-header">

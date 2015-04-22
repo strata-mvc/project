@@ -36,6 +36,7 @@
                         action: 'wpml_save_term',
                         name: name,
                         slug: slug,
+                        _icl_nonce: labels.wpml_save_term_nonce,
                         description: description,
                         trid: self.get("trid"),
                         term_language_code: self.get("language_code"),

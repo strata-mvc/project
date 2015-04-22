@@ -248,7 +248,7 @@ class acf_admin_field_groups {
 			return;
 			
 		}
-		
+	
 		
 		// import field group
 		if( $key = acf_maybe_get($_GET, 'acfsync') ) {
@@ -532,7 +532,7 @@ class acf_admin_field_groups {
 	
 	function admin_footer() {
 		
-		// vras
+		// vars
 		$www = 'http://www.advancedcustomfields.com/resources/';
 		
 ?><script type="text/html" id="tmpl-acf-col-side">

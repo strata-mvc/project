@@ -16,7 +16,7 @@
         require_once ICL_PLUGIN_PATH . '/lib/Snoopy.class.php';
         require_once ICL_PLUGIN_PATH . '/lib/xml2array.php';
         require_once ICL_PLUGIN_PATH . '/lib/icl_api.php';
-        $icl_query = new ICanLocalizeQuery();                
+        $icl_query = new ICanLocalizeQuery();
         
         foreach($this->get_active_languages() as $lang){
             $lang_server[$lang['code']] = ICL_Pro_Translation::server_languages_map($lang['english_name']);
@@ -129,7 +129,7 @@
         }
         
         foreach((array)$translation_languages as $lpair){
-            if($lpair['attr']['from_language_name'] == $lang_server[$from_lang] && $lpair['attr']['to_language_name'] == $lang_server[$to_lang]){
+            if($lpair['attr']['from_language_name'] === $lang_server[$from_lang] && $lpair['attr']['to_language_name'] === $lang_server[$to_lang]){
                 $lang_pair_id = $lpair['attr']['id']; 
             }    
         }
@@ -139,15 +139,7 @@
     }
     
     $support_mode = isset($_GET['support']) ? $_GET['support'] : '';
-    
-    /*
-    if ($support_mode == '1') {
-        $iclq = new ICanLocalizeQuery($this->settings['support_site_id'], $this->settings['support_access_key']);
-    } else {
-        $iclq = new ICanLocalizeQuery($this->settings['site_id'], $this->settings['access_key']);
-    }
-    $session_id = $iclq->get_current_session(true, $support_mode == '1');
-    */
+
     if(isset($this->settings['site_id']) && isset($this->settings['access_key'])){
         $iclq = new ICanLocalizeQuery($this->settings['site_id'], $this->settings['access_key']);
         $session_id = $iclq->get_current_session(true, $support_mode == '1');
@@ -174,7 +166,7 @@
 
     $on_click = isset($_GET['message_id']) ? 'parent.dismiss_message(' . esc_js($_GET['message_id']) . ', \'' . wp_create_nonce('icl_delete_message_nonce') . '\');' : '';
     
-    $can_delete = isset($_GET['message_id']) ? $wpdb->get_var($wpd->prepare("SELECT can_delete FROM {$wpdb->prefix}icl_reminders WHERE id=%d", $_GET['message_id'])) == '1' : false;
+    $can_delete = isset($_GET['message_id']) ? $wpdb->get_var($wpdb->prepare("SELECT can_delete FROM {$wpdb->prefix}icl_reminders WHERE id=%d", $_GET['message_id'])) == '1' : false;
 
     $image_path = ICL_PLUGIN_URL . '/res/img/web_logo_small.png';
     echo '<img src="' . $image_path . '"  style="margin: 0px 0px 0px; float: left; "><br clear="all" />';
@@ -182,18 +174,26 @@
 ?>
 
 
-<?php if($can_delete): ?>
-    <a id="icl_reminder_dismiss" href="#" onclick="<?php echo $on_click?>"><?php _e('Dismiss', 'sitepress')?></a>
-    <br />
-    <br />
+<?php if ( $can_delete ): ?>
+    <a id="icl_reminder_dismiss" href="#" onclick="<?php echo $on_click ?>"><?php _e( 'Dismiss', 'sitepress' ) ?></a>
+    <br/>
+    <br/>
 <?php endif; ?>
 
-<iframe src="<?php echo $target;?>" style="width:100%; height:92%" onload="
-    <?php if($auto_resize):?>
-        jQuery('#TB_window').css('width','90%').css('margin-left', '-45%');
-    <?php endif; ?>
-    <?php if($unload_cb):?>
-        jQuery('#TB_window').unbind('unload').bind('tb_unload', function(){<?php echo esc_js($unload_cb)?>();});
-    <?php endif; ?>
+<div id="unload-cb" style="display:none;"><?php echo $unload_cb ?></div>
+
+<iframe src="<?php echo $target; ?>" style="width:100%; height:92%" onload="
+    var TBWindow = jQuery('#TB_window');
+<?php if ( $auto_resize ): ?>
+    TBWindow.css('width','90%').css('margin-left', '-45%');
+<?php endif; ?>
+    TBWindow.unbind('unload').bind('tb_unload', function(){
+    var unloadCallback = jQuery('#unload-cb').text();
+    if(unloadCallback === 'icl_thickbox_refresh'){
+    icl_thickbox_refresh();
+    } else if(unloadCallback === 'icl_pt_reload_translation_box'){
+    icl_pt_reload_translation_box();
+    }
+    });
 ">
 

@@ -13,7 +13,6 @@
             var self = this;
             this.fragment = document.createDocumentFragment();
             this.navView = new TaxonomyTranslation.views.NavView({model: self.model}, {perPage: self.perPage});
-            this.listenTo(this.navView, 'newPage', this.render);
             this.filterView = new TaxonomyTranslation.views.FilterView({model: this.model});
             this.listenTo(this.filterView, 'updatedFilter', function () {
                 self.navView.page = 1;
@@ -26,10 +25,8 @@
                 end: self.perPage
             });
 
-            this.listenTo(this.model, 'newTaxonomySet', this.render);
-
+            this.listenTo(this.model, 'newTaxonomySet', this.renderNewTaxonomy);
         },
-
         setLabels: function () {
             var tax = this.model.get("taxonomy");
             var taxonomyDefaultLabel = TaxonomyTranslation.data.taxonomies[tax].label;
@@ -37,7 +34,6 @@
             this.summaryTerms = labels.summaryTerms.replace('%taxonomy%', taxonomyDefaultLabel);
             this.labelSummary = labels.summaryLabels.replace('%taxonomy%', taxonomyDefaultLabel);
         },
-
         renderRows: function () {
             var self = this;
             if (TaxonomyTranslation.data.termRowsCollection.length > 0) {
@@ -49,7 +45,16 @@
 
             self.navView.render();
         },
-
+        renderNewTaxonomy: function(){
+            var self = this;
+            self.navView.off();
+            self.navView = undefined;
+            self.navView = new TaxonomyTranslation.views.NavView({model: self.model}, {perPage: self.perPage});
+            this.listenTo(this.navView, 'newPage', this.render);
+            self.renderRows();
+            self.render();
+            return self;
+        },
         render: function () {
 
             var self = this;
@@ -104,7 +109,6 @@
 
             jQuery("#taxonomy-translation").html(self.fragment);
 
-
             jQuery(".icl_tt_term_name").on("click", self.openPopUPTerm);
 
             jQuery(".icl_tt_label").on("click", self.openPopUPLabel);
@@ -121,7 +125,10 @@
             var taxonomySwitcher = jQuery("#icl_tt_tax_switch");
             var potentialHiddenSelectInput = jQuery('#tax-selector-hidden');
             var potentialHiddenTaxInput = jQuery('#tax-preselected');
-            if (potentialHiddenSelectInput.length !== 0 && potentialHiddenSelectInput.val() && potentialHiddenTaxInput.length !== 0 && potentialHiddenTaxInput.val()) {
+            if (potentialHiddenSelectInput.length !== 0
+                && potentialHiddenSelectInput.val()
+                && potentialHiddenTaxInput.length !== 0
+                && potentialHiddenTaxInput.val()) {
                 var taxonomy = potentialHiddenTaxInput.val();
                 taxonomySwitcher.closest('label').hide();
                 jQuery('[id="term-table-header"]').hide();

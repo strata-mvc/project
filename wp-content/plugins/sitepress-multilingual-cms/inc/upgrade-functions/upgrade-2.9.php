@@ -21,6 +21,3 @@
   $wpdb->insert($wpdb->prefix . 'icl_languages_translations', array('language_code' => 'ms', 'display_language_code' => 'ms', 'name' => 'Melayu'));
   
   $wpdb->insert($wpdb->prefix . 'icl_flags', array('lang_code' => 'ms', 'flag' => 'ms.png', 'from_template' => 0));
-  
-  
-?>
