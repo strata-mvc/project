@@ -382,388 +382,6 @@ function acf_merge_atts( $atts, $extra = array() ) {
 
 
 /*
-*  acf_render_field_wrap
-*
-*  This function will render the complete HTML wrap with label & field
-*
-*  @type	function
-*  @date	28/09/13
-*  @since	5.0.0
-*
-*  @param	$field (array) must be a valid ACF field array
-*  @param	$el (string) modifys the rendered wrapping elements. Default to 'div', but can be 'tr', 'ul', 'ol', 'dt' or custom
-*  @param	$instruction (string) specifys the placement of the instructions. Default to 'label', but can be 'field'
-*  @param	$atts (array) an array of custom attributes to render on the $el
-*  @return	N/A
-*/
-
-function acf_render_field_wrap( $field, $el = 'div', $instruction = 'label' ) {
-	
-	// get valid field
-	$field = acf_get_valid_field( $field );
-	
-	
-	// prepare field for input
-	$field = acf_prepare_field( $field );
-	
-	
-	// el
-	$elements = apply_filters('acf/render_field_wrap/elements', array(
-		'div'	=> 'div',
-		'tr'	=> 'td',
-		'ul'	=> 'li',
-		'ol'	=> 'li',
-		'dl'	=> 'dt',
-		'td'	=> 'div' // special case for sub field!
-	));
-	
-	
-	// validate $el
-	if( !array_key_exists($el, $elements) ) {
-		
-		$el = 'div';
-	
-	}
-	
-	
-	// wrapper
-	$wrapper = array(
-		'id'		=> '',
-		'class'		=> 'acf-field',
-		'width'		=> '',
-		'style'		=> '',
-		'data-name'	=> $field['name'],
-		'data-type'	=> $field['type'],
-		'data-key'	=> '',
-	);
-	
-	
-	// add required
-	if( $field['required'] ) {
-		
-		$wrapper['data-required'] = 1;
-		
-	}
-	
-	
-	// add type
-	$wrapper['class'] .= " acf-field-{$field['type']}";
-	
-	
-	// add key
-	if( $field['key'] ) {
-		
-		$wrapper['class'] .= " acf-field-{$field['key']}";
-		$wrapper['data-key'] = $field['key'];
-		
-	}
-	
-	
-	// replace
-	$wrapper['class'] = str_replace('_', '-', $wrapper['class']);
-	$wrapper['class'] = str_replace('field-field-', 'field-', $wrapper['class']);
-	
-	
-	// compatibility
-	if( acf_get_compatibility('field_wrapper_class') ) {
-		
-		$wrapper['class'] .= " field_type-{$field['type']}";
-		
-		if( $field['key'] ) {
-			
-			$wrapper['class'] .= " field_key-{$field['key']}";
-			
-		}
-		
-	}
-		
-	
-	// merge in atts
-	$wrapper = acf_merge_atts( $wrapper, $field['wrapper'] );
-	
-	
-	// add width
-	$width = (int) acf_extract_var( $wrapper, 'width' );
-	
-	if( $el == 'tr' || $el == 'td' ) {
-		
-		$width = 0;
-		
-	} elseif( $width > 0 && $width < 100 ) {
-		
-		$wrapper['data-width'] = $width;
-		$wrapper['style'] .= " width:{$width}%;";
-		
-	}
-	
-	
-	// remove empty attributes
-	foreach( $wrapper as $k => $v ) {
-		
-		if( $v == '' ) {
-			
-			unset($wrapper[$k]);
-			
-		}
-		
-	}
-	
-	
-	// vars
-	$show_label = true;
-	
-	if( $el == 'td' ) {
-		
-		$show_label = false;
-		
-	}
-	
-	
-?><<?php echo $el; ?> <?php echo acf_esc_attr($wrapper); ?>>
-<?php if( $show_label ): ?>
-	<<?php echo $elements[ $el ]; ?> class="acf-label">
-		<label for="<?php echo $field['id']; ?>"><?php echo acf_get_field_label($field); ?></label>
-<?php if( $instruction == 'label' && $field['instructions'] ): ?>
-		<p class="description"><?php echo $field['instructions']; ?></p>
-<?php endif; ?>
-	</<?php echo $elements[ $el ]; ?>>
-<?php endif; ?>
-	<<?php echo $elements[ $el ]; ?> class="acf-input">
-		<?php acf_render_field( $field ); ?>
-		
-<?php if( $instruction == 'field' && $field['instructions'] ): ?>
-		<p class="description"><?php echo $field['instructions']; ?></p>
-<?php endif; ?>
-	</<?php echo $elements[ $el ]; ?>>
-<?php if( !empty($field['conditional_logic'])): ?>
-	<script type="text/javascript">
-		if(typeof acf !== 'undefined'){ acf.conditional_logic.add( '<?php echo $field['key']; ?>', <?php echo json_encode($field['conditional_logic']); ?>); }
-	</script>
-<?php endif; ?>
-</<?php echo $el; ?>>
-<?php
-	
-}
-
-
-/*
-*  acf_render_fields
-*
-*  This function will render an array of fields for a given form.
-*  Becasue the $field's values have not been loaded yet, this function will also load values
-*
-*  @type	function
-*  @date	8/10/13
-*  @since	5.0.0
-*
-*  @param	$post_id (int) the post to load values from
-*  @param	$fields (array) the fields to render
-*  @param	$el (string) the wrapping element type
-*  @param	$instruction (int) the instructions position
-*  @return	n/a
-*/
-
-function acf_render_fields( $post_id = 0, $fields, $el = 'div', $instruction = 'label' ) {
-		
-	if( !empty($fields) ) {
-		
-		foreach( $fields as $field ) {
-			
-			// load value
-			if( $field['value'] === null ) {
-				
-				$field['value'] = acf_get_value( $post_id, $field );
-				
-			} 
-			
-			
-			// set prefix for correct post name (prefix + key)
-			$field['prefix'] = 'acf';
-			
-			
-			// render
-			acf_render_field_wrap( $field, $el, $instruction );
-		}
-		
-	}
-		
-}
-
-
-/*
-*  acf_get_field_label
-*
-*  This function will return the field label with appropriate required label
-*
-*  @type	function
-*  @date	4/11/2013
-*  @since	5.0.0
-*
-*  @param	$field (array)
-*  @return	$label (string)
-*/
-
-function acf_get_field_label( $field ) {
-	
-	// vars
-	$label = $field['label'];
-	
-	
-	if( $field['required'] ) {
-		
-		$label .= ' <span class="acf-required">*</span>';
-		
-	}
-	
-	
-	// return
-	return $label;
-
-}
-
-function acf_the_field_label( $field ) {
-
-	echo acf_get_field_label( $field );
-	
-}
-
-
-/*
-*  acf_render_field_setting
-*
-*  This function will render a tr element containing a label and field cell, but also setting the tr data attribute for AJAX 
-*
-*  @type	function
-*  @date	28/09/13
-*  @since	5.0.0
-*
-*  @param	$field (array) the origional field being edited
-*  @param	$setting (array) the settings field to create
-*  @return	n/a
-*/
-
-function acf_render_field_setting( $field, $setting, $global = false ) {
-	
-	// validate
-	$setting = acf_get_valid_field( $setting );
-	
-	
-	// if this setting is not global, add a data attribute
-	if( !$global ) {
-		
-		$setting['wrapper']['data-setting'] = $field['type'];
-		
-	}
-	
-	
-	// copy across prefix
-	$setting['prefix'] = $field['prefix'];
-		
-		
-	// copy across the $setting value
-	if( isset($field[ $setting['name'] ]) ) {
-		
-		$setting['value'] = $field[ $setting['name'] ];
-		
-	}
-	
-	
-	// render
-	acf_render_field_wrap( $setting, 'tr', 'label' );
-	
-}
-
-
-/*
-*  acf_get_field_types
-*
-*  This function will return all available field types
-*
-*  @type	function
-*  @date	1/10/13
-*  @since	5.0.0
-*
-*  @param	n/a
-*  @return	(array)
-*/
-
-function acf_get_field_types() {
-
-	return apply_filters('acf/get_field_types', array());
-	
-}
-
-
-/*
-*  acf_get_field_type_label
-*
-*  This function will return the label of a field type
-*
-*  @type	function
-*  @date	1/10/13
-*  @since	5.0.0
-*
-*  @param	n/a
-*  @return	(array)
-*/
-
-function acf_get_field_type_label( $field_type ) {
-
-	// vars
-	$field_types = acf_get_field_types();
-	
-	
-	// loop through categories
-	foreach( $field_types as $category ) {
-		
-		if( isset( $category[ $field_type ] ) ) {
-		
-			return $category[ $field_type ];
-			
-		}
-		
-	}
-	
-	
-	// return
-	return false;
-	
-}
-
-
-/*
-*  acf_field_type_exists
-*
-*  This function will check if the field_type is available
-*
-*  @type	function
-*  @date	1/10/13
-*  @since	5.0.0
-*
-*  @param	$field_type (string)
-*  @return	(boolean)
-*/
-
-function acf_field_type_exists( $field_type ) {
-
-	// vars
-	$label = acf_get_field_type_label( $field_type );
-	
-	
-	// return true if label exists
-	if( !empty( $label ) ) {
-		
-		return true;
-		
-	}
-		
-	
-	// return
-	return false;
-}
-
-
-/*
 *  acf_esc_attr
 *
 *  This function will return a render of an array of attributes to be used in markup
@@ -943,7 +561,7 @@ function acf_get_post_types( $exclude = array(), $include = array() ) {
 	
 	
 	// core exclude
-	$exclude = wp_parse_args( $exclude, array( 'acf-field', 'acf-field-group', 'revision', 'nav_menu_item' ) );
+	$exclude = wp_parse_args( $exclude, array('acf-field', 'acf-field-group', 'revision', 'nav_menu_item') );
 	
 	
 	// include
@@ -970,6 +588,10 @@ function acf_get_post_types( $exclude = array(), $include = array() ) {
 		unset( $post_types[ $i ] );
 		
 	}
+	
+	
+	// simplify keys
+	$post_types = array_values($post_types);
 	
 	
 	// return
@@ -1603,6 +1225,134 @@ function acf_force_type_array( $var ) {
 /*
 *  acf_get_posts
 *
+*  This function will return an array of posts making sure the order is correct
+*
+*  @type	function
+*  @date	3/03/2015
+*  @since	5.1.5
+*
+*  @param	$args (array)
+*  @return	(array)
+*/
+
+function acf_get_posts( $args = array() ) {
+	
+	// vars
+	$posts = array();
+	
+	
+	// defaults
+	// leave suppress_filters as true becuase we don't want any plugins to modify the query as we know exactly what 
+	$args = acf_parse_args( $args, array(
+		'posts_per_page'	=> -1,
+		'post_type'			=> acf_get_post_types(),
+		'post_status'		=> 'any',
+	));
+	
+	
+	// validate post__in
+	if( $args['post__in'] ) {
+		
+		// force value to array
+		$args['post__in'] = acf_force_type_array( $args['post__in'] );
+		
+		
+		// convert to int
+		$args['post__in'] = array_map('intval', $args['post__in']);
+		
+		
+		// add filter to remove post_type
+		// use 'query' filter so that 'suppress_filters' can remain true
+		add_filter('query', '_acf_get_posts_query');
+		
+		
+		// order by post__in
+		$args['orderby'] = 'post__in';
+		
+	}
+	
+	
+	// load posts in 1 query to save multiple DB calls from following code
+	$posts = get_posts($args);
+	
+	
+	// validate order
+	if( $posts && $args['post__in'] ) {
+		
+		// vars
+		$order = array();
+		
+		
+		// generate sort order
+		foreach( $posts as $i => $post ) {
+			
+			$order[ $i ] = array_search($post->ID, $args['post__in']);
+			
+		}
+		
+		
+		// sort
+		array_multisort($order, $posts);
+			
+	}
+	
+	
+	// return
+	return $posts;
+	
+}
+
+
+/*
+*  _acf_get_posts_query
+*
+*  This function will remove the 'wp_posts.post_type' WHERE clause completely
+*  When using 'post__in', this clause is unneccessary and slow.
+*
+*  @type	function
+*  @date	4/03/2015
+*  @since	5.1.5
+*
+*  @param	$sql (string)
+*  @return	$sql
+*/
+
+function _acf_get_posts_query( $sql ) {
+	
+	// get bits
+	$glue = 'AND';
+	$bits = explode($glue, $sql);
+	
+	
+	// loop through $where and remove any post_type queries
+	foreach( $bits as $i => $bit ) {
+		
+		if( strpos($bit, 'post_type') !== false ) {
+			
+			unset( $bits[ $i ] );
+			
+		}
+		
+	}
+	
+	
+	// join $where back together
+	$sql = implode($glue, $bits);
+	
+	
+	// remove this filter (only once)
+	remove_filter('query', '_acf_get_posts_query');
+	
+	
+	// return
+	return $sql;
+	
+}
+
+
+/*
+*  acf_get_grouped_posts
+*
 *  This function will return all posts grouped by post_type
 *  This is handy for select settings
 *
@@ -1614,7 +1364,7 @@ function acf_force_type_array( $var ) {
 *  @return	(array)
 */
 
-function acf_get_posts( $args ) {
+function acf_get_grouped_posts( $args ) {
 	
 	// vars
 	$r = array();
@@ -2099,17 +1849,6 @@ function acf_debug_end() {
 
 function acf_get_updates() {
 	
-	// cache
-	$found = false;
-	$cache = wp_cache_get( 'acf_get_updates', 'acf', false, $found );
-	
-	if( $found ) {
-	
-		return $cache;
-		
-	}
-	
-	
 	// vars
 	$updates = array();
 	$plugin_version = acf_get_setting('version');
@@ -2161,10 +1900,6 @@ function acf_get_updates() {
         
     }
     
-    
-    // set cache
-	wp_cache_set( 'acf_get_updates', $updates, 'acf' );
-	
     
     // return
     return $updates;
@@ -2597,7 +2332,7 @@ function acf_get_valid_post_id( $post_id = 0 ) {
 	
 		$autosave = wp_get_post_autosave( $_GET['preview_id'] );
 		
-		if( $autosave->post_parent == $post_id ) {
+		if( $autosave && $autosave->post_parent == $post_id ) {
 		
 			$post_id = (int) $autosave->ID;
 			
@@ -3203,6 +2938,71 @@ function acf_format_filesize( $size = 1 ) {
 	return $size . ' ' . $unit;
 	
 }
+
+
+/*
+*  acf_get_valid_terms
+*
+*  This function will replace old terms with new split term ids
+*
+*  @type	function
+*  @date	27/02/2015
+*  @since	5.1.5
+*
+*  @param	$terms (int|array)
+*  @param	$taxonomy (string)
+*  @return	$terms
+*/
+
+function acf_get_valid_terms( $terms = false, $taxonomy = 'category' ) {
+	
+	// bail early if function does not yet exist or
+	if( !function_exists('wp_get_split_term') || empty($terms) ) {
+		
+		return $terms;
+		
+	}
+	
+	
+	// vars
+	$is_array = is_array($terms);
+	
+	
+	// force into array
+	$terms = acf_force_type_array( $terms );
+	
+	
+	// force ints
+	$terms = array_map('intval', $terms);
+	
+	
+	// attempt to find new terms
+	foreach( $terms as $i => $term_id ) {
+		
+		$new_term_id = wp_get_split_term($term_id, $taxonomy);
+		
+		if( $new_term_id ) {
+			
+			$terms[ $i ] = $new_term_id;
+			
+		}
+		
+	}
+	
+	
+	// revert array if needed
+	if( !$is_array ) {
+		
+		$terms = $terms[0];
+		
+	}
+	
+	
+	// return
+	return $terms;
+	
+}
+
 
 
 /*

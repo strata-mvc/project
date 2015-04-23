@@ -15,9 +15,9 @@
         initialize: function () {
             var self = this;
             self.listenTo(self.model, 'translationSaved', self.render);
-            self.listenTo(self.model, 'translationSaved', function(){
-                jQuery('#tax-apply').show();
-            });
+						self.listenTo(self.model, 'translationSaved', function(){
+							jQuery('#tax-apply').prop('disabled', false);
+						});
         },
 
         render: function () {
@@ -41,9 +41,6 @@
             self.delegateEvents();
             return self;
         },
-        getViewID: function () {
-            return this.model.get("trid") + "|" + this.model.get("lang");
-        },
         openPopUPTerm: function (e) {
 
             e.preventDefault();
@@ -66,7 +63,6 @@
                 iclttForm.first('input').focus();
                 TaxonomyTranslation.classes.termPopUpView.$el.find('.term-save').on("click", TaxonomyTranslation.classes.termPopUpView.saveTerm.bind(TaxonomyTranslation.classes.termPopUpView));
             }
-
         }
     })
 })(TaxonomyTranslation);

@@ -86,8 +86,9 @@
                 self.search = 0;
             }
 
-            self.$el.find('#tax-apply').hide();
+            self.$el.find('#tax-apply').prop('disabled', true);
             self.trigger("updatedFilter");
+
             return self;
         }
 

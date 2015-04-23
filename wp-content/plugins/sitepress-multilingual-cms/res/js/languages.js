@@ -1049,9 +1049,10 @@ addLoadEvent(function () {
 		update: function () {
 			jQuery('.icl_languages_order_ajx_resp').html(icl_ajxloaderimg).fadeIn();
 			var languages_order = [];
-			jQuery('#icl_languages_order').find('li').each(function () {
-				languages_order.push(jQuery(this).attr('class').replace(/icl_languages_order_/, ''));
-			});
+            jQuery('#icl_languages_order').find('li').each(function () {
+                var lang_code = jQuery(this).attr('class').split(' ').shift().replace(/icl_languages_order_/, '');
+                languages_order.push(lang_code);
+            });
 			jQuery.ajax({
 				type: "POST",
 				url: icl_ajx_url,

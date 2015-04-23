@@ -1,4 +1,10 @@
-        
+<?php
+global $sitepress_settings;
+
+$theme_localization_stats  = get_theme_localization_stats();
+$plugin_localization_stats = get_plugin_localization_stats();
+?>
+
 <h3><?php _e('Strings in the theme', 'wpml-string-translation'); ?></h3>
 
 <div class="updated fade">

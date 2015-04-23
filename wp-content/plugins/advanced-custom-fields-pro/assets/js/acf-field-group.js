@@ -1010,7 +1010,7 @@
 			acf.open_popup({
 				title	: acf._e('move_field'),
 				loading	: true,
-				height	: 220
+				height	: 145
 			});
 			
 			
@@ -2180,6 +2180,10 @@
 			$tr2.attr( 'data-id', new_id );
 			
 			
+			// clear selected
+			$tr2.find('option[selected]').removeAttr('selected');
+			
+			
 			// add tr
 			$tr.after( $tr2 );
 					
@@ -2593,111 +2597,7 @@
 		acf_render_radio_field( acf.field_group.focus( $(this) ) );
 		
 	});
-	
-	
-	/*
-	*  Google Map
-	*
-	*  This field type requires some extra logic for its settings
-	*
-	*  @type	function
-	*  @date	24/10/13
-	*  @since	5.0.0
-	*
-	*  @param	n/a
-	*  @return	n/a
-	*/
-	
-	acf.add_action('open_field change_field_type', function( $el ){
 		
-		// bail early if not google_map
-		if( $el.attr('data-type') != 'google_map' ) {
-		
-			return;
-			
-		}
-		
-		
-		// vars
-		$lat = $el.find('tr[data-name="center_lat"]');
-		$lng = $el.find('tr[data-name="center_lng"]');
-		tmpl = '<ul class="acf-hl"><li style="width:48%;">$lat</li><li style="width:48%; margin-left:4%;">$lng</li></ul>';
-		
-		
-		// validate
-		if( !$lng.exists() ) {
-		
-			return;
-			
-		}
-		
-		
-		// update tmpl
-		tmpl = tmpl.replace( '$lat', $lat.find('.acf-input').html() );
-		tmpl = tmpl.replace( '$lng', $lng.find('.acf-input').html() );
-		
-		
-		// update $lat
-		$lat.find('.acf-input').html( tmpl );
-		
-		
-		// remove $lng
-		$lng.remove();
-		
-	});
-	
-	
-	/*
-	*  oEmbed
-	*
-	*  This field type requires some extra logic for its settings
-	*
-	*  @type	function
-	*  @date	24/10/13
-	*  @since	5.0.0
-	*
-	*  @param	n/a
-	*  @return	n/a
-	*/
-	
-	acf.add_action('open_field change_field_type', function( $el ){
-		
-		// bail early if not oembed
-		if( $el.attr('data-type') != 'oembed' ) {
-		
-			return;
-			
-		}
-		
-		
-		// vars
-		$width = $el.find('tr[data-name="width"]');
-		$height = $el.find('tr[data-name="height"]');
-		tmpl = '<ul class="acf-hl"><li style="width:48%;">$width</li><li style="width:48%; margin-left:4%;">$height</li></ul>';
-		
-		
-		// validate
-		if( !$width.exists() ) {
-		
-			return;
-			
-		}
-		
-		
-		// update tmpl
-		tmpl = tmpl.replace( '$width', $width.find('.acf-input').html() );
-		tmpl = tmpl.replace( '$height', $height.find('.acf-input').html() );
-		
-		
-		// update $lat
-		$width.find('.acf-input').html( tmpl );
-		
-		
-		// remove $lng
-		$height.remove();
-		
-	});
-	
 	
 	/*
 	*  Date Picker

@@ -34,9 +34,10 @@
             jQuery('a[href="#phpinfo"]').click(function(){                
                 
                 var pleft = (jQuery('body').width() - 700)/2;
-                jQuery('#phpinfo_container').css('left', pleft+'px').css('top','30px');
-                
-                jQuery('#phpinfo_container').html('<div style="background-color:#fff;padding-right:10px;font-weight:bold;text-align:right;"><a href="#phpinfo-close"><?php echo __('Close', 'sitepress')?></a></div><iframe width="700" height="600" src="<?php echo ICL_PLUGIN_URL ?>/inc/php-version-check.php?icl_phpinfo=1">Loading...</iframe>')
+                var phpInfoContainer = jQuery('#phpinfo_container')
+
+                phpInfoContainer.css('left', pleft+'px').css('top','30px');
+                phpInfoContainer.html('<div style="background-color:#fff;padding-right:10px;font-weight:bold;text-align:right;"><a href="#phpinfo-close"><?php echo __('Close', 'sitepress')?></a></div><iframe width="700" height="600" src="<?php echo ICL_PLUGIN_URL ?>/inc/php-version-check.php?icl_phpinfo=1">Loading...</iframe>')
                 jQuery('a[href="#phpinfo-close"]').click(function(){
                     jQuery('#phpinfo_container').html('');
                 });                

@@ -83,11 +83,27 @@ td.acf-field[data-width] {
 }
 /* field width helpers */
 .acf-r0 {
-  border-top: none !important;
+  border-top-width: 0 !important;
 }
 .acf-c0 {
   clear: left !important;
-  border-left: none !important;
+  border-left-width: 0 !important;
+}
+/* rtl */
+html[dir="rtl"] .acf-field[data-width] {
+  float: right;
+}
+html[dir="rtl"] .acf-field[data-width] + .acf-field {
+  clear: right;
+}
+html[dir="rtl"] .acf-field[data-width] + .acf-field[data-width] {
+  clear: none;
+  border-right: 1px solid #eeeeee;
+}
+html[dir="rtl"] .acf-c0 {
+  clear: right !important;
+  border-left-width: 1px !important;
+  border-right-width: 0 !important;
 }
 /*---------------------------------------------------------------------------------------------
 *
@@ -217,6 +233,56 @@ html[dir="rtl"] input.acf-is-prepended.acf-is-appended {
 }
 .acf-field .select2-input {
   max-width: 200px;
+}
+/*---------------------------------------------------------------------------------------------
+*
+*  Select2
+*
+*---------------------------------------------------------------------------------------------*/
+.acf-select2-container .select2-choices {
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07) inset;
+  min-height: 31px;
+}
+.acf-select2-container .select2-choices .select2-search-choice {
+  margin: 5px 0 5px 5px;
+  padding: 3px 5px 3px 18px;
+  border-color: #bbb;
+  background: #f9f9f9;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset;
+}
+.acf-select2-container .select2-choices .select2-search-choice-focus {
+  border-color: #999;
+}
+.acf-select2-container .select2-choices .select2-search-field input {
+  height: 31px;
+  line-height: 22px;
+  margin: 0;
+  padding: 5px 5px 5px 7px;
+}
+.acf-select2-container .select2-search-choice-close {
+  top: 3px;
+}
+/* open */
+.acf-select2-container.select2-container-active .select2-choices,
+.acf-select2-container.select2-dropdown-open .select2-choices {
+  border-color: #5B9DD9;
+  border-radius: 3px 3px 0 0;
+}
+/* single */
+.acf-select2-container .select2-choice {
+  border-color: #BBBBBB;
+}
+.acf-select2-container .select2-choice .select2-arrow {
+  background: transparent;
+  border-left-color: #DFDFDF;
+  padding-left: 1px;
+}
+/* single open */
+.acf-select2-container.select2-dropdown-open .select2-choice {
+  background: #fff;
+  border-color: #5B9DD9;
 }
 /*---------------------------------------------------------------------------------------------
 *
@@ -615,6 +681,22 @@ html[dir="rtl"] .pac-container .pac-item {
 .acf-tpl > .acf-tab-wrap .acf-tab-group li.active a {
   background: #fff !important;
 }
+/* rtl */
+html[dir="rtl"] .acf-fields.acf-tpl {
+  padding-right: 150px !important;
+  padding-left: 0 !important;
+}
+html[dir="rtl"] .acf-tpl > .acf-tab-wrap {
+  position: absolute;
+  top: 0;
+  left: auto;
+  right: 0;
+  border-right-width: 0;
+  border-left: #DFDFDF solid 1px;
+}
+html[dir="rtl"] .acf-tpl > .acf-tab-wrap .acf-tab-group li.active a {
+  margin: 0 0 0 -1px;
+}
 /*--------------------------------------------------------------------------------------------
 *
 *	oembed
@@ -853,6 +935,9 @@ html[dir="rtl"] .acf-image-uploader .view {
 *	Taxonomy
 *
 *---------------------------------------------------------------------------------------------*/
+.acf-taxonomy-field {
+  position: relative;
+}
 .acf-taxonomy-field .categorychecklist-holder {
   border: #DFDFDF solid 1px;
   border-radius: 3px;
@@ -865,6 +950,16 @@ html[dir="rtl"] .acf-image-uploader .view {
 }
 .acf-taxonomy-field ul.children {
   padding-left: 18px;
+}
+.acf-taxonomy-field .acf-icon {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  z-index: 1;
+}
+.acf-taxonomy-field[data-type="select"] .acf-icon {
+  top: -9px;
+  right: -9px;
 }
 /*---------------------------------------------------------------------------------------------
 *
@@ -1016,7 +1111,8 @@ html[dir="rtl"] .acf-image-uploader .view {
 }
 /* fix % margin which causes .acf-uploadedTo to drop down below select */
 .media-frame select.attachment-filters {
-  margin-right: 6px;
+  margin-right: 6px !important;
+  vertical-align: middle;
 }
 .media-modal .acf-uploadedTo {
   line-height: 28px;

@@ -258,7 +258,7 @@ if ( $icl_menus_sync->is_preview ) {
 		<input id="icl_msync_submit" class="button-primary" type="submit" value="<?php _e( 'Apply changes' ) ?>" <?php echo $icl_menu_sync_submit_disabled; ?> />&nbsp;
 		<input id="icl_msync_cancel" class="button-secondary" type="button" value="<?php _e( 'Cancel' ) ?>"/>
 	</p>
-
+        <?php wp_nonce_field( '_icl_nonce_menu_sync', '_icl_nonce_menu_sync' ); ?>
 	</form>
 
 <?php
@@ -345,6 +345,7 @@ if ( $icl_menus_sync->is_preview ) {
 			}
 			?>
 		</p>
+        <?php wp_nonce_field( '_icl_nonce_menu_sync', '_icl_nonce_menu_sync' ); ?>
 	</form>
 
 	<?php

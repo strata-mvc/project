@@ -1,7 +1,10 @@
 <?php
 
 global $pagenow;
-if ($pagenow == 'admin.php' && isset($_GET['import']) && $_GET['import'] == 'wordpress' && isset($_GET['step']) && $_GET['step'] == 1) {
+$filtered_import = filter_input( INPUT_GET, 'import' );
+$filtered_step   = filter_input( INPUT_GET, 'step' );
+
+if ($pagenow == 'admin.php' && 0 === strcmp( $filtered_import, 'wordpress' ) && $filtered_step == 1 ) {
 	add_action('admin_head', 'icl_import_xml');
 }
 

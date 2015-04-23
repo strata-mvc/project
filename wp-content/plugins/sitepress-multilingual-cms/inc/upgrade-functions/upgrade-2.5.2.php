@@ -16,4 +16,3 @@
       $sql = "UPDATE {$wpdb->prefix}icl_languages SET encode_url = 1 WHERE code IN ('" . join("','", $encurls) . "')";
       $wpdb->query($sql);      
   }
- 

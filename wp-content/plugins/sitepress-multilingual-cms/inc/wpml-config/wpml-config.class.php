@@ -1,4 +1,7 @@
 <?php
+
+require ICL_PLUGIN_PATH . "/inc/taxonomy-term-translation/wpml-term-language-synchronization.class.php";
+
 class WPML_Config
 {
 	static $wpml_config_files = array();
@@ -204,8 +207,11 @@ class WPML_Config
                     $config = $file->config;
                     $type = $file->type;
                     $admin_text_context = $file->admin_text_context;
-                }else{
-				$config = icl_xml2array( file_get_contents( $file ) );
+                } else {
+                    $config = icl_xml2array ( file_get_contents ( $file ) );
+                    $type = ( dirname ( $file ) === get_template_directory ()
+                              || dirname ( $file ) === get_stylesheet_directory () ) ? 'theme' : 'plugin';
+                    $admin_text_context = basename ( dirname ( $file ) );
                 }
 
 				if ( isset( $config[ 'wpml-config' ] ) ) {
@@ -245,12 +251,6 @@ class WPML_Config
 
 					//admin-texts
 					if ( isset( $config[ 'wpml-config' ][ 'admin-texts' ][ 'key' ] ) ) {
-
-						$type = ( dirname( $file ) == get_template_directory() || dirname( $file ) == get_stylesheet_directory() ) ? 'theme' : 'plugin';
-
-						$admin_text_context = basename( dirname( $file ) );
-
-
 						if ( ! is_numeric( key( @current( $config[ 'wpml-config' ][ 'admin-texts' ] ) ) ) ) { //single
 							$config[ 'wpml-config' ][ 'admin-texts' ][ 'key' ][ 'type' ]    = $type;
 							$config[ 'wpml-config' ][ 'admin-texts' ][ 'key' ][ 'context' ] = $admin_text_context;
@@ -461,11 +461,11 @@ class WPML_Config
 	 *
 	 * @return array
 	 */
-	protected static function parse_taxonomies( $config )
-	{
+	protected static function parse_taxonomies( $config ) {
 		global $sitepress, $iclTranslationManagement;
-		$cf = array();
-		$taxonomies_sync_option = array();
+
+		$cf                     = array();
+		$taxonomies_sync_option = $sitepress->get_setting( 'taxonomies_sync_option', array() );
 
 		if ( !empty( $config[ 'wpml-config' ][ 'taxonomies' ] ) ) {
 			if ( !is_numeric( key( current( $config[ 'wpml-config' ][ 'taxonomies' ] ) ) ) ) {
@@ -475,21 +475,24 @@ class WPML_Config
 			}
 
 			foreach ( $cf as $c ) {
-
-				$translate  																			= intval( $c[ 'attr' ][ 'translate' ] );
-				$iclTranslationManagement->settings[ 'taxonomies_readonly_config' ][ $c[ 'value' ] ]	= $translate;
-				$taxonomies_sync_option[ 'taxonomies_sync_option' ][ $c[ 'value' ] ]					= $translate;
+				$sync_existing_setting = isset( $taxonomies_sync_option[ $c[ 'value' ] ] ) ? $taxonomies_sync_option[ $c[ 'value' ] ] : false;
+				$translate                                                                           = intval( $c[ 'attr' ][ 'translate' ] );
+				$iclTranslationManagement->settings[ 'taxonomies_readonly_config' ][ $c[ 'value' ] ] = $translate;
+				$taxonomies_sync_option[ $c[ 'value' ] ]                                             = $translate;
 
 				// this has just changed. save.
-				if ( $translate == 1 ) {
+				if ( $translate == 1 && !$sync_existing_setting ) {
 					$sitepress->verify_taxonomy_translations( $c[ 'value' ] );
 					$iclTranslationManagement->save_settings();
 				}
 			}
 
-			$sitepress->save_settings( $taxonomies_sync_option );
+			$sitepress->set_setting( '$taxonomies_sync_option', $taxonomies_sync_option );
 
-			add_filter( 'get_translatable_taxonomies', array( $iclTranslationManagement, '_override_get_translatable_taxonomies' ) );
+			add_filter(
+				'get_translatable_taxonomies',
+				array( $iclTranslationManagement, '_override_get_translatable_taxonomies' )
+			);
 		}
 
 		// taxonomies - check what's been removed

@@ -39,6 +39,7 @@ class WPML_Translation_Tree {
 
 		/* Get all the term objects */
 		$terms_in_taxonomy = $wpdb->get_results (
+            $wpdb->prepare(
 			"SELECT icl_translations.element_id AS term_taxonomy_id,
 					icl_translations.trid AS trid,
 					icl_translations.language_code AS language_code,
@@ -46,8 +47,9 @@ class WPML_Translation_Tree {
 					wp_tt.term_id
 			FROM {$wpdb->term_taxonomy} as wp_tt
 			JOIN {$wpdb->prefix}icl_translations AS icl_translations
-			ON concat('tax_',wp_tt.taxonomy) = icl_translations.element_type AND wp_tt.term_taxonomy_id = icl_translations.element_id
-			WHERE wp_tt.taxonomy = '{$taxonomy}'" );
+			  ON concat('tax_',wp_tt.taxonomy) = icl_translations.element_type
+			    AND wp_tt.term_taxonomy_id = icl_translations.element_id
+			WHERE wp_tt.taxonomy = %s", $taxonomy) );
 
 		return $terms_in_taxonomy;
 	}
@@ -375,7 +377,7 @@ class WPML_Translation_Tree {
 				$this->sync_subtree( $lang, $element );
 			}
 		}
-		delete_option( 'category_children' );
+		delete_option( "{$this->taxonomy}_children" );
 		return true;
 	}
 

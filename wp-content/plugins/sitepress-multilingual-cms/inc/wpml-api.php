@@ -1,5 +1,5 @@
 <?php
-/* This file includes a set of funcitons that can be used by WP plugins developers to make their plugins interract with WPML */
+/* This file includes a set of functions that can be used by WP plugin developers to make their plugins interact with WPML */
 
 /* constants */
 define('WPML_API_SUCCESS' , 0);
@@ -58,13 +58,18 @@ function wpml_add_translatable_content($content_type, $content_id, $language_cod
     }
 
     if($trid){
-        $trid_type   = $wpdb->get_var("SELECT element_type FROM {$wpdb->prefix}icl_translations WHERE trid='{$trid}'");
+        $trid_type   = $wpdb->get_var( $wpdb->prepare(" SELECT element_type
+                                                        FROM {$wpdb->prefix}icl_translations
+                                                        WHERE trid = %d ", $trid) );
         if(!$trid_type || $trid_type != $content_type){
             return WPML_API_INVALID_TRID;
         }
     }
 
-    if($wpdb->get_var("SELECT translation_id FROM {$wpdb->prefix}icl_translations WHERE element_type='".esc_sql($content_type)."' AND element_id='{$content_id}'")){
+    if($wpdb->get_var( $wpdb->prepare(" SELECT translation_id
+                                        FROM {$wpdb->prefix}icl_translations
+                                        WHERE element_type=%s
+                                          AND element_id=%d", $content_type, $content_id))){
         return WPML_API_CONTENT_EXISTS;
     }
 
@@ -127,6 +132,8 @@ function wpml_update_translatable_content($content_type, $content_id, $language_
  * Update translatable content in the WPML translations table
  *
  * @since      1.3
+ * @deprecated deprecated since 3.2
+ *             
  * @package    WPML
  * @subpackage WPML API
  *
@@ -219,7 +226,11 @@ function wpml_get_content($content_type, $content_id, $return_original = true){
             return $content_id;
         }
         if($content_type=='category' || $content_type=='post_tag' || $content_type=='tag'){
-            $content_id = $wpdb->get_var($wpdb->prepare("SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE term_id= %d AND taxonomy='{$content_type}'",$content_id));
+            $content_id = $wpdb->get_var($wpdb->prepare(" SELECT term_taxonomy_id
+                                                          FROM {$wpdb->term_taxonomy}
+                                                          WHERE term_id = %d
+                                                            AND taxonomy = %s",
+                                                        $content_id, $content_type));
         }
         if($content_type=='post_tag'){
             $icl_element_type = 'tax_post_tag';
@@ -237,7 +248,12 @@ function wpml_get_content($content_type, $content_id, $return_original = true){
         if(isset($translations[ICL_LANGUAGE_CODE]->element_id)){
             $ret_element_id = $translations[ICL_LANGUAGE_CODE]->element_id;
             if($content_type=='category' || $content_type=='post_tag'){
-                $ret_element_id = $wpdb->get_var($wpdb->prepare("SELECT t.term_id FROM {$wpdb->term_taxonomy} tx JOIN {$wpdb->terms} t ON t.term_id = tx.term_id WHERE tx.term_taxonomy_id = %d AND tx.taxonomy='{$content_type}'", $ret_element_id));
+                $ret_element_id = $wpdb->get_var($wpdb->prepare(" SELECT t.term_id
+                                                                  FROM {$wpdb->term_taxonomy} tx
+                                                                  JOIN {$wpdb->terms} t
+                                                                    ON t.term_id = tx.term_id
+                                                                  WHERE tx.term_taxonomy_id = %d
+                                                                    AND tx.taxonomy=%s", $ret_element_id, $content_type));
             }
         }else{
             $ret_element_id = $return_original ? $content_id : null;
@@ -382,32 +398,11 @@ function wpml_get_contents($content_type, $language_code = false){
         $language_code = $sitepress->get_current_language();
     }
 
-    $contents = $wpdb->get_col("SELECT element_id FROM {$wpdb->prefix}icl_translations WHERE element_type='".esc_sql($content_type)."' AND language_code='{$language_code}'");
+    $contents = $wpdb->get_col( $wpdb->prepare("SELECT element_id
+                                                FROM {$wpdb->prefix}icl_translations
+                                                WHERE element_type = %s AND language_code = %s",
+                                                $content_type, $language_code ) );
     return $contents;
-
-}
-
-/**
- *  Returns google translation for given string
- *
- * @since 1.3
- * @package WPML
- * @subpackage WPML API
- *
- * @param string $string String
- * @param string $from_language Language to translate from
- * @param string $to_language Language to translate into
- *
- * @return int (error code) or string
- */
-function wpml_machine_translation($string, $from_language, $to_language){
-    global $sitepress;
-
-    if(!$sitepress->get_language_details($from_language) || !$sitepress->get_language_details($to_language)){
-        return WPML_API_INVALID_LANGUAGE_CODE;
-    }
-
-    return IclCommentsTranslation::machine_translate($from_language, $to_language, $string);
 }
 
 /**
@@ -451,7 +446,10 @@ function wpml_send_content_to_translation($string, $content_id, $content_type, $
 
     if($rid > 0){
         // does this comment already exist in the messages status queue?
-        $msid = $wpdb->get_var("SELECT id FROM {$wpdb->prefix}icl_message_status WHERE object_type='{$content_type}' AND object_id={$content_id}");
+        $msid = $wpdb->get_var($wpdb->prepare(" SELECT id
+                                                FROM {$wpdb->prefix}icl_message_status
+                                                WHERE object_type = %s
+                                                  AND object_id = %d", $content_type, $content_id ));
         if($msid){
             $wpdb->update($wpdb->prefix.'icl_message_status',
                 array('rid'=>$rid, 'md5' => md5($string), 'status' => MESSAGE_TRANSLATION_IN_PROGRESS),
@@ -538,8 +536,13 @@ function wpml_check_user_is_translator($from_language, $to_language) {
 
     $is_translator = false;
 
-    if(get_current_user_id()){
-        $translation_languages = $wpdb->get_row("SELECT meta_value FROM {$wpdb->usermeta} WHERE user_id = '" . get_current_user_id() . "' AND meta_key = '{$wpdb->prefix}language_pairs'");
+    if($current_user_id = get_current_user_id()){
+        $translation_languages = $wpdb->get_row($wpdb->prepare("SELECT meta_value
+                                                                FROM {$wpdb->usermeta}
+                                                                WHERE user_id = %d
+                                                                  AND meta_key = %s",
+                                                               $current_user_id,
+                                                               $wpdb->prefix . 'language_pairs'));
         if($translation_languages){
         foreach (unserialize($translation_languages->meta_value) as $key => $language) {
             if ($key == $from_language) {
@@ -687,11 +690,11 @@ function wpml_get_synchronizing_taxonomies($post_id,$tax_name) {
     $taxs = array();
     // get custom taxonomies
     if (!empty($post_id)) {
-        $taxonomies = $wpdb->get_col("
+        $taxonomies = $wpdb->get_col($wpdb->prepare("
                 SELECT DISTINCT tx.taxonomy 
                 FROM {$wpdb->term_taxonomy} tx JOIN {$wpdb->term_relationships} tr ON tx.term_taxonomy_id = tr.term_taxonomy_id
-                WHERE tr.object_id = {$post_id}
-            ");
+                WHERE tr.object_id = %d
+            ", $post_id));
 
         sort($taxonomies, SORT_STRING);
 

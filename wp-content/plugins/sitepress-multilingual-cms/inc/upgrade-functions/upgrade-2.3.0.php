@@ -29,4 +29,3 @@ update_option('icl_sitepress_settings', $iclsettings);
 // Let's clear the cache so it gets rebuilt.
 delete_option($wpdb->prefix . 'icl_translators_cached');
 delete_option($wpdb->prefix . 'icl_non_translators_cached');
-

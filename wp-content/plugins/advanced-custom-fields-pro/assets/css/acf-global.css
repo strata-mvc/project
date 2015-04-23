@@ -1054,6 +1054,20 @@ img.acf-fw {
   left: 50%;
   margin: -10px 0 0 -10px;
 }
+/* submit p */
+.acf-submit {
+  margin-bottom: 0;
+}
+.acf-submit span {
+  float: right;
+  color: #999;
+}
+.acf-submit .acf-loading {
+  display: none;
+}
+.acf-submit .acf-button {
+  margin-right: 5px;
+}
 /*--------------------------------------------------------------------------------------------
 *
 *	upgrade notice

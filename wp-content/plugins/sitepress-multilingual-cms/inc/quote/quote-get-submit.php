@@ -46,7 +46,8 @@ if (isset($data['submit-for-later'])) {
         $user['blogid'] = $wpdb->blogid ? $wpdb->blogid : 1;
         $user['url'] = get_option('siteurl');
         $user['title'] = get_option('blogname');
-        $user['description'] = $sitepress_settings['icl_site_description'];
+        $user[ 'description' ] = isset( $sitepress_settings[ 'icl_site_description' ] )
+            ? $sitepress_settings[ 'icl_site_description' ] : "";
         $user['is_verified'] = 1;
         $user['interview_translators'] = $sitepress_settings['interview_translators'];
         $user['project_kind'] = $sitepress_settings['website_kind'];
@@ -73,10 +74,14 @@ if (isset($data['submit-for-later'])) {
         $lang_pairs = array();
         if (isset($language_pairs)) {
             foreach ($language_pairs as $k => $v) {
-                $english_fr = $wpdb->get_var("SELECT english_name FROM {$wpdb->prefix}icl_languages WHERE code='{$k}' ");
-                foreach ($v as $k => $v) {
+                $english_fr = $wpdb->get_var($wpdb->prepare("SELECT english_name
+                                                             FROM {$wpdb->prefix}icl_languages
+                                                             WHERE code = %s ", $k) );
+                foreach ($v as $l => $m) {
                     $incr++;
-                    $english_to = $wpdb->get_var("SELECT english_name FROM {$wpdb->prefix}icl_languages WHERE code='{$k}' ");
+                    $english_to = $wpdb->get_var( $wpdb->prepare("SELECT english_name
+                                                                  FROM {$wpdb->prefix}icl_languages
+                                                                  WHERE code=%s ", $l ) ) ;
                     $lang_pairs['from_language' . $incr] = ICL_Pro_Translation::server_languages_map($english_fr);
                     $lang_pairs['to_language' . $incr] = ICL_Pro_Translation::server_languages_map($english_to);
                     if ($pay_per_use) {
@@ -144,11 +149,15 @@ if (isset($data['submit-for-later'])) {
     $query = '';
     if (isset($language_pairs)) {
         foreach ($language_pairs as $k => $v) {
-            $english_from = $wpdb->get_var("SELECT english_name FROM {$wpdb->prefix}icl_languages WHERE code='{$k}' ");
+            $english_from = $wpdb->get_var($wpdb->prepare("SELECT english_name
+                                                           FROM {$wpdb->prefix}icl_languages
+                                                           WHERE code = %s ", $k ) );
             $query .= '&to_lang_num=' . count($v);
             $query .= '&from_language_name=' . $english_from;
-            foreach ($v as $k => $v) {
-                $english_to = $wpdb->get_var("SELECT english_name FROM {$wpdb->prefix}icl_languages WHERE code='{$k}' ");
+            foreach ($v as $l => $m) {
+                $english_to = $wpdb->get_var($wpdb->prepare("SELECT english_name
+                                                             FROM {$wpdb->prefix}icl_languages
+                                                             WHERE code= %s ", $l ) );
                 $query .= '&to_language_name_' . $incr . '=' . ICL_Pro_Translation::server_languages_map($english_to);
                 $incr++;
             }

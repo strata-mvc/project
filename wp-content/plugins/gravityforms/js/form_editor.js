@@ -38,7 +38,6 @@ jQuery(document).ready(function() {
         start: function(event, ui){
             gforms_dragging = ui.item[0].id;
         },
-        containment: 'document',
         tolerance: "pointer",
         over: function( event, ui ) {
             jQuery('#no-fields').hide();
@@ -109,7 +108,7 @@ jQuery(document).ready(function() {
         }
     });
 
-    jQuery('#field_choices').sortable({
+    jQuery('#field_choices, #field_columns').sortable({
         axis: 'y',
         handle: '.field-choice-handle',
         update: function(event, ui){
@@ -631,10 +630,10 @@ function LoadFieldSettings(){
         field = UpgradeAddressField(field);
     }
 
-    if(field.type == 'email'){
+    if(field.type == 'email' || field.inputType == 'email' ){
         field = UpgradeEmailField(field);
     }
-	if(field.type == 'password'){
+	if(field.type == 'password' || field.inputType == 'password' ){
 		field = UpgradePasswordField(field);
 	}
 
@@ -714,11 +713,11 @@ function LoadFieldSettings(){
         }
     }
 
-    if(field.type == 'date'){
+    if(inputType == 'date'){
         field = UpgradeDateField(field);
     }
 
-    if(field.type == 'time'){
+    if(inputType == 'time'){
         field = UpgradeTimeField(field);
     }
 
@@ -1215,7 +1214,7 @@ function UpgradeNameField(field, prefixHiddex, middleHidden, suffixHidden){
 }
 
 function UpgradeDateField(field){
-    if(field.type != 'date'){
+    if(field.type != 'date' && field.inputType != 'date' ){
         return field;
     }
 
@@ -1227,7 +1226,7 @@ function UpgradeDateField(field){
 }
 
 function UpgradeTimeField(field){
-    if(field.type != 'time'){
+    if(field.type != 'time' && field.inputType != 'time' ){
         return field;
     }
 
@@ -1239,7 +1238,7 @@ function UpgradeTimeField(field){
 }
 
 function UpgradeEmailField(field){
-    if(field.type != 'email'){
+    if(field.type != 'email' && field.inputType != 'email'){
         return field;
     }
 
@@ -1252,7 +1251,7 @@ function UpgradeEmailField(field){
 }
 
 function UpgradePasswordField(field){
-	if(field.type != 'password'){
+	if(field.type != 'password' && field.inputType != 'password'){
 		return field;
 	}
 
@@ -1862,8 +1861,9 @@ function CheckChoiceConditionalLogicDependency(input) {
 
     var field = GetSelectedField();
 
+    var previousValue = jQuery(input).data('previousValue'); // Get the value before checking. Fixes an issue in Chrome on Windows.
     // check for cond logic dependency
-    if( HasConditionalLogicDependency(field.id, jQuery(input).data('previousValue')) ) {
+    if(HasConditionalLogicDependency(field.id, previousValue)) {
 
         // confirm that the user wants to make the modification
         if(confirm(gf_vars.conditionalLogicDependencyChoiceEdit))
@@ -2766,7 +2766,7 @@ function SetTimeFormat(format){
 
 function LoadTimeInputs(){
     var field = GetSelectedField();
-    if(field.type != 'time'){
+    if(field.type != 'time' && field.inputType != 'time'){
         return;
     }
     var format = jQuery("#field_time_format").val();

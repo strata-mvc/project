@@ -2,7 +2,7 @@
 Contributors: jarednova
 Tags: template engine, templates, twig
 Requires at least: 3.7
-Stable tag: 0.20.10
+Stable tag: 0.21.1
 Tested up to: 4.1
 PHP version: 5.3.0 or greater
 License: GPLv2 or later
@@ -40,6 +40,15 @@ Timber is great for any WordPress developer who cares about writing good, mainta
 
 
 == Changelog ==
+
+= 0.21.1 =
+* Fixed capitalization problem for WP.org version
+
+= 0.21.0 =
+* Routes is now its own independent repo
+* Timber Starter Theme is now its own independent repo
+* Improved loading of files (thanks @mgmartel)
+* Fixed some errors with TimberImages (thanks @imranismail)
 
 = 0.20.10 =
 * Resolved lingering composer issues (thanks @austinpray, @lucasmichot)
@@ -82,7 +91,7 @@ Timber is great for any WordPress developer who cares about writing good, mainta
 = 0.20.4 =
 * Fixed issue with Timber::get_posts and Timber::query_posts using numberposts in args
 
-= 0.20.3 = 
+= 0.20.3 =
 * Fixed some issues with linking to menu items with a hash
 
 = 0.20.2 =

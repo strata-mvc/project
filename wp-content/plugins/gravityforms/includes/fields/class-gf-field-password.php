@@ -40,8 +40,8 @@ class GF_Field_Password extends GF_Field {
 	}
 
 	public function validate( $value, $form ) {
-		$password = $_POST[ 'input_' . $this->id ];
-		$confirm  = $_POST[ 'input_' . $this->id . '_2' ];
+		$password = rgpost( 'input_' . $this->id );
+		$confirm  = rgpost( 'input_' . $this->id . '_2' );
 		if ( $password != $confirm ) {
 			$this->failed_validation  = true;
 			$this->validation_message = __( 'Your passwords do not match.', 'gravityforms' );
@@ -93,14 +93,14 @@ class GF_Field_Password extends GF_Field {
 		$onchange = $this->passwordStrengthEnabled ? "onchange='{$action}'" : '';
 		$onkeyup  = $this->passwordStrengthEnabled ? "onkeyup='{$action}'" : '';
 
-		$confirmation_value = RGForms::post( 'input_' . $id . '_2' );
+		$confirmation_value = rgpost( 'input_' . $id . '_2' );
 
-		$password_value = is_array( $value ) ? $value[0] : $value;
-		$password_value = esc_attr( $password_value );
-		$confirmation_value  = esc_attr( $confirmation_value );
+		$password_value     = is_array( $value ) ? $value[0] : $value;
+		$password_value     = esc_attr( $password_value );
+		$confirmation_value = esc_attr( $confirmation_value );
 
-		$enter_password_field_input     = GFFormsModel::get_input( $this, $this->id . '' );
-		$confirm_password_field_input     = GFFormsModel::get_input( $this, $this->id . '.2' );
+		$enter_password_field_input   = GFFormsModel::get_input( $this, $this->id . '' );
+		$confirm_password_field_input = GFFormsModel::get_input( $this, $this->id . '.2' );
 
 		$enter_password_label   = rgar( $enter_password_field_input, 'customLabel' ) != '' ? $enter_password_field_input['customLabel'] : __( 'Enter Password', 'gravityforms' );
 		$enter_password_label   = apply_filters( "gform_password_{$form_id}", apply_filters( 'gform_password', $enter_password_label, $form_id ), $form_id );
@@ -109,12 +109,12 @@ class GF_Field_Password extends GF_Field {
 		$confirm_password_label = apply_filters( "gform_password_confirm_{$form_id}", apply_filters( 'gform_password_confirm', $confirm_password_label, $form_id ), $form_id );
 
 
-		$enter_password_placeholder_attribute  = GFCommon::get_input_placeholder_attribute( $enter_password_field_input );
-		$confirm_password_placeholder_attribute  = GFCommon::get_input_placeholder_attribute( $confirm_password_field_input );
+		$enter_password_placeholder_attribute   = GFCommon::get_input_placeholder_attribute( $enter_password_field_input );
+		$confirm_password_placeholder_attribute = GFCommon::get_input_placeholder_attribute( $confirm_password_field_input );
 
 		if ( $is_sub_label_above ) {
 			return "<div class='ginput_complex$class_suffix ginput_container' id='{$field_id}_container'>
-					<span id='{$field_id}_container' class='ginput_left'>
+					<span id='{$field_id}_1_container' class='ginput_left'>
 						<label for='{$field_id}' {$sub_label_class_attribute}>{$enter_password_label}</label>
 						<input type='password' name='input_{$id}' id='{$field_id}' {$onkeyup} {$onchange} value='{$password_value}' {$first_tabindex} {$enter_password_placeholder_attribute} {$disabled_text}/>
 					</span>
@@ -126,7 +126,7 @@ class GF_Field_Password extends GF_Field {
 				</div>{$strength}";
 		} else {
 			return "<div class='ginput_complex$class_suffix ginput_container' id='{$field_id}_container'>
-					<span id='{$field_id}_container' class='ginput_left'>
+					<span id='{$field_id}_1_container' class='ginput_left'>
 						<input type='password' name='input_{$id}' id='{$field_id}' {$onkeyup} {$onchange} value='{$password_value}' {$first_tabindex} {$enter_password_placeholder_attribute} {$disabled_text}/>
 						<label for='{$field_id}' {$sub_label_class_attribute}>{$enter_password_label}</label>
 					</span>
@@ -151,11 +151,11 @@ class GF_Field_Password extends GF_Field {
 	}
 
 
-	public static function delete_passwords( $entry, $form ){
+	public static function delete_passwords( $entry, $form ) {
 
 		$password_fields = GFCommon::get_fields_by_type( $form , array( 'password' ) );
 
-		foreach ( $password_fields as $password_field ){
+		foreach ( $password_fields as $password_field ) {
 			GFAPI::update_entry_field( $entry['id'], $password_field['id'], '' );
 		}
 	}

@@ -60,10 +60,15 @@ if(is_admin() || defined('XMLRPC_REQUEST')):
                         'icl_show_reminders',
                         'icl_show_sidebar',
                     );
-                    if( !isset($_REQUEST['icl_ajx_action']) || !in_array($_REQUEST['icl_ajx_action'], $ajx_request_exceptions)){
-                        add_action('icl_save_settings', array($this, 'icl_save_settings_cb'), 10, 1);
-                    }                    
-                    
+                    $request_get_icl_ajax_action = filter_input ( INPUT_GET, 'icl_ajax_action' );
+                    $request_post_icl_ajax_action = filter_input ( INPUT_POST, 'icl_ajax_action' );
+                    if ( ( !$request_get_icl_ajax_action && !$request_post_icl_ajax_action )
+                         || ( !in_array ( $request_post_icl_ajax_action, $ajx_request_exceptions )
+                              && !in_array ( $request_get_icl_ajax_action, $ajx_request_exceptions ) )
+                    ) {
+                        add_action ( 'icl_save_settings', array( $this, 'icl_save_settings_cb' ), 10, 1 );
+                    }
+
                     // when a post is sent from the translation server
                     global $HTTP_RAW_POST_DATA;
                     $hrow = icl_xml2array($HTTP_RAW_POST_DATA);

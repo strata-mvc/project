@@ -39,15 +39,15 @@ if(!empty($icl_ncp_plugins)){
     $icl_sitepress_disabled = false;
 }
 
-
-if(isset($_GET['page']) && $_GET['page'] == ICL_PLUGIN_FOLDER . '/menu/troubleshooting.php' || isset($pagenow) && $pagenow=='index.php'){
+$filtered_page = filter_input( INPUT_GET, 'page' );
+if( 0 === strcmp( $filtered_page, ICL_PLUGIN_FOLDER . '/menu/troubleshooting.php' ) || isset($pagenow) && $pagenow === 'index.php'){
     $icl_ncp_plugins2 = array(
         'wp-no-category-base/no-category-base.php'
     );  
     $active_plugins = get_option('active_plugins');
     $icl_ncp_plugins2 = array_intersect($icl_ncp_plugins2, $active_plugins);
     if(!empty($icl_ncp_plugins2)){
-        if(isset($_GET['page']) && $_GET['page'] == ICL_PLUGIN_FOLDER . '/menu/troubleshooting.php'){
+	    if( 0 === strcmp( $filtered_page, ICL_PLUGIN_FOLDER . '/menu/troubleshooting.php' ) ){
             add_action('admin_notices', 'icl_incomp_plugins_warn2');        
             function icl_incomp_plugins_warn2(){
                 global $icl_ncp_plugins2;

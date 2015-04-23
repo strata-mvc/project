@@ -31,6 +31,30 @@ function wpml_site_uses_icl() {
     return ( $site_id || $access_key || $icl_account_email );
 }
 
+function repair_el_type_collate() {
+	global $wpdb;
+
+	$correct_collate = $wpdb->get_var (
+		"SELECT collation_name
+          FROM information_schema.COLUMNS
+          WHERE TABLE_NAME = '{$wpdb->posts}'
+                AND COLUMN_NAME = 'post_type'
+                    AND table_schema = (SELECT DATABASE())
+          LIMIT 1"
+	);
+
+	// translations
+	$table_name = $wpdb->prefix . 'icl_translations';
+	$sql
+	            = "
+             ALTER TABLE `{$table_name}`
+                CHANGE `element_type` `element_type` VARCHAR( 36 ) NOT NULL DEFAULT 'post_post' COLLATE {$correct_collate}
+            ";
+	if ( $wpdb->query ( $sql ) === false ) {
+		throw new Exception( $wpdb->last_error );
+	}
+}
+
 /**
  * @param string $key
  * @param bool   $default
@@ -175,7 +199,11 @@ function icl_get_post_children_recursive($post, $type = 'page'){
     
     $post = (array)$post;
     
-    $children = $wpdb->get_col($wpdb->prepare("SELECT ID FROM {$wpdb->posts} WHERE post_type=%s AND post_parent IN (".join(',', $post).")", $type));
+    $children = $wpdb->get_col($wpdb->prepare("SELECT ID
+                                               FROM {$wpdb->posts}
+                                               WHERE post_type=%s
+                                                AND post_parent IN (" . wpml_prepare_in($post, '%d') . ")",
+                                               $type));
     
     if(!empty($children)){
         $children = array_merge($children, icl_get_post_children_recursive($children));
@@ -190,7 +218,10 @@ function icl_get_tax_children_recursive($id, $taxonomy = 'category'){
     
     $id = (array)$id;    
     
-    $children = $wpdb->get_col($wpdb->prepare("SELECT term_id FROM {$wpdb->term_taxonomy} x WHERE x.taxonomy=%s AND parent IN (".join(',', $id).")", $taxonomy));
+    $children = $wpdb->get_col($wpdb->prepare("SELECT term_id
+                                               FROM {$wpdb->term_taxonomy} x
+                                               WHERE x.taxonomy=%s
+                                                AND parent IN (" . wpml_prepare_in($id, '%d') .")", $taxonomy ) );
     
     if(!empty($children)){
         $children = array_merge($children, icl_get_tax_children_recursive($children));
@@ -251,7 +282,8 @@ function icl_is_post_edit(){
     static $is;
     if(is_null($is)){
         global $pagenow;
-        $is = ($pagenow == 'post-new.php' || ($pagenow == 'post.php' && isset($_GET['action']) && $_GET['action']=='edit'));    
+	    $filtered_action = filter_input(INPUT_GET, 'action' );
+        $is = ($pagenow == 'post-new.php' || ($pagenow == 'post.php' && ( 0 === strcmp( $filtered_action, 'edit' ) ) ) );
     }
     return $is;
 }
@@ -421,5 +453,47 @@ function wpml_prepare_in(array $items, $format = '%s') {
 	$prepared_in = $wpdb->prepare($prepared_format, $items);
 	
 	return $prepared_in;
-	
+}
+
+function wpml_missing_filter_input_notice() {
+    ?>
+    <div class="message error">
+        <h3><?php _e( "WPML can't be functional because it requires a disabled PHP extension!", 'sitepress' ) ?></h3>
+
+        <p><?php _e( "To ensure and improve the security of your website, WPML makes use of the ", 'sitepress' ) ?><a
+                href="http://php.net/manual/en/book.filter.php">PHP Data Filtering</a> extension.<br><br>
+            <?php _e(
+                "The filter extension is enabled by default as of PHP 5.2.0. Before this time an experimental PECL extension was
+            used, however, the PECL version is no longer recommended to be used or updated. (source: ",
+                'sitepress'
+            ) ?><a
+                href="http://php.net/manual/en/filter.installation.php">PHP Manual Function Reference Variable and
+                Type Related Extensions Filter Installing/Configuring</a>)<br>
+            <br>
+            <?php _e(
+                "The filter extension is enabled by default as of PHP 5.2, therefore it must have been disable by either you or your host.",
+                'sitepress'
+            ) ?>
+            <br><?php _e(
+                "To enable it, either you or your host will need to open your website's php.ini file and either:",
+                'sitepress'
+            ) ?><br>
+        <ol>
+            <li><?php _e(
+                    "Remove the 'filter_var' string from the 'disable_functions' directive or...",
+                    'sitepress'
+                ) ?>
+            </li>
+            <li><?php _e( "Add the following line:", 'sitepress' ) ?> <code
+                    class="inline-code">extension=filter.so</code></li>
+        </ol>
+        <?php $ini_location = php_ini_loaded_file();
+        if( $ini_location !== false ){
+            ?>
+                <strong><?php echo __("Your php.ini file is located at", 'sitepress') . ' ' . $ini_location ?>.</strong>
+            <?php
+        }
+        ?>
+    </div>
+<?php
 }

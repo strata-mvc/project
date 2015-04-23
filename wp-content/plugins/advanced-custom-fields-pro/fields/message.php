@@ -36,6 +36,7 @@ class acf_field_message extends acf_field {
 		$this->label = __("Message",'acf');
 		$this->category = 'layout';
 		$this->defaults = array(
+			'value'		=> false, // prevents acf_render_fields() from attempting to load value
 			'message'	=> '',
 			'esc_html'	=> 0
 		);
@@ -109,7 +110,7 @@ class acf_field_message extends acf_field {
 		// HTML
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Escape HTML','acf'),
-			'instructions'	=> __('Controls how HTML tags are rendered','acf'),
+			'instructions'	=> __('Allow HTML markup to display as visible text instead of rendering','acf'),
 			'type'			=> 'radio',
 			'name'			=> 'esc_html',
 			'choices'		=> array(

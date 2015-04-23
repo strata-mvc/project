@@ -1,5 +1,5 @@
 <?php
-global $sitepress;
+global $sitepress, $icl_st_string_translation_statuses, $wpdb;
 
 icl_st_reset_current_trasnslator_notifications();
 
@@ -7,23 +7,30 @@ if((!isset($sitepress_settings['existing_content_language_verified']) || !$sitep
     return;
 }
 
-if(isset($_GET['trop']) && $_GET['trop'] > 0){
-    include dirname(__FILE__) . '/string-translation-translate-options.php';
+if ( filter_input( INPUT_GET, 'trop' ) > 0 ) {
+    include dirname( __FILE__ ) . '/string-translation-translate-options.php';
     return;
-}elseif(isset($_GET['download_mo']) && $_GET['download_mo']){
-    include dirname(__FILE__) . '/auto-download-mo.php';
+} elseif ( filter_input( INPUT_GET, 'download_mo' ) ) {
+    include dirname( __FILE__ ) . '/auto-download-mo.php';
     return;
 }
 
-if(isset($_GET['status']) && preg_match("#".ICL_STRING_TRANSLATION_WAITING_FOR_TRANSLATOR."-(.+)#", $_GET['status'], $matches)){
-    $status_filter = ICL_STRING_TRANSLATION_WAITING_FOR_TRANSLATOR;
-    $status_filter_lang = $matches[1];
-}else{
-    $status_filter = isset($_GET['status']) ? intval($_GET['status']) : false;
+$status_filter_text = filter_input( INPUT_GET, 'status' );
+if ( preg_match(
+    "#" . ICL_STRING_TRANSLATION_WAITING_FOR_TRANSLATOR . "-(.+)#",
+    $status_filter_text,
+    $matches
+)
+) {
+    $status_filter      = ICL_STRING_TRANSLATION_WAITING_FOR_TRANSLATOR;
+    $status_filter_lang = $matches[ 1 ];
+} else {
+    $status_filter = filter_input( INPUT_GET, 'status', FILTER_SANITIZE_NUMBER_INT );
 }
-$context_filter = isset($_GET['context']) ? $_GET['context'] : false;
-$search_filter = isset($_GET['search']) ? esc_html($_GET['search']) : false;
-$exact_match = isset($_GET['em']) ? $_GET['em'] == 1 : false;
+$status_filter  = $status_filter !== null ? (int) $status_filter : null;
+$context_filter = filter_input( INPUT_GET, 'context' );
+$search_filter  = filter_input( INPUT_GET, 'search' );
+$exact_match    = filter_input( INPUT_GET, 'em', FILTER_VALIDATE_BOOLEAN );
 
 $icl_string_translations = icl_get_string_translations();
 
@@ -33,13 +40,6 @@ if(!empty($icl_string_translations)){
 $active_languages = $sitepress->get_active_languages();
 $icl_contexts = icl_st_get_contexts($status_filter);
 
-/*
-if($status_filter != ICL_STRING_TRANSLATION_COMPLETE){
-    $icl_contexts_translated = icl_st_get_contexts(ICL_STRING_TRANSLATION_COMPLETE);
-}else{
-    $icl_contexts_translated = $icl_contexts;
-}
-*/
 $icl_st_translation_enabled = $sitepress->icl_account_configured() && $sitepress->get_icl_translation_enabled();
 
 $available_contexts = array();
@@ -89,11 +89,24 @@ function _icl_string_translation_rtl_textarea($language) {
 
         <form method="post" action="<?php echo admin_url("admin.php?page=" . WPML_ST_FOLDER . "/menu/string-translation.php");?>">
         <?php wp_nonce_field('add_po_strings') ?>
-        <?php if(isset($_POST['icl_st_po_translations'])): ?>
+        <?php $use_po_translations = filter_input(INPUT_POST, 'icl_st_po_translations', FILTER_VALIDATE_BOOLEAN); ?>
+        <?php if ( $use_po_translations === true ): ?>
         <input type="hidden" name="action" value="icl_st_save_strings" />
-        <input type="hidden" name="icl_st_po_language" value="<?php echo $_POST['icl_st_po_language'] ?>" />
+        <input
+            type="hidden"
+            name="icl_st_po_language"
+            value="<?php echo filter_input(INPUT_POST, 'icl_st_po_language', FILTER_SANITIZE_FULL_SPECIAL_CHARS ); ?>"
+        />
         <?php endif; ?>
-        <input type="hidden" name="icl_st_domain_name" value="<?php echo $_POST['icl_st_i_context_new']?$_POST['icl_st_i_context_new']:$_POST['icl_st_i_context'] ?>" />
+            <?php
+            $icl_st_domain = filter_input(INPUT_POST, 'icl_st_i_context_new' );
+            $icl_st_domain = $icl_st_domain ? $icl_st_domain : filter_input(INPUT_POST, 'icl_st_i_context' );
+            ?>
+        <input
+            type="hidden"
+            name="icl_st_domain_name"
+            value="<?php echo $icl_st_domain ?>"
+        />
 
         <table id="icl_po_strings" class="widefat" cellspacing="0">
             <thead>
@@ -112,10 +125,10 @@ function _icl_string_translation_rtl_textarea($language) {
                 <?php $k = -1; foreach($icl_st_po_strings as $str): $k++; ?>
                     <tr>
                         <td><input class="icl_st_row_cb" type="checkbox" name="icl_strings_selected[]"
-                            <?php if($str['exists'] || !isset($_POST['icl_st_po_translations'])): ?>checked="checked"<?php endif;?> value="<?php echo $k ?>" /></td>
+                            <?php if($str['exists'] || $use_po_translations !== true): ?>checked="checked"<?php endif;?> value="<?php echo $k ?>" /></td>
                         <td>
                             <input type="text" name="icl_strings[]" value="<?php echo esc_attr($str['string']) ?>" readonly="readonly" style="width:100%;" size="100" />
-                            <?php if(isset($_POST['icl_st_po_translations'])):?>
+                            <?php if( $use_po_translations === true ):?>
                             <input type="text" name="icl_translations[]" value="<?php echo esc_attr($str['translation']) ?>" readonly="readonly" style="width:100%;<?php if($str['fuzzy']):?>;background-color:#ffecec<?php endif; ?>" size="100" />
                             <input type="hidden" name="icl_fuzzy[]" value="<?php echo $str['fuzzy'] ?>" />
                             <input type="hidden" name="icl_name[]" value="<?php echo $str['name'] ?>" />
@@ -139,7 +152,7 @@ function _icl_string_translation_rtl_textarea($language) {
         <p style="line-height:220%;">
         <?php echo __('Select which strings to display:', 'wpml-string-translation')?>
         <select name="icl_st_filter_status">
-            <option value="" <?php if($status_filter === false ):?>selected="selected"<?php endif;?>><?php echo __('All strings', 'wpml-string-translation') ?></option>
+            <option value="" <?php if($status_filter === null ):?>selected="selected"<?php endif;?>><?php echo __('All strings', 'wpml-string-translation') ?></option>
             <option value="<?php echo ICL_STRING_TRANSLATION_COMPLETE ?>" <?php if($status_filter === ICL_STRING_TRANSLATION_COMPLETE):?>selected="selected"<?php endif;?>><?php echo $icl_st_string_translation_statuses[ICL_STRING_TRANSLATION_COMPLETE] ?></option>
             <?php if(icl_st_is_translator()) :?>
                 <?php if($icl_st_pending = icl_st_get_pending_string_translations_stats()): ?>
@@ -385,55 +398,72 @@ function _icl_string_translation_rtl_textarea($language) {
                 <?php endif; ?>
             </tbody>
         </table>
-
-        <?php if($wp_query->found_posts > 10): ?>
-            <div class="tablenav" style="width:70%;float:right;">
+    <?php
+    $get_show_results = filter_input( INPUT_GET, 'show_results', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+    $get_page         = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_URL );
+    ?>
+    <?php if ( $wp_query->found_posts > 10 ): ?>
+        <div class="tablenav" style="width:70%;float:right;">
             <?php
-            $page_links = paginate_links( array(
-                'base' => add_query_arg('paged', '%#%' ),
-                'format' => '',
-                'prev_text' => '&laquo;',
-                'next_text' => '&raquo;',
-                'total' => $wp_query->max_num_pages,
-                'current' => isset($_GET['paged']) ? $_GET['paged'] : 1,
-                'add_args' => isset($icl_translation_filter)?$icl_translation_filter:array()
-            ));
-            ?>
-            <?php if(isset($_GET['show_results']) && $_GET['show_results']=='all'): ?>
+            $paged            = filter_input( INPUT_GET, 'paged', FILTER_SANITIZE_NUMBER_INT );
+            $paged            = $paged && $get_show_results !== 'all' ? $paged : 1;
+            $page_links       = paginate_links(
+                array(
+                    'base' => add_query_arg( 'paged', '%#%' ),
+                    'format' => '',
+                    'prev_text' => '&laquo;',
+                    'next_text' => '&raquo;',
+                    'total' => $wp_query->max_num_pages,
+                    'current' => $paged,
+                    'add_args' => isset( $icl_translation_filter ) ? $icl_translation_filter : array()
+                )
+            );
+            $query_url_params = '?page=' . $get_page;
+            $query_url_params .= '&paged=';
+            $query_url_params .= $paged;
+            $query_url_params .= ( $context_filter !== null ? ( '&context=' . $context_filter ) : '' );
+            $query_url_params .= ( $status_filter !== null ? ( '&status=' . $status_filter ) : '' );
+                ?>
+            <?php if( $get_show_results === 'all' ): ?>
             <div class="tablenav-pages">
-            <a href="admin.php?page=<?php echo $_GET['page'] ?><?php if(isset($_GET['context'])) echo '&amp;context='.$_GET['context'];?><?php if(isset($_GET['status'])) echo '&status='.$_GET['status'];?>"><?php printf(__('Display %d results per page', 'wpml-string-translation'), $sitepress_settings['st']['strings_per_page']); ?></a>
+            <a href="admin.php<?php echo $query_url_params ?>"><?php printf(__('Display %d results per page', 'wpml-string-translation'), $sitepress_settings['st']['strings_per_page']); ?></a>
             </div>
             <?php endif; ?>
 
             <div class="tablenav-pages">
                 <?php if ( $page_links ): ?>
                 <?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s', 'wpml-string-translation' ) . '</span>%s',
-                    number_format_i18n( ( $_GET['paged'] - 1 ) * $wp_query->query_vars['posts_per_page'] + 1 ),
-                    number_format_i18n( min( $_GET['paged'] * $wp_query->query_vars['posts_per_page'], $wp_query->found_posts ) ),
+                    number_format_i18n( ( $paged - 1 ) * $wp_query->query_vars['posts_per_page'] + 1 ),
+                    number_format_i18n( min( $paged * $wp_query->query_vars['posts_per_page'], $wp_query->found_posts ) ),
                     number_format_i18n( $wp_query->found_posts ),
                     $page_links
                     ); echo $page_links_text;
                 ?>
                 <?php endif; ?>
-                <?php if(!isset($_GET['show_results'])): ?>
+                <?php if( !$get_show_results ): ?>
                 <?php echo __('Strings per page:', 'wpml-string-translation')?>
                 <?php
-                $params = array('context', 'status', 'search', 'em');
                 $spp_qsa = '';
-                foreach($params as $p){
-                    if(isset($_GET[$p])){
-                        $spp_qsa .= '&amp;' . urlencode($p) . '=' . urlencode($_GET[$p]);
-                    }
+                    $params = array_filter(
+                        array(
+                            '&context=' => $context_filter,
+                            '&status=' => $status_filter,
+                            '&search=' => $search_filter,
+                            '&em=' => $exact_match
+                        )
+                    );
+                foreach($params as $key => $p){
+                    $spp_qsa .= $key . $p;
                 }
                 ?>
-                <select name="icl_st_per_page" onchange="location.href='admin.php?page=<?php echo $_GET['page']?><?php echo $spp_qsa ?>&amp;strings_per_page='+this.value">
+                <select name="icl_st_per_page" onchange="location.href='admin.php?page=<?php echo $get_page ?><?php echo $spp_qsa ?>&amp;strings_per_page='+this.value">
                     <option value="10"<?php if($sitepress_settings['st']['strings_per_page']==10) echo ' selected="selected"'; ?>>10</option>
                     <option value="20"<?php if($sitepress_settings['st']['strings_per_page']==20) echo ' selected="selected"'; ?>>20</option>
                     <option value="50"<?php if($sitepress_settings['st']['strings_per_page']==50) echo ' selected="selected"'; ?>>50</option>
                     <option value="100"<?php if($sitepress_settings['st']['strings_per_page']==100) echo ' selected="selected"'; ?>>100</option>
                 </select>
                 &nbsp;
-                <a href="admin.php?page=<?php echo $_GET['page'] ?>&amp;show_results=all<?php if(isset($_GET['context'])) echo '&amp;context='.$_GET['context'];?><?php if(isset($_GET['status'])) echo '&amp;status='.$_GET['status'];?>"><?php echo __('Display all results', 'wpml-string-translation'); ?></a>
+                <a href="admin.php<?php echo $query_url_params ?>&amp;show_results=all"><?php echo __('Display all results', 'wpml-string-translation'); ?></a>
                 <?php endif; ?>
             </div>
 
@@ -734,7 +764,7 @@ function _icl_string_translation_rtl_textarea($language) {
                                     <input type="checkbox" name="icl_st_pe_translations" id="icl_st_pe_translations" checked="checked" value="1" onchange="if(jQuery(this).attr('checked'))jQuery('#icl_st_e_language').fadeIn('fast'); else jQuery('#icl_st_e_language').fadeOut('fast')" />
                                     <label for="icl_st_pe_translations"><?php echo __('Also include translations', 'wpml-string-translation')?></label>
                                     <select name="icl_st_e_language" id="icl_st_e_language">
-                                    <?php foreach($active_languages as $al): if($al['code']==$sitepress_settings['st']['strings_language']) continue; ?>
+                                    <?php foreach($active_languages as $al): if($al['code'] === $sitepress_settings['st']['strings_language']) continue; ?>
                                     <option value="<?php echo $al['code'] ?>"><?php echo $al['display_name'] ?></option>
                                     <?php endforeach; ?>
                                     </select>

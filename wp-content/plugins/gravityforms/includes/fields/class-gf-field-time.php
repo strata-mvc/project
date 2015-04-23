@@ -43,8 +43,8 @@ class GF_Field_Time extends GF_Field {
 			$value[1] = $matches[2];
 		}
 
-		$hour   = $value[0];
-		$minute = $value[1];
+		$hour   = rgar( $value, 0 );
+		$minute = rgar( $value, 1 );
 
 		if ( empty( $hour ) && empty( $minute ) ) {
 			return;
@@ -133,7 +133,7 @@ class GF_Field_Time extends GF_Field {
 		}
 
 		$hour_label = rgar( $hour_input, 'customLabel' ) != '' ? $hour_input['customLabel'] : __( 'HH', 'gravityforms' );
-		$minute_label = rgar( $minute_input, 'customLabel' ) != '' ? $minute_input['customLabel'] : __( 'MM', 'gravityforms' );
+		$minute_label = rgar( $minute_input, 'customLabel' ) != '' ? $minute_input['customLabel'] : _x( 'MM', 'Abbreviation: Minutes', 'gravityforms' );
 
 		if ( $is_sub_label_above ) {
 			return "<div class='clear-multi'>

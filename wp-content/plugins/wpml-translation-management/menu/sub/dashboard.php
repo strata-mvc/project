@@ -1,6 +1,14 @@
 <?php //included from menu translation-management.php ?>
 <?php
+/** @var SitePress $sitepress */
+/** @var TranslationManagement $iclTranslationManagement */
 
+$request_get_lang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_NULL_ON_FAILURE);
+$request_get_to_lang = filter_input(INPUT_GET, 'to_lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_NULL_ON_FAILURE);
+$request_get_tstatus = filter_input(INPUT_GET, 'tstatus', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_NULL_ON_FAILURE);
+$request_get_type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_NULL_ON_FAILURE);
+$request_get_show_all = filter_input(INPUT_GET, 'show_all', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_NULL_ON_FAILURE);
+$request_get_post_id = filter_input(INPUT_GET, 'post_id', FILTER_SANITIZE_NUMBER_INT, FILTER_NULL_ON_FAILURE);
 
 if(isset($_SESSION['translation_dashboard_filter'])){
     $icl_translation_filter = $_SESSION['translation_dashboard_filter'];
@@ -8,11 +16,11 @@ if(isset($_SESSION['translation_dashboard_filter'])){
 
 $current_language = $sitepress->get_current_language();
 if(!isset($icl_translation_filter['from_lang'])){
-    $icl_translation_filter['from_lang'] = isset($_GET['lang'])?$_GET['lang']: $current_language;
+    $icl_translation_filter['from_lang'] = $request_get_lang ? $request_get_lang : $current_language;
 }
 
 if(!isset($icl_translation_filter['to_lang'])){
-    $icl_translation_filter['to_lang'] = isset($_GET['to_lang'])?$_GET['to_lang']:'';
+    $icl_translation_filter['to_lang'] = $request_get_to_lang ? $request_get_to_lang :'';
 }
 
 if($icl_translation_filter['to_lang'] == $icl_translation_filter['from_lang']){
@@ -20,11 +28,11 @@ if($icl_translation_filter['to_lang'] == $icl_translation_filter['from_lang']){
 }
 
 if(!isset($icl_translation_filter['tstatus'])){
-    $icl_translation_filter['tstatus'] = isset($_GET['tstatus'])?$_GET['tstatus']:'not';
+    $icl_translation_filter['tstatus'] = $request_get_tstatus ? $request_get_tstatus :'not';
 }
 
-if(isset($_GET['type']) && $_GET['type'] != ''){
-    $icl_translation_filter['type'] = $_GET['type'];
+if($request_get_type){
+    $icl_translation_filter['type'] = $request_get_type;
 }
 
 if(!isset($icl_translation_filter['sort_by']) || !$icl_translation_filter['sort_by']){ $icl_translation_filter['sort_by'] = 'p.post_date';}
@@ -61,7 +69,7 @@ foreach ($icl_post_types as $id => $type_info) {
 
 $icl_dashboard_settings = isset($sitepress_settings['dashboard']) ? $sitepress_settings['dashboard'] : array();
 
-$icl_translation_filter['limit_no'] = isset($_GET['show_all']) && $_GET['show_all'] ? 10000 : ICL_TM_DOCS_PER_PAGE;
+$icl_translation_filter['limit_no'] = $request_get_show_all ? 10000 : ICL_TM_DOCS_PER_PAGE;
 if(!isset($icl_translation_filter['parent_type'])) $icl_translation_filter['parent_type'] = 'any';
 
 
@@ -296,7 +304,7 @@ if(!defined('ICL_DONT_PROMOTE') || !ICL_DONT_PROMOTE){
     <table class="widefat fixed" id="icl-tm-translation-dashboard" cellspacing="0">
         <thead>
         <tr>
-            <th scope="col" class="manage-column column-cb check-column"><input type="checkbox" <?php if(isset($_GET['post_id'])) echo 'checked="checked"'?>/></th>
+            <th scope="col" class="manage-column column-cb check-column"><input type="checkbox" <?php if($request_get_post_id) echo 'checked="checked"'?>/></th>
             <th scope="col"><a href="<?php echo $title_sort_link ?>"><?php echo __('Title', 'wpml-translation-management') ?>&nbsp;
                 <?php if($icl_translation_filter['sort_by']=='p.post_title') echo $icl_translation_filter['sort_order']=='ASC' ? '&uarr;' : '&darr;' ?></a></th>
             <th scope="col" class="manage-column column-date"><a href="<?php echo $date_sort_link ?>"><?php echo __('Date', 'wpml-translation-management') ?>&nbsp;
@@ -321,7 +329,7 @@ if(!defined('ICL_DONT_PROMOTE') || !ICL_DONT_PROMOTE){
         </thead>
         <tfoot>
         <tr>
-            <th scope="col" class="manage-column column-cb check-column"><input type="checkbox" <?php if(isset($_GET['post_id'])) echo 'checked="checked"'?>/></th>
+            <th scope="col" class="manage-column column-cb check-column"><input type="checkbox" <?php if($request_get_post_id) echo 'checked="checked"'?>/></th>
             <th scope="col"><a href="<?php echo $title_sort_link ?>"><?php echo __('Title', 'wpml-translation-management') ?>&nbsp;
                 <?php if($icl_translation_filter['sort_by']=='p.post_title') echo $icl_translation_filter['sort_order']=='ASC' ? '&uarr;' : '&darr;' ?></a></th>
             <th scope="col" class="manage-column column-date"><a href="<?php echo $date_sort_link ?>"><?php echo __('Date', 'wpml-translation-management') ?>&nbsp;
@@ -362,7 +370,7 @@ if(!defined('ICL_DONT_PROMOTE') || !ICL_DONT_PROMOTE){
             <tr<?php if($oddcolumn): ?> class="alternate"<?php endif;?>>
                 <td scope="row">
                     <input type="checkbox" value="<?php echo $doc->post_id ?>" name="iclpost[]" <?php
-                        if(isset($_GET['post_id']) || (is_array($icl_selected_posts) && in_array($doc->post_id, $icl_selected_posts))) echo 'checked="checked"'?> />
+                        if($request_get_post_id || (is_array($icl_selected_posts) && in_array($doc->post_id, $icl_selected_posts))) echo 'checked="checked"'?> />
                 </td>
                 <td scope="row" class="post-title column-title">
                     <?php echo TranslationManagement::tm_post_link($doc->post_id); ?>
@@ -466,18 +474,21 @@ if(!defined('ICL_DONT_PROMOTE') || !ICL_DONT_PROMOTE){
 
     <?php
 
-    if(isset($_GET['show_all']) && $_GET['show_all'] && count($icl_documents)>ICL_TM_DOCS_PER_PAGE){
+    if($request_get_show_all && count($icl_documents)>ICL_TM_DOCS_PER_PAGE){
         echo '<a style="float:right" href="'.admin_url('admin.php?page='.WPML_TM_FOLDER.'/menu/main.php&sm=dashboard').'">' . sprintf(__('Show %d documents per page', 'wpml-translation-management'),
              ICL_TM_DOCS_PER_PAGE) . '</a>';
     }
     // pagination
+
+    $paged = filter_input(INPUT_GET, 'paged', FILTER_SANITIZE_NUMBER_INT);
+    $paged = $paged ? $paged : 1;
     $page_links = paginate_links( array(
         'base' => add_query_arg('paged', '%#%' ),
         'format' => '',
         'prev_text' => '&laquo;',
         'next_text' => '&raquo;',
         'total' => $wp_query->max_num_pages,
-        'current' => $_GET['paged'],
+        'current' => $paged,
         'add_args' => isset($icl_translation_filter)?$icl_translation_filter:array()
     ));
 
@@ -491,13 +502,13 @@ if(!defined('ICL_DONT_PROMOTE') || !ICL_DONT_PROMOTE){
         <?php if ( $page_links ) { ?>
         <div class="tablenav-pages">
         <?php
-        if(!isset($_GET['show_all']) && $wp_query->found_posts > ICL_TM_DOCS_PER_PAGE){
+        if(!$request_get_show_all && $wp_query->found_posts > ICL_TM_DOCS_PER_PAGE){
             echo '<a style="font-weight:normal" href="'.admin_url('admin.php?page='.WPML_TM_FOLDER.'/menu/main.php&sm=dashboard&show_all=1').'">' . __('show all', 'wpml-translation-management') . '</a>';
         }
         ?>
         <?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s', 'wpml-translation-management' ) . '</span>%s',
-            number_format_i18n( ( $_GET['paged'] - 1 ) * $wp_query->query_vars['posts_per_page'] + 1 ),
-            number_format_i18n( min( $_GET['paged'] * $wp_query->query_vars['posts_per_page'], $wp_query->found_posts ) ),
+            number_format_i18n( ( $paged - 1 ) * $wp_query->query_vars['posts_per_page'] + 1 ),
+            number_format_i18n( min( $paged * $wp_query->query_vars['posts_per_page'], $wp_query->found_posts ) ),
             number_format_i18n( $wp_query->found_posts ),
             $page_links
         ); echo $page_links_text; ?>

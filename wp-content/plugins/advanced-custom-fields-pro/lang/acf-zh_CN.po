@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: acf chinese\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-24 10:52+1000\n"
-"PO-Revision-Date: 2015-02-24 10:59+1000\n"
+"POT-Creation-Date: 2015-03-05 11:24+1000\n"
+"PO-Revision-Date: 2015-03-05 11:27+1000\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
 "Language-Team: Amos Lee <470266798@qq.com>\n"
 "Language: zh_CN\n"
@@ -171,7 +171,7 @@ msgstr "复制"
 #: ../admin/views/field-group-field-conditional-logic.php:67
 #: ../admin/views/field-group-field-conditional-logic.php:162
 #: ../admin/views/field-group-locations.php:23
-#: ../admin/views/field-group-locations.php:132 ../core/media.php:150
+#: ../admin/views/field-group-locations.php:131 ../core/media.php:150
 msgid "or"
 msgstr " 或"
 
@@ -226,10 +226,10 @@ msgstr "显示字段密钥："
 #: ../admin/field-group.php:254
 #: ../admin/views/field-group-field-conditional-logic.php:40
 #: ../admin/views/field-group-field.php:134 ../fields/message.php:116
-#: ../fields/page_link.php:554 ../fields/page_link.php:568
-#: ../fields/post_object.php:492 ../fields/post_object.php:506
+#: ../fields/page_link.php:567 ../fields/page_link.php:581
+#: ../fields/post_object.php:436 ../fields/post_object.php:450
 #: ../fields/select.php:397 ../fields/select.php:411 ../fields/select.php:425
-#: ../fields/select.php:439 ../fields/taxonomy.php:732 ../fields/user.php:377
+#: ../fields/select.php:439 ../fields/taxonomy.php:751 ../fields/user.php:377
 #: ../fields/user.php:391 ../fields/wysiwyg.php:384
 #: ../pro/admin/views/settings-updates.php:93
 msgid "Yes"
@@ -238,110 +238,124 @@ msgstr "是"
 #: ../admin/field-group.php:255
 #: ../admin/views/field-group-field-conditional-logic.php:41
 #: ../admin/views/field-group-field.php:135 ../fields/message.php:117
-#: ../fields/page_link.php:555 ../fields/page_link.php:569
-#: ../fields/post_object.php:493 ../fields/post_object.php:507
+#: ../fields/page_link.php:568 ../fields/page_link.php:582
+#: ../fields/post_object.php:437 ../fields/post_object.php:451
 #: ../fields/select.php:398 ../fields/select.php:412 ../fields/select.php:426
-#: ../fields/select.php:440 ../fields/taxonomy.php:733 ../fields/user.php:378
+#: ../fields/select.php:440 ../fields/taxonomy.php:752 ../fields/user.php:378
 #: ../fields/user.php:392 ../fields/wysiwyg.php:385
 #: ../pro/admin/views/settings-updates.php:103
 msgid "No"
 msgstr "否"
 
-#: ../admin/field-group.php:586
-msgid "Super Admin"
-msgstr ""
-
-#: ../admin/field-group.php:659 ../pro/admin/views/options-page.php:52
+#: ../admin/field-group.php:642 ../pro/admin/views/options-page.php:52
 msgid "Publish"
 msgstr "发布"
 
-#: ../admin/field-group.php:660
+#: ../admin/field-group.php:643
 msgid "Pending Review"
 msgstr ""
 
-#: ../admin/field-group.php:661
+#: ../admin/field-group.php:644
 msgid "Draft"
 msgstr ""
 
-#: ../admin/field-group.php:662
+#: ../admin/field-group.php:645
 msgid "Future"
 msgstr ""
 
-#: ../admin/field-group.php:663
+#: ../admin/field-group.php:646
 #, fuzzy
 msgid "Private"
 msgstr "激活"
 
-#: ../admin/field-group.php:664
+#: ../admin/field-group.php:647
 #, fuzzy
 msgid "Revision"
 msgstr "版本控制"
 
-#: ../admin/field-group.php:665
+#: ../admin/field-group.php:648
 msgid "Trash"
 msgstr ""
 
-#: ../admin/field-group.php:729
+#: ../admin/field-group.php:712
 msgid "Front Page"
 msgstr "首页"
 
-#: ../admin/field-group.php:730
+#: ../admin/field-group.php:713
 msgid "Posts Page"
 msgstr "文章页"
 
-#: ../admin/field-group.php:731
-msgid "Top Level Page (parent of 0)"
+#: ../admin/field-group.php:714
+#, fuzzy
+msgid "Top Level Page (no parent)"
 msgstr "顶级分类（父级为0）"
 
-#: ../admin/field-group.php:732
+#: ../admin/field-group.php:715
 msgid "Parent Page (has children)"
 msgstr "父分类（有子分类）"
 
-#: ../admin/field-group.php:733
+#: ../admin/field-group.php:716
 msgid "Child Page (has parent)"
 msgstr "子分类（有父分类）"
 
-#: ../admin/field-group.php:749
+#: ../admin/field-group.php:732
 msgid "Default Template"
 msgstr "默认模板"
 
-#: ../admin/field-group.php:771 ../admin/field-group.php:779
-#: ../admin/field-group.php:793 ../admin/field-group.php:800
-#: ../admin/field-group.php:815 ../admin/field-group.php:825
+#: ../admin/field-group.php:754
+#, fuzzy
+msgid "Logged in"
+msgstr "用户类型已记录"
+
+#: ../admin/field-group.php:755
+msgid "Viewing front end"
+msgstr ""
+
+#: ../admin/field-group.php:756
+msgid "Viewing back end"
+msgstr ""
+
+#: ../admin/field-group.php:775
+msgid "Super Admin"
+msgstr ""
+
+#: ../admin/field-group.php:786 ../admin/field-group.php:794
+#: ../admin/field-group.php:808 ../admin/field-group.php:815
+#: ../admin/field-group.php:830 ../admin/field-group.php:840
 #: ../fields/file.php:234 ../fields/image.php:223
-#: ../pro/fields/gallery.php:665
+#: ../pro/fields/gallery.php:656
 msgid "All"
 msgstr "所有"
 
-#: ../admin/field-group.php:780
+#: ../admin/field-group.php:795
 #, fuzzy
 msgid "Add / Edit"
 msgstr "用户（添加./编辑）"
 
-#: ../admin/field-group.php:781
+#: ../admin/field-group.php:796
 msgid "Register"
 msgstr ""
 
-#: ../admin/field-group.php:1012
+#: ../admin/field-group.php:1027
 msgid "Move Complete."
 msgstr ""
 
-#: ../admin/field-group.php:1013
+#: ../admin/field-group.php:1028
 #, php-format
 msgid "The %s field can now be found in the %s field group"
 msgstr ""
 
-#: ../admin/field-group.php:1015
+#: ../admin/field-group.php:1030
 #, fuzzy
 msgid "Close Window"
 msgstr "关闭字段"
 
-#: ../admin/field-group.php:1050
+#: ../admin/field-group.php:1065
 #, fuzzy
 msgid "Please select the destination for this field"
 msgstr "阅读此字段的文档"
 
-#: ../admin/field-group.php:1057
+#: ../admin/field-group.php:1072
 #, fuzzy
 msgid "Move Field"
 msgstr "保存字段"
@@ -404,7 +418,7 @@ msgstr "功能"
 msgid "Actions"
 msgstr "操作"
 
-#: ../admin/field-groups.php:554 ../fields/relationship.php:773
+#: ../admin/field-groups.php:554 ../fields/relationship.php:719
 msgid "Filters"
 msgstr "过滤器"
 
@@ -516,22 +530,22 @@ msgid "Show this field if"
 msgstr "显示此字段组的条件"
 
 #: ../admin/views/field-group-field-conditional-logic.php:111
-#: ../admin/views/field-group-locations.php:89
+#: ../admin/views/field-group-locations.php:88
 msgid "is equal to"
 msgstr "等于"
 
 #: ../admin/views/field-group-field-conditional-logic.php:112
-#: ../admin/views/field-group-locations.php:90
+#: ../admin/views/field-group-locations.php:89
 msgid "is not equal to"
 msgstr "不等于"
 
 #: ../admin/views/field-group-field-conditional-logic.php:149
-#: ../admin/views/field-group-locations.php:119
+#: ../admin/views/field-group-locations.php:118
 msgid "and"
 msgstr "+"
 
 #: ../admin/views/field-group-field-conditional-logic.php:164
-#: ../admin/views/field-group-locations.php:134
+#: ../admin/views/field-group-locations.php:133
 msgid "Add rule group"
 msgstr "添加规则组"
 
@@ -541,7 +555,7 @@ msgstr "添加规则组"
 msgid "Edit field"
 msgstr "编辑文件"
 
-#: ../admin/views/field-group-field.php:54 ../pro/fields/gallery.php:353
+#: ../admin/views/field-group-field.php:54 ../pro/fields/gallery.php:356
 msgid "Edit"
 msgstr "编辑"
 
@@ -592,7 +606,7 @@ msgstr "字段名称"
 msgid "Single word, no spaces. Underscores and dashes allowed"
 msgstr "单个字符串，不能有空格，可以用横线或下画线。"
 
-#: ../admin/views/field-group-field.php:102 ../fields/taxonomy.php:707
+#: ../admin/views/field-group-field.php:102 ../fields/taxonomy.php:726
 msgid "Field Type"
 msgstr "字段类型"
 
@@ -676,93 +690,94 @@ msgstr "创建一组规则以确定自定义字段在那个编辑界面显示。
 msgid "Show this field group if"
 msgstr "显示此字段组的条件"
 
-#: ../admin/views/field-group-locations.php:41 ../core/field.php:130
-msgid "Basic"
-msgstr "基本"
+#: ../admin/views/field-group-locations.php:41
+#: ../admin/views/field-group-locations.php:47
+msgid "Post"
+msgstr "日志"
 
-#: ../admin/views/field-group-locations.php:42 ../fields/relationship.php:779
+#: ../admin/views/field-group-locations.php:42 ../fields/relationship.php:725
 msgid "Post Type"
 msgstr "文章类型"
 
 #: ../admin/views/field-group-locations.php:43
-msgid "Logged in User Type"
-msgstr "用户类型已记录"
-
-#: ../admin/views/field-group-locations.php:45
-#: ../admin/views/field-group-locations.php:46
-msgid "Post"
-msgstr "日志"
-
-#: ../admin/views/field-group-locations.php:47
-msgid "Post Category"
-msgstr "文章类别"
-
-#: ../admin/views/field-group-locations.php:48
-msgid "Post Format"
-msgstr "文章格式"
-
-#: ../admin/views/field-group-locations.php:49
 #, fuzzy
 msgid "Post Status"
 msgstr "状态"
 
-#: ../admin/views/field-group-locations.php:50
+#: ../admin/views/field-group-locations.php:44
+msgid "Post Format"
+msgstr "文章格式"
+
+#: ../admin/views/field-group-locations.php:45
+msgid "Post Category"
+msgstr "文章类别"
+
+#: ../admin/views/field-group-locations.php:46
 msgid "Post Taxonomy"
 msgstr "分类法"
 
-#: ../admin/views/field-group-locations.php:52
+#: ../admin/views/field-group-locations.php:49
 #: ../admin/views/field-group-locations.php:53
 msgid "Page"
 msgstr "页面"
 
-#: ../admin/views/field-group-locations.php:54
-msgid "Page Type"
-msgstr "页面类型"
-
-#: ../admin/views/field-group-locations.php:55
-msgid "Page Parent"
-msgstr "父级页面"
-
-#: ../admin/views/field-group-locations.php:56
+#: ../admin/views/field-group-locations.php:50
 msgid "Page Template"
 msgstr "页面模板"
 
-#: ../admin/views/field-group-locations.php:58 ../fields/user.php:36
+#: ../admin/views/field-group-locations.php:51
+msgid "Page Type"
+msgstr "页面类型"
+
+#: ../admin/views/field-group-locations.php:52
+msgid "Page Parent"
+msgstr "父级页面"
+
+#: ../admin/views/field-group-locations.php:55 ../fields/user.php:36
 msgid "User"
 msgstr "用户"
 
-#: ../admin/views/field-group-locations.php:59
+#: ../admin/views/field-group-locations.php:56
+msgid "Current User"
+msgstr ""
+
+#: ../admin/views/field-group-locations.php:57
+#, fuzzy
+msgid "Current User Role"
+msgstr "用户字段"
+
+#: ../admin/views/field-group-locations.php:58
 #, fuzzy
 msgid "User Form"
 msgstr "用户字段"
 
-#: ../admin/views/field-group-locations.php:60
+#: ../admin/views/field-group-locations.php:59
 #, fuzzy
 msgid "User Role"
 msgstr "用户字段"
 
-#: ../admin/views/field-group-locations.php:62
+#: ../admin/views/field-group-locations.php:61
 #: ../pro/admin/options-page.php:55
 #, fuzzy
 msgid "Forms"
 msgstr "格式"
 
-#: ../admin/views/field-group-locations.php:63
+#: ../admin/views/field-group-locations.php:62
 #, fuzzy
 msgid "Attachment"
 msgstr "附件已更新"
 
-#: ../admin/views/field-group-locations.php:64
+#: ../admin/views/field-group-locations.php:63
 #, fuzzy
 msgid "Taxonomy Term"
 msgstr "分类法"
 
-#: ../admin/views/field-group-locations.php:65
+#: ../admin/views/field-group-locations.php:64
 #, fuzzy
 msgid "Comment"
 msgstr "评论"
 
-#: ../admin/views/field-group-locations.php:66
+#: ../admin/views/field-group-locations.php:65
 msgid "Widget"
 msgstr ""
 
@@ -771,7 +786,8 @@ msgid "Order No."
 msgstr "序号"
 
 #: ../admin/views/field-group-options.php:11
-msgid "Field groups are created in order <br />from lowest to highest"
+#, fuzzy
+msgid "Field groups are created in order from lowest to highest"
 msgstr "字段组排序<br />从低到高。"
 
 #: ../admin/views/field-group-options.php:21
@@ -835,13 +851,15 @@ msgid "Hide on screen"
 msgstr "隐藏元素"
 
 #: ../admin/views/field-group-options.php:84
-msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
+#, fuzzy
+msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
 msgstr "<b>选择</b>需要在编辑界面<b>隐藏</b>的条目。 "
 
 #: ../admin/views/field-group-options.php:84
+#, fuzzy
 msgid ""
 "If multiple field groups appear on an edit screen, the first field group's "
-"options will be used. (the one with the lowest order number)"
+"options will be used (the one with the lowest order number)"
 msgstr ""
 "如果多个自定组出现在编辑界面，只有第一个字段组的设置有效（序号最小的）。"
 
@@ -885,7 +903,7 @@ msgstr "格式"
 msgid "Page Attributes"
 msgstr ""
 
-#: ../admin/views/field-group-options.php:101 ../fields/relationship.php:792
+#: ../admin/views/field-group-options.php:101 ../fields/relationship.php:738
 msgid "Featured Image"
 msgstr "特色图像"
 
@@ -1030,7 +1048,7 @@ msgstr ""
 
 #: ../admin/views/settings-info.php:53
 msgid ""
-"We're changing the way premium functionality is delivered in an exiting way!"
+"We're changing the way premium functionality is delivered in an exciting way!"
 msgstr ""
 
 #: ../admin/views/settings-info.php:54
@@ -1296,29 +1314,29 @@ msgstr "查看更新内容于"
 msgid "Data is at the latest version."
 msgstr "非常感谢你升级插件到最新版本！"
 
-#: ../api/api-helpers.php:1198
+#: ../api/api-helpers.php:816
 msgid "Thumbnail"
 msgstr "缩略图"
 
-#: ../api/api-helpers.php:1199
+#: ../api/api-helpers.php:817
 msgid "Medium"
 msgstr "中"
 
-#: ../api/api-helpers.php:1200
+#: ../api/api-helpers.php:818
 msgid "Large"
 msgstr "大"
 
-#: ../api/api-helpers.php:1248
+#: ../api/api-helpers.php:866
 #, fuzzy
 msgid "Full Size"
 msgstr "原图"
 
-#: ../api/api-helpers.php:1806
+#: ../api/api-helpers.php:1552
 #, fuzzy
 msgid "(no title)"
 msgstr "文章类型"
 
-#: ../api/api-template.php:1268 ../pro/fields/gallery.php:576
+#: ../api/api-template.php:1268 ../pro/fields/gallery.php:567
 #, fuzzy
 msgid "Update"
 msgstr "更新文件"
@@ -1327,6 +1345,10 @@ msgstr "更新文件"
 #, fuzzy
 msgid "Post updated"
 msgstr "选项已更新"
+
+#: ../core/field.php:130
+msgid "Basic"
+msgstr "基本"
 
 #: ../core/field.php:131
 msgid "Content"
@@ -1405,7 +1427,7 @@ msgstr ""
 msgid "File type must be %s."
 msgstr "字段类型不存在！"
 
-#: ../fields/checkbox.php:36 ../fields/taxonomy.php:714
+#: ../fields/checkbox.php:36 ../fields/taxonomy.php:733
 msgid "Checkbox"
 msgstr "复选框"
 
@@ -1575,7 +1597,7 @@ msgstr "没有选择文件"
 msgid "Add File"
 msgstr "添加文件"
 
-#: ../fields/file.php:213 ../fields/image.php:192 ../fields/taxonomy.php:751
+#: ../fields/file.php:213 ../fields/image.php:192 ../fields/taxonomy.php:770
 msgid "Return Value"
 msgstr "返回值"
 
@@ -1596,22 +1618,22 @@ msgid "File ID"
 msgstr "文件ID"
 
 #: ../fields/file.php:228 ../fields/image.php:217
-#: ../pro/fields/gallery.php:659
+#: ../pro/fields/gallery.php:650
 msgid "Library"
 msgstr ""
 
 #: ../fields/file.php:229 ../fields/image.php:218
-#: ../pro/fields/gallery.php:660
+#: ../pro/fields/gallery.php:651
 msgid "Limit the media library choice"
 msgstr ""
 
 #: ../fields/file.php:235 ../fields/image.php:224
-#: ../pro/fields/gallery.php:666
+#: ../pro/fields/gallery.php:657
 msgid "Uploaded to post"
 msgstr ""
 
 #: ../fields/file.php:242 ../fields/image.php:231
-#: ../pro/fields/gallery.php:673
+#: ../pro/fields/gallery.php:664
 #, fuzzy
 msgid "Minimum"
 msgstr "最小行数"
@@ -1621,26 +1643,26 @@ msgid "Restrict which files can be uploaded"
 msgstr ""
 
 #: ../fields/file.php:246 ../fields/file.php:257 ../fields/image.php:254
-#: ../fields/image.php:287 ../pro/fields/gallery.php:696
-#: ../pro/fields/gallery.php:729
+#: ../fields/image.php:287 ../pro/fields/gallery.php:687
+#: ../pro/fields/gallery.php:720
 #, fuzzy
 msgid "File size"
 msgstr "预览图大小"
 
 #: ../fields/file.php:253 ../fields/image.php:264
-#: ../pro/fields/gallery.php:706
+#: ../pro/fields/gallery.php:697
 #, fuzzy
 msgid "Maximum"
 msgstr "最大行数"
 
 #: ../fields/file.php:264 ../fields/image.php:297
-#: ../pro/fields/gallery.php:739
+#: ../pro/fields/gallery.php:730
 #, fuzzy
 msgid "Allowed file types"
 msgstr "文章类型"
 
 #: ../fields/file.php:265 ../fields/image.php:298
-#: ../pro/fields/gallery.php:740
+#: ../pro/fields/gallery.php:731
 msgid "Comma separated list. Leave blank for all types"
 msgstr ""
 
@@ -1678,21 +1700,21 @@ msgstr ""
 msgid "Center the initial map"
 msgstr ""
 
-#: ../fields/google-map.php:199
+#: ../fields/google-map.php:202
 msgid "Zoom"
 msgstr ""
 
-#: ../fields/google-map.php:200
+#: ../fields/google-map.php:203
 msgid "Set the initial zoom level"
 msgstr ""
 
-#: ../fields/google-map.php:209 ../fields/image.php:243
-#: ../fields/image.php:276 ../pro/fields/gallery.php:685
-#: ../pro/fields/gallery.php:718
+#: ../fields/google-map.php:212 ../fields/image.php:243
+#: ../fields/image.php:276 ../fields/oembed.php:264
+#: ../pro/fields/gallery.php:676 ../pro/fields/gallery.php:709
 msgid "Height"
 msgstr ""
 
-#: ../fields/google-map.php:210
+#: ../fields/google-map.php:213
 msgid "Customise the map height"
 msgstr ""
 
@@ -1743,21 +1765,21 @@ msgstr "图像 URL"
 msgid "Image ID"
 msgstr "图像ID"
 
-#: ../fields/image.php:207 ../pro/fields/gallery.php:649
+#: ../fields/image.php:207 ../pro/fields/gallery.php:640
 msgid "Preview Size"
 msgstr "预览图大小"
 
-#: ../fields/image.php:208 ../pro/fields/gallery.php:650
+#: ../fields/image.php:208 ../pro/fields/gallery.php:641
 msgid "Shown when entering data"
 msgstr ""
 
 #: ../fields/image.php:232 ../fields/image.php:265
-#: ../pro/fields/gallery.php:674 ../pro/fields/gallery.php:707
+#: ../pro/fields/gallery.php:665 ../pro/fields/gallery.php:698
 msgid "Restrict which images can be uploaded"
 msgstr ""
 
-#: ../fields/image.php:235 ../fields/image.php:268
-#: ../pro/fields/gallery.php:677 ../pro/fields/gallery.php:710
+#: ../fields/image.php:235 ../fields/image.php:268 ../fields/oembed.php:253
+#: ../pro/fields/gallery.php:668 ../pro/fields/gallery.php:701
 msgid "Width"
 msgstr ""
 
@@ -1775,7 +1797,7 @@ msgid "Escape HTML"
 msgstr ""
 
 #: ../fields/message.php:112
-msgid "Controls how HTML tags are rendered"
+msgid "Allow HTML markup to display as visible text instead of rendering"
 msgstr ""
 
 #: ../fields/number.php:36
@@ -1823,7 +1845,7 @@ msgstr ""
 msgid "No embed found for the given URL"
 msgstr "没有为选项页找到自定义字段组。"
 
-#: ../fields/oembed.php:250 ../fields/oembed.php:260
+#: ../fields/oembed.php:250 ../fields/oembed.php:261
 msgid "Embed Size"
 msgstr ""
 
@@ -1831,36 +1853,36 @@ msgstr ""
 msgid "Archives"
 msgstr ""
 
-#: ../fields/page_link.php:521 ../fields/post_object.php:459
-#: ../fields/relationship.php:745
+#: ../fields/page_link.php:534 ../fields/post_object.php:403
+#: ../fields/relationship.php:691
 #, fuzzy
 msgid "Filter by Post Type"
 msgstr "根据角色过滤"
 
-#: ../fields/page_link.php:529 ../fields/post_object.php:467
-#: ../fields/relationship.php:753
+#: ../fields/page_link.php:542 ../fields/post_object.php:411
+#: ../fields/relationship.php:699
 #, fuzzy
 msgid "All post types"
 msgstr "文章类型"
 
-#: ../fields/page_link.php:535 ../fields/post_object.php:473
-#: ../fields/relationship.php:759
+#: ../fields/page_link.php:548 ../fields/post_object.php:417
+#: ../fields/relationship.php:705
 #, fuzzy
 msgid "Filter by Taxonomy"
 msgstr "通过分类法过滤"
 
-#: ../fields/page_link.php:543 ../fields/post_object.php:481
-#: ../fields/relationship.php:767
+#: ../fields/page_link.php:556 ../fields/post_object.php:425
+#: ../fields/relationship.php:713
 #, fuzzy
-msgid "No taxonomy filter"
+msgid "All taxonomies"
 msgstr "分类法字段"
 
-#: ../fields/page_link.php:549 ../fields/post_object.php:487
-#: ../fields/select.php:392 ../fields/taxonomy.php:727 ../fields/user.php:372
+#: ../fields/page_link.php:562 ../fields/post_object.php:431
+#: ../fields/select.php:392 ../fields/taxonomy.php:746 ../fields/user.php:372
 msgid "Allow Null?"
 msgstr "是否允许空值？"
 
-#: ../fields/page_link.php:563 ../fields/post_object.php:501
+#: ../fields/page_link.php:576 ../fields/post_object.php:445
 #: ../fields/select.php:406 ../fields/user.php:386
 msgid "Select multiple values?"
 msgstr "是否选择多个值？"
@@ -1869,17 +1891,17 @@ msgstr "是否选择多个值？"
 msgid "Password"
 msgstr "密码"
 
-#: ../fields/post_object.php:36 ../fields/post_object.php:520
-#: ../fields/relationship.php:820
+#: ../fields/post_object.php:36 ../fields/post_object.php:464
+#: ../fields/relationship.php:766
 msgid "Post Object"
 msgstr "文章对象"
 
-#: ../fields/post_object.php:515 ../fields/relationship.php:815
+#: ../fields/post_object.php:459 ../fields/relationship.php:761
 #, fuzzy
 msgid "Return Format"
 msgstr "文章格式"
 
-#: ../fields/post_object.php:521 ../fields/relationship.php:821
+#: ../fields/post_object.php:465 ../fields/relationship.php:767
 #, fuzzy
 msgid "Post ID"
 msgstr "日志"
@@ -1921,42 +1943,42 @@ msgstr ""
 msgid "No matches found"
 msgstr ""
 
-#: ../fields/relationship.php:637
+#: ../fields/relationship.php:580
 #, fuzzy
 msgid "Search..."
 msgstr "搜索"
 
-#: ../fields/relationship.php:646
+#: ../fields/relationship.php:589
 msgid "Select post type"
 msgstr ""
 
-#: ../fields/relationship.php:659
+#: ../fields/relationship.php:602
 #, fuzzy
 msgid "Select taxonomy"
 msgstr "分类法"
 
-#: ../fields/relationship.php:778
+#: ../fields/relationship.php:724
 msgid "Search"
 msgstr "搜索"
 
-#: ../fields/relationship.php:780 ../fields/taxonomy.php:36
-#: ../fields/taxonomy.php:698
+#: ../fields/relationship.php:726 ../fields/taxonomy.php:36
+#: ../fields/taxonomy.php:717
 msgid "Taxonomy"
 msgstr "分类法"
 
-#: ../fields/relationship.php:787
+#: ../fields/relationship.php:733
 msgid "Elements"
 msgstr "元素"
 
-#: ../fields/relationship.php:788
+#: ../fields/relationship.php:734
 msgid "Selected elements will be displayed in each result"
 msgstr "选择的元素将在每个结果中显示。"
 
-#: ../fields/relationship.php:806
+#: ../fields/relationship.php:752
 msgid "Maximum posts"
 msgstr "最大文章数"
 
-#: ../fields/select.php:36 ../fields/select.php:160 ../fields/taxonomy.php:719
+#: ../fields/select.php:36 ../fields/select.php:160 ../fields/taxonomy.php:738
 msgid "Select"
 msgstr "选择"
 
@@ -2003,40 +2025,40 @@ msgstr ""
 msgid "Placement"
 msgstr "元素"
 
-#: ../fields/taxonomy.php:667
+#: ../fields/taxonomy.php:686
 msgid "None"
 msgstr "None"
 
-#: ../fields/taxonomy.php:713
+#: ../fields/taxonomy.php:732
 msgid "Multiple Values"
 msgstr "多选"
 
-#: ../fields/taxonomy.php:715
+#: ../fields/taxonomy.php:734
 msgid "Multi Select"
 msgstr "多选"
 
-#: ../fields/taxonomy.php:717
+#: ../fields/taxonomy.php:736
 msgid "Single Value"
 msgstr "单个值"
 
-#: ../fields/taxonomy.php:718
+#: ../fields/taxonomy.php:737
 msgid "Radio Buttons"
 msgstr "单选框"
 
-#: ../fields/taxonomy.php:741
+#: ../fields/taxonomy.php:760
 msgid "Load & Save Terms to Post"
 msgstr "加载&保存条目到文章。"
 
-#: ../fields/taxonomy.php:745
+#: ../fields/taxonomy.php:764
 msgid ""
 "Load value based on the post's terms and update the post's terms on save"
 msgstr "在文章上加载值，保存时更新文章条目。"
 
-#: ../fields/taxonomy.php:756
+#: ../fields/taxonomy.php:775
 msgid "Term Object"
 msgstr "对象缓存"
 
-#: ../fields/taxonomy.php:757
+#: ../fields/taxonomy.php:776
 msgid "Term ID"
 msgstr "内容ID"
 
@@ -2400,53 +2422,53 @@ msgstr "添加图片到相册"
 msgid "Maximum selection reached"
 msgstr ""
 
-#: ../pro/fields/gallery.php:333
+#: ../pro/fields/gallery.php:336
 msgid "Length"
 msgstr ""
 
-#: ../pro/fields/gallery.php:353
+#: ../pro/fields/gallery.php:356
 #, fuzzy
 msgid "Remove"
 msgstr "删除"
 
-#: ../pro/fields/gallery.php:547
+#: ../pro/fields/gallery.php:538
 #, fuzzy
 msgid "Add to gallery"
 msgstr "添加图片到相册"
 
-#: ../pro/fields/gallery.php:551
+#: ../pro/fields/gallery.php:542
 #, fuzzy
 msgid "Bulk actions"
 msgstr "功能"
 
-#: ../pro/fields/gallery.php:552
+#: ../pro/fields/gallery.php:543
 msgid "Sort by date uploaded"
 msgstr ""
 
-#: ../pro/fields/gallery.php:553
+#: ../pro/fields/gallery.php:544
 msgid "Sort by date modified"
 msgstr ""
 
-#: ../pro/fields/gallery.php:554
+#: ../pro/fields/gallery.php:545
 #, fuzzy
 msgid "Sort by title"
 msgstr "文章类型"
 
-#: ../pro/fields/gallery.php:555
+#: ../pro/fields/gallery.php:546
 msgid "Reverse current order"
 msgstr ""
 
-#: ../pro/fields/gallery.php:573
+#: ../pro/fields/gallery.php:564
 #, fuzzy
 msgid "Close"
 msgstr "关闭字段"
 
-#: ../pro/fields/gallery.php:631
+#: ../pro/fields/gallery.php:622
 #, fuzzy
 msgid "Minimum Selection"
 msgstr "最小行数"
 
-#: ../pro/fields/gallery.php:640
+#: ../pro/fields/gallery.php:631
 #, fuzzy
 msgid "Maximum Selection"
 msgstr "最大行数"
@@ -2494,17 +2516,17 @@ msgid "Maximum Rows"
 msgstr "最大行数"
 
 #: ../assets/_build/js/acf-file.js:55 ../assets/_build/js/acf-file.js:190
-#: ../assets/_build/js/acf-file.js:191 ../assets/js/acf-input.js:3284
-#: ../assets/js/acf-input.js:3419 ../assets/js/acf-input.js:3420
+#: ../assets/_build/js/acf-file.js:191 ../assets/js/acf-input.js:3291
+#: ../assets/js/acf-input.js:3426 ../assets/js/acf-input.js:3427
 #: ../assets/js/acf-input.min.js:1
 msgid "file"
 msgstr ""
 
 #: ../assets/_build/js/acf-image.js:55 ../assets/_build/js/acf-image.js:189
-#: ../assets/_build/js/acf-image.js:190 ../assets/_build/js/acf-media.js:167
-#: ../assets/_build/js/acf-media.js:245 ../assets/js/acf-input.js:4070
-#: ../assets/js/acf-input.js:4204 ../assets/js/acf-input.js:4205
-#: ../assets/js/acf-input.js:4414 ../assets/js/acf-input.js:4492
+#: ../assets/_build/js/acf-image.js:190 ../assets/_build/js/acf-media.js:183
+#: ../assets/_build/js/acf-media.js:259 ../assets/js/acf-input.js:4077
+#: ../assets/js/acf-input.js:4211 ../assets/js/acf-input.js:4212
+#: ../assets/js/acf-input.js:4437 ../assets/js/acf-input.js:4513
 #: ../assets/js/acf-input.min.js:1 ../pro/assets/_build/js/acf-gallery.js:515
 #: ../pro/assets/_build/js/acf-gallery.js:516
 #: ../pro/assets/js/acf-pro-input.js:1514
@@ -2514,20 +2536,20 @@ msgstr ""
 msgid "image"
 msgstr "图像"
 
-#: ../assets/_build/js/acf-media.js:518 ../assets/js/acf-input.js:4765
+#: ../assets/_build/js/acf-media.js:530 ../assets/js/acf-input.js:4784
 #: ../assets/js/acf-input.min.js:2
 msgid "expand_details"
 msgstr ""
 
-#: ../assets/_build/js/acf-media.js:519 ../assets/js/acf-input.js:4766
+#: ../assets/_build/js/acf-media.js:531 ../assets/js/acf-input.js:4785
 #: ../assets/js/acf-input.min.js:2
 msgid "collapse_details"
 msgstr ""
 
 #: ../assets/_build/js/acf-relationship.js:175
 #: ../assets/_build/js/acf-relationship.js:222
-#: ../assets/_build/js/acf-relationship.js:378 ../assets/js/acf-input.js:5302
-#: ../assets/js/acf-input.js:5349 ../assets/js/acf-input.js:5505
+#: ../assets/_build/js/acf-relationship.js:378 ../assets/js/acf-input.js:5321
+#: ../assets/js/acf-input.js:5368 ../assets/js/acf-input.js:5524
 #: ../assets/js/acf-input.min.js:2
 #, fuzzy
 msgid "relationship"
@@ -2571,8 +2593,8 @@ msgstr ""
 msgid "null"
 msgstr ""
 
-#: ../assets/_build/js/field-group.js:2370
-#: ../assets/js/acf-field-group.js:2370 ../assets/js/acf-field-group.min.js:1
+#: ../assets/_build/js/field-group.js:2374
+#: ../assets/js/acf-field-group.js:2374 ../assets/js/acf-field-group.min.js:1
 msgid "hide_show_all"
 msgstr ""
 

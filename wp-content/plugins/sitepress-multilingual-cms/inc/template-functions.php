@@ -99,8 +99,8 @@ function icl_link_to_element($element_id, $element_type='post', $link_text='',
     $taxonomies = array_keys((array) $wp_taxonomies);
 
     if (in_array($element_type, $taxonomies)) {
-        $element_id = $wpdb->get_var($wpdb->prepare("SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE term_id= %d AND taxonomy='{$element_type}'",
-                        $element_id));
+        $element_id = $wpdb->get_var($wpdb->prepare("SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE term_id= %d AND taxonomy=%s",
+                        $element_id, $element_type ) );
     } elseif (in_array($element_type, $post_types)) {
         $element_type = 'post';
     }
@@ -112,9 +112,12 @@ function icl_link_to_element($element_id, $element_type='post', $link_text='',
     if (in_array($element_type, $taxonomies)) {
         $icl_element_type = 'tax_' . $element_type;
     } elseif (in_array($element_type, $post_types)) {
-        $icl_element_type = 'post_' . $wpdb->get_var("SELECT post_type FROM {$wpdb->posts} WHERE ID='{$element_id}'");
+        $icl_element_type = 'post_' . $wpdb->get_var($wpdb->prepare("SELECT post_type
+                                                                     FROM {$wpdb->posts}
+                                                                     WHERE ID = %d", $element_id  ) );
+    } else {
+        return '';
     }
-
 
     $trid = $sitepress->get_element_trid($element_id, $icl_element_type);
     $translations = $sitepress->get_element_translations($trid,
@@ -139,8 +142,8 @@ function icl_link_to_element($element_id, $element_type='post', $link_text='',
             $url = get_category_link($term_id);
             $title = apply_filters('single_cat_title', $title);
         } else {
-            list($term_id, $title) = $wpdb->get_row($wpdb->prepare("SELECT t.term_id, t.name FROM {$wpdb->term_taxonomy} tx JOIN {$wpdb->terms} t ON t.term_id = tx.term_id WHERE tx.term_taxonomy_id = %d AND tx.taxonomy='{$element_type}'",
-                            $translations[ICL_LANGUAGE_CODE]->element_id),
+            list($term_id, $title) = $wpdb->get_row($wpdb->prepare("SELECT t.term_id, t.name FROM {$wpdb->term_taxonomy} tx JOIN {$wpdb->terms} t ON t.term_id = tx.term_id WHERE tx.term_taxonomy_id = %d AND tx.taxonomy=%s",
+                            $translations[ICL_LANGUAGE_CODE]->element_id, $element_type),
                     ARRAY_N);
             $url = get_term_link($term_id, $element_type);
             $title = apply_filters('single_cat_title', $title);
@@ -439,6 +442,7 @@ function wpml_cf_translation_preferences_store($id, $custom_field) {
         }
         $custom_field = @strval($custom_field);
         $action = @intval($_POST['wpml_cf_translation_preferences'][$id]);
+        /** @var TranslationManagement $iclTranslationManagement */
         global $iclTranslationManagement;
         if (!empty($iclTranslationManagement)) {
             $iclTranslationManagement->settings['custom_fields_translation'][$custom_field] = $action;
@@ -480,9 +484,8 @@ function wpml_get_copied_fields_for_post_edit( $fields = array() ) {
             
                 $source_lang = isset($_GET['source_lang'])?$_GET['source_lang']:$sitepress->get_default_language();
                 $lang_details = $sitepress->get_language_details($source_lang);
-            } else if (isset($_GET['post'])) {
-                $post_id = @intval($_GET['post']);
-                $post_type = $wpdb->get_var("SELECT post_type FROM {$wpdb->posts} WHERE ID='{$post_id}'");
+            } else if ($post_id = filter_input(INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT)) {
+                $post_type = $wpdb->get_var( $wpdb->prepare("SELECT post_type FROM {$wpdb->posts} WHERE ID = %d", $post_id));
                 $trid = $sitepress->get_element_trid($post_id, 'post_' . $post_type);    
                 $original_id = $wpdb->get_var($wpdb->prepare("SELECT element_id FROM {$wpdb->prefix}icl_translations WHERE source_language_code IS NULL AND trid=%d", $trid));
                 if ($original_id != $post_id) {
@@ -493,7 +496,7 @@ function wpml_get_copied_fields_for_post_edit( $fields = array() ) {
                 }
             }
             
-            if ($translations) {
+            if ($translations && isset( $source_lang ) ) {
                 $original_custom = get_post_custom($translations[$source_lang]->element_id);
                 
                 $copied_cf['original_post_id'] = $translations[$source_lang]->element_id;

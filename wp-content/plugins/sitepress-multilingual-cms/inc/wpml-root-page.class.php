@@ -1,9 +1,11 @@
 <?php
+require ICL_PLUGIN_PATH . '/inc/home-url-functions.php';
 
 define( "QUERY_IS_ROOT", 1 );
 define( "QUERY_IS_OTHER_THAN_ROOT", 2 );
 define( "QUERY_IS_NOT_FOR_POST", 3 );
 define( "QUERY_IS_CORRUPT", 4 );
+add_filter( 'template_include', array('WPML_Root_Page', 'wpml_home_url_template_include') );
 
 class WPML_Root_Page {
 
@@ -120,15 +122,12 @@ class WPML_Root_Page {
 	 * @return bool
 	 */
 	public static function is_root_page( $requested_url ) {
-		global $sitepress;
-
 		$cached_val = wp_cache_get( md5( $requested_url ) );
-
 		if ( $cached_val !== false ) {
 			return (bool) $cached_val;
 		}
 
-		if ( ! $sitepress || ! self::is_root_page_enabled() ) {
+		if ( !self::get_root_id() > 0 ) {
 			$result = false;
 		} else {
 			$request_parts = self::get_slugs_and_get_query( $requested_url );
@@ -162,31 +161,6 @@ class WPML_Root_Page {
 	}
 
 	/**
-	 * Checks if the root page is even enabled in the SitePress settings.
-	 *
-	 * @return bool
-	 */
-	private static function is_root_page_enabled() {
-		global $sitepress;
-
-		$is_root_enabled = true;
-
-		$urls = $sitepress->get_setting( 'urls' );
-
-		if ( ! $urls
-		     || ! isset( $urls[ 'directory_for_default_language' ] )
-		     || ! $urls[ 'directory_for_default_language' ]
-		     || ! isset( $urls[ 'root_page' ] )
-		     || $urls[ 'root_page' ] == 0
-		) {
-			$is_root_enabled = false;
-		}
-
-		return $is_root_enabled;
-
-	}
-
-	/**
 	 * Returns the id of the root page or false if it isn't set.
 	 *
 	 * @return bool|int
@@ -212,9 +186,7 @@ class WPML_Root_Page {
 	 * @return bool|string
 	 */
 	private static function get_root_slug() {
-
 		$root_id = self::get_root_id();
-
 		$root_slug = false;
 		if ( $root_id ) {
 			$root_page_object = get_post( $root_id );
@@ -358,9 +330,14 @@ class WPML_Root_Page {
 	 */
 	private static function get_query_target_from_params_array( $query_params ) {
 
-		if ( ! isset( $query_params[ 'p' ] ) && ! isset( $query_params[ 'page_id' ] ) && ! isset( $query_params[ 'name' ] ) && ! isset( $query_params[ 'pagename' ] ) ) {
-			$result = QUERY_IS_NOT_FOR_POST;
-		} else {
+        if ( !isset( $query_params[ 'p' ] )
+             && !isset( $query_params[ 'page_id' ] )
+             && !isset( $query_params[ 'name' ] )
+             && !isset( $query_params[ 'pagename' ] )
+             && !isset( $query_params[ 'attachment_id' ] )
+        ) {
+            $result = QUERY_IS_NOT_FOR_POST;
+        } else {
 
 			$root_id   = self::get_root_id();
 			$root_slug = self::get_root_slug();
@@ -370,18 +347,11 @@ class WPML_Root_Page {
 			     || ( isset( $query_params[ 'name' ] ) && $query_params[ 'name' ] != $root_slug )
 			     || ( isset( $query_params[ 'pagename' ] ) && $query_params[ 'pagename' ] != $root_slug )
 			     || ( isset( $query_params[ 'preview_id' ] ) && $query_params[ 'preview_id' ] != $root_id )
+                 || ( isset( $query_params[ 'attachment_id' ] ) && $query_params[ 'attachment_id' ] != $root_id )
 			) {
 				$result = QUERY_IS_OTHER_THAN_ROOT;
-			} elseif ( ( isset( $query_params[ 'p' ] ) && $query_params[ 'p' ] == $root_id )
-			           || ( isset( $query_params[ 'page_id' ] ) && $query_params[ 'page_id' ] == $root_id )
-			           || ( isset( $query_params[ 'name' ] ) && $query_params[ 'name' ] == $root_slug )
-			           || ( isset( $query_params[ 'pagename' ] ) && $query_params[ 'pagename' ] == $root_slug )
-			           || ( isset( $query_params[ 'preview_id' ] ) && $query_params[ 'preview_id' ] == $root_id )
-
-			) {
-				$result = QUERY_IS_ROOT;
 			} else {
-				$result = QUERY_IS_CORRUPT;
+				$result = QUERY_IS_ROOT;
 			}
 		}
 
@@ -403,5 +373,16 @@ class WPML_Root_Page {
 		}
 
 		return $post;
+	}
+
+	/**
+	 * Filters the template that is used for the root page
+	 *
+	 * @param $template
+	 * @return string
+	 */
+	public static function wpml_home_url_template_include( $template ) {
+
+		return self::is_current_request_root () ? get_page_template () : $template;
 	}
 }

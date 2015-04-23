@@ -127,7 +127,6 @@ function icl_get_languages_codes() {
 			'Mongolian'             => 'mn',
 			'Moldavian'             => 'mo',
 			'Marathi'               => 'mr',
-			'Malay'                 => 'ms',
 			'Maltese'               => 'mt',
 			'Burmese'               => 'my',
 			'Nauru'                 => 'na',

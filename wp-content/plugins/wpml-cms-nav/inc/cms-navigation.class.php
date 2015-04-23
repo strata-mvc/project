@@ -148,9 +148,11 @@ class WPML_CMS_Navigation{
     
     function save_form(){
         global $wpdb;
-        
-        if($_POST['icl_cms_nav_nonce'] != wp_create_nonce('icl_cms_nav_nonce')) return false;
-        
+
+        if ( !wp_verify_nonce( filter_input( INPUT_POST, 'icl_cms_nav_nonce' ), 'icl_cms_nav_nonce' ) ) {
+            return false;
+        }
+
         $this->settings['page_order'] = $_POST['icl_navigation_page_order'];
         $this->settings['show_cat_menu'] = @intval($_POST['icl_navigation_show_cat_menu']);
         if($_POST['icl_navigation_cat_menu_title']){
@@ -367,10 +369,6 @@ class WPML_CMS_Navigation{
                 echo get_the_time('F, Y');
             }elseif (is_search()){
                 echo __('Search for: ', 'wpml-cms-nav'), strip_tags(get_query_var('s'));
-            /*    
-            }elseif (is_404()){
-                echo __('Not found', 'wpml-cms-nav');
-            */
             }        
             $output = ob_get_contents();
             ob_end_clean();
@@ -455,7 +453,7 @@ class WPML_CMS_Navigation{
             if(!$show_cat_menu && $page_for_posts){
                 $excluded_pages[] = $page_for_posts;    
             }                                       
-            $excluded_pages = join(',', $excluded_pages);
+            $excluded_pages = wpml_prepare_in( $excluded_pages, '%d' );
             
             if(!empty($post) && !isset($post->ancestors)){
                 $post->ancestors = array();
@@ -492,7 +490,7 @@ class WPML_CMS_Navigation{
             if($show_cat_menu && (0 !== strpos('page', get_option('show_on_front')) || !$page_for_posts_abs)){
 				$res = false;
 				if($pages){
-					$res_prepared = "SELECT ID, menu_order FROM {$wpdb->posts} WHERE ID IN (" . join( ',', $pages ) . ") ORDER BY menu_order";
+					$res_prepared = "SELECT ID, menu_order FROM {$wpdb->posts} WHERE ID IN (" . wpml_prepare_in(  $pages, '%d' ) . ") ORDER BY menu_order";
 					$res = $wpdb->get_results( $res_prepared );
                 }
                 if($res){
@@ -665,8 +663,7 @@ class WPML_CMS_Navigation{
 								?>
                             </ul>
                             <?php if(isset($cms_nav_ie_ver) && $cms_nav_ie_ver <= 6): ?></td></tr></table><?php endif; ?>
-                        <?php endif; ?>                    
-                        <?php if(isset($cms_nav_ie_ver) && $cms_nav_ie_ver <= 6): ?></a><?php endif; ?>
+                        <?php endif; ?>
                     </li>
                     <?php   
                 }
@@ -911,7 +908,7 @@ class WPML_CMS_Navigation{
                 SELECT meta_key, meta_value FROM {$wpdb->prefix}icl_translations tr
                 JOIN {$wpdb->postmeta} pm ON tr.element_id = pm.post_id
                 WHERE tr.trid=%d AND (source_language_code IS NULL OR source_language_code='')
-                    AND meta_key IN (" . join( ',', $copied_custom_fields ) . ")
+                    AND meta_key IN (" . wpml_prepare_in( $copied_custom_fields ) . ")
             ",$_GET['trid']);
 			$res = $wpdb->get_results( $res_prepared );
             foreach($res as $r){
@@ -919,7 +916,6 @@ class WPML_CMS_Navigation{
             }
         }else{
             // get sections
-			//$sections = $wpdb->get_col("SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key='_cms_nav_section'");
 			global $sitepress;
 			$current_language = $sitepress->get_current_language();
 			$sql = $wpdb->prepare( "
@@ -1010,16 +1006,6 @@ class WPML_CMS_Navigation{
     
     function sidebar_navigation_widget_init(){
 	    register_widget( 'WPML_Navigation_Widget' );
-//        function sidebar_navigation_widget($args){
-//            extract($args, EXTR_SKIP);
-//			/** @var $before_widget string */
-//			/** @var $after_widget string */
-//			echo $before_widget;
-//            global $iclCMSNavigation;
-//            $iclCMSNavigation->cms_navigation_page_navigation();
-//            echo $after_widget;
-//        }
-//        wp_register_sidebar_widget( 'sidebar-navigation', __('Sidebar Navigation', 'wpml-cms-nav'), 'sidebar_navigation_widget', array('classname'=>'icl_sidebar_navigation'));
     }
     
     function rewrite_page_link($url, $page_id){

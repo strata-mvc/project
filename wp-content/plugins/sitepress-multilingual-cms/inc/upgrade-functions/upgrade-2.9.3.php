@@ -14,5 +14,3 @@ foreach($widget_strings as $string){
 // Add a new `language_context` index to icl_strings table
 $sql = "ALTER TABLE `{$wpdb->prefix}icl_strings` ADD INDEX `language_context` ( `context` , `language` )";
 $wpdb->query($sql);
-
-?>

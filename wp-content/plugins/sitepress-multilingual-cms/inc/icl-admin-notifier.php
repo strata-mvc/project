@@ -138,7 +138,7 @@ class ICL_AdminNotifier {
 	}
 
 	public static function displayMessages( $group = false ) {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( did_action('set_current_user') && current_user_can( 'manage_options' ) ) {
 			$messages = self::getMessages();
 
 			foreach ( $messages[ 'messages' ] as $id => $msg ) {

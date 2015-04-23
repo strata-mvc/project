@@ -187,6 +187,9 @@ class acf_field_gallery extends acf_field {
 				}
 			}
 			
+			/** This filter is documented in wp-admin/includes/media.php */
+			$post = apply_filters( 'attachment_fields_to_save', $post, $changes );
+			
 			
 			// save post
 			wp_update_post( $post );
@@ -442,21 +445,9 @@ class acf_field_gallery extends acf_field {
 		// load posts
 		if( !empty($field['value']) ) {
 			
-			// force value to array
-			$field['value'] = acf_force_type_array( $field['value'] );
-			
-			
-			// convert values to int
-			$field['value'] = array_map('intval', $field['value']);
-			
-			
-			// load posts in 1 query to save multiple DB calls from following code
-			$posts = get_posts(array(
-				'posts_per_page'	=> -1,
-				'post_type'			=> 'attachment',
-				'post_status'		=> 'any',
-				'post__in'			=> $field['value'],
-				'orderby'			=> 'post__in'
+			$posts = acf_get_posts(array(
+				'post_type'	=> 'attachment',
+				'post__in'	=> $field['value']
 			));
 			
 		}
@@ -766,43 +757,31 @@ class acf_field_gallery extends acf_field {
 		// bail early if no value
 		if( empty($value) ) {
 			
-			return $value;
+			// return false as $value may be '' (from DB) which doesn't make much sense
+			return false;
 		
 		}
 		
 		
-		// force value to array
-		$value = acf_force_type_array( $value );
-		
-		
-		// convert values to int
-		$value = array_map('intval', $value);
-		
-		
-		// load posts in 1 query to save multiple DB calls from following code
-		$posts = get_posts(array(
-			'posts_per_page'	=> -1,
-			'post_type'			=> 'attachment',
-			'post_status'		=> 'any',
-			'post__in'			=> $value,
-			'orderby'			=> 'post__in'
+		// get posts
+		$posts = acf_get_posts(array(
+			'post_type'	=> 'attachment',
+			'post__in'	=> $value,
 		));
 		
 		
-		// reset value
-		$value = array();
 		
-		
-		// populate value
-		foreach( $posts as $post ) {
+		// update value to include $post
+		foreach( array_keys($posts) as $i ) {
 			
-			$value[] = acf_get_attachment( $post );
-		
+			$posts[ $i ] = acf_get_attachment( $posts[ $i ] );
+			
 		}
-		
+				
 		
 		// return
-		return $value;
+		return $posts;
+		
 	}
 	
 	

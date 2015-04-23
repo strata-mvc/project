@@ -348,7 +348,7 @@ class GFExport {
 
 	public static function export_form_page() {
 
-		if ( ! GFCommon::current_user_can_any( 'gravityforçms_edit_forms' ) ) {
+		if ( ! GFCommon::current_user_can_any( 'gravityforms_edit_forms' ) ) {
 			wp_die( 'You do not have permission to access this page' );
 		}
 
@@ -766,6 +766,9 @@ class GFExport {
 
 			$lines = '';
 		}
+
+		do_action( 'gform_post_export_entries', $form, $start_date, $end_date, $fields );
+
 	}
 
 	public static function add_default_export_fields( $form ) {
@@ -804,8 +807,10 @@ class GFExport {
 
 	public static function page_header( $title = '' ) {
 
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG || isset( $_GET['gform_debug'] ) ? '' : '.min';
+
 		// register admin styles
-		wp_register_style( 'gform_admin', GFCommon::get_base_url() . '/css/admin.css' );
+		wp_register_style( 'gform_admin', GFCommon::get_base_url() . "/css/admin{$min}.css" );
 		wp_print_styles( array( 'jquery-ui-styles', 'gform_admin' ) );
 
 		$current_tab  = rgempty( 'view', $_GET ) ? 'export_entry' : rgget( 'view' );
@@ -839,9 +844,10 @@ class GFExport {
 					$query = array_merge( $query, $tab['query'] );
 				}
 
+				$url = add_query_arg( $query );
 				?>
 				<li <?php echo $current_tab == $tab['name'] ? "class='active'" : '' ?>>
-					<a href="<?php echo add_query_arg( $query ); ?>"><?php echo $tab['label'] ?></a>
+					<a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $tab['label'] ) ?></a>
 				</li>
 			<?php
 			}

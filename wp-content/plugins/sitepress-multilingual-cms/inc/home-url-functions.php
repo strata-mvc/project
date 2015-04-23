@@ -6,7 +6,6 @@ add_filter( 'wp_page_menu_args', 'wpml_home_url_exclude_root_page_from_menus' );
 add_filter( 'wp_list_pages_excludes', 'wpml_home_url_exclude_root_page' );
 add_filter( 'page_attributes_dropdown_pages_args', 'wpml_home_url_exclude_root_page2' );
 add_filter( 'get_pages', 'wpml_home_url_get_pages' );
-add_filter( 'template_include', 'wpml_home_url_template_include' );
 
 function wpml_home_url_init()
 {
@@ -218,17 +217,6 @@ function wpml_home_url_parse_query( $q )
 	}
 
 	return $q;
-}
-
-function wpml_home_url_template_include($template) {
-	global $sitepress_settings;
-	$id = get_queried_object_id();
-
-	$is_root_page = isset( $sitepress_settings[ 'urls' ][ 'root_page' ] ) && $sitepress_settings[ 'urls' ][ 'root_page' ] == $id;
-	if ( $is_root_page ) {
-		$template = get_page_template();
-	}
-    return $template;
 }
 
 function wpml_home_url_ls_hide_check()

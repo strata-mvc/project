@@ -14,6 +14,8 @@ if( ! class_exists('acf_form_user') ) :
 
 class acf_form_user {
 	
+	var $form = '#createuser';
+	
 	
 	/*
 	*  __construct
@@ -35,7 +37,7 @@ class acf_form_user {
 		add_action('login_form_register', 			array($this, 'admin_enqueue_scripts'));
 		
 		// render
-		add_action('show_user_profile', 			array($this, 'edit_profile'));
+		add_action('show_user_profile', 			array($this, 'edit_user'));
 		add_action('edit_user_profile',				array($this, 'edit_user'));
 		add_action('user_new_form',					array($this, 'user_new_form'));
 		add_action('register_form',					array($this, 'register_user'));
@@ -108,26 +110,9 @@ class acf_form_user {
 		// load acf scripts
 		acf_enqueue_scripts();
 		
-	}
-	
-	
-	/*
-	*  edit_profile
-	*
-	*  description
-	*
-	*  @type	function
-	*  @date	8/10/13
-	*  @since	5.0.0
-	*
-	*  @param	$post_id (int)
-	*  @return	$post_id (int)
-	*/
-	
-	function edit_profile( $profileuser ) {
 		
-		// render
-		$this->render( $profileuser->ID, 'edit', 'tr' );
+		// actions
+		add_action('admin_footer',					array($this, 'admin_footer'), 10, 1);
 		
 	}
 	
@@ -166,10 +151,14 @@ class acf_form_user {
 	*  @return	$post_id (int)
 	*/
 	
-	function edit_user( $profileuser ) {
+	function edit_user( $user ) {
+		
+		// update vars
+		$this->form = '#your-profile';
+		
 		
 		// render
-		$this->render( $profileuser->ID, 'edit', 'tr' );
+		$this->render( $user->ID, 'edit', 'tr' );
 		
 	}
 	
@@ -188,6 +177,10 @@ class acf_form_user {
 	*/
 	
 	function user_new_form() {
+		
+		// update vars
+		$this->form = '#createuser';
+		
 		
 		// render
 		$this->render( 0, 'add', 'tr' );
@@ -275,6 +268,79 @@ class acf_form_user {
 			}
 		
 		}
+		
+	}
+	
+	
+	/*
+	*  admin_footer
+	*
+	*  description
+	*
+	*  @type	function
+	*  @date	27/03/2015
+	*  @since	5.1.5
+	*
+	*  @param	$post_id (int)
+	*  @return	$post_id (int)
+	*/
+	
+	function admin_footer() {
+		
+?>
+<style type="text/css">
+
+<?php echo $this->form; ?> p.submit .spinner {
+	vertical-align: top;
+	float: none;
+	margin-top: 4px;
+}
+
+</style>
+<script type="text/javascript">
+(function($) {
+	
+	// vars
+	var $spinner = $('<?php echo $this->form; ?> p.submit .spinner');
+	
+	
+	// create spinner if not exists (may exist in future WP versions)
+	if( !$spinner.exists() ) {
+		
+		// create spinner
+		$spinner = $('<span class="spinner"></span>');
+		
+		
+		// append
+		$('<?php echo $this->form; ?> p.submit').append( $spinner );
+		
+	}
+	
+	
+	// show spinner on submit
+	$(document).on('submit', '<?php echo $this->form; ?>', function(){
+		
+		// show spinner
+		$spinner.css('display', 'inline-block');
+		
+	});
+	
+	
+	// hide spinner after validation
+	acf.add_filter('validation_complete', function( json, $form ){
+		
+		// hide spinner
+		$spinner.css('display', 'none');
+		
+		
+		// return
+		return json;
+				
+	});
+	
+})(jQuery);	
+</script>
+<?php
 		
 	}
 	

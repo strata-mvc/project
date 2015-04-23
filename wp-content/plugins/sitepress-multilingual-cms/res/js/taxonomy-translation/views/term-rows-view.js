@@ -7,16 +7,13 @@
         start: 0,
         end: 10,
         count: -1,
-
         initialize: function (data, options) {
             var self = this;
             self.end = options.end;
             self.start = options.start;
         },
         getDisplayedRows: function () {
-
             var self = this;
-
             var displayedRows = self.collection;
 
             if (!displayedRows) {
@@ -28,7 +25,6 @@
             if (TaxonomyTranslation.mainView.filterView.parent) {
                 parentFilter = TaxonomyTranslation.mainView.filterView.parent;
             }
-
 
             if (parentFilter) {
                 displayedRows = displayedRows.filter(function (row) {
@@ -79,7 +75,9 @@
             self.count = displayedRows.length;
 
             return displayedRows;
-
+        },
+        getDisplayCount: function(){
+            return this.count;
         },
         render: function () {
 

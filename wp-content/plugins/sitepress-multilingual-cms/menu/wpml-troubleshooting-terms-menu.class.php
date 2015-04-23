@@ -110,8 +110,14 @@ class WPML_Troubleshooting_Terms_Menu {
 
 		$term_names = array();
 
-		if ( isset( $_POST[ 'terms' ] ) && $_POST[ 'terms' ] ) {
-			$term_names = json_decode( stripcslashes( $_POST[ 'terms' ] ) );
+		$nonce = (string)filter_input( INPUT_POST, '_icl_nonce', FILTER_SANITIZE_STRING );
+		if ( !wp_verify_nonce( $nonce, 'update_term_names_nonce' ) ) {
+			die( 'Wrong Nonce' );
+		}
+
+		$request_post_terms = filter_input ( INPUT_POST, 'terms' );
+		if ( $request_post_terms ) {
+			$term_names = json_decode( stripcslashes( $request_post_terms ) );
 			if ( ! is_object( $term_names ) ) {
 				$term_names = array();
 			}

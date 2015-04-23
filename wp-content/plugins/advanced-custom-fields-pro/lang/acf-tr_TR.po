@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields\n"
-"POT-Creation-Date: 2015-02-24 10:52+1000\n"
-"PO-Revision-Date: 2015-02-24 10:59+1000\n"
+"POT-Creation-Date: 2015-03-05 11:24+1000\n"
+"PO-Revision-Date: 2015-03-05 11:27+1000\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
 "Language-Team: Ramazan POLAT <trstar@gmail.com>\n"
 "Language: tr_TR\n"
@@ -162,7 +162,7 @@ msgstr "kopyala"
 #: admin/views/field-group-field-conditional-logic.php:67
 #: admin/views/field-group-field-conditional-logic.php:162
 #: admin/views/field-group-locations.php:23
-#: admin/views/field-group-locations.php:132 core/media.php:150
+#: admin/views/field-group-locations.php:131 core/media.php:150
 msgid "or"
 msgstr "veya"
 
@@ -215,10 +215,10 @@ msgstr "Alan Anahtarlarını Göster"
 #: admin/field-group.php:254
 #: admin/views/field-group-field-conditional-logic.php:40
 #: admin/views/field-group-field.php:134 fields/message.php:116
-#: fields/page_link.php:554 fields/page_link.php:568
-#: fields/post_object.php:492 fields/post_object.php:506 fields/select.php:397
+#: fields/page_link.php:567 fields/page_link.php:581
+#: fields/post_object.php:436 fields/post_object.php:450 fields/select.php:397
 #: fields/select.php:411 fields/select.php:425 fields/select.php:439
-#: fields/taxonomy.php:732 fields/user.php:377 fields/user.php:391
+#: fields/taxonomy.php:751 fields/user.php:377 fields/user.php:391
 #: fields/wysiwyg.php:384 pro/admin/views/settings-updates.php:93
 msgid "Yes"
 msgstr "Evet"
@@ -226,103 +226,117 @@ msgstr "Evet"
 #: admin/field-group.php:255
 #: admin/views/field-group-field-conditional-logic.php:41
 #: admin/views/field-group-field.php:135 fields/message.php:117
-#: fields/page_link.php:555 fields/page_link.php:569
-#: fields/post_object.php:493 fields/post_object.php:507 fields/select.php:398
+#: fields/page_link.php:568 fields/page_link.php:582
+#: fields/post_object.php:437 fields/post_object.php:451 fields/select.php:398
 #: fields/select.php:412 fields/select.php:426 fields/select.php:440
-#: fields/taxonomy.php:733 fields/user.php:378 fields/user.php:392
+#: fields/taxonomy.php:752 fields/user.php:378 fields/user.php:392
 #: fields/wysiwyg.php:385 pro/admin/views/settings-updates.php:103
 msgid "No"
 msgstr "Hayır"
 
-#: admin/field-group.php:586
-msgid "Super Admin"
-msgstr "Süper Admin"
-
-#: admin/field-group.php:659 pro/admin/views/options-page.php:52
+#: admin/field-group.php:642 pro/admin/views/options-page.php:52
 msgid "Publish"
 msgstr "Yayınla"
 
-#: admin/field-group.php:660
+#: admin/field-group.php:643
 msgid "Pending Review"
 msgstr "İnceleme Bekliyor"
 
-#: admin/field-group.php:661
+#: admin/field-group.php:644
 msgid "Draft"
 msgstr "Taslak"
 
-#: admin/field-group.php:662
+#: admin/field-group.php:645
 msgid "Future"
 msgstr "Gelecek"
 
-#: admin/field-group.php:663
+#: admin/field-group.php:646
 msgid "Private"
 msgstr "Gizli"
 
-#: admin/field-group.php:664
+#: admin/field-group.php:647
 msgid "Revision"
 msgstr "Revizyon"
 
-#: admin/field-group.php:665
+#: admin/field-group.php:648
 msgid "Trash"
 msgstr "Çöp"
 
-#: admin/field-group.php:729
+#: admin/field-group.php:712
 msgid "Front Page"
 msgstr "Ön Sayfa"
 
-#: admin/field-group.php:730
+#: admin/field-group.php:713
 msgid "Posts Page"
 msgstr "Yazılar Sayfası"
 
-#: admin/field-group.php:731
-msgid "Top Level Page (parent of 0)"
+#: admin/field-group.php:714
+#, fuzzy
+msgid "Top Level Page (no parent)"
 msgstr "Üst Düzey Sayfa (altında 0)"
 
-#: admin/field-group.php:732
+#: admin/field-group.php:715
 msgid "Parent Page (has children)"
 msgstr "Alt Sayfa (alt sayfası var)"
 
-#: admin/field-group.php:733
+#: admin/field-group.php:716
 msgid "Child Page (has parent)"
 msgstr "Alt Sayfa (ebeveyni var)"
 
-#: admin/field-group.php:749
+#: admin/field-group.php:732
 msgid "Default Template"
 msgstr "Varsayılan Tema"
 
-#: admin/field-group.php:771 admin/field-group.php:779
-#: admin/field-group.php:793 admin/field-group.php:800
-#: admin/field-group.php:815 admin/field-group.php:825 fields/file.php:234
-#: fields/image.php:223 pro/fields/gallery.php:665
+#: admin/field-group.php:754
+#, fuzzy
+msgid "Logged in"
+msgstr "Kullanıcı Tipi Giriş Yapıldı"
+
+#: admin/field-group.php:755
+msgid "Viewing front end"
+msgstr ""
+
+#: admin/field-group.php:756
+msgid "Viewing back end"
+msgstr ""
+
+#: admin/field-group.php:775
+msgid "Super Admin"
+msgstr "Süper Admin"
+
+#: admin/field-group.php:786 admin/field-group.php:794
+#: admin/field-group.php:808 admin/field-group.php:815
+#: admin/field-group.php:830 admin/field-group.php:840 fields/file.php:234
+#: fields/image.php:223 pro/fields/gallery.php:656
 msgid "All"
 msgstr "Hepsi"
 
-#: admin/field-group.php:780
+#: admin/field-group.php:795
 msgid "Add / Edit"
 msgstr "Ekle / Düzenle"
 
-#: admin/field-group.php:781
+#: admin/field-group.php:796
 msgid "Register"
 msgstr "Kayıt"
 
-#: admin/field-group.php:1012
+#: admin/field-group.php:1027
 msgid "Move Complete."
 msgstr "Taşıma Tamamlandı."
 
-#: admin/field-group.php:1013
+#: admin/field-group.php:1028
 #, php-format
 msgid "The %s field can now be found in the %s field group"
 msgstr "%s Alanına artık %s alan gruplarından erişilebilir"
 
-#: admin/field-group.php:1015
+#: admin/field-group.php:1030
 msgid "Close Window"
 msgstr "Pencereyi Kapat"
 
-#: admin/field-group.php:1050
+#: admin/field-group.php:1065
 msgid "Please select the destination for this field"
 msgstr "Lütfen bu alan için hedef seçin"
 
-#: admin/field-group.php:1057
+#: admin/field-group.php:1072
 msgid "Move Field"
 msgstr "Alanı Taşı"
 
@@ -395,7 +409,7 @@ msgstr "Fonksiyonlar"
 msgid "Actions"
 msgstr "Eylemler"
 
-#: admin/field-groups.php:554 fields/relationship.php:773
+#: admin/field-groups.php:554 fields/relationship.php:719
 msgid "Filters"
 msgstr "Filtreler"
 
@@ -503,22 +517,22 @@ msgid "Show this field if"
 msgstr "Alanı bu şart gerçekleşirse göster"
 
 #: admin/views/field-group-field-conditional-logic.php:111
-#: admin/views/field-group-locations.php:89
+#: admin/views/field-group-locations.php:88
 msgid "is equal to"
 msgstr "eşitse"
 
 #: admin/views/field-group-field-conditional-logic.php:112
-#: admin/views/field-group-locations.php:90
+#: admin/views/field-group-locations.php:89
 msgid "is not equal to"
 msgstr "eşit değilse"
 
 #: admin/views/field-group-field-conditional-logic.php:149
-#: admin/views/field-group-locations.php:119
+#: admin/views/field-group-locations.php:118
 msgid "and"
 msgstr "ve"
 
 #: admin/views/field-group-field-conditional-logic.php:164
-#: admin/views/field-group-locations.php:134
+#: admin/views/field-group-locations.php:133
 msgid "Add rule group"
 msgstr "Grup Kuralı ekle"
 
@@ -526,7 +540,7 @@ msgstr "Grup Kuralı ekle"
 msgid "Edit field"
 msgstr "Alanı Düzenle"
 
-#: admin/views/field-group-field.php:54 pro/fields/gallery.php:353
+#: admin/views/field-group-field.php:54 pro/fields/gallery.php:356
 msgid "Edit"
 msgstr "Düzenle"
 
@@ -574,7 +588,7 @@ msgstr "Alan Adı"
 msgid "Single word, no spaces. Underscores and dashes allowed"
 msgstr "Boşluksuz tek kelime. Alt çizgi ve tire yazılabilir."
 
-#: admin/views/field-group-field.php:102 fields/taxonomy.php:707
+#: admin/views/field-group-field.php:102 fields/taxonomy.php:726
 msgid "Field Type"
 msgstr "Alan Türü"
 
@@ -660,85 +674,87 @@ msgstr ""
 msgid "Show this field group if"
 msgstr "Bu alan grubu halinde göster"
 
-#: admin/views/field-group-locations.php:41 core/field.php:130
-msgid "Basic"
-msgstr "Basit"
+#: admin/views/field-group-locations.php:41
+#: admin/views/field-group-locations.php:47
+msgid "Post"
+msgstr "Yazı"
 
-#: admin/views/field-group-locations.php:42 fields/relationship.php:779
+#: admin/views/field-group-locations.php:42 fields/relationship.php:725
 msgid "Post Type"
 msgstr "Sayfa Tipi"
 
 #: admin/views/field-group-locations.php:43
-msgid "Logged in User Type"
-msgstr "Kullanıcı Tipi Giriş Yapıldı"
-
-#: admin/views/field-group-locations.php:45
-#: admin/views/field-group-locations.php:46
-msgid "Post"
-msgstr "Yazı"
-
-#: admin/views/field-group-locations.php:47
-msgid "Post Category"
-msgstr "Yazı Kategorisi"
-
-#: admin/views/field-group-locations.php:48
-msgid "Post Format"
-msgstr "Yazı Formatı"
-
-#: admin/views/field-group-locations.php:49
 msgid "Post Status"
 msgstr "Yazı Durumu"
 
-#: admin/views/field-group-locations.php:50
+#: admin/views/field-group-locations.php:44
+msgid "Post Format"
+msgstr "Yazı Formatı"
+
+#: admin/views/field-group-locations.php:45
+msgid "Post Category"
+msgstr "Yazı Kategorisi"
+
+#: admin/views/field-group-locations.php:46
 msgid "Post Taxonomy"
 msgstr "Yazı Taksonomi"
 
-#: admin/views/field-group-locations.php:52
+#: admin/views/field-group-locations.php:49
 #: admin/views/field-group-locations.php:53
 msgid "Page"
 msgstr "Sayfa"
 
-#: admin/views/field-group-locations.php:54
-msgid "Page Type"
-msgstr "Sayfa Tipi"
-
-#: admin/views/field-group-locations.php:55
-msgid "Page Parent"
-msgstr "Sayfa Ebeveyn"
-
-#: admin/views/field-group-locations.php:56
+#: admin/views/field-group-locations.php:50
 msgid "Page Template"
 msgstr "Sayfa Teması"
 
-#: admin/views/field-group-locations.php:58 fields/user.php:36
+#: admin/views/field-group-locations.php:51
+msgid "Page Type"
+msgstr "Sayfa Tipi"
+
+#: admin/views/field-group-locations.php:52
+msgid "Page Parent"
+msgstr "Sayfa Ebeveyn"
+
+#: admin/views/field-group-locations.php:55 fields/user.php:36
 msgid "User"
 msgstr "Kullanıcı"
 
-#: admin/views/field-group-locations.php:59
+#: admin/views/field-group-locations.php:56
+#, fuzzy
+msgid "Current User"
+msgstr "Şimdiki Versiyon"
+
+#: admin/views/field-group-locations.php:57
+#, fuzzy
+msgid "Current User Role"
+msgstr "Kullanıcı Kuralı"
+
+#: admin/views/field-group-locations.php:58
 msgid "User Form"
 msgstr "Kullanıcı Formu"
 
-#: admin/views/field-group-locations.php:60
+#: admin/views/field-group-locations.php:59
 msgid "User Role"
 msgstr "Kullanıcı Kuralı"
 
-#: admin/views/field-group-locations.php:62 pro/admin/options-page.php:55
+#: admin/views/field-group-locations.php:61 pro/admin/options-page.php:55
 msgid "Forms"
 msgstr "Formlar"
 
-#: admin/views/field-group-locations.php:63
+#: admin/views/field-group-locations.php:62
 msgid "Attachment"
 msgstr "Ek"
 
-#: admin/views/field-group-locations.php:64
+#: admin/views/field-group-locations.php:63
 msgid "Taxonomy Term"
 msgstr "Taksonomi Terimi"
 
-#: admin/views/field-group-locations.php:65
+#: admin/views/field-group-locations.php:64
 msgid "Comment"
 msgstr "Yorum"
 
-#: admin/views/field-group-locations.php:66
+#: admin/views/field-group-locations.php:65
 msgid "Widget"
 msgstr "Widget"
 
@@ -747,7 +763,8 @@ msgid "Order No."
 msgstr "Sıra No."
 
 #: admin/views/field-group-options.php:11
-msgid "Field groups are created in order <br />from lowest to highest"
+#, fuzzy
+msgid "Field groups are created in order from lowest to highest"
 msgstr "Alan grupları oluşturulma sırası <br/> sırayla alttan yukarı"
 
 #: admin/views/field-group-options.php:21
@@ -807,14 +824,16 @@ msgid "Hide on screen"
 msgstr "Ekrandan gizle"
 
 #: admin/views/field-group-options.php:84
-msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
+#, fuzzy
+msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
 msgstr ""
 "<b>Seç</b> elemanları düzenleme ekranından gizlemek için  <b>Gizle</b> "
 
 #: admin/views/field-group-options.php:84
+#, fuzzy
 msgid ""
 "If multiple field groups appear on an edit screen, the first field group's "
-"options will be used. (the one with the lowest order number)"
+"options will be used (the one with the lowest order number)"
 msgstr ""
 "Birden fazla alan grupları bir düzenleme ekranında görünürse, ilk alan "
 "grubun seçenekleri kullanılacaktır. (küçük id numarası ile bir)"
@@ -859,7 +878,7 @@ msgstr "Format"
 msgid "Page Attributes"
 msgstr "Sayfa Öznitelikleri"
 
-#: admin/views/field-group-options.php:101 fields/relationship.php:792
+#: admin/views/field-group-options.php:101 fields/relationship.php:738
 msgid "Featured Image"
 msgstr "Öneçıkarılmış Resim"
 
@@ -1019,8 +1038,9 @@ msgid "Introducing ACF PRO"
 msgstr "ACF PRO Tanıtımı"
 
 #: admin/views/settings-info.php:53
+#, fuzzy
 msgid ""
-"We're changing the way premium functionality is delivered in an exiting way!"
+"We're changing the way premium functionality is delivered in an exciting way!"
 msgstr ""
 "İşlevselliği üst düzeye çıkarken, bir şekilde teslim edilir şeklini "
 "değiştirerek teslim ediyoruz!"
@@ -1308,33 +1328,37 @@ msgstr "Neler yeni görün"
 msgid "Data is at the latest version."
 msgstr "Verinin en son sürümü."
 
-#: api/api-helpers.php:1198
+#: api/api-helpers.php:816
 msgid "Thumbnail"
 msgstr "Küçük resim"
 
-#: api/api-helpers.php:1199
+#: api/api-helpers.php:817
 msgid "Medium"
 msgstr "Orta"
 
-#: api/api-helpers.php:1200
+#: api/api-helpers.php:818
 msgid "Large"
 msgstr "Büyük"
 
-#: api/api-helpers.php:1248
+#: api/api-helpers.php:866
 msgid "Full Size"
 msgstr "Tam Boyut"
 
-#: api/api-helpers.php:1806
+#: api/api-helpers.php:1552
 msgid "(no title)"
 msgstr "(başlıksız)"
 
-#: api/api-template.php:1268 pro/fields/gallery.php:576
+#: api/api-template.php:1268 pro/fields/gallery.php:567
 msgid "Update"
 msgstr "Güncelle"
 
 #: api/api-template.php:1269
 msgid "Post updated"
 msgstr "Yazı güncellendi"
+
+#: core/field.php:130
+msgid "Basic"
+msgstr "Basit"
 
 #: core/field.php:131
 msgid "Content"
@@ -1419,7 +1443,7 @@ msgstr ""
 msgid "File type must be %s."
 msgstr "Dosya türü mevcut değil"
 
-#: fields/checkbox.php:36 fields/taxonomy.php:714
+#: fields/checkbox.php:36 fields/taxonomy.php:733
 msgid "Checkbox"
 msgstr "Onay Kutusu"
 
@@ -1582,7 +1606,7 @@ msgstr "Dosya seçilmedi"
 msgid "Add File"
 msgstr "Dosya Ekle"
 
-#: fields/file.php:213 fields/image.php:192 fields/taxonomy.php:751
+#: fields/file.php:213 fields/image.php:192 fields/taxonomy.php:770
 msgid "Return Value"
 msgstr "Dönen Değer"
 
@@ -1602,19 +1626,19 @@ msgstr "Dosya URL"
 msgid "File ID"
 msgstr "Dosya ID"
 
-#: fields/file.php:228 fields/image.php:217 pro/fields/gallery.php:659
+#: fields/file.php:228 fields/image.php:217 pro/fields/gallery.php:650
 msgid "Library"
 msgstr "Kitaplık"
 
-#: fields/file.php:229 fields/image.php:218 pro/fields/gallery.php:660
+#: fields/file.php:229 fields/image.php:218 pro/fields/gallery.php:651
 msgid "Limit the media library choice"
 msgstr "Ortam kitaplığı seçimini sınırlayın"
 
-#: fields/file.php:235 fields/image.php:224 pro/fields/gallery.php:666
+#: fields/file.php:235 fields/image.php:224 pro/fields/gallery.php:657
 msgid "Uploaded to post"
 msgstr "Yazıya yüklendi"
 
-#: fields/file.php:242 fields/image.php:231 pro/fields/gallery.php:673
+#: fields/file.php:242 fields/image.php:231 pro/fields/gallery.php:664
 #, fuzzy
 msgid "Minimum"
 msgstr "Asgari Satır"
@@ -1624,22 +1648,22 @@ msgid "Restrict which files can be uploaded"
 msgstr ""
 
 #: fields/file.php:246 fields/file.php:257 fields/image.php:254
-#: fields/image.php:287 pro/fields/gallery.php:696 pro/fields/gallery.php:729
+#: fields/image.php:287 pro/fields/gallery.php:687 pro/fields/gallery.php:720
 #, fuzzy
 msgid "File size"
 msgstr "Dosya Boyutu"
 
-#: fields/file.php:253 fields/image.php:264 pro/fields/gallery.php:706
+#: fields/file.php:253 fields/image.php:264 pro/fields/gallery.php:697
 #, fuzzy
 msgid "Maximum"
 msgstr "Azami Satır"
 
-#: fields/file.php:264 fields/image.php:297 pro/fields/gallery.php:739
+#: fields/file.php:264 fields/image.php:297 pro/fields/gallery.php:730
 #, fuzzy
 msgid "Allowed file types"
 msgstr "Dosya tipi hatalı"
 
-#: fields/file.php:265 fields/image.php:298 pro/fields/gallery.php:740
+#: fields/file.php:265 fields/image.php:298 pro/fields/gallery.php:731
 msgid "Comma separated list. Leave blank for all types"
 msgstr ""
 
@@ -1675,20 +1699,20 @@ msgstr "Merkez"
 msgid "Center the initial map"
 msgstr "Haritanın merkezi"
 
-#: fields/google-map.php:199
+#: fields/google-map.php:202
 msgid "Zoom"
 msgstr "Yaklaş"
 
-#: fields/google-map.php:200
+#: fields/google-map.php:203
 msgid "Set the initial zoom level"
 msgstr "Yaklaşma seviyesini belirle"
 
-#: fields/google-map.php:209 fields/image.php:243 fields/image.php:276
-#: pro/fields/gallery.php:685 pro/fields/gallery.php:718
+#: fields/google-map.php:212 fields/image.php:243 fields/image.php:276
+#: fields/oembed.php:264 pro/fields/gallery.php:676 pro/fields/gallery.php:709
 msgid "Height"
 msgstr "Yükseklik"
 
-#: fields/google-map.php:210
+#: fields/google-map.php:213
 msgid "Customise the map height"
 msgstr "Harita yüksekliğini değiştirebilirsiniz"
 
@@ -1738,21 +1762,21 @@ msgstr "Resim URL"
 msgid "Image ID"
 msgstr "Resim ID"
 
-#: fields/image.php:207 pro/fields/gallery.php:649
+#: fields/image.php:207 pro/fields/gallery.php:640
 msgid "Preview Size"
 msgstr "Önizleme Boyutu"
 
-#: fields/image.php:208 pro/fields/gallery.php:650
+#: fields/image.php:208 pro/fields/gallery.php:641
 msgid "Shown when entering data"
 msgstr "Gösterildiği veri girme"
 
-#: fields/image.php:232 fields/image.php:265 pro/fields/gallery.php:674
-#: pro/fields/gallery.php:707
+#: fields/image.php:232 fields/image.php:265 pro/fields/gallery.php:665
+#: pro/fields/gallery.php:698
 msgid "Restrict which images can be uploaded"
 msgstr ""
 
-#: fields/image.php:235 fields/image.php:268 pro/fields/gallery.php:677
-#: pro/fields/gallery.php:710
+#: fields/image.php:235 fields/image.php:268 fields/oembed.php:253
+#: pro/fields/gallery.php:668 pro/fields/gallery.php:701
 msgid "Width"
 msgstr ""
 
@@ -1769,9 +1793,8 @@ msgid "Escape HTML"
 msgstr ""
 
 #: fields/message.php:112
-#, fuzzy
-msgid "Controls how HTML tags are rendered"
-msgstr "Yeni satırlar nasıl oluşturulacağını denetler"
+msgid "Allow HTML markup to display as visible text instead of rendering"
+msgstr ""
 
 #: fields/number.php:36
 msgid "Number"
@@ -1815,7 +1838,7 @@ msgstr "URL Yazınız"
 msgid "No embed found for the given URL"
 msgstr "Verilen URL bulunamadı"
 
-#: fields/oembed.php:250 fields/oembed.php:260
+#: fields/oembed.php:250 fields/oembed.php:261
 msgid "Embed Size"
 msgstr "Boyutu"
 
@@ -1823,32 +1846,33 @@ msgstr "Boyutu"
 msgid "Archives"
 msgstr "Arşivler"
 
-#: fields/page_link.php:521 fields/post_object.php:459
-#: fields/relationship.php:745
+#: fields/page_link.php:534 fields/post_object.php:403
+#: fields/relationship.php:691
 msgid "Filter by Post Type"
 msgstr "Yazı Türlerine Göre Filtre"
 
-#: fields/page_link.php:529 fields/post_object.php:467
-#: fields/relationship.php:753
+#: fields/page_link.php:542 fields/post_object.php:411
+#: fields/relationship.php:699
 msgid "All post types"
 msgstr "Bütün yazı türleri"
 
-#: fields/page_link.php:535 fields/post_object.php:473
-#: fields/relationship.php:759
+#: fields/page_link.php:548 fields/post_object.php:417
+#: fields/relationship.php:705
 msgid "Filter by Taxonomy"
 msgstr "Taksonomiye göre filtre"
 
-#: fields/page_link.php:543 fields/post_object.php:481
-#: fields/relationship.php:767
-msgid "No taxonomy filter"
+#: fields/page_link.php:556 fields/post_object.php:425
+#: fields/relationship.php:713
+#, fuzzy
+msgid "All taxonomies"
 msgstr "Hiçbir taksonomi filtresi yok"
 
-#: fields/page_link.php:549 fields/post_object.php:487 fields/select.php:392
-#: fields/taxonomy.php:727 fields/user.php:372
+#: fields/page_link.php:562 fields/post_object.php:431 fields/select.php:392
+#: fields/taxonomy.php:746 fields/user.php:372
 msgid "Allow Null?"
 msgstr "Boş Geçilebilir mi?"
 
-#: fields/page_link.php:563 fields/post_object.php:501 fields/select.php:406
+#: fields/page_link.php:576 fields/post_object.php:445 fields/select.php:406
 #: fields/user.php:386
 msgid "Select multiple values?"
 msgstr "Birden fazla seçim var mı?"
@@ -1857,16 +1881,16 @@ msgstr "Birden fazla seçim var mı?"
 msgid "Password"
 msgstr "Parola"
 
-#: fields/post_object.php:36 fields/post_object.php:520
-#: fields/relationship.php:820
+#: fields/post_object.php:36 fields/post_object.php:464
+#: fields/relationship.php:766
 msgid "Post Object"
 msgstr "Yazı Nesnesi"
 
-#: fields/post_object.php:515 fields/relationship.php:815
+#: fields/post_object.php:459 fields/relationship.php:761
 msgid "Return Format"
 msgstr "Dönüş Formatı"
 
-#: fields/post_object.php:521 fields/relationship.php:821
+#: fields/post_object.php:465 fields/relationship.php:767
 msgid "Post ID"
 msgstr "Yazı ID"
 
@@ -1906,39 +1930,39 @@ msgstr "Yükleniyor"
 msgid "No matches found"
 msgstr "Eşleşme yok"
 
-#: fields/relationship.php:637
+#: fields/relationship.php:580
 msgid "Search..."
 msgstr "Aranıyor..."
 
-#: fields/relationship.php:646
+#: fields/relationship.php:589
 msgid "Select post type"
 msgstr "Yazı tipi seç"
 
-#: fields/relationship.php:659
+#: fields/relationship.php:602
 msgid "Select taxonomy"
 msgstr "Taksonomi seç"
 
-#: fields/relationship.php:778
+#: fields/relationship.php:724
 msgid "Search"
 msgstr "Ara"
 
-#: fields/relationship.php:780 fields/taxonomy.php:36 fields/taxonomy.php:698
+#: fields/relationship.php:726 fields/taxonomy.php:36 fields/taxonomy.php:717
 msgid "Taxonomy"
 msgstr "Taksonomi"
 
-#: fields/relationship.php:787
+#: fields/relationship.php:733
 msgid "Elements"
 msgstr "Elemanlar"
 
-#: fields/relationship.php:788
+#: fields/relationship.php:734
 msgid "Selected elements will be displayed in each result"
 msgstr "Seçilen elemanlar için sonuç görüntülenir"
 
-#: fields/relationship.php:806
+#: fields/relationship.php:752
 msgid "Maximum posts"
 msgstr "Maksimum yazı"
 
-#: fields/select.php:36 fields/select.php:160 fields/taxonomy.php:719
+#: fields/select.php:36 fields/select.php:160 fields/taxonomy.php:738
 msgid "Select"
 msgstr "Seç"
 
@@ -1989,42 +2013,42 @@ msgstr ""
 msgid "Placement"
 msgstr "Elemanlar"
 
-#: fields/taxonomy.php:667
+#: fields/taxonomy.php:686
 msgid "None"
 msgstr "Yok"
 
-#: fields/taxonomy.php:713
+#: fields/taxonomy.php:732
 msgid "Multiple Values"
 msgstr "Çoklu Değer"
 
-#: fields/taxonomy.php:715
+#: fields/taxonomy.php:734
 msgid "Multi Select"
 msgstr "Çoklu Seçim"
 
-#: fields/taxonomy.php:717
+#: fields/taxonomy.php:736
 msgid "Single Value"
 msgstr "Tek Değer"
 
-#: fields/taxonomy.php:718
+#: fields/taxonomy.php:737
 msgid "Radio Buttons"
 msgstr "Tekli Seçim"
 
-#: fields/taxonomy.php:741
+#: fields/taxonomy.php:760
 msgid "Load & Save Terms to Post"
 msgstr "Yazı Yükleme ve Kaydet Şartları"
 
-#: fields/taxonomy.php:745
+#: fields/taxonomy.php:764
 msgid ""
 "Load value based on the post's terms and update the post's terms on save"
 msgstr ""
 "Yükleme değeri yazılar için terimlere dayalı ve kaydetme üzerindeki yazılar "
 "için şartlarını güncelleyecek"
 
-#: fields/taxonomy.php:756
+#: fields/taxonomy.php:775
 msgid "Term Object"
 msgstr "Terim Nesnesi"
 
-#: fields/taxonomy.php:757
+#: fields/taxonomy.php:776
 msgid "Term ID"
 msgstr "Terim ID"
 
@@ -2376,52 +2400,52 @@ msgstr "Galeriye Resim Ekle"
 msgid "Maximum selection reached"
 msgstr "Azami seçim aşıldı"
 
-#: pro/fields/gallery.php:333
+#: pro/fields/gallery.php:336
 msgid "Length"
 msgstr ""
 
-#: pro/fields/gallery.php:353
+#: pro/fields/gallery.php:356
 #, fuzzy
 msgid "Remove"
 msgstr "Satır Çıkar"
 
-#: pro/fields/gallery.php:547
+#: pro/fields/gallery.php:538
 msgid "Add to gallery"
 msgstr "Galeriye ekle"
 
-#: pro/fields/gallery.php:551
+#: pro/fields/gallery.php:542
 msgid "Bulk actions"
 msgstr "Toplu eylem"
 
-#: pro/fields/gallery.php:552
+#: pro/fields/gallery.php:543
 msgid "Sort by date uploaded"
 msgstr "Yüklenme tarihine göre sırala"
 
-#: pro/fields/gallery.php:553
+#: pro/fields/gallery.php:544
 msgid "Sort by date modified"
 msgstr "Değiştirme tarihine göre sırala"
 
-#: pro/fields/gallery.php:554
+#: pro/fields/gallery.php:545
 msgid "Sort by title"
 msgstr "Başlığa göre sırala"
 
-#: pro/fields/gallery.php:555
+#: pro/fields/gallery.php:546
 msgid "Reverse current order"
 msgstr "Sıralamayı ters çevir"
 
-#: pro/fields/gallery.php:573
+#: pro/fields/gallery.php:564
 msgid "Close"
 msgstr "Kapat"
 
-#: pro/fields/gallery.php:631
+#: pro/fields/gallery.php:622
 msgid "Minimum Selection"
 msgstr "Asgari Seçim"
 
-#: pro/fields/gallery.php:640
+#: pro/fields/gallery.php:631
 msgid "Maximum Selection"
 msgstr "Azami Seçim"
 
-#: pro/fields/gallery.php:833
+#: pro/fields/gallery.php:812
 #, php-format
 msgid "%s requires at least %s selection"
 msgid_plural "%s requires at least %s selections"
@@ -2464,17 +2488,17 @@ msgid "Maximum Rows"
 msgstr "Azami Satır"
 
 #: assets/_build/js/acf-file.js:55 assets/_build/js/acf-file.js:190
-#: assets/_build/js/acf-file.js:191 assets/js/acf-input.js:3284
-#: assets/js/acf-input.js:3419 assets/js/acf-input.js:3420
+#: assets/_build/js/acf-file.js:191 assets/js/acf-input.js:3291
+#: assets/js/acf-input.js:3426 assets/js/acf-input.js:3427
 #: assets/js/acf-input.min.js:1
 msgid "file"
 msgstr ""
 
 #: assets/_build/js/acf-image.js:55 assets/_build/js/acf-image.js:189
-#: assets/_build/js/acf-image.js:190 assets/_build/js/acf-media.js:167
-#: assets/_build/js/acf-media.js:245 assets/js/acf-input.js:4070
-#: assets/js/acf-input.js:4204 assets/js/acf-input.js:4205
-#: assets/js/acf-input.js:4414 assets/js/acf-input.js:4492
+#: assets/_build/js/acf-image.js:190 assets/_build/js/acf-media.js:183
+#: assets/_build/js/acf-media.js:259 assets/js/acf-input.js:4077
+#: assets/js/acf-input.js:4211 assets/js/acf-input.js:4212
+#: assets/js/acf-input.js:4437 assets/js/acf-input.js:4513
 #: assets/js/acf-input.min.js:1 pro/assets/_build/js/acf-gallery.js:515
 #: pro/assets/_build/js/acf-gallery.js:516 pro/assets/js/acf-pro-input.js:1514
 #: pro/assets/js/acf-pro-input.js:1515 pro/assets/js/acf-pro-input.min.js:1
@@ -2482,13 +2506,13 @@ msgstr ""
 msgid "image"
 msgstr "Resim"
 
-#: assets/_build/js/acf-media.js:518 assets/js/acf-input.js:4765
+#: assets/_build/js/acf-media.js:530 assets/js/acf-input.js:4784
 #: assets/js/acf-input.min.js:2
 #, fuzzy
 msgid "expand_details"
 msgstr "Ayrıntıları Genişlet"
 
-#: assets/_build/js/acf-media.js:519 assets/js/acf-input.js:4766
+#: assets/_build/js/acf-media.js:531 assets/js/acf-input.js:4785
 #: assets/js/acf-input.min.js:2
 #, fuzzy
 msgid "collapse_details"
@@ -2496,8 +2520,8 @@ msgstr "Detayları Daralt"
 
 #: assets/_build/js/acf-relationship.js:175
 #: assets/_build/js/acf-relationship.js:222
-#: assets/_build/js/acf-relationship.js:378 assets/js/acf-input.js:5302
-#: assets/js/acf-input.js:5349 assets/js/acf-input.js:5505
+#: assets/_build/js/acf-relationship.js:378 assets/js/acf-input.js:5321
+#: assets/js/acf-input.js:5368 assets/js/acf-input.js:5524
 #: assets/js/acf-input.min.js:2
 #, fuzzy
 msgid "relationship"
@@ -2540,7 +2564,7 @@ msgstr ""
 msgid "null"
 msgstr ""
 
-#: assets/_build/js/field-group.js:2370 assets/js/acf-field-group.js:2370
+#: assets/_build/js/field-group.js:2374 assets/js/acf-field-group.js:2374
 #: assets/js/acf-field-group.min.js:1
 msgid "hide_show_all"
 msgstr ""
@@ -2589,6 +2613,10 @@ msgstr "Galeri"
 #, fuzzy
 msgid "repeater"
 msgstr "Tekrarlayıcı"
+
+#, fuzzy
+#~ msgid "Controls how HTML tags are rendered"
+#~ msgstr "Yeni satırlar nasıl oluşturulacağını denetler"
 
 #~ msgid "Custom field updated."
 #~ msgstr "Özel alan güncellendi."

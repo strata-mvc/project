@@ -64,8 +64,6 @@
 		public static function get_terms_for_taxonomy_translation_screen( $taxonomy, $args ) {
 			global $wpdb;
 
-			$untranslated_only = false;
-			$langs             = false;
 			$search            = false;
 			$parent            = false;
 
@@ -134,23 +132,15 @@
 			if ( $search || $parent ) {
 				$where_clause_no_match = self::build_where_clause( $attributes_to_select, $taxonomy, false, false );
 				$full_statement2       = "SELECT {$select_clause} FROM {$from_clause} WHERE {$where_clause_no_match}";
-
-				$lang_constraint = "";
-				if ( $langs && ! $untranslated_only && ! $parent ) {
-					$lang_constraint = "AND i.language_code IN ({$langs}) ";
-				}
-
-				$full_statement = "SELECT table2.* FROM (" . $full_statement . " {$lang_constraint} ) AS table1 INNER JOIN (" . $full_statement2 . ") AS table2 ON table1.trid = table2.trid";
+				$full_statement = "SELECT table2.* FROM (" . $full_statement . " ) AS table1
+                                             INNER JOIN (" . $full_statement2 . ") AS table2
+                                                ON table1.trid = table2.trid";
 			}
 
 			$all_terms = $wpdb->get_results( $full_statement );
-
 			if ( $all_terms ) {
-
 				$all_terms_indexed = self::index_terms_array( $all_terms );
-
 				$all_terms_grouped = self::order_terms_list( $all_terms_indexed, $taxonomy );
-
 				return $all_terms_grouped;
 
 			}
@@ -261,11 +251,14 @@
 		private static function build_where_clause( $selects, $taxonomy, $search = false, $parent = false ) {
 			global $wpdb;
 
-			$where_clauses[ ] = $selects[ $wpdb->term_taxonomy ][ 'alias' ] . '.taxonomy = ' . "'" . $taxonomy . "'";
-			$where_clauses[ ] = $selects[ $wpdb->prefix . 'icl_translations' ][ 'alias' ] . '.element_type = ' . "'tax_" . $taxonomy . "'";
+			$where_clauses[ ] = $selects[ $wpdb->term_taxonomy ][ 'alias' ]
+                                . $wpdb->prepare(".taxonomy = %s ", $taxonomy);
+			$where_clauses[ ] = $selects[ $wpdb->prefix . 'icl_translations' ][ 'alias' ]
+                                . $wpdb->prepare(".element_type = %s ", 'tax_' . $taxonomy);
 
 			if ( $parent ) {
-				$where_clauses[ ] = $selects[ $wpdb->term_taxonomy ][ 'alias' ] . '.parent = ' . $parent;
+				$where_clauses[ ] = $selects[ $wpdb->term_taxonomy ][ 'alias' ]
+                                    . $wpdb->prepare(".parent = %d ", $parent);
 			}
 
 			if ( $search ) {
@@ -281,6 +274,11 @@
 		 * Ajax handler for saving label translations from the WPML Taxonomy Translations menu.
 		 */
 		public static function save_labels_translation() {
+
+            $nonce = filter_input( INPUT_POST, '_icl_nonce' );
+            if ( !wp_verify_nonce( $nonce, 'wpml_tt_save_labels_translation_nonce' ) ) {
+                wp_send_json_error( 'Wrong Nonce' );
+            }
 
 			$general  = isset( $_POST[ 'plural' ] ) ? $_POST[ 'plural' ] : false;
 			$singular = isset( $_POST[ 'singular' ] ) ? $_POST[ 'singular' ] : false;

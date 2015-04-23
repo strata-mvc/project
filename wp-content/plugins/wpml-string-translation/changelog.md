@@ -1,8 +1,27 @@
+**2.1.3**
+
+* **Fix**
+	* Fixed issues with broken URL rewrite and translatable custom post types
+	
+**2.1.2**
+
+* **Works with WPML 3.1.9.4 on WordPress 4**
+	
+**2.1.1**
+
+* **Additional fixes to URLs with non-English characters**
+	
+**2.1**
+
+* **Security update**
+	
 **2.0.14**
+
 * **Fix**
 	* Fixed a menu synchronisation issue with custom links string
 	
 **2.0.13**
+
 * **Fix**
 	* Fixed an issue that prevented _n and _nx gettext tags from being properly parsed and imported.
 

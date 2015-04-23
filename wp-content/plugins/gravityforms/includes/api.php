@@ -29,9 +29,11 @@ class GFAPI {
 	 *
 	 * @param int $form_id The ID of the Form
 	 *
-	 * @return mixed The form meta array or a WP_Error instance
+	 * @return mixed The form meta array or false
 	 */
 	public static function get_form( $form_id ) {
+
+		$form_id = absint( $form_id );
 
 		$form = GFFormsModel::get_form_meta( $form_id );
 		if ( ! $form ) {
@@ -229,8 +231,14 @@ class GFAPI {
 	public static function update_forms_property( $form_ids, $property_key, $value ) {
 		global $wpdb;
 		$table        = GFFormsModel::get_form_table_name();
-		$property_key = esc_sql( $property_key );
-		$value        = esc_sql( $value );
+
+		$db_columns = GFFormsModel::get_form_db_columns();
+
+		if ( ! in_array( strtolower( $property_key ), $db_columns ) ) {
+			return new WP_Error( 'property_key_incorrect', __( 'Property key incorrect', 'gravityforms' ) );
+		}
+
+		$value = esc_sql( $value );
 		if ( ! is_numeric( $value ) ) {
 			$value = sprintf( "'%s'", $value );
 		}
@@ -391,12 +399,19 @@ class GFAPI {
 	 *  Filter by Field Values
 	 *     $search_criteria['field_filters'][] = array('key' => '1', 'value' => 'gquiz159982170');
 	 *
+	 *  Filter Operators
+	 *     Supported operators for scalar values: is/=, isnot/<>, contains
+	 *     $search_criteria['field_filters'][] = array('key' => '1', 'operator' => 'contains', value' => 'Steve');
+	 *     Supported operators for array values: in/=, not in/<>/!=
+	 *     $search_criteria['field_filters'][] = array('key' => '1', 'operator' => 'not in', value' => array( 'Alex', 'David', 'Dana' );
+	 *
 	 *  Filter by a checkbox value (not recommended)
 	 *     $search_criteria['field_filters'][] = array('key' => '2.2', 'value' => 'gquiz246fec995');
-	 *     note: this will work for checkboxes but it won't work if the checkboxes have been re-ordered - best to use the following example below
+	 *     note: this will work for checkboxes but it won't work if the checkboxes have been re-ordered - best to use the following examples below
 	 *
 	 *  Filter by a checkbox value (recommended)
 	 *     $search_criteria['field_filters'][] = array('key' => '2', 'value' => 'gquiz246fec995');
+	 *     $search_criteria['field_filters'][] = array('key' => '2', 'operator' => 'not in', value' => array( 'First Choice', 'Third Choice' );
 	 *
 	 *  Filter by a global search of values of any form field
 	 *     $search_criteria['field_filters'][] = array('value' => $search_value);
@@ -557,9 +572,9 @@ class GFAPI {
 		global $wpdb;
 
 		if ( empty( $entry_id ) ) {
-			$entry_id = $entry['id'];
+			$entry_id = absint( $entry['id'] );
 		} else {
-			$entry["id"] = $entry_id;
+			$entry['id'] = absint( $entry_id );
 		}
 
 		if ( empty( $entry_id ) ) {
@@ -606,9 +621,9 @@ class GFAPI {
 		$status         = isset( $entry['status'] ) ? $entry['status'] : 'active';
 
 		global $current_user;
-		$user_id = isset( $entry['created_by'] ) ? esc_sql( $entry['created_by'] ) : '';
+		$user_id = isset( $entry['created_by'] ) ?  absint( $entry['created_by'] ) : '';
 		if ( empty( $user_id ) ) {
-			$user_id = $current_user && $current_user->ID ? $current_user->ID : 'NULL';
+			$user_id = $current_user && $current_user->ID ? absint( $current_user->ID ) : 'NULL';
 		}
 
 		$transaction_type = isset( $entry['transaction_type'] ) ? intval( $entry['transaction_type'] ) : 'NULL';
@@ -653,6 +668,7 @@ class GFAPI {
 
 		$form = GFFormsModel::get_form_meta( $form_id );
 		foreach ( $form['fields'] as $field ) {
+			/* @var GF_Field $field */
 			$type = GFFormsModel::get_input_type( $field );
 			if ( in_array( $type, array( 'html', 'page', 'section' ) ) ) {
 				continue;
@@ -773,9 +789,9 @@ class GFAPI {
 		$status         = isset( $entry['status'] ) ? $entry['status'] : 'active';
 
 		global $current_user;
-		$user_id = isset( $entry['created_by'] ) ? esc_sql( $entry['created_by'] ) : '';
+		$user_id = isset( $entry['created_by'] ) ? absint( $entry['created_by'] ) : '';
 		if ( empty( $user_id ) ) {
-			$user_id = $current_user && $current_user->ID ? $current_user->ID : 'NULL';
+			$user_id = $current_user && $current_user->ID ? absint( $current_user->ID )  : 'NULL';
 		}
 
 		$transaction_type = isset( $entry['transaction_type'] ) ? intval( $entry['transaction_type'] ) : 'NULL';
@@ -802,11 +818,13 @@ class GFAPI {
 
 		$form = GFFormsModel::get_form_meta( $form_id );
 		foreach ( $form['fields'] as $field ) {
+			/* @var GF_Field $field */
 			if ( in_array( $field->type, array( 'html', 'page', 'section' ) ) ) {
 				continue;
 			}
-			if ( is_array( $field->inputs ) ) {
-				foreach ( $field->inputs as $input ) {
+			$inputs = $field->get_entry_inputs();
+			if ( is_array( $inputs ) ) {
+				foreach ( $inputs as $input ) {
 					$input_id = (string) $input['id'];
 					if ( isset( $entry[ $input_id ] ) ) {
 						$result = GFFormsModel::update_lead_field_value( $form, $entry, $field, 0, $input_id, $entry[ $input_id ] );
@@ -830,7 +848,7 @@ class GFAPI {
 		if ( is_array( $entry_meta ) ) {
 			foreach ( array_keys( $entry_meta ) as $key ) {
 				if ( isset( $entry[ $key ] ) ) {
-					gform_update_meta( $entry_id, $key, $entry[ $key ] );
+					gform_update_meta( $entry_id, $key, $entry[ $key ], $form['id'] );
 				}
 			}
 		}
@@ -897,7 +915,15 @@ class GFAPI {
 		global $wpdb;
 
 		$entry = self::get_entry( $entry_id );
+		if ( is_wp_error( $entry ) ) {
+			return $entry;
+		}
+
 		$form = self::get_form( $entry['form_id'] );
+		if ( ! $form ) {
+			return false;
+		}
+
 		$field = GFFormsModel::get_field( $form, $input_id );
 
 		$lead_detail_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}rg_lead_detail WHERE lead_id=%d AND CAST(field_number as DECIMAL(4,2))=%s", $entry_id, $input_id ) );
@@ -959,6 +985,12 @@ class GFAPI {
 	 */
 	public static function submit_form($form_id, $input_values, $field_values = array(), $target_page = 0, $source_page = 1){
 		$form_id = absint( $form_id );
+		$form = GFAPI::get_form( $form_id );
+
+		if ( empty( $form ) || ! $form['is_active'] || $form['is_trash'] ) {
+			return new WP_Error( 'form_not_found', __( 'Your form could not be found', 'gravityforms' ) );
+		}
+
 		$input_values[ 'is_submit_' . $form_id ] = true;
 		$input_values['gform_submit'] = $form_id;
 		$input_values[ 'gform_target_page_number_' . $form_id ] = absint( $target_page );
@@ -977,6 +1009,10 @@ class GFAPI {
 			GFFormDisplay::process_form( $form_id );
 		} catch ( Exception $ex ) {
 			return new WP_Error( 'error_processing_form', __( 'There was an error while processing the form:', 'gravityforms' ) . ' ' . $ex->getCode() . ' ' . $ex->getMessage() );
+		}
+
+		if ( empty( GFFormDisplay::$submission ) ) {
+			return new WP_Error( 'error_processing_form', __( 'There was an error while processing the form:', 'gravityforms' ) );
 		}
 
 		$submissions_array = GFFormDisplay::$submission;
@@ -1167,7 +1203,8 @@ class GFAPI {
 			return array();
 		}
 
-		GFCommon::log_debug( "GFAPI::send_notifications(): Gathering notifications for {$event} event." );
+		$entry_id = rgar( $entry, 'id' );
+		GFCommon::log_debug( "GFAPI::send_notifications(): Gathering notifications for {$event} event for entry #{$entry_id}." );
 
 		$notifications_to_send = array();
 

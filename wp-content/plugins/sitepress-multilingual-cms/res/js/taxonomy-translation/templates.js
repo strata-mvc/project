@@ -59,7 +59,7 @@ TaxonomyTranslation.data.compiledTemplates = {};
                             "<% }); %>",
                         "</select>",
                     "<% } %>",
-                    "<input type=\"submit\" class=\"button-primary\" style=\"display:none;\" value=\"<%=labels.apply%>\" id=\"tax-apply\">",
+                    "<input type=\"submit\" class=\"button-primary\" disabled=\"disabled\" value=\"<%=labels.apply%>\" id=\"tax-apply\">",
                     "<span class=\"spinner\"></span>",
                 "</div>"],
         nav: ["<div class=\"tablenav bottom\">",

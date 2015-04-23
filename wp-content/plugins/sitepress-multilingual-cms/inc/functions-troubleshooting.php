@@ -13,7 +13,8 @@ if ( !function_exists('sys_get_temp_dir')) {
       return null;
   }
 }
-*/  
+*/
+
 function icl_reset_wpml($blog_id = false){
     global $wpdb;
     
