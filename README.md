@@ -1,4 +1,17 @@
 
+
+## Créer un projet
+
+Pour créer un projet, ouvrir le terminal dans le répétoire qui contient touts vos projets (ex: ~/Documents/Projects) et rouler la commande suivante:
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/francoisfaubert/iprospect-strata-scripts/master/src/create_project)
+```
+
+
+
+## Issues
+
 Plugins payants à maintenant à jour nous même :
 
 * __backupbuddy__
