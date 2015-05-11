@@ -1,6 +1,7 @@
 {
     "name": "iprospect_ca/iprospect-roots-wordpress-template",
     "description": "Starter wordpress theme",
+    "type": "wordpress-theme",
     "authors": [
         {
             "name": "Francois Faubert",
