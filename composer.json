@@ -17,12 +17,17 @@
         "wpackagist-plugin/simple-page-ordering": "2.2.4",
         "wpackagist-plugin/timber-library": "0.21.1",
         "wpackagist-plugin/wordpress-seo": "2.1.1",
-        "wpackagist-plugin/wp-session-manager": "1.1.2"
+        "wpackagist-plugin/wp-session-manager": "1.1.2",
+        "iprospect_ca/advanced-custom-fields-pro-manual-fork": "4.4.1"
     },
     "repositories":[
         {
             "type":"composer",
             "url":"http://wpackagist.org"
+        },
+        {
+            "type": "git",
+            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/advanced-custom-fields-pro-manual-fork.git"
         }
     ]
 }
