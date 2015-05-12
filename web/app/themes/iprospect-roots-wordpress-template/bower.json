@@ -1,0 +1,31 @@
+{
+  "name": "iProspect Roots Wordpress Template",
+  "version": "0.0.0",
+  "authors": [
+    "Philippe Vachon-Rivard <Philippe.Vachon-Rivard@iprospect.com>"
+  ],
+  "main": "index.php",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.11.0",
+    "gsap": "~1.11.6",
+    "modernizr": "2.7.0",
+    "enquire": "~2.1.0",
+    "masonry": "~3.1.5",
+    "imagesloaded": "~3.1.4",
+    "snapjs": "*",
+    "spinjs": "~2.0.0",
+    "yepnope": "~1.5.4"
+  }
+}
