@@ -7,8 +7,11 @@
     </div>
   <![endif]-->
 
-  <?php if ( function_exists( 'gtm4wp_the_gtm_tag' ) ) { gtm4wp_the_gtm_tag(); } ?>
-  <?php echo IP\GTMHelper::getEvents(); ?> 
+  <?php
+    $GTMViewHelper = new IP\GoogleTagManager\GTMViewHelper();
+    $GTMViewHelper->callRemotePlugin();
+    echo $GTMViewHelper->render();
+  ?>
 
   <div class="snap-drawers">
     <div class="snap-drawer snap-drawer-left">

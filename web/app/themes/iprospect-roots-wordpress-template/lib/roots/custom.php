@@ -13,6 +13,15 @@ function remove_width_attribute( $html ) {
    return $html;
 }
 
+/**
+ * Removes empty keys from the dataLayer Object and sets the format
+ * of the date entry to ensure cohesion between languages
+ */
+add_filter('gtp4wp_compile_datalayer', 'init_gtm_datalayer', 10);
+function init_gtm_datalayer($datalayer) {
+    return \IP\GTMHelper::initDataLayer($datalayer);
+}
+
 
 /**
  * Replaces the {site_name} tag with bloginfo(name) in Gravity Forms notifications

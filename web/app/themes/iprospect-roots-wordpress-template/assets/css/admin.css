@@ -1,0 +1,19 @@
+.tpl-edit-language .field-grid li {
+    display: block;
+    float:left;
+    width:50%;
+    border-bottom: 1px solid #ddd;
+    padding:0.5em 0;
+}
+
+.tpl-edit-language .field-grid .lbl {
+    display: inline-block;
+    width:80px;
+    text-align: left;
+
+}
+
+.tpl-edit-language .field-grid input {
+    display: inline-block;
+    width:100px;
+}
