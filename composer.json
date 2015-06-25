@@ -94,7 +94,7 @@
         "wpackagist-plugin/simple-page-ordering": ">=2.2.4",
         "wpackagist-plugin/timber-library": ">=0.21.1",
         "wpackagist-plugin/wordpress-seo": ">=2.1.1",
-        "iprospect_ca/security-mu-plugin": ">=1.0.2",
+        "iprospect_ca/security-mu-plugin": ">=1.0.3",
         "iprospect_ca/session-manager": ">=1.0.5",
         "iprospect_ca/google-tag-manager-tools":">=1.0.7",
         "iprospect_ca/advanced-custom-fields-pro-manual-fork": ">=4.4.1",

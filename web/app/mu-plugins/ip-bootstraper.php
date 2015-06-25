@@ -22,4 +22,4 @@ function auto_initialize_ip_modules()
         }
     }
 }
-add_action("init", "auto_initialize_ip_modules");
+add_action("plugins_loaded", "auto_initialize_ip_modules");
