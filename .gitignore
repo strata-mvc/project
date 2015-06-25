@@ -1,0 +1,54 @@
+# Application
+web/app/plugins/*
+!web/app/plugins/.gitkeep
+web/app/mu-plugins/*
+!web/app/mu-plugins/.gitkeep
+web/app/upgrade
+web/app/uploads/*
+!web/app/uploads/.gitkeep
+!web/app/mu-plugins/disallow-indexing.php
+!web/app/mu-plugins/register-theme-directory.php
+!web/app/mu-plugins/bedrock-autoloader.php
+
+# WordPress
+web/wp
+web/.htaccess
+
+# WP-CLI
+db-sync
+sql-dump-*.sql
+
+# Dotenv
+.env
+.env.*
+!.env.example
+
+# Vendor (e.g. Composer)
+vendor/*
+!vendor/.gitkeep
+
+# Node Package Manager
+node_modules
+
+# Vagrant
+.vagrant
+.DS_Store
+composer.lock
+.phpintel/
+
+#IP Wordpress
+web/app/themes/iprospect-roots-wordpress-template/bower_components/
+web/app/themes/iprospect-roots-wordpress-template/assets/css/main.min.css
+web/app/themes/iprospect-roots-wordpress-template/assets/js/scripts.min.js
+
+# OS files
+*/.DS_Store
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+composer.lock
