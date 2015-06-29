@@ -72,6 +72,14 @@ class AcfHelper extends AppHelper {
 
     private function getFields($id)
     {
+        $this->log("ACF #$id");
         $this->cache[$id] = get_fields($id);
+    }
+
+    private function log($context)
+    {
+        if (WP_ENV == 'development') {
+            error_log("\e[0;36m[ACFHELPER]\e[0m: " . $context . "\e[0m");
+        }
     }
 }
