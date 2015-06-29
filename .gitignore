@@ -41,6 +41,12 @@ web/app/themes/iprospect-roots-wordpress-template/bower_components/
 web/app/themes/iprospect-roots-wordpress-template/assets/css/main.min.css
 web/app/themes/iprospect-roots-wordpress-template/assets/js/scripts.min.js
 
+
+# Strata
+bin/strata
+bin/wp-cli.phar
+bin/phpunit.phar
+
 # OS files
 */.DS_Store
 .DS_Store
