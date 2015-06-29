@@ -20,7 +20,11 @@ class AcfHelper extends AppHelper {
             $this->getFields($id);
         }
 
-        return $this->cache[$id][$field];
+        // We could throw an error, but I think
+        // views will be broken too often...
+        if ($this->check($field, $id)) {
+            return $this->cache[$id][$field];
+        }
     }
 
     public function check($field, $id = null)
