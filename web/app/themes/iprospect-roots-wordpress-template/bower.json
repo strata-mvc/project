@@ -26,6 +26,10 @@
     "imagesloaded": "~3.1.4",
     "snapjs": "*",
     "spinjs": "~2.0.0",
-    "yepnope": "~1.5.4"
+    "yepnope": "~1.5.4",
+    "animate.css": "~3.2.5",
+    "WOW": "~1.0.3",
+    "jquery.lazyload": "~1.9.4",
+    "slick.js": "~1.4.1"
   }
 }
