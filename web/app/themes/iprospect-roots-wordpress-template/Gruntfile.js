@@ -20,8 +20,6 @@ module.exports = function(grunt) {
 
   });
 
-
-
   // Load tasks in grunt_tasks folder
   grunt.loadTasks('grunt_tasks');
 

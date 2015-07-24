@@ -16,16 +16,6 @@
             "homepage": "http://www.francoisfaubert.com"
         }
     ],
-    "keywords": [
-        "bedrock",
-        "roots",
-        "wordpress",
-        "stack",
-        "composer",
-        "vagrant",
-        "wp",
-        "iprospect"
-    ],
     "config": {
         "preferred-install": "dist"
     },
@@ -74,7 +64,7 @@
     "require": {
         "php": ">=5.4",
         "vlucas/phpdotenv": "~1.0.9",
-        "johnpbloch/wordpress": "4.2.2",
+        "johnpbloch/wordpress": "4.2.3",
         "francoisfaubert/strata": "dev-master",
         "wpackagist-plugin/akismet": ">=3.1.1",
         "wpackagist-plugin/disable-comments": ">=1.3.1",
@@ -86,7 +76,7 @@
         "iprospect_ca/session-manager": ">=1.0.5",
         "iprospect_ca/google-tag-manager-tools":">=1.0.7",
         "iprospect_ca/advanced-custom-fields-pro-manual-fork": ">=5.2.8",
-        "iprospect_ca/wpml-multilingual-cms-manual-fork": ">=3.1.9.7a",
+        "iprospect_ca/wpml-multilingual-cms-manual-fork": ">=3.1.9.7",
         "iprospect_ca/wpml-string-translation-manual-fork": ">=2.1.3",
         "iprospect_ca/wpml-translation-management-manual-fork": ">=1.9.11",
         "iprospect_ca/wpml-cms-nav-manual-fork": ">=1.4.7",

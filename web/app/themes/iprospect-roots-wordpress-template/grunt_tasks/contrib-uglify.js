@@ -7,18 +7,10 @@ module.exports = function(grunt) {
         '<%= paths.js %>/deps.min.js': [
             '<%= paths.js %>/plugins/compat-console.js',
             '<%= paths.js %>/bower_components/gsap/src/minified/TweenMax.min.js',
-            '<%= paths.js %>/plugins/jquery.easing-1.3.js',
-            '<%= paths.js %>/bower_components/ScrollMagic/js/jquery.scrollmagic.min.js',
-            '<%= paths.js %>/bower_components/ScrollMagic/js/jquery.scrollmagic.debug.js',
-            '<%= paths.js %>/bower_components/gsap/src/minified/plugins/ScrollToPlugin.min.js',
-            '<%= paths.js %>/plugins/imagesloaded/imagesloaded.pkgd.min.js', 
-            '<%= paths.js %>/bower_components/snapjs/snap.min.js',
-            '<%= paths.js %>/plugins/jquery-ias.min.js',
-            '<%= paths.js %>/bower_components/WOW/dist/wow.min.js',
-            '<%= paths.js %>/bower_components/jquery.lazyload/jquery.lazyload.js',
-            '<%= paths.js %>/bower_components/slick.js/slick/slick.min.js',
-            '<%= paths.js %>/bower_components/jquery.customSelect/jquery.customSelect.min.js'
-            
+            '<%= paths.js %>/plugins/imagesloaded/imagesloaded.pkgd.min.js', //problem with the bower component
+            '<%= paths.js %>/bower_components/jQuery.mmenu/dist/js/jquery.mmenu.min.all.js',
+            '<%= paths.js %>/bower_components/slick-carousel/slick/slick.min.js',
+            '<%= paths.js %>/bower_components/jquery.customSelect/jquery.customSelect.min.js',
         ],
         '<%= paths.js %>/scripts.min.js': [
             '<%= paths.js %>/deps.min.js',
@@ -35,7 +27,7 @@ module.exports = function(grunt) {
             files: files, 
             options: {
                 sourceMap: '<%= paths.js %>/scripts.min.js.map',
-                sourceMappingURL: '/web/app/themes/iprospect-roots-wordpress-template/<%= paths.js %>/scripts.min.js.map',
+                sourceMappingURL: '/wp-content/themes/roots/<%= paths.js %>/scripts.min.js.map',
                 compress: false,
                 beautify: true,
                 mangle: false

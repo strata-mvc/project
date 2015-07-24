@@ -1,3 +1,16 @@
+<?php
+  // consider moving this block inside the AppController when
+  // setting up the project:
+
+
+    $GTMViewHelper = new IP\GoogleTagManager\GTMViewHelper();
+    $GTMViewHelper->callRemotePlugin();
+
+    $WordpressHelper = new App\View\Helper\WordpressHelper();
+
+?>
+
+
 <?php get_template_part('templates/head'); ?>
 <body <?php body_class(); ?>>
 
@@ -7,26 +20,17 @@
     </div>
   <![endif]-->
 
-  <?php
-    $GTMViewHelper = new IP\GoogleTagManager\GTMViewHelper();
-    $GTMViewHelper->callRemotePlugin();
-    echo $GTMViewHelper->render();
-  ?>
+  <?php echo $GTMViewHelper->render(); ?>
 
-  <div class="snap-drawers">
-    <div class="snap-drawer snap-drawer-left">
-      <?php
-        if (has_nav_menu('primary_navigation')) :
-          wp_nav_menu(array('theme_location' => 'primary_navigation', 'menu_class' => ''));
-        endif;
-      ?>
-    </div>
-  </div>
+  <div id="body-wrapper">
 
-  <div id="snap-content">
+    <nav id='mmenu'>
+        <?php $WordpressHelper->printNavMenu("primary_navigation"); ?>
+    </nav>
 
     <?php
       do_action('get_header');
+
       // Use Bootstrap's navbar if enabled in config.php
       if (current_theme_supports('bootstrap-top-navbar')) {
         get_template_part('templates/header-top-navbar');
