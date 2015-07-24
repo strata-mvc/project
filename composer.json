@@ -59,6 +59,10 @@
         {
             "type": "git",
             "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/session-manager.git"
+        },
+        {
+            "type": "git",
+            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/strata-ip-autoloader-mu-plugin.git"
         }
     ],
     "require": {
