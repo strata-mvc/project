@@ -67,7 +67,7 @@
     ],
     "require": {
         "php": ">=5.4",
-        "vlucas/phpdotenv": "~1.0.9",
+        "vlucas/phpdotenv": "^2.0.1",
         "johnpbloch/wordpress": "4.2.3",
         "francoisfaubert/strata": "dev-master",
         "francoisfaubert/strata-acf-autoloader-mu-plugin": ">=1.0",
