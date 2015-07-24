@@ -12,7 +12,6 @@ web/app/uploads/*
 
 # WordPress
 web/wp
-web/.htaccess
 
 # WP-CLI
 db-sync
@@ -30,8 +29,6 @@ vendor/*
 # Node Package Manager
 node_modules
 
-# Vagrant
-.vagrant
 .DS_Store
 composer.lock
 .phpintel/
