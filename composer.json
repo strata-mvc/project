@@ -26,43 +26,47 @@
         },
         {
             "type": "git",
-            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/advanced-custom-fields-pro-manual-fork.git"
+            "url": "https://bitbucket.org/iprospect_ca/advanced-custom-fields-pro-manual-fork.git"
         },
         {
             "type": "git",
-            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/wpml-multilingual-cms-manual-fork.git"
+            "url": "https://bitbucket.org/iprospect_ca/wpml-multilingual-cms-manual-fork.git"
         },
         {
             "type": "git",
-            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/wpml-string-translation-manual-fork.git"
+            "url": "https://bitbucket.org/iprospect_ca/wpml-string-translation-manual-fork.git"
         },
         {
             "type": "git",
-            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/wpml-translation-management-manual-fork.git"
+            "url": "https://bitbucket.org/iprospect_ca/wpml-translation-management-manual-fork.git"
         },
         {
             "type": "git",
-            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/wpml-cms-nav-manual-fork.git"
+            "url": "https://bitbucket.org/iprospect_ca/wpml-cms-nav-manual-fork.git"
         },
         {
             "type": "git",
-            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/wpml-media-manual-fork.git"
+            "url": "https://bitbucket.org/iprospect_ca/wpml-media-manual-fork.git"
         },
         {
             "type": "git",
-            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/security-mu-plugin.git"
+            "url": "https://bitbucket.org/iprospect_ca/security-mu-plugin.git"
         },
         {
             "type": "git",
-            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/google-tag-manager-tools.git"
+            "url": "https://bitbucket.org/iprospect_ca/google-tag-manager-tools.git"
         },
         {
             "type": "git",
-            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/session-manager.git"
+            "url": "https://bitbucket.org/iprospect_ca/session-manager.git"
         },
         {
             "type": "git",
-            "url": "https://francoisfaubertip@bitbucket.org/iprospect_ca/strata-ip-autoloader-mu-plugin.git"
+            "url": "https://bitbucket.org/iprospect_ca/strata-ip-autoloader-mu-plugin.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/iprospect-canada/iprospect-strata-scripts.git"
         }
     ],
     "require": {
@@ -77,6 +81,7 @@
         "wpackagist-plugin/simple-page-ordering": ">=2.2.4",
         "wpackagist-plugin/timber-library": ">=0.21.1",
         "wpackagist-plugin/wordpress-seo": ">=2.1.1",
+        "iprospect-canada/iprospect-strata-scripts": ">=1.0",
         "iprospect_ca/strata-ip-autoloader-mu-plugin": ">=1.0",
         "iprospect_ca/security-mu-plugin": ">=1.0.3",
         "iprospect_ca/session-manager": ">=1.0.5",
