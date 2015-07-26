@@ -5,7 +5,10 @@
     "description": "Strata is a MVC programming environment for Wordpress.",
     "keywords": [
         "wordpress",
-        "mvc"
+        "mvc",
+        "model",
+        "view",
+        "controller"
     ],
     "homepage": "http://github.com/francoisfaubert/strata",
     "license": "GPL",
