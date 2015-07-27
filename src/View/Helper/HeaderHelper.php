@@ -7,9 +7,9 @@ class HeaderHelper extends AppHelper {
 
     private $acf = null;
 
-    public function __construct(AcfHelper $acfHelper)
+    public function __construct($config = array())
     {
-        $this->setupACFConnector($acfHelper);
+        $this->setupACFConnector($config['Acf']);
     }
 
     public function hasBackgroundImage()
