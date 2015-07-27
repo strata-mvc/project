@@ -12,8 +12,11 @@ before_script:
   - echo DB_NAME=test_strata >> .env
   - echo DB_USER=root >> .env
   - echo DB_PASSWORD= >> .env
+  - echo WP_ENV=development >> .env
+  - echo WP_HOME=http://127.0.0.1:5454 >> .env
+  - echo WP_SITEURL=http://127.0.0.1:5454/wp >> .env
   - ./strata db create
-script: ./strata tests
+script: ./strata test
 notifications:
   email:
     - frank@francoisfaubert.com
