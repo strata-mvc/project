@@ -7,14 +7,6 @@ namespace App\View\Helper;
  */
 class AppHelper extends \Strata\View\Helper\Helper {
 
-    /**
-     * Factories a helper reference to this class
-     * @return mixed
-     */
-    public static function staticFactory()
-    {
-        $classname = get_called_class();
-        return new $classname();
-    }
+
 
 }
