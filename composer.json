@@ -1,8 +1,8 @@
 
 {
-    "name": "francoisfaubert/strata",
+    "name": "francoisfaubert/strata-env",
     "type": "library",
-    "description": "Strata is a MVC programming environment for Wordpress.",
+    "description": "Strata is a MVC programming environment for Wordpress. This is it's empty project creator.",
     "keywords": [
         "wordpress",
         "mvc",
