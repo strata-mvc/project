@@ -12,7 +12,10 @@ web/app/uploads/*
 
 # WordPress
 web/wp
+<<<<<<< HEAD
 web/.htaccess
+=======
+>>>>>>> 0719b6d9453a05e8436441f47ef85c140c4fee62
 
 # WP-CLI
 db-sync
@@ -30,6 +33,37 @@ vendor/*
 # Node Package Manager
 node_modules
 
+<<<<<<< HEAD
 # Vagrant
 bin
 .vagrant
+=======
+.DS_Store
+composer.lock
+.phpintel/
+
+#IP Wordpress
+web/app/themes/iprospect-roots-wordpress-template/bower_components/
+web/app/themes/iprospect-roots-wordpress-template/assets/css/main.min.css
+web/app/themes/iprospect-roots-wordpress-template/assets/js/scripts.min.js
+
+
+# Strata
+bin/strata
+bin/wp-cli.phar
+bin/phpunit.phar
+log/*.log
+tmp/*
+
+# OS files
+*/.DS_Store
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+composer.lock
+>>>>>>> 0719b6d9453a05e8436441f47ef85c140c4fee62

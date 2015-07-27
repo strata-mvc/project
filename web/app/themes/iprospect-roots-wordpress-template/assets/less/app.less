@@ -1,0 +1,244 @@
+/*!
+ * Roots 6.5.2
+ */
+
+ @import "bootstrap/bootstrap.less";
+ @import "lesshat-prefixed.less";
+ @import "font-awesome/font-awesome.less";
+ @import url("//hello.myfonts.net/count/2e4907");
+ @import "fonts.less";
+ @import "odometer-theme-default.less";
+
+/* ==========================================================================
+   Colors
+   ========================================================================== */
+
+   @lightGrey: #969696;
+   @lighterGrey: #f2f2f2;
+   @darkerGrey: #2c2c2c;
+   @darkerGrey: #262626;
+   @darkGrey: #221f1f;
+   @orange: #f05823;
+   @black: #000000; 
+   @white: #ffffff;
+
+/* ==========================================================================
+   Fonts
+   ========================================================================== */
+
+   @Museo300       : 'MuseoSans-300', Arial, Helvetica, sans-serif;
+   @Museo700       : 'MuseoSans-700', Arial, Helvetica, sans-serif;
+   @Museo900       : 'MuseoSans-900', Arial, Helvetica, sans-serif;
+  
+   @Amasis         : 'AmasisMTStd-Light', Georgia, Times, serif;
+   @AmasisItalic   : 'AmasisMTStd-LightItalic', Georgia, Times, serif;
+
+   @ProximaLight   : 'ProximaNova-Light', Arial, Helvetica, sans-serif;
+   @ProximaRegular : 'ProximaNova-Regular', Arial, Helvetica, sans-serif;
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+   body {
+     font: 18px/150% @Amasis;
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+     color: @black;
+     overflow-y: visible;
+   }
+   a {
+      color: @black;
+      cursor: pointer !important;
+      -webkit-transition: all .15s ease-in;
+      -moz-transition: all .15s ease-in;
+      -ms-transition: all .15s ease-in;
+      -o-transition: all .15s ease-in;
+      transition: all .15s ease-in;
+   }
+   a:hover, a:focus, a:active {
+      color: @orange;
+      text-decoration: none;
+      outline: none !important;
+   }
+
+   h1, h2, h3, h4, h5, h6 {
+      line-height: 1.15em;
+      margin: 1em 0;
+      font-family: @Museo700;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: @darkGrey;
+   }
+   h2 {
+      font-family: @Museo300;
+      font-size: 2.778em;
+      line-height: 1.124em;
+      strong {
+         font-family: @Museo700;
+         font-weight: normal;
+      }
+   }
+
+   p {
+      line-height: 1.722em;
+   }
+
+   .row .row {
+      margin-left: 0;
+      margin-right: 0;
+   }
+
+/* ==========================================================================
+   Content
+   ========================================================================== */
+   
+   #wrapper {
+      overflow: hidden;
+   }
+   
+/* ==========================================================================
+   Posts
+   ========================================================================== */
+
+   .hentry header { }
+   .hentry time { }
+   .hentry .byline { }
+   .hentry .entry-content { }
+   .hentry footer { }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+   footer {
+      .top-content { 
+         background-color: @darkerGrey;
+         padding: 5.556em 0 5em 0;
+         h3  {
+            font-family: @Museo700;
+            font-size: 1em;
+            color: @white;
+            margin:0 0 .3em 0;
+         }
+         ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            &.submenu {
+               background: url(../img/icon-slash.svg) 0 6px no-repeat;
+               background-size: 9px 14px;
+               padding: 0 0 0 20px;
+               margin: 5px 0 13px 0;
+               li {
+                  padding: .4em 0;
+                  h5 {
+                     font-family: @Museo300;
+                     font-size: 0.778em;
+                     color: #969696;
+                     margin:.7em 0 0 0;
+                     padding:0;
+                  }
+                  a {
+                     color: @white;
+                     font-weight: bold;
+                     font-size: 0.889em;
+                     &:hover {
+                        color: #5d5c5c;
+                     }
+                  }
+               }
+            }
+            li {
+               line-height: 1em;
+               padding: .3em 0;
+               address {
+                  font-family: @Museo300;
+                  font-size: 0.889em;
+                  color: #a5a5a5;
+                  padding: 0 0 0 20px;
+                  margin-bottom: 1.8em;
+               }
+               .telephone {
+                  font-family: @Museo700;
+                  font-size: 1.444em;
+                  &:hover {
+                     color: @white;
+                  }
+               }
+            }
+         }
+         a {
+            color: @white;
+            &:hover {
+               color: #5d5c5c;
+            }
+         }
+      }
+   	.btm-content { 
+         font-family: @ProximaLight;
+   		background-color: @black;
+         color: @lightGrey;
+         font-size: 0.889em;
+         line-height: 29px;
+         padding: 23px; 
+         min-height: 70px;
+         overflow: hidden;
+         margin:0;
+         .copyright {
+            float: left;
+         }
+         .footer-logo {
+            width: 131px; 
+            height: 26px;
+            #Letters {
+               path {
+                  fill: @white;
+               }
+            }
+
+         }
+         ul {
+            margin:0;
+            padding: 0;
+            list-style: none;
+            float: left;
+            li {
+               float: left;
+               padding: 0 0 0 2em;
+               a {
+                  color: @lightGrey;
+                  &:hover {
+                     color: @white;
+                  }
+               }
+            }
+         }
+   	}
+   }
+
+/* ==========================================================================
+   WordPress Generated Classes
+   See: http://codex.wordpress.org/CSS#WordPress_Generated_Classes
+   ========================================================================== */
+
+	.aligncenter { display: block; margin: 0 auto; }
+	.alignleft { float: left; }
+	.alignright { float: right; }
+	figure.alignnone { margin-left: 0; margin-right: 0; }
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+   @import "header.less";
+   @import "global.less";
+   @import "forms.less";
+   @import "home.less";
+   @import "programmatic.less";
+   @import "team.less";
+   @import "contact.less";
+   @import "responsive-320.less"; 
+   @import "responsive-768.less";
+   @import "responsive-992.less";
+   @import "responsive-1280.less";
+
+

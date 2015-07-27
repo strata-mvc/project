@@ -1,0 +1,22 @@
+{
+    "key": "group_55afa59d0875c",
+    "title": "Slider",
+    "fields": [],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [],
+    "old_ID": 48,
+    "modified": 1437574557
+}

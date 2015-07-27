@@ -14,3 +14,4 @@ if (!is_blog_installed()) { return; }
 use \Strata\Strata;
 $app = Strata::bootstrap(Strata::requireVendorAutoload());
 $app->run();
+
