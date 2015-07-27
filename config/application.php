@@ -72,5 +72,3 @@ define('DISALLOW_FILE_EDIT', true);
 if (!defined('ABSPATH')) {
   define('ABSPATH', $webroot_dir . '/wp/');
 }
-
-define("PROJECT_KEY", "amnet");
