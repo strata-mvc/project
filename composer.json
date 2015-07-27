@@ -22,9 +22,11 @@
     ],
     "require": {
         "php": ">=5.4",
-        "vlucas/phpdotenv": "^2.0.1",
         "johnpbloch/wordpress": "4.2.3",
         "francoisfaubert/strata": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.7.*"
     },
     "extra": {
         "installer-paths": {
