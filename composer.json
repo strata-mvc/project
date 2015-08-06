@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": ">=5.4",
-        "johnpbloch/wordpress": "4.2.3",
+        "johnpbloch/wordpress": "4.2.4",
         "francoisfaubert/strata": "dev-master",
         "composer/installers": "~1.0"
     },
@@ -31,7 +31,6 @@
     },
     "extra": {
         "installer-paths": {
-            "src/Middleware/{$name}/": ["type:strata-middleware"],
             "web/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
             "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
             "web/app/themes/{$name}/": ["type:wordpress-theme"]
