@@ -9,6 +9,11 @@
             "name": "Francois Faubert",
             "email": "frank@francoisfaubert.com",
             "homepage": "http://www.francoisfaubert.com"
+        },
+        {
+          "name": "Ben Word",
+          "email": "ben@benword.com",
+          "homepage": "https://github.com/retlehs"
         }
     ],
     "config": {
@@ -24,7 +29,8 @@
         "php": ">=5.4",
         "johnpbloch/wordpress": "4.2.4",
         "francoisfaubert/strata": "dev-master",
-        "composer/installers": "~1.0"
+        "composer/installers": "~1.0.12",
+        "johnpbloch/wordpress": "4.2.4"
     },
     "require-dev": {
         "phpunit/phpunit": "4.7.*"
