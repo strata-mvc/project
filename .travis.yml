@@ -6,9 +6,8 @@ php:
   - nightly
 before_script:
   - composer self-update
-  - composer create-project francoisfaubert/strata-env travis_test
+  - composer create-project francoisfaubert/strata-env travis_test  --prefer-dist
   - cd travis_test
-  - composer update --prefer-source
   - echo DB_HOST=localhost >> .env
   - echo DB_NAME=test_strata >> .env
   - echo DB_USER=root >> .env
