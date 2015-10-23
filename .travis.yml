@@ -7,12 +7,8 @@ php:
 before_script:
   - composer self-update
   - composer update --prefer-dist
-  - echo DB_HOST=localhost >> .env
-  - echo DB_NAME=test_strata >> .env
-  - echo DB_USER=root >> .env
-  - echo DB_PASSWORD= >> .env
-  - echo WP_ENV=development >> .env
-  - echo WP_HOME=http://127.0.0.1:5454 >> .env
-  - echo WP_SITEURL=http://127.0.0.1:5454/wp >> .env
+  - sed -i -- 's/your_database_name/test_strata/g' .env
+  - sed -i -- 's/your_database_user/root/g' .env
+  - sed -i -- 's/your_database_password//g' .env
   - sh strata db create
 script: sh strata test
