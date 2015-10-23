@@ -8,6 +8,8 @@ This is a blank [Strata](http://strata.francoisfaubert.com/) project. It is a sp
 ~~~ sh
 $ composer create-project francoisfaubert/strata-env directory-name
 $ cd directory-name
+$ vendor/bin/wp db create
+$ ./strata server
 ~~~
 
 Note that there is no theme provided in this setup.

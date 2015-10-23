@@ -10,5 +10,5 @@ before_script:
   - sed -i -- 's/your_database_name/test_strata/g' .env
   - sed -i -- 's/your_database_user/root/g' .env
   - sed -i -- 's/your_database_password//g' .env
-  - sh strata db create
+  - sh vendor/bin/wp db create
 script: sh strata test
