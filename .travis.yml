@@ -11,5 +11,9 @@ before_script:
   - perl -pi -e "s/your_database_user/root/g" .env
   - perl -pi -e "s/your_database_password//g" .env
   - cat .env
-  - sh strata db create
+  - ./strata db create
+  - ./strata generate controller You
+  - ./strata generate model Shall
+  - ./strata generate helper VeryMuch
+  - ./strata generate command Pass
 script: sh strata test
