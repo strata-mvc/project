@@ -7,8 +7,9 @@ php:
 before_script:
   - composer self-update
   - composer update --prefer-dist
-  - sed -i -- 's/your_database_name/test_strata/g' .env
-  - sed -i -- 's/your_database_user/root/g' .env
-  - sed -i -- 's/your_database_password//g' .env
+  - perl -pi -e "s/your_database_name/test_strata/g" .env
+  - perl -pi -e "s/your_database_user/root/g" .env
+  - perl -pi -e "s/your_database_password//g" .env
+  - cat .env
   - sh strata db create
 script: sh strata test
