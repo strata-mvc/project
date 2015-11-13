@@ -38,6 +38,11 @@ composer.lock
 log/*.log
 tmp/*
 
+# Don't override locales set on the environment
+config/locale/*-development.po
+config/locale/*-staging.po
+config/locale/*-production.po
+
 # OS files
 */.DS_Store
 .DS_Store
