@@ -5,43 +5,49 @@
     "description": "Blank Strata Template",
     "homepage": "https://strata.francoisfaubert.com",
     "authors": [
-        {
-            "name": "Francois Faubert",
-            "email": "frank@francoisfaubert.com",
-            "homepage": "http://www.francoisfaubert.com"
-        },
-        {
-          "name": "Ben Word",
-          "email": "ben@benword.com",
-          "homepage": "https://github.com/retlehs"
-        }
-    ],
-    "config": {
-        "preferred-install": "dist"
+    {
+        "name": "Francois Faubert",
+        "email": "frank@francoisfaubert.com",
+        "homepage": "http://www.francoisfaubert.com"
     },
-    "minimum-stability": "stable",
-    "repositories": [{
-            "type": "composer",
-            "url": "http://wpackagist.org"
-        }
-    ],
-    "require": {
-        "php": ">=5.5",
-        "johnpbloch/wordpress": "4.3.1",
-        "francoisfaubert/strata": "dev-master"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "4.7.*",
-        "phploc/phploc": "*",
-        "theseer/phpdox": "0.8.1.1",
-        "squizlabs/php_codesniffer": "2.*"
-    },
-    "extra": {
-        "installer-paths": {
-            "web/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
-            "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
-            "web/app/themes/{$name}/": ["type:wordpress-theme"]
-        },
-        "wordpress-install-dir": "web/wp"
+    {
+      "name": "Ben Word",
+      "email": "ben@benword.com",
+      "homepage": "https://github.com/retlehs"
     }
+  ],
+  "keywords": [
+    "bedrock", "roots", "wordpress", "stack", "composer", "wp", "strata", "mvc"
+  ],
+  "support": {
+    "issues": "https://github.com/francoisfaubert/strata/issues"
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://wpackagist.org"
+    }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "vlucas/phpdotenv": "^2.0.1",
+    "johnpbloch/wordpress": "4.4.1",
+    "francoisfaubert/strata": "dev-master"
+  },
+  "require-dev": {
+      "phpunit/phpunit": "4.7.*",
+      "phploc/phploc": "*",
+      "theseer/phpdox": "0.8.1.1",
+      "squizlabs/php_codesniffer": "2.*"
+  },
+  "extra": {
+    "installer-paths": {
+      "web/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
+      "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
+      "web/app/themes/{$name}/": ["type:wordpress-theme"]
+    },
+    "wordpress-install-dir": "web/wp"
 }

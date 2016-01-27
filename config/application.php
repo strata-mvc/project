@@ -43,7 +43,7 @@ define('DB_NAME', getenv('DB_NAME'));
 define('DB_USER', getenv('DB_USER'));
 define('DB_PASSWORD', getenv('DB_PASSWORD'));
 define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_CHARSET', 'utf8');
+define('DB_CHARSET', 'utf8mb4');
 define('DB_COLLATE', '');
 $table_prefix = getenv('DB_PREFIX') ?: 'wp_';
 
@@ -63,7 +63,7 @@ define('NONCE_SALT', getenv('NONCE_SALT'));
  * Custom Settings
  */
 define('AUTOMATIC_UPDATER_DISABLED', true);
-define('DISABLE_WP_CRON', getenv('DISABLE_WP_CRON') ?: false);
+define('DISABLE_WP_CRON', getenv('DISABLE_WP_CRON') == 'true');
 define('DISALLOW_FILE_EDIT', true);
 
 /**

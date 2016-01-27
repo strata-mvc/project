@@ -12,4 +12,3 @@ $ # set your environment constants in .env
 $ ./strata db create
 $ ./strata server
 ~~~
-
