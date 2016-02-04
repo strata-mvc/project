@@ -12,7 +12,7 @@ params=$@
 if [[ $params == 'db create' ]] ; then
     php $cwd/vendor/francoisfaubert/strata/src/Scripts/runner.php $params
 else :
-    vendor/bin/wp eval-file --skip-themes --debug --color $comm $params
+    vendor/bin/wp eval-file --skip-themes --color $comm $params
 fi
 
 echo ""
