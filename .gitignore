@@ -35,7 +35,7 @@ composer.lock
 !web/app/mu-plugins/strata-bootstraper.php
 
 # Strata
-log/*.log
+log/*
 tmp/*
 
 # Don't override locales set on the environment

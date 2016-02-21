@@ -5,7 +5,7 @@ cwd=$(pwd)
 comm="$cwd/vendor/francoisfaubert/strata/src/Scripts/runner.php"
 params=$@
 
-# There is a no mans land when we try to create a database where you can't
+# There is a no man's land when we try to create a database in which you can't
 # use both wp-cli and .env.
 # For now, in that case only, bypass the wp-cli env wrapper when
 # creating the database using ./strata.

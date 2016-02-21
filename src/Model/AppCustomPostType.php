@@ -1,7 +1,9 @@
 <?php
 namespace App\Model;
 
-class AppCustomPostType extends \Strata\Model\CustomPostType\CustomPostType  {
+use Strata\Model\CustomPostType\CustomPostType as StrataCustomPostType
+
+class AppCustomPostType extends StrataCustomPostType {
 
 
 }
