@@ -6,4 +6,8 @@
  */
 require_once(dirname(__DIR__) . '/vendor/autoload.php');
 require_once(dirname(__DIR__) . '/config/application.php');
+
+$app = Strata\Strata::bootstrap(Strata\Strata::requireVendorAutoload());
+$app->registerErrorHandler();
+
 require_once(ABSPATH . 'wp-settings.php');
