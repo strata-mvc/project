@@ -17,7 +17,7 @@
     }
   ],
   "keywords": [
-    "bedrock", "roots", "wordpress", "stack", "composer", "wp", "strata", "mvc"
+    "bedrock", "wordpress", "stack", "composer", "wp", "strata", "mvc"
   ],
   "support": {
     "issues": "https://github.com/francoisfaubert/strata/issues"
@@ -35,7 +35,7 @@
   "require": {
     "php": ">=5.5",
     "vlucas/phpdotenv": "^2.0.1",
-    "johnpbloch/wordpress": "4.4.2",
+    "johnpbloch/wordpress": "^4.5",
     "francoisfaubert/strata": "dev-master"
   },
   "require-dev": {
