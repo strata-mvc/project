@@ -30,7 +30,7 @@
         {
             "type": "composer",
             "url": "https://wpackagist.org"
-        },
+        }
   ],
   "require": {
     "php": ">=5.5",
