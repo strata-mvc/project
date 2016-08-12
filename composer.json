@@ -27,10 +27,10 @@
     "secure-http": false
   },
   "repositories": [
-    {
-      "type": "composer",
-      "url": "http://wpackagist.org"
-    }
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org"
+        },
   ],
   "require": {
     "php": ">=5.5",
