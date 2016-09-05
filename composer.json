@@ -1,9 +1,9 @@
 {
-    "name": "strata/strata-env",
+    "name": "stratafw/project",
     "type": "project",
     "license": "MIT",
     "description": "Blank Strata Template",
-    "homepage": "https://strata.francoisfaubert.com",
+    "homepage": "https://strata-framework.com",
     "authors": [
     {
         "name": "Francois Faubert",
@@ -20,7 +20,7 @@
     "bedrock", "wordpress", "stack", "composer", "wp", "strata", "mvc"
   ],
   "support": {
-    "issues": "https://github.com/francoisfaubert/strata/issues"
+    "issues": "https://github.com/stratafw/project/issues"
   },
   "config": {
     "preferred-install": "dist",
