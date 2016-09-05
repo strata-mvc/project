@@ -1,5 +1,5 @@
 {
-    "name": "stratafw/project",
+    "name": "strata-mvc/project",
     "type": "project",
     "license": "MIT",
     "description": "Blank Strata Template",
@@ -9,18 +9,13 @@
         "name": "Francois Faubert",
         "email": "frank@francoisfaubert.com",
         "homepage": "http://www.francoisfaubert.com"
-    },
-    {
-      "name": "Ben Word",
-      "email": "ben@benword.com",
-      "homepage": "https://github.com/retlehs"
     }
   ],
   "keywords": [
     "bedrock", "wordpress", "stack", "composer", "wp", "strata", "mvc"
   ],
   "support": {
-    "issues": "https://github.com/stratafw/project/issues"
+    "issues": "https://github.com/strata-mvc/project/issues"
   },
   "config": {
     "preferred-install": "dist",
