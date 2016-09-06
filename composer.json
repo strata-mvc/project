@@ -2,8 +2,8 @@
     "name": "strata-mvc/project",
     "type": "project",
     "license": "MIT",
-    "description": "Blank Strata Template",
-    "homepage": "https://strata-framework.com",
+    "description": "Blank Strata Project",
+    "homepage": "http://strata-framework.com",
     "authors": [
     {
         "name": "Francois Faubert",

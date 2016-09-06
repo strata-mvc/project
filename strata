@@ -2,7 +2,7 @@
 
 echo ""
 cwd=$(pwd)
-comm="$cwd/vendor/francoisfaubert/strata/src/Scripts/runner.php"
+comm="$cwd/vendor/strata-mvc/strata/src/Scripts/runner.php"
 params=$@
 
 # There is a no man's land when we try to create a database in which you can't
@@ -10,7 +10,7 @@ params=$@
 # For now, in that case only, bypass the wp-cli env wrapper when
 # creating the database using ./strata.
 if [[ $params == 'db create' ]] ; then
-    php $cwd/vendor/francoisfaubert/strata/src/Scripts/runner.php $params
+    php $cwd/vendor/strata-mvc/strata/src/Scripts/runner.php $params
 else :
     vendor/bin/wp eval-file --skip-themes --color $comm $params
 fi
