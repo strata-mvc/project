@@ -1,18 +1,24 @@
 {
-    "name": "strata-mvc/project",
-    "type": "project",
-    "license": "MIT",
-    "description": "Blank Strata Project",
-    "homepage": "http://strata-framework.com",
-    "authors": [
+  "name": "strata-mvc/project",
+  "type": "project",
+  "license": "MIT",
+  "description": "Blank Strata Project",
+  "homepage": "http://strata-framework.com",
+  "authors": [
     {
-        "name": "Francois Faubert",
-        "email": "frank@francoisfaubert.com",
-        "homepage": "http://www.francoisfaubert.com"
+      "name": "Francois Faubert",
+      "email": "frank@francoisfaubert.com",
+      "homepage": "http://www.francoisfaubert.com"
     }
   ],
   "keywords": [
-    "bedrock", "wordpress", "stack", "composer", "wp", "strata", "mvc"
+    "bedrock",
+    "wordpress",
+    "stack",
+    "composer",
+    "wp",
+    "strata",
+    "mvc"
   ],
   "support": {
     "issues": "https://github.com/strata-mvc/project/issues"
@@ -28,22 +34,27 @@
     }
   ],
   "require": {
-    "php": ">=5.5",
-    "vlucas/phpdotenv": "^2.0.1",
-    "johnpbloch/wordpress": "^4.5",
+    "php": ">=5.6.4",
+    "johnpbloch/wordpress": "^4.7",
     "strata-mvc/strata": "dev-master"
   },
   "require-dev": {
-      "phpunit/phpunit": "4.7.*",
-      "phploc/phploc": "*",
-      "theseer/phpdox": "0.8.1.1",
-      "squizlabs/php_codesniffer": "2.*"
+    "phpunit/phpunit": "~5.7",
+    "phpmd/phpmd": "@stable",
+    "squizlabs/php_codesniffer": "^2.8",
+    "phploc/phploc": "*"
   },
   "extra": {
     "installer-paths": {
-      "web/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
-      "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
-      "web/app/themes/{$name}/": ["type:wordpress-theme"]
+      "web/app/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
+      "web/app/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "web/app/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
     },
     "wordpress-install-dir": "web/wp"
   }
